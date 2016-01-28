@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/87/trunk/bindings/perl
+END
+Makefile.PL
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/70/trunk/bindings/perl/Makefile.PL
+END
+marisa.pm
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/74/trunk/bindings/perl/marisa.pm
+END
+marisa-swig.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/72/trunk/bindings/perl/marisa-swig.h
+END
+sample.pl
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/73/trunk/bindings/perl/sample.pl
+END
+marisa-swig_wrap.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/74/trunk/bindings/perl/marisa-swig_wrap.cxx
+END
+benchmark.pl
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/74/trunk/bindings/perl/benchmark.pl
+END
+marisa-swig.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/72/trunk/bindings/perl/marisa-swig.cxx
+END

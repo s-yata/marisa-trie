@@ -1,0 +1,135 @@
+10
+
+dir
+147
+http://marisa-trie.googlecode.com/svn/trunk/vs2008
+http://marisa-trie.googlecode.com/svn
+
+
+
+2013-08-27T11:30:50.651567Z
+147
+susumu.yata@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+774d2c12-d1a0-b9a8-0dab-4f93c7fd7aa3
+
+marisa-build
+dir
+
+marisa-predictive-search
+dir
+
+marisa-dump
+dir
+
+vector-test
+dir
+
+trie-test
+dir
+
+marisa-lookup
+dir
+
+io-test
+dir
+
+base-test
+dir
+
+marisa-test
+dir
+
+marisa-reverse-lookup
+dir
+
+vs2008.sln
+file
+
+
+
+
+2016-01-11T01:26:32.486528Z
+a82a0ef120acc1690a600652e74e8079
+2012-12-20T14:37:22.881639Z
+117
+susumu.yata@gmail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8122
+
+marisa-common-prefix-search
+dir
+
+libmarisa
+dir
+
+marisa-benchmark
+dir
+
+vs2008.suo
+file
+
+
+
+
+2016-01-11T01:26:32.486528Z
+587d2a72c1b6d6aa2ba2b689d40e46ff
+2012-12-20T14:37:22.881639Z
+117
+susumu.yata@gmail.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+34304
+

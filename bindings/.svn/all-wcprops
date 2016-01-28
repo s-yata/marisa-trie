@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/87/trunk/bindings
+END
+marisa-swig.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/72/trunk/bindings/marisa-swig.h
+END
+marisa-swig.i
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/73/trunk/bindings/marisa-swig.i
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/70/trunk/bindings/Makefile
+END
+marisa-swig.cxx
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/72/trunk/bindings/marisa-swig.cxx
+END

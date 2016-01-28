@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/!svn/ver/132/trunk/tests
+END
+io-test.cc
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/48/trunk/tests/io-test.cc
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/120/trunk/tests/Makefile.am
+END
+base-test.cc
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/72/trunk/tests/base-test.cc
+END
+marisa-test.cc
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/61/trunk/tests/marisa-test.cc
+END
+marisa-assert.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/48/trunk/tests/marisa-assert.h
+END
+vector-test.cc
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/132/trunk/tests/vector-test.cc
+END
+trie-test.cc
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/54/trunk/tests/trie-test.cc
+END

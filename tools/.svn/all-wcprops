@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/!svn/ver/126/trunk/tools
+END
+marisa-build.cc
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/122/trunk/tools/marisa-build.cc
+END
+marisa-predictive-search.cc
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/88/trunk/tools/marisa-predictive-search.cc
+END
+marisa-reverse-lookup.cc
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/45/trunk/tools/marisa-reverse-lookup.cc
+END
+marisa-dump.cc
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/122/trunk/tools/marisa-dump.cc
+END
+marisa-common-prefix-search.cc
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/88/trunk/tools/marisa-common-prefix-search.cc
+END
+marisa-lookup.cc
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/45/trunk/tools/marisa-lookup.cc
+END
+marisa-benchmark.cc
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/115/trunk/tools/marisa-benchmark.cc
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/126/trunk/tools/Makefile.am
+END
+cmdopt.cc
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/114/trunk/tools/cmdopt.cc
+END
+cmdopt.h
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/45/trunk/tools/cmdopt.h
+END

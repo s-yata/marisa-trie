@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie
+END
+tail.cc
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/tail.cc
+END
+louds-trie.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/louds-trie.h
+END
+header.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/header.h
+END
+key.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/key.h
+END
+tail.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/tail.h
+END
+range.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/range.h
+END
+state.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/state.h
+END
+history.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/history.h
+END
+entry.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/entry.h
+END
+cache.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/cache.h
+END
+louds-trie.cc
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/louds-trie.cc
+END
+config.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie/config.h
+END

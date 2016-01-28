@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire
+END
+algorithm.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/algorithm.h
+END
+io.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/io.h
+END
+vector.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/vector.h
+END
+trie.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/trie.h
+END
+intrin.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/147/trunk/lib/marisa/grimoire/intrin.h
+END

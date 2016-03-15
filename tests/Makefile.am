@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -Wall -Weffc++ -Wextra -D_DEBUG -I${top_srcdir}/lib
+AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion -D_DEBUG -I${top_srcdir}/lib
 
 TESTS = \
   base-test \

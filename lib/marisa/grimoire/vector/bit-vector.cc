@@ -768,12 +768,12 @@ void BitVector::build_index(const BitVector &bv,
 
     if (bv[i]) {
       if (enables_select1 && ((num_1s % 512) == 0)) {
-        select1s_.push_back(i);
+        select1s_.push_back(static_cast<UInt32>(i));
       }
       ++num_1s;
     } else {
       if (enables_select0 && ((num_0s % 512) == 0)) {
-        select0s_.push_back(i);
+        select0s_.push_back(static_cast<UInt32>(i));
       }
       ++num_0s;
     }
@@ -812,11 +812,11 @@ void BitVector::build_index(const BitVector &bv,
 
   ranks_.back().set_abs(num_1s);
   if (enables_select0) {
-    select0s_.push_back(bv.size());
+    select0s_.push_back(static_cast<UInt32>(bv.size()));
     select0s_.shrink();
   }
   if (enables_select1) {
-    select1s_.push_back(bv.size());
+    select1s_.push_back(static_cast<UInt32>(bv.size()));
     select1s_.shrink();
   }
 }

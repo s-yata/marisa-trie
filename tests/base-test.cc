@@ -164,7 +164,9 @@ void TestKeyset() {
     for (std::size_t j = 0; j < keys[i].length(); ++j) {
       keys[i][j] = (char)(std::rand() & 0xFF);
     }
-    weights[i] = 100.0F * std::rand() / RAND_MAX;
+    double weight = 100.0 * static_cast<double>(std::rand()) /
+    	  static_cast<double>(RAND_MAX);
+    weights[i] = static_cast<float>(weight);
 
     keyset.push_back(keys[i].c_str(), keys[i].length(), weights[i]);
     total_length += keys[i].length();
@@ -190,7 +192,9 @@ void TestKeyset() {
     for (std::size_t j = 0; j < keys[i].length(); ++j) {
       keys[i][j] = (char)(std::rand() & 0xFF);
     }
-    weights[i] = 100.0F * std::rand() / RAND_MAX;
+    double weight = 100.0 * static_cast<double>(std::rand()) /
+        static_cast<double>(RAND_MAX);
+    weights[i] = static_cast<float>(weight);
 
     keyset.push_back(keys[i].c_str(), keys[i].length(), weights[i]);
     total_length += keys[i].length();

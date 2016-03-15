@@ -300,7 +300,7 @@ void LoudsTrie::build_trie(Vector<T> &keys,
   }
 
   if (next_trie_.get() != NULL) {
-    config_.parse((next_trie_->num_tries() + 1) |
+    config_.parse(static_cast<int>((next_trie_->num_tries() + 1)) |
         next_trie_->tail_mode() | next_trie_->node_order());
   } else {
     config_.parse(1 | tail_.mode() | config.node_order() |

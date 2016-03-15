@@ -30,7 +30,7 @@ class Clock {
 
   double elasped() const {
     std::clock_t cur = std::clock();
-    return 1.0 * (cur - cl_) / CLOCKS_PER_SEC;
+    return static_cast<double>(cur - cl_) / static_cast<double>(CLOCKS_PER_SEC);
   }
 
  private:
@@ -118,13 +118,14 @@ void print_time_info(std::size_t num_keys, double elasped) {
     if (elasped == 0.0) {
       std::printf(" %8s", "-");
     } else {
-      std::printf(" %8.2f", num_keys / elasped / 1000.0);
+      std::printf(" %8.2f", static_cast<double>(num_keys) / elasped / 1000.0);
     }
   } else {
     if ((elasped == 0.0) || (num_keys == 0)) {
       std::printf(" %8s", "-");
     } else {
-      std::printf(" %8.1f", 1000000000.0 * elasped / num_keys);
+      std::printf(" %8.1f",
+          1000000000.0 * elasped / static_cast<double>(num_keys));
     }
   }
 }

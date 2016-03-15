@@ -208,7 +208,7 @@ void MakeKeyset(std::size_t num_keys, marisa::TailMode tail_mode,
     for (std::size_t j = 0; j < length; ++j) {
       key_buf[j] = (char)(std::rand() % 10);
       if (tail_mode == MARISA_TEXT_TAIL) {
-        key_buf[j] += '0';
+        key_buf[j] = static_cast<char>(key_buf[j] + '0');
       }
     }
     keyset->push_back(key_buf, length);

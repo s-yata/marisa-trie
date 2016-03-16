@@ -1,5 +1,4 @@
 AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion
-#AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion -D_DEBUG
 
 lib_LTLIBRARIES = libmarisa.la
 

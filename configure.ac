@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.67])
-AC_INIT([marisa], [0.2.5], [syata@acm.org])
-AC_CONFIG_SRCDIR([lib/marisa.h])
+AC_INIT([marisa], [0.2.5], [susumu.yata@gmail.com])
+AC_CONFIG_SRCDIR([include/marisa.h])
 AM_INIT_AUTOMAKE
 
 # Checks for programs.
@@ -148,7 +148,10 @@ fi
 
 AC_CONFIG_FILES([Makefile
                  marisa.pc
+                 include/Makefile
+                 include/marisa/Makefile
                  lib/Makefile
+                 lib/marisa/Makefile
                  tests/Makefile
                  tools/Makefile])
 AC_OUTPUT

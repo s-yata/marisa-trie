@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = lib tools tests
+SUBDIRS = include lib tools tests
 
 pkgconfigdir = ${libdir}/pkgconfig
 pkgconfig_DATA = marisa.pc

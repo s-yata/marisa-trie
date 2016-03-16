@@ -1,5 +1,5 @@
-#ifndef MARISA_STDIO_H_
-#define MARISA_STDIO_H_
+#ifndef MARISA_MYSTDIO_H_
+#define MARISA_MYSTDIO_H_
 
 #include <cstdio>
 
@@ -12,4 +12,4 @@ void fwrite(std::FILE *file, const Trie &trie);
 
 }  // namespace marisa
 
-#endif  // MARISA_STDIO_H_
+#endif  // MARISA_MYSTDIO_H_

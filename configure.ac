@@ -152,6 +152,7 @@ AC_CONFIG_FILES([Makefile
                  include/marisa/Makefile
                  lib/Makefile
                  lib/marisa/Makefile
+                 lib/marisa/grimoire/Makefile
                  tests/Makefile
                  tools/Makefile])
 AC_OUTPUT

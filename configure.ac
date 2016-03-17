@@ -153,6 +153,10 @@ AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/marisa/Makefile
                  lib/marisa/grimoire/Makefile
+                 lib/marisa/grimoire/algorithm/Makefile
+                 lib/marisa/grimoire/io/Makefile
+                 lib/marisa/grimoire/trie/Makefile
+                 lib/marisa/grimoire/vector/Makefile
                  tests/Makefile
                  tools/Makefile])
 AC_OUTPUT

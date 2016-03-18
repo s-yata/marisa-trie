@@ -48,5 +48,5 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 
 #### Source code license
 
-The BSD 2-clause License
-The LGPL 2.1 or any later version
+* The BSD 2-clause License
+* The LGPL 2.1 or any later version

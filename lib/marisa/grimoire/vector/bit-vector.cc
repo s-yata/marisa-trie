@@ -197,7 +197,6 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   #ifdef _MSC_VER
   unsigned long skip;
   ::_BitScanForward64(&skip, (x & MASK_80) >> 7);
-  --skip;
   #else  // _MSC_VER
   const int skip = ::__builtin_ctzll((x & MASK_80) >> 7);
   #endif  // _MSC_VER

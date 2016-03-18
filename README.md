@@ -1,3 +1,5 @@
+### README
+
 #### Project name
 
 marisa-trie
@@ -6,9 +8,9 @@ marisa-trie
 
 MARISA: Matching Algorithm with Recursively Implemented StorAge
 
-#### Version
+#### Latest version
 
-0.2.4
+0.2.5
 
 #### Description
 
@@ -40,11 +42,19 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 * marisa-0.2.4
  * README (English): http://marisa-trie.googlecode.com/svn/trunk/docs/readme.en.html
  * README (Japanese): http://marisa-trie.googlecode.com/svn/trunk/docs/readme.ja.html
-* marisa-0.1.5 (Japanese)
- * HowTo
- * ListOfTools
- * LibraryInterface
- * BenchmarkResults
+
+#### Build instructions
+
+You can get the latest version via `git clone`. Then, you can generate a `configure` script via `autoreconf -i`. After that, you can build and install libmarisa and its command line tools via `configure` and `make`. For details, see also documentation in `docs`.
+
+```
+$ git clone git://github.com/s-yata/marisa-trie.git
+$ cd marisa-trie
+$ autoreconf -i
+$ ./configure
+$ make
+$ make install
+```
 
 #### Source code license
 

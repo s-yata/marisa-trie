@@ -4,6 +4,8 @@ AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion $(MY_INCLUDE)
 
 noinst_LTLIBRARIES = libtrie.la
 
+libtrie_la_LDFLAGS = -no-undefined
+
 libtrie_la_SOURCES = \
   tail.cc \
   louds-trie.cc

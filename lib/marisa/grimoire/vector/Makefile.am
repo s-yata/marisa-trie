@@ -4,6 +4,8 @@ AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion $(MY_INCLUDE)
 
 noinst_LTLIBRARIES = libvector.la
 
+libvector_la_LDFLAGS = -no-undefined
+
 libvector_la_SOURCES = \
   bit-vector.cc
 

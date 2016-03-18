@@ -6,6 +6,8 @@ AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion $(MY_INCLUDE)
 
 lib_LTLIBRARIES = libmarisa.la
 
+libmarisa_la_LDFLAGS = -no-undefined
+
 libmarisa_la_LIBADD = \
   grimoire/io/libio.la \
   grimoire/trie/libtrie.la \

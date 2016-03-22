@@ -40,8 +40,8 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 #### Documentation
 
 * marisa-0.2.4
- * README (English): http://marisa-trie.googlecode.com/svn/trunk/docs/readme.en.html
- * README (Japanese): http://marisa-trie.googlecode.com/svn/trunk/docs/readme.ja.html
+ * README (English): http://s-yata.github.io/marisa-trie/docs/readme.en.html
+ * README (Japanese): http://s-yata.github.io/marisa-trie/docs/readme.ja.html
 
 #### Build instructions
 

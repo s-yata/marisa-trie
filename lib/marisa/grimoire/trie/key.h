@@ -115,9 +115,7 @@ inline bool operator>(const Key &lhs, const Key &rhs) {
 
 class ReverseKey {
  public:
-  ReverseKey()
-      : ptr_(static_cast<const char *>(NULL) - 1),
-        length_(0), union_(), id_(0) {
+  ReverseKey() : ptr_(NULL), length_(0), union_(), id_(0) {
     union_.terminal = 0;
   }
   ReverseKey(const ReverseKey &entry)
@@ -134,7 +132,7 @@ class ReverseKey {
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
-    return *(ptr_ - i);
+    return *(ptr_ - i - 1);
   }
 
   void substr(std::size_t pos, std::size_t length) {
@@ -148,7 +146,7 @@ class ReverseKey {
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
-    ptr_ = ptr + length - 1;
+    ptr_ = ptr + length;
     length_ = (UInt32)length;
   }
   void set_weight(float weight) {
@@ -164,8 +162,7 @@ class ReverseKey {
   }
 
   const char *ptr() const {
-    intptr_t p = reinterpret_cast<intptr_t>(ptr_) - length_ + 1;
-    return reinterpret_cast<const char*>(p);
+    return ptr_ - length_;
   }
   std::size_t length() const {
     return length_;

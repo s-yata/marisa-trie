@@ -164,7 +164,8 @@ class ReverseKey {
   }
 
   const char *ptr() const {
-    return ptr_ - length_ + 1;
+    intptr_t p = reinterpret_cast<intptr_t>(ptr_) - length_ + 1;
+    return reinterpret_cast<const char*>(p);
   }
   std::size_t length() const {
     return length_;

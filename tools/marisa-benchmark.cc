@@ -45,7 +45,7 @@ void print_help(const char *cmd) {
       << "] (default: 1)\n"
       "  -n, --max-num-tries=[N]  limit the number of tries"
       " [" << MARISA_MIN_NUM_TRIES << ", " << MARISA_MAX_NUM_TRIES
-      << "] (default: 10)\n"
+      << "] (default: 5)\n"
       "  -t, --text-tail      build a dictionary with text TAIL (default)\n"
       "  -b, --binary-tail    build a dictionary with binary TAIL\n"
       "  -w, --weight-order   arrange siblings in weight order (default)\n"

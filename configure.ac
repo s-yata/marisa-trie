@@ -63,6 +63,27 @@ yes
 #endif
          ], [enable_popcnt="yes"], [enable_popcnt="no"])])
 
+# Enable native cpu instructions.
+AC_MSG_CHECKING([whether to enable optimization for native cpu])
+AC_ARG_ENABLE([native-code],
+              [AS_HELP_STRING([--enable-native-code],
+                              [generate instructions for native cpu [default=no]])],
+              [],
+              [enable_native_code="no"])
+AS_IF([test "x${enable_native_code}" != "xno"], [
+  CFLAGS="$CPPFLAGS -march=native"
+  CPPFLAGS="$CPPFLAGS -march=native"
+  CXXFLAGS="$CXXFLAGS -march=native"
+  MARISA_ENABLE_SSE2
+  MARISA_ENABLE_SSE3
+  MARISA_ENABLE_SSE4_1
+  MARISA_ENABLE_SSE4_2
+  MARISA_ENABLE_SSE4
+  MARISA_ENABLE_SSE4A
+  MARISA_ENABLE_POPCNT
+])
+AC_MSG_RESULT([${enable_native_code}])
+
 # Checks for SSE availability.
 AC_MSG_CHECKING([whether to use SSE2])
 AC_ARG_ENABLE([sse2],

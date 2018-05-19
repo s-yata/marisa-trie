@@ -10,7 +10,7 @@ MARISA: Matching Algorithm with Recursively Implemented StorAge
 
 #### Latest version
 
-0.2.5
+0.2.6
 
 #### Description
 

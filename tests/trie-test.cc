@@ -209,7 +209,6 @@ void TestEntry() {
 
   marisa::grimoire::trie::Entry entry;
 
-  ASSERT(entry.ptr() == NULL);
   ASSERT(entry.length() == 0);
   ASSERT(entry.id() == 0);
 

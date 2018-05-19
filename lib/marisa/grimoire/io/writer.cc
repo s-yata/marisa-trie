@@ -128,15 +128,15 @@ void Writer::write_data(const void *data, std::size_t size) {
 #endif  // _WIN32
       MARISA_THROW_IF(size_written <= 0, MARISA_IO_ERROR);
       data = static_cast<const char *>(data) + size_written;
-      size -= size_written;
+      size -= static_cast<std::size_t>(size_written);
     }
   } else if (file_ != NULL) {
     MARISA_THROW_IF(::fwrite(data, 1, size, file_) != size, MARISA_IO_ERROR);
     MARISA_THROW_IF(::fflush(file_) != 0, MARISA_IO_ERROR);
   } else if (stream_ != NULL) {
     try {
-      MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data), size),
-          MARISA_IO_ERROR);
+      MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),
+          static_cast<std::streamsize>(size)), MARISA_IO_ERROR);
     } catch (const std::ios_base::failure &) {
       MARISA_THROW(MARISA_IO_ERROR, "std::ios_base::failure");
     }

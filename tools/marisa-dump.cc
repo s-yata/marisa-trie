@@ -34,7 +34,8 @@ int dump(const marisa::Trie &trie) {
   agent.set_query("");
   try {
     while (trie.predictive_search(agent)) {
-      std::cout.write(agent.key().ptr(), agent.key().length()) << delimiter;
+      std::cout.write(agent.key().ptr(),
+          static_cast<std::streamsize>(agent.key().length())) << delimiter;
       if (!std::cout) {
         std::cerr << "error: failed to write results to standard output"
             << std::endl;
@@ -147,5 +148,6 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-  return dump(cmdopt.argv + cmdopt.optind, cmdopt.argc - cmdopt.optind);
+  return dump(cmdopt.argv + cmdopt.optind,
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

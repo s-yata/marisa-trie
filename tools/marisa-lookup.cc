@@ -106,5 +106,6 @@ int main(int argc, char *argv[]) {
       }
     }
   }
-  return lookup(cmdopt.argv + cmdopt.optind, cmdopt.argc - cmdopt.optind);
+  return lookup(cmdopt.argv + cmdopt.optind,
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

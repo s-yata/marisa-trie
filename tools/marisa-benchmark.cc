@@ -415,5 +415,6 @@ int main(int argc, char *argv[]) {
     }
   }
   print_config();
-  return benchmark(cmdopt.argv + cmdopt.optind, cmdopt.argc - cmdopt.optind);
+  return benchmark(cmdopt.argv + cmdopt.optind,
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

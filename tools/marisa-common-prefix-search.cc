@@ -69,7 +69,8 @@ int common_prefix_search(const char * const *args, std::size_t num_args) {
         const std::size_t end = std::min(max_num_results, keyset.size());
         for (std::size_t i = 0; i < end; ++i) {
           std::cout << keyset[i].id() << '\t';
-          std::cout.write(keyset[i].ptr(), keyset[i].length()) << '\t';
+          std::cout.write(keyset[i].ptr(),
+              static_cast<std::streamsize>(keyset[i].length())) << '\t';
           std::cout << str << '\n';
         }
       }
@@ -139,5 +140,5 @@ int main(int argc, char *argv[]) {
     }
   }
   return common_prefix_search(cmdopt.argv + cmdopt.optind,
-      cmdopt.argc - cmdopt.optind);
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

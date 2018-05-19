@@ -55,7 +55,8 @@ int reverse_lookup(const char * const *args, std::size_t num_args) {
       agent.set_query(key_id);
       trie.reverse_lookup(agent);
       std::cout << agent.key().id() << '\t';
-      std::cout.write(agent.key().ptr(), agent.key().length()) << '\n';
+      std::cout.write(agent.key().ptr(),
+          static_cast<std::streamsize>(agent.key().length())) << '\n';
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what() << ": reverse_lookup() failed: "
           << key_id << std::endl;
@@ -106,5 +107,5 @@ int main(int argc, char *argv[]) {
     }
   }
   return reverse_lookup(cmdopt.argv + cmdopt.optind,
-      cmdopt.argc - cmdopt.optind);
+      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

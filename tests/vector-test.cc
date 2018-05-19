@@ -340,7 +340,7 @@ void TestFlatVector() {
 
   values.clear();
   for (std::size_t i = 0; i < 10000; ++i) {
-    values.push_back(std::rand());
+    values.push_back(static_cast<marisa::UInt32>(std::rand()));
   }
   vec.build(values);
 

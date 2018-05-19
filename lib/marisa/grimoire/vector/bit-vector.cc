@@ -202,7 +202,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   #endif  // _MSC_VER
  #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 
-  bit_id += skip;
+  bit_id += static_cast<std::size_t>(skip);
   unit >>= skip;
   i -= ((counts << 8) >> skip) & 0xFF;
 

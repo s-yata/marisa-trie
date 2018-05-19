@@ -128,14 +128,14 @@ void Reader::read_data(void *buf, std::size_t size) {
 #endif  // _WIN32
       MARISA_THROW_IF(size_read <= 0, MARISA_IO_ERROR);
       buf = static_cast<char *>(buf) + size_read;
-      size -= size_read;
+      size -= static_cast<std::size_t>(size_read);
     }
   } else if (file_ != NULL) {
     MARISA_THROW_IF(::fread(buf, 1, size, file_) != size, MARISA_IO_ERROR);
   } else if (stream_ != NULL) {
     try {
-      MARISA_THROW_IF(!stream_->read(static_cast<char *>(buf), size),
-          MARISA_IO_ERROR);
+      MARISA_THROW_IF(!stream_->read(static_cast<char *>(buf),
+          static_cast<std::streamsize>(size)), MARISA_IO_ERROR);
     } catch (const std::ios_base::failure &) {
       MARISA_THROW(MARISA_IO_ERROR, "std::ios_base::failure");
     }

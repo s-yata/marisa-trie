@@ -164,8 +164,10 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   UInt64 counts;
   {
  #if defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
-    __m128i lower_nibbles = _mm_cvtsi64_si128(unit & 0x0F0F0F0F0F0F0F0FULL);
-    __m128i upper_nibbles = _mm_cvtsi64_si128(unit & 0xF0F0F0F0F0F0F0F0ULL);
+    __m128i lower_nibbles = _mm_cvtsi64_si128(
+        static_cast<long long>(unit & 0x0F0F0F0F0F0F0F0FULL));
+    __m128i upper_nibbles = _mm_cvtsi64_si128(
+        static_cast<long long>(unit & 0xF0F0F0F0F0F0F0F0ULL));
     upper_nibbles = _mm_srli_epi32(upper_nibbles, 4);
 
     __m128i lower_counts =
@@ -175,7 +177,8 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
         _mm_set_epi8(4, 3, 3, 2, 3, 2, 2, 1, 3, 2, 2, 1, 2, 1, 1, 0);
     upper_counts = _mm_shuffle_epi8(upper_counts, upper_nibbles);
 
-    counts = _mm_cvtsi128_si64(_mm_add_epi8(lower_counts, upper_counts));
+    counts = static_cast<UInt64>(_mm_cvtsi128_si64(
+       _mm_add_epi8(lower_counts, upper_counts)));
  #else  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
     counts = unit - ((unit >> 1) & MASK_55);
     counts = (counts & MASK_33) + ((counts >> 2) & MASK_33);
@@ -187,10 +190,10 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
  #if defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   UInt8 skip;
   {
-    __m128i x = _mm_cvtsi64_si128((i + 1) * MASK_01);
-    __m128i y = _mm_cvtsi64_si128(counts);
+    __m128i x = _mm_cvtsi64_si128(static_cast<long long>((i + 1) * MASK_01));
+    __m128i y = _mm_cvtsi64_si128(static_cast<long long>(counts));
     x = _mm_cmpgt_epi8(x, y);
-    skip = (UInt8)PopCount::count(_mm_cvtsi128_si64(x));
+    skip = (UInt8)PopCount::count(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
  #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   const UInt64 x = (counts | MASK_80) - ((i + 1) * MASK_01);

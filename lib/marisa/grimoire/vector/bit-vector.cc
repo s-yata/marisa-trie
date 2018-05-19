@@ -790,22 +790,22 @@ void BitVector::build_index(const BitVector &bv,
     switch (((bv.size() - 1) / 64) % 8) {
       case 0: {
         ranks_[rank_id].set_rel1(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 1: {
         ranks_[rank_id].set_rel2(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 2: {
         ranks_[rank_id].set_rel3(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 3: {
         ranks_[rank_id].set_rel4(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 4: {
         ranks_[rank_id].set_rel5(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 5: {
         ranks_[rank_id].set_rel6(num_1s - ranks_[rank_id].abs());
-      } // fall through
+      }  // fall through
       case 6: {
         ranks_[rank_id].set_rel7(num_1s - ranks_[rank_id].abs());
         break;

@@ -154,11 +154,15 @@ const UInt8 SELECT_TABLE[8][256] = {
 };
 
 #if MARISA_WORD_SIZE == 64
-const UInt64 MASK_55 = 0x5555555555555555ULL;
-const UInt64 MASK_33 = 0x3333333333333333ULL;
-const UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
 const UInt64 MASK_01 = 0x0101010101010101ULL;
+ #if !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
+const UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
+const UInt64 MASK_33 = 0x3333333333333333ULL;
+const UInt64 MASK_55 = 0x5555555555555555ULL;
+ #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
+ #if !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
 const UInt64 MASK_80 = 0x8080808080808080ULL;
+ #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
 
 std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   UInt64 counts;

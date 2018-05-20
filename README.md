@@ -26,10 +26,10 @@ A MARISA-based dictionary supports not only lookup but also reverse lookup, comm
 The biggest advantage of libmarisa is that its dictionary size is considerably more compact than others. See below for the dictionary size of other implementations.
 
 * Input
- * Source: enwiki-20121101-all-titles-in-ns0.gz
- * Contents: all page titles of English Wikipedia (Nov. 2012)
- * Number of keys: 9,805,576
- * Total size: 200,435,403 bytes (plain) / 54,933,690 bytes (gzipped)
+  * Source: enwiki-20121101-all-titles-in-ns0.gz
+  * Contents: all page titles of English Wikipedia (Nov. 2012)
+  * Number of keys: 9,805,576
+  * Total size: 200,435,403 bytes (plain) / 54,933,690 bytes (gzipped)
 
 |Implementation|Size (bytes)|Remarks                    |
 |:-------------|-----------:|--------------------------:|
@@ -40,8 +40,8 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 #### Documentation
 
 * marisa-0.2.5
- * README (English): http://s-yata.github.io/marisa-trie/docs/readme.en.html
- * README (Japanese): http://s-yata.github.io/marisa-trie/docs/readme.ja.html
+  * README (English): http://s-yata.github.io/marisa-trie/docs/readme.en.html
+  * README (Japanese): http://s-yata.github.io/marisa-trie/docs/readme.ja.html
 
 #### Build instructions
 

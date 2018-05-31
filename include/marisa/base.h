@@ -162,6 +162,7 @@ typedef enum marisa_config_mask_ {
 #endif  // __cplusplus
 
 #ifdef __cplusplus
+#include <utility>
 namespace marisa {
 
 typedef ::marisa_uint8  UInt8;
@@ -175,12 +176,7 @@ typedef ::marisa_cache_level CacheLevel;
 typedef ::marisa_tail_mode TailMode;
 typedef ::marisa_node_order NodeOrder;
 
-template <typename T>
-inline void swap(T &lhs, T &rhs) {
-  T temp = lhs;
-  lhs = rhs;
-  rhs = temp;
-}
+using std::swap;
 
 }  // namespace marisa
 #endif  // __cplusplus

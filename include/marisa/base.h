@@ -164,10 +164,10 @@ typedef enum marisa_config_mask_ {
 #ifdef __cplusplus
 
 // `std::swap` is in <utility> since C++ 11 but in <algorithm> in C++ 98:
-#if __cplusplus>=201103L
-#include <utility>
+#if __cplusplus >= 201103L
+ #include <utility>
 #else
-#include <algorithm>
+ #include <algorithm>
 #endif
 namespace marisa {
 

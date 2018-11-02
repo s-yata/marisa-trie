@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 20 May 2018</div>
+   <div class="right">Last modified: 2 Nov 2018</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body" style="text-align: justify">
@@ -105,7 +105,7 @@ $ make install</pre>
       Users can install libmarisa by using <kbd>configure</kbd> and <kbd>make</kbd>. <kbd>make install</kbd> might require <kbd>sudo</kbd> to install libmarisa as the root user. Additionally, <kbd>ldconfig</kbd> might be required because libmarisa is installed as a shared library in default settings.
      </p>
      <p>
-      If a POPCNT instruction is available on your environment, you can specify <kbd>--enable-popcnt</kbd>, when you run <kbd>configure</kbd>, to improve the performance of libmarisa. Likewise, <kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd> are available. Also, if you need a static library, specify <kbd>--enable-static</kbd> to <kbd>configure</kbd>. For other options, see <kbd>./configure --help</kbd>.
+      If a POPCNT instruction is available on your environment, you can specify <kbd>--enable-popcnt</kbd>, when you run <kbd>configure</kbd>, to improve the performance of libmarisa. Likewise, <kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd> are available. Note that <kbd>--enable-native-code</kbd> enables instructions available on the compilation environment. Also, if you need a static library, specify <kbd>--enable-static</kbd> to <kbd>configure</kbd>. For other options, see <kbd>./configure --help</kbd>.
      </p>
     </div><!-- subsection -->
     <div class="subsection">

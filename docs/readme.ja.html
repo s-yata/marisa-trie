@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 20 May 2018</div>
+   <div class="right">Last modified: 2 Nov 2018</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -105,7 +105,7 @@ $ make install</pre>
       <kbd>configure</kbd> と <kbd>make</kbd> によりインストールできるようになっています．<kbd>make install</kbd> については，必要に応じて <kbd>sudo</kbd> を付けてご利用ください．また，特に指定がなければ libmarisa は共有ライブラリとしてインストールされるので，<kbd>ldconfig</kbd> が必要になるかもしれません．
      </p>
      <p>
-      POPCNT 命令が使える環境では，<kbd>configure</kbd> に <kbd>--enable-popcnt</kbd> を渡すことで，少し高速化することができます．同様に，<kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd> というオプションがあります．また，スタティックライブラリが必要なときは，<kbd>configure</kbd> に <kbd>--enable-static</kbd> を渡すようにしてください．その他，<kbd>configure</kbd> のオプションについては <kbd>./configure --help</kbd> をご覧ください．
+      POPCNT 命令が使える環境では，<kbd>configure</kbd> に <kbd>--enable-popcnt</kbd> を渡すことで，少し高速化することができます．同様に，<kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd> というオプションがあります．<kbd>--enable-native-code</kbd> を渡せば，コンパイル環境で使える命令がすべて有効になります．また，スタティックライブラリが必要なときは，<kbd>configure</kbd> に <kbd>--enable-static</kbd> を渡すようにしてください．その他，<kbd>configure</kbd> のオプションについては <kbd>./configure --help</kbd> をご覧ください．
      </p>
     </div><!-- subsection -->
     <div class="subsection">

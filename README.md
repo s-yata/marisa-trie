@@ -48,10 +48,10 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 You can get the latest version via `git clone`. Then, you can generate a `configure` script via `autoreconf -i`. After that, you can build and install libmarisa and its command line tools via `configure` and `make`. For details, see also documentation in `docs`.
 
 ```
-$ git clone git://github.com/s-yata/marisa-trie.git
+$ git clone https://github.com/s-yata/marisa-trie.git
 $ cd marisa-trie
 $ autoreconf -i
-$ ./configure
+$ ./configure --enable-native-code
 $ make
 $ make install
 ```

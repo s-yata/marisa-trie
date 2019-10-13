@@ -4,7 +4,7 @@ libmarisa and its command line tools are dual-licensed under the BSD 2-clause li
 
 #### The BSD 2-clause license
 
-Copyright (c) 2010-2016, Susumu Yata
+Copyright (c) 2010-2019, Susumu Yata
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

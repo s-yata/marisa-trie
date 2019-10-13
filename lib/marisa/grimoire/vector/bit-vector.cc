@@ -6,6 +6,17 @@ namespace grimoire {
 namespace vector {
 namespace {
 
+#ifdef MARISA_USE_BMI2
+std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
+ #ifdef _MSC_VER
+  unsigned long pos;
+  ::_BitScanForward64(&pos, _pdep_u64(1ULL << i, unit));
+  return bit_id + pos;
+ #else  // _MSC_VER
+  return bit_id + ::__builtin_ctzll(_pdep_u64(1ULL << i, unit));
+ #endif  // _MSC_VER
+}
+#else  // MARISA_USE_BMI2
 const UInt8 SELECT_TABLE[8][256] = {
   {
     7, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
@@ -153,21 +164,21 @@ const UInt8 SELECT_TABLE[8][256] = {
   }
 };
 
-#if MARISA_WORD_SIZE == 64
+ #if MARISA_WORD_SIZE == 64
 const UInt64 MASK_01 = 0x0101010101010101ULL;
- #if !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
+  #if !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
 const UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
 const UInt64 MASK_33 = 0x3333333333333333ULL;
 const UInt64 MASK_55 = 0x5555555555555555ULL;
- #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
- #if !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
+  #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
+  #if !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
 const UInt64 MASK_80 = 0x8080808080808080ULL;
- #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
+  #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
 
 std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   UInt64 counts;
   {
- #if defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
+  #if defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
     __m128i lower_nibbles = _mm_cvtsi64_si128(
         static_cast<long long>(unit & 0x0F0F0F0F0F0F0F0FULL));
     __m128i upper_nibbles = _mm_cvtsi64_si128(
@@ -183,15 +194,15 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 
     counts = static_cast<UInt64>(_mm_cvtsi128_si64(
        _mm_add_epi8(lower_counts, upper_counts)));
- #else  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
+  #else  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
     counts = unit - ((unit >> 1) & MASK_55);
     counts = (counts & MASK_33) + ((counts >> 2) & MASK_33);
     counts = (counts + (counts >> 4)) & MASK_0F;
- #endif  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
+  #endif  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
     counts *= MASK_01;
   }
 
- #if defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  #if defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   UInt8 skip;
   {
     __m128i x = _mm_cvtsi64_si128(static_cast<long long>((i + 1) * MASK_01));
@@ -199,15 +210,15 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     x = _mm_cmpgt_epi8(x, y);
     skip = (UInt8)PopCount::count(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
- #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   const UInt64 x = (counts | MASK_80) - ((i + 1) * MASK_01);
-  #ifdef _MSC_VER
+   #ifdef _MSC_VER
   unsigned long skip;
   ::_BitScanForward64(&skip, (x & MASK_80) >> 7);
-  #else  // _MSC_VER
+   #else  // _MSC_VER
   const int skip = ::__builtin_ctzll((x & MASK_80) >> 7);
-  #endif  // _MSC_VER
- #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+   #endif  // _MSC_VER
+  #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 
   bit_id += static_cast<std::size_t>(skip);
   unit >>= skip;
@@ -215,8 +226,8 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 
   return bit_id + SELECT_TABLE[i][unit & 0xFF];
 }
-#else  // MARISA_WORD_SIZE == 64
- #ifdef MARISA_USE_SSE2
+ #else  // MARISA_WORD_SIZE == 64
+  #ifdef MARISA_USE_SSE2
 const UInt8 POPCNT_TABLE[256] = {
    0,  8,  8, 16,  8, 16, 16, 24,  8, 16, 16, 24, 16, 24, 24, 32,
    8, 16, 16, 24, 16, 24, 24, 32, 16, 24, 24, 32, 24, 32, 32, 40,
@@ -248,7 +259,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
   __m128i counts;
   {
-  #ifdef MARISA_USE_SSSE3
+   #ifdef MARISA_USE_SSSE3
     __m128i lower_nibbles = _mm_set1_epi8(0x0F);
     lower_nibbles = _mm_and_si128(lower_nibbles, unit);
     __m128i upper_nibbles = _mm_set1_epi8((UInt8)0xF0);
@@ -263,7 +274,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
     upper_counts = _mm_shuffle_epi8(upper_counts, upper_nibbles);
 
     counts = _mm_add_epi8(lower_counts, upper_counts);
-  #else  // MARISA_USE_SSSE3
+   #else  // MARISA_USE_SSSE3
     __m128i x = _mm_srli_epi32(unit, 1);
     x = _mm_and_si128(x, _mm_set1_epi8(0x55));
     x = _mm_sub_epi8(unit, x);
@@ -276,7 +287,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
     y = _mm_srli_epi32(x, 4);
     x = _mm_add_epi8(x, y);
     counts = _mm_and_si128(x, _mm_set1_epi8(0x0F));
-  #endif  // MARISA_USE_SSSE3
+   #endif  // MARISA_USE_SSSE3
   }
 
   __m128i accumulated_counts;
@@ -307,13 +318,13 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
   UInt8 byte;
   {
-  #ifdef _MSC_VER
+   #ifdef _MSC_VER
     __declspec(align(16)) UInt8 unit_bytes[16];
     __declspec(align(16)) UInt8 accumulated_counts_bytes[16];
-  #else  // _MSC_VER
+   #else  // _MSC_VER
     UInt8 unit_bytes[16] __attribute__ ((aligned (16)));
     UInt8 accumulated_counts_bytes[16] __attribute__ ((aligned (16)));
-  #endif  // _MSC_VER
+   #endif  // _MSC_VER
     accumulated_counts = _mm_slli_si128(accumulated_counts, 1);
     _mm_store_si128(reinterpret_cast<__m128i *>(unit_bytes), unit);
     _mm_store_si128(reinterpret_cast<__m128i *>(accumulated_counts_bytes),
@@ -326,8 +337,9 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
   return bit_id + SELECT_TABLE[i][byte];
 }
- #endif  // MARISA_USE_SSE2
-#endif  // MARISA_WORD_SIZE == 64
+  #endif  // MARISA_USE_SSE2
+ #endif  // MARISA_WORD_SIZE == 64
+#endif  // MARISA_USE_BMI2
 
 }  // namespace
 

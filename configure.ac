@@ -62,6 +62,18 @@ AC_DEFUN([MARISA_ENABLE_POPCNT],
 yes
 #endif
          ], [enable_popcnt="yes"], [enable_popcnt="no"])])
+AC_DEFUN([MARISA_ENABLE_BMI],
+         [AC_EGREP_CPP([yes], [
+#ifdef __BMI__
+yes
+#endif
+         ], [enable_bmi="yes"], [enable_bmi="no"])])
+AC_DEFUN([MARISA_ENABLE_BMI2],
+         [AC_EGREP_CPP([yes], [
+#ifdef __BMI2__
+yes
+#endif
+         ], [enable_bmi2="yes"], [enable_bmi2="no"])])
 
 # Enable native cpu instructions.
 AC_MSG_CHECKING([whether to enable optimization for native cpu])
@@ -71,9 +83,7 @@ AC_ARG_ENABLE([native-code],
               [],
               [enable_native_code="no"])
 AS_IF([test "x${enable_native_code}" != "xno"], [
-  CFLAGS="$CPPFLAGS -march=native"
   CPPFLAGS="$CPPFLAGS -march=native"
-  CXXFLAGS="$CXXFLAGS -march=native"
   MARISA_ENABLE_SSE2
   MARISA_ENABLE_SSE3
   MARISA_ENABLE_SSE4_1
@@ -81,6 +91,8 @@ AS_IF([test "x${enable_native_code}" != "xno"], [
   MARISA_ENABLE_SSE4
   MARISA_ENABLE_SSE4A
   MARISA_ENABLE_POPCNT
+  MARISA_ENABLE_BMI
+  MARISA_ENABLE_BMI2
 ])
 AC_MSG_RESULT([${enable_native_code}])
 
@@ -91,7 +103,7 @@ AC_ARG_ENABLE([sse2],
                               [use SSE2 [default=no]])],
               [],
               [enable_sse2="no"])
-AS_IF([test "x${enable_sse2}" != "xno"], [MARISA_ENABLE_SSE2])
+AS_IF([test "x${enable_sse2}" != "xno"], [enable_sse2="yes"])
 AC_MSG_RESULT([${enable_sse2}])
 
 AC_MSG_CHECKING([whether to use SSE3])
@@ -100,7 +112,7 @@ AC_ARG_ENABLE([sse3],
                               [use SSE3 [default=no]])],
               [],
               [enable_sse3="no"])
-AS_IF([test "x${enable_sse3}" != "xno"], [MARISA_ENABLE_SSE3])
+AS_IF([test "x${enable_sse3}" != "xno"], [enable_sse3="yes"])
 AC_MSG_RESULT([${enable_sse3}])
 
 AC_MSG_CHECKING([whether to use SSSE3])
@@ -109,7 +121,7 @@ AC_ARG_ENABLE([ssse3],
                               [use SSSE3 [default=no]])],
               [],
               [enable_ssse3="no"])
-AS_IF([test "x${enable_ssse3}" != "xno"], [MARISA_ENABLE_SSSE3])
+AS_IF([test "x${enable_ssse3}" != "xno"], [enable_ssse3="yes"])
 AC_MSG_RESULT([${enable_ssse3}])
 
 AC_MSG_CHECKING([whether to use SSE4.1])
@@ -118,7 +130,7 @@ AC_ARG_ENABLE([sse4.1],
                               [use SSE4.1 [default=no]])],
               [],
               [enable_sse4_1="no"])
-AS_IF([test "x${enable_sse4_1}" != "xno"], [MARISA_ENABLE_SSE4_1])
+AS_IF([test "x${enable_sse4_1}" != "xno"], [enable_sse4_1="yes"])
 AC_MSG_RESULT([${enable_sse4_1}])
 
 AC_MSG_CHECKING([whether to use SSE4.2])
@@ -127,7 +139,7 @@ AC_ARG_ENABLE([sse4.2],
                               [use SSE4.2 [default=no]])],
               [],
               [enable_sse4_2="no"])
-AS_IF([test "x${enable_sse4_2}" != "xno"], [MARISA_ENABLE_SSE4_2])
+AS_IF([test "x${enable_sse4_2}" != "xno"], [enable_sse4_2="yes"])
 AC_MSG_RESULT([${enable_sse4_2}])
 
 AC_MSG_CHECKING([whether to use SSE4])
@@ -136,7 +148,7 @@ AC_ARG_ENABLE([sse4],
                               [use SSE4 [default=no]])],
               [],
               [enable_sse4="no"])
-AS_IF([test "x${enable_sse4}" != "xno"], [MARISA_ENABLE_SSE4])
+AS_IF([test "x${enable_sse4}" != "xno"], [enable_sse4="yes"])
 AC_MSG_RESULT([${enable_sse4}])
 
 AC_MSG_CHECKING([whether to use SSE4a])
@@ -145,7 +157,7 @@ AC_ARG_ENABLE([sse4a],
                               [use SSE4a [default=no]])],
               [],
               [enable_sse4a="no"])
-AS_IF([test "x${enable_sse4a}" != "xno"], [MARISA_ENABLE_SSE4A])
+AS_IF([test "x${enable_sse4a}" != "xno"], [enable_sse4a="yes"])
 AC_MSG_RESULT([${enable_sse4a}])
 
 AC_MSG_CHECKING([whether to use popcnt])
@@ -154,9 +166,33 @@ AC_ARG_ENABLE([popcnt],
                               [use POPCNT [default=no]])],
               [],
               [enable_popcnt="no"])
-AS_IF([test "x${enable_popcnt}" != "xno"], [MARISA_ENABLE_POPCNT])
+AS_IF([test "x${enable_popcnt}" != "xno"], [enable_popcnt="yes"])
 AC_MSG_RESULT([${enable_popcnt}])
 
+AC_MSG_CHECKING([whether to use BMI])
+AC_ARG_ENABLE([bmi],
+              [AS_HELP_STRING([--enable-bmi],
+                              [use BMI [default=no]])],
+              [],
+              [enable_bmi="no"])
+AS_IF([test "x${enable_bmi}" != "xno"], [enable_bmi="yes"])
+AC_MSG_RESULT([${enable_bmi}])
+
+AC_MSG_CHECKING([whether to use BMI2])
+AC_ARG_ENABLE([bmi2],
+              [AS_HELP_STRING([--enable-bmi2],
+                              [use BMI2 [default=no]])],
+              [],
+              [enable_bmi2="no"])
+AS_IF([test "x${enable_bmi2}" != "xno"], [enable_bmi2="yes"])
+AC_MSG_RESULT([${enable_bmi2}])
+
+AS_IF([test "x${enable_bmi2}" != "xno"], [
+  enable_bmi="yes"
+])
+AS_IF([test "x${enable_bmi}" != "xno"], [
+  enable_sse4="yes"
+])
 AS_IF([test "x${enable_popcnt}" != "xno"], [
   enable_sse3="yes"
 ])
@@ -185,7 +221,11 @@ AS_IF([test "x${enable_sse3}" != "xno"], [
 AS_IF([test "x${enable_popcnt}" != "xno"], [
   CXXFLAGS="$CXXFLAGS -DMARISA_USE_POPCNT -mpopcnt"
 ])
-if test "x${enable_sse4a}" != "xno"; then
+if test "x${enable_bmi2}" != "xno"; then
+  CXXFLAGS="$CXXFLAGS -DMARISA_USE_BMI2 -mbmi2 -msse4"
+elif test "x${enable_bmi}" != "xno"; then
+  CXXFLAGS="$CXXFLAGS -DMARISA_USE_BMI -mbmi -msse4"
+elif test "x${enable_sse4a}" != "xno"; then
   CXXFLAGS="$CXXFLAGS -DMARISA_USE_SSE4A -msse4a"
 elif test "x${enable_sse4}" != "xno"; then
   CXXFLAGS="$CXXFLAGS -DMARISA_USE_SSE4 -msse4"
@@ -233,4 +273,6 @@ AS_ECHO(["  SSE4.1:    ${enable_sse4_1}"])
 AS_ECHO(["  SSE4.2:    ${enable_sse4_2}"])
 AS_ECHO(["  SSE4a:     ${enable_sse4a}"])
 AS_ECHO(["  POPCNT:    ${enable_popcnt}"])
+AS_ECHO(["  BMI:       ${enable_bmi}"])
+AS_ECHO(["  BMI2:      ${enable_bmi2}"])
 AS_ECHO([])

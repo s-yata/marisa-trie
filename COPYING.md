@@ -17,7 +17,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #### The LGPL 2.1 or any later version
 
 marisa-trie - A static and space-efficient trie data structure.
-Copyright (C) 2010-2016  Susumu Yata
+Copyright (C) 2010-2019  Susumu Yata
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

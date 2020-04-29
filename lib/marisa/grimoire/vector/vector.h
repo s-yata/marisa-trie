@@ -1,7 +1,11 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_VECTOR_H_
 
+#include <cstring>
 #include <new>
+#if __cplusplus >= 201103L
+ #include <type_traits>
+#endif
 
 #include "marisa/grimoire/io.h"
 
@@ -231,9 +235,19 @@ class Vector {
     MARISA_DEBUG_IF(new_buf.get() == NULL, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
-    for (std::size_t i = 0; i < size_; ++i) {
-      new (&new_objs[i]) T(objs_[i]);
+#if __cplusplus >= 201103L
+    if (std::is_trivially_copyable<T>::value) {
+      std::memcpy(reinterpret_cast<void*>(new_objs),
+                  reinterpret_cast<const void*>(objs_),
+                  sizeof(T) * size_);
+    } else {
+#endif
+      for (std::size_t i = 0; i < size_; ++i) {
+        new (&new_objs[i]) T(objs_[i]);
+      }
+#if __cplusplus >= 201103L
     }
+#endif
     for (std::size_t i = 0; i < size_; ++i) {
       objs_[i].~T();
     }

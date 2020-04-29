@@ -236,18 +236,19 @@ class Vector {
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
 #if __cplusplus >= 201103L
-    if (std::is_trivially_copyable<T>::value) {
+    constexpr bool trivially_copyable = std::is_trivially_copyable<T>::value;
+#else
+    const bool trivially_copyable = false;
+#endif
+    if (trivally_copyable) {
       std::memcpy(reinterpret_cast<void*>(new_objs),
                   reinterpret_cast<const void*>(objs_),
                   sizeof(T) * size_);
     } else {
-#endif
       for (std::size_t i = 0; i < size_; ++i) {
         new (&new_objs[i]) T(objs_[i]);
       }
-#if __cplusplus >= 201103L
     }
-#endif
     for (std::size_t i = 0; i < size_; ++i) {
       objs_[i].~T();
     }

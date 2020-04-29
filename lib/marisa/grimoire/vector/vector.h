@@ -240,7 +240,7 @@ class Vector {
 #else
     const bool trivially_copyable = false;
 #endif
-    if (trivally_copyable) {
+    if (trivially_copyable) {
       std::memcpy(reinterpret_cast<void*>(new_objs),
                   reinterpret_cast<const void*>(objs_),
                   sizeof(T) * size_);

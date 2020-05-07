@@ -138,6 +138,27 @@ void TestKeyset() {
     ASSERT(keyset[i].weight() == 1.0);
   }
 
+#if __cplusplus >= 201703L
+  keyset.clear();
+  total_length = 0;
+  // Same thing again, but now via string_view, and with a weight.
+  for (std::size_t i = 0; i < keys.size(); ++i) {
+    keyset.push_back(keys[i], 2.0);
+    ASSERT(keyset.size() == (i + 1));
+    ASSERT(!keyset.empty());
+
+    total_length += keys[i].length();
+    ASSERT(keyset.total_length() == total_length);
+
+    ASSERT(keyset[i].length() == keys[i].length());
+    ASSERT(keyset[i].str().length() == keys[i].length());
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
+        keyset[i].length()) == 0);
+    ASSERT(keyset[i].str() == keys[i]);
+    ASSERT(keyset[i].weight() == 2.0);
+  }
+#endif  // __cplusplus >= 201703L
+
   keyset.clear();
 
   marisa::Key key;

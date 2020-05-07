@@ -45,6 +45,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
   total_length_ += new_key.length();
 }
 
+#if __cplusplus < 201703L
 void Keyset::push_back(const char *str) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
   MARISA_THROW_IF(str == NULL, MARISA_NULL_ERROR);
@@ -55,6 +56,7 @@ void Keyset::push_back(const char *str) {
   }
   push_back(str, length);
 }
+#endif  // __cplusplus < 201703L
 
 void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);

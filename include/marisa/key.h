@@ -1,6 +1,10 @@
 #ifndef MARISA_KEY_H_
 #define MARISA_KEY_H_
 
+#if __cplusplus >= 201703L
+ #include <string_view>
+#endif  // __cplusplus >= 201703L
+
 #include "marisa/base.h"
 
 namespace marisa {
@@ -25,6 +29,11 @@ class Key {
     return ptr_[i];
   }
 
+#if __cplusplus >= 201703L
+  void set_str(const std::string_view str) {
+    set_str(str.data(), str.length());
+  }
+#else  // __cplusplus >= 201703L
   void set_str(const char *str) {
     MARISA_DEBUG_IF(str == NULL, MARISA_NULL_ERROR);
     std::size_t length = 0;
@@ -35,6 +44,7 @@ class Key {
     ptr_ = str;
     length_ = (UInt32)length;
   }
+#endif  // __cplusplus >= 201703L
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
@@ -49,6 +59,11 @@ class Key {
     union_.weight = weight;
   }
 
+#if __cplusplus >= 201703L
+  std::string_view str() const {
+    return ptr_ != NULL ? std::string_view(ptr_, length_) : std::string_view();
+  }
+#endif  // __cplusplus >= 201703L
   const char *ptr() const {
     return ptr_;
   }

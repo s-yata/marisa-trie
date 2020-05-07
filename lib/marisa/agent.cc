@@ -9,6 +9,7 @@ Agent::Agent() : query_(), key_(), state_() {}
 
 Agent::~Agent() {}
 
+#if __cplusplus < 201703L
 void Agent::set_query(const char *str) {
   MARISA_THROW_IF(str == NULL, MARISA_NULL_ERROR);
   if (state_.get() != NULL) {
@@ -16,6 +17,7 @@ void Agent::set_query(const char *str) {
   }
   query_.set_str(str);
 }
+#endif  // __cplusplus < 201703L
 
 void Agent::set_query(const char *ptr, std::size_t length) {
   MARISA_THROW_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);

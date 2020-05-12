@@ -30,7 +30,7 @@ class Key {
   }
 
 #if __cplusplus >= 201703L
-  void set_str(const std::string_view str) {
+  void set_str(std::string_view str) {
     set_str(str.data(), str.length());
   }
 #else  // __cplusplus >= 201703L

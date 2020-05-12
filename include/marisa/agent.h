@@ -30,7 +30,7 @@ class Agent {
   }
 
 #if __cplusplus >= 201703L
-  void set_query(const std::string_view str) {
+  void set_query(std::string_view str) {
     set_query(str.data(), str.length());
   }
 #else  // __cplusplus >= 201703L
@@ -47,7 +47,7 @@ class Agent {
   }
 
 #if __cplusplus >= 201703L
-  void set_key(const std::string_view str) {
+  void set_key(std::string_view str) {
     MARISA_DEBUG_IF(str.length() > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     key_.set_str(str);
   }

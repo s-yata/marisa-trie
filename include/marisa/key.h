@@ -61,7 +61,7 @@ class Key {
 
 #if __cplusplus >= 201703L
   std::string_view str() const {
-    return ptr_ != NULL ? std::string_view(ptr_, length_) : std::string_view();
+    return std::string_view(ptr_, length_);
   }
 #endif  // __cplusplus >= 201703L
   const char *ptr() const {

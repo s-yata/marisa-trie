@@ -805,7 +805,11 @@ void BitVector::build_index(const BitVector &bv,
 
       const std::size_t zero_bit_id = -num_0s % 512;
       if (unit_num_0s > zero_bit_id) {
-        select0s_.push_back(select_bit(zero_bit_id, bit_id, ~unit));
+        // select0s_ is UInt32, but select_bit returns size_t, so cast to
+        // suppress narrowing conversion warning.  push_back checks the
+        // size, so there is no truncation here.
+        select0s_.push_back(
+            static_cast<UInt32>(select_bit(zero_bit_id, bit_id, ~unit)));
       }
 
       num_0s += unit_num_0s;
@@ -814,7 +818,8 @@ void BitVector::build_index(const BitVector &bv,
     if (enables_select1) {
       const std::size_t one_bit_id = -num_1s % 512;
       if (unit_num_1s > one_bit_id) {
-        select1s_.push_back(select_bit(one_bit_id, bit_id, unit));
+        select1s_.push_back(
+            static_cast<UInt32>(select_bit(one_bit_id, bit_id, unit)));
       }
     }
 

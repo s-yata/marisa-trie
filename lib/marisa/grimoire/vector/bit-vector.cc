@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "marisa/grimoire/vector/pop-count.h"
 #include "marisa/grimoire/vector/bit-vector.h"
 

@@ -369,6 +369,14 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
   return bit_id + SELECT_TABLE[i][unit & 0xFF];
 }
   #endif  // MARISA_USE_SSE2
+
+
+// This is only used by build_index, so don't worry about the small performance
+// penalty from not having version taking only a UInt32.
+inline std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit) {
+  return select_bit(i, bit_id, /*unit_lo=*/unit, /*unit_hi=*/0);
+}
+
  #endif  // MARISA_WORD_SIZE == 64
 #endif  // MARISA_USE_BMI2
 

@@ -339,6 +339,35 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
   return bit_id + SELECT_TABLE[i][byte];
 }
+  #else  // MARISA_USE_SSE2
+std::size_t select_bit(std::size_t i, std::size_t bit_id,
+    UInt32 unit_lo, UInt32 unit_hi) {
+  UInt32 unit = unit_lo;
+  PopCount count(unit);
+  if (i >= count.lo32()) {
+    bit_id += 32;
+    i -= count.lo32();
+    unit = unit_hi;
+    count = PopCount(unit);
+  }
+
+  if (i < count.lo16()) {
+    if (i >= count.lo8()) {
+      bit_id += 8;
+      unit >>= 8;
+      i -= count.lo8();
+    }
+  } else if (i < count.lo24()) {
+    bit_id += 16;
+    unit >>= 16;
+    i -= count.lo16();
+  } else {
+    bit_id += 24;
+    unit >>= 24;
+    i -= count.lo24();
+  }
+  return bit_id + SELECT_TABLE[i][unit & 0xFF];
+}
   #endif  // MARISA_USE_SSE2
  #endif  // MARISA_WORD_SIZE == 64
 #endif  // MARISA_USE_BMI2
@@ -615,36 +644,7 @@ std::size_t BitVector::select0(std::size_t i) const {
     i -= 448 - rank.rel7();
   }
 
-#ifdef MARISA_USE_SSE2
   return select_bit(i, unit_id * 32, ~units_[unit_id], ~units_[unit_id + 1]);
-#else  // MARISA_USE_SSE2
-  UInt32 unit = ~units_[unit_id];
-  PopCount count(unit);
-  if (i >= count.lo32()) {
-    ++unit_id;
-    i -= count.lo32();
-    unit = ~units_[unit_id];
-    count = PopCount(unit);
-  }
-
-  std::size_t bit_id = unit_id * 32;
-  if (i < count.lo16()) {
-    if (i >= count.lo8()) {
-      bit_id += 8;
-      unit >>= 8;
-      i -= count.lo8();
-    }
-  } else if (i < count.lo24()) {
-    bit_id += 16;
-    unit >>= 16;
-    i -= count.lo16();
-  } else {
-    bit_id += 24;
-    unit >>= 24;
-    i -= count.lo24();
-  }
-  return bit_id + SELECT_TABLE[i][unit & 0xFF];
-#endif  // MARISA_USE_SSE2
 }
 
 std::size_t BitVector::select1(std::size_t i) const {
@@ -706,36 +706,7 @@ std::size_t BitVector::select1(std::size_t i) const {
     i -= rank.rel7();
   }
 
-#ifdef MARISA_USE_SSE2
   return select_bit(i, unit_id * 32, units_[unit_id], units_[unit_id + 1]);
-#else  // MARISA_USE_SSE2
-  UInt32 unit = units_[unit_id];
-  PopCount count(unit);
-  if (i >= count.lo32()) {
-    ++unit_id;
-    i -= count.lo32();
-    unit = units_[unit_id];
-    count = PopCount(unit);
-  }
-
-  std::size_t bit_id = unit_id * 32;
-  if (i < count.lo16()) {
-    if (i >= count.lo8()) {
-      bit_id += 8;
-      unit >>= 8;
-      i -= count.lo8();
-    }
-  } else if (i < count.lo24()) {
-    bit_id += 16;
-    unit >>= 16;
-    i -= count.lo16();
-  } else {
-    bit_id += 24;
-    unit >>= 24;
-    i -= count.lo24();
-  }
-  return bit_id + SELECT_TABLE[i][unit & 0xFF];
-#endif  // MARISA_USE_SSE2
 }
 
 #endif  // MARISA_WORD_SIZE == 64

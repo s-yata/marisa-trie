@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 20 May 2018</div>
+   <div class="right">Last modified: 14 Jun 2020</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -82,7 +82,7 @@
       </li>
       <li>ソースコード
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/releases/download/v0.2.5/marisa-0.2.5.tar.gz">marisa-0.2.5.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/v0.2.6.tar.gz">marisa-0.2.6.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,8 +94,8 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-0.2.5.tar.gz
-$ cd marisa-0.2.5
+      <pre class="console">$ tar zxf marisa-0.2.6.tar.gz
+$ cd marisa-0.2.6
 $ ./configure
 $ make
 $ make check
@@ -105,7 +105,7 @@ $ make install</pre>
       <kbd>configure</kbd> と <kbd>make</kbd> によりインストールできるようになっています．<kbd>make install</kbd> については，必要に応じて <kbd>sudo</kbd> を付けてご利用ください．また，特に指定がなければ libmarisa は共有ライブラリとしてインストールされるので，<kbd>ldconfig</kbd> が必要になるかもしれません．
      </p>
      <p>
-      POPCNT 命令が使える環境では，<kbd>configure</kbd> に <kbd>--enable-popcnt</kbd> を渡すことで，少し高速化することができます．同様に，<kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd> というオプションがあります．また，スタティックライブラリが必要なときは，<kbd>configure</kbd> に <kbd>--enable-static</kbd> を渡すようにしてください．その他，<kbd>configure</kbd> のオプションについては <kbd>./configure --help</kbd> をご覧ください．
+      POPCNT 命令が使える環境では，<kbd>configure</kbd> に <kbd>--enable-popcnt</kbd> を渡すことで，少し高速化することができます．同様に，<kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd>, <kbd>--enable-bmi</kbd>, <kbd>--enable-bmi2</kbd> というオプションがあります．<kbd>--enable-native-code</kbd> を渡せば，コンパイル環境で使える命令がすべて有効になります．また，スタティックライブラリが必要なときは，<kbd>configure</kbd> に <kbd>--enable-static</kbd> を渡すようにしてください．その他，<kbd>configure</kbd> のオプションについては <kbd>./configure --help</kbd> をご覧ください．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -738,7 +738,7 @@ std::ostream &amp;operator<<(std::ostream &amp;stream, const Trie &amp;trie);</p
      </li>
      <li><a href="http://d.hatena.ne.jp/s-yata/20110310/1299777228">発表資料（Prefix/Patricia Trie の入れ子による辞書圧縮）</a>
       <ul>
-       <li>MARISA に関する発表資料（<a href="http://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pptx?attredirects=0&amp;d=1">NLP2011-F2-6.pptx</a>, <a href="http://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pdf?attredirects=0&amp;d=1">NLP2011-F2-6.pdf</a>, <a href="http://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6-notes.pdf?attredirects=0&amp;d=1">NLP2011-F2-6-notes.pdf</a>）をダウンロードできます．</li>
+       <li>MARISA に関する発表資料（<a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pptx?attredirects=0&amp;d=1">NLP2011-F2-6.pptx</a>, <a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pdf?attredirects=0&amp;d=1">NLP2011-F2-6.pdf</a>, <a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6-notes.pdf?attredirects=0&amp;d=1">NLP2011-F2-6-notes.pdf</a>）をダウンロードできます．</li>
       </ul>
      </li>
     </ul>

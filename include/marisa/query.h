@@ -31,7 +31,7 @@ class Query {
   void set_str(std::string_view str) {
     set_str(str.data(), str.length());
   }
-#else  // __cplusplus >= 201703L
+#endif  // __cplusplus >= 201703L
   void set_str(const char *str) {
     MARISA_DEBUG_IF(str == NULL, MARISA_NULL_ERROR);
     std::size_t length = 0;
@@ -41,7 +41,6 @@ class Query {
     ptr_ = str;
     length_ = length;
   }
-#endif  // __cplusplus >= 201703L
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
     ptr_ = ptr;

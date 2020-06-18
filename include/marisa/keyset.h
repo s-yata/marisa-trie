@@ -26,9 +26,8 @@ class Keyset {
   void push_back(std::string_view str, float weight = 1.0) {
     push_back(str.data(), str.length(), weight);
   }
-#else // __cplusplus >= 201703L
+#endif // __cplusplus >= 201703L
   void push_back(const char *str);
-#endif //  __cplusplus >= 201703L
   void push_back(const char *ptr, std::size_t length, float weight = 1.0);
 
   const Key &operator[](std::size_t i) const {

@@ -33,9 +33,8 @@ class Agent {
   void set_query(std::string_view str) {
     set_query(str.data(), str.length());
   }
-#else  // __cplusplus >= 201703L
-  void set_query(const char *str);
 #endif  // __cplusplus >= 201703L
+  void set_query(const char *str);
   void set_query(const char *ptr, std::size_t length);
   void set_query(std::size_t key_id);
 
@@ -50,12 +49,11 @@ class Agent {
   void set_key(std::string_view str) {
     set_key(str.data(), str.length());
   }
-#else  // __cplusplus >= 201703L
+#endif  // __cplusplus >= 201703L
   void set_key(const char *str) {
     MARISA_DEBUG_IF(str == NULL, MARISA_NULL_ERROR);
     key_.set_str(str);
   }
-#endif  // __cplusplus >= 201703L
   void set_key(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);

@@ -1,17 +1,11 @@
 #ifndef MARISA_AGENT_H_
 #define MARISA_AGENT_H_
 
+#include "marisa/grimoire/trie/state.h"
 #include "marisa/key.h"
 #include "marisa/query.h"
 
 namespace marisa {
-namespace grimoire {
-namespace trie {
-
-class State;
-
-}  // namespace trie
-}  // namespace grimoire
 
 class Agent {
  public:
@@ -25,9 +19,26 @@ class Agent {
     return key_;
   }
 
-  void set_query(const char *str);
-  void set_query(const char *ptr, std::size_t length);
-  void set_query(std::size_t key_id);
+  void set_query(const char *str) {
+    MARISA_THROW_IF(str == NULL, MARISA_NULL_ERROR);
+    if (state_.get() != NULL) {
+      state_->reset();
+    }
+    query_.set_str(str);
+  }
+  void set_query(const char *ptr, std::size_t length) {
+    MARISA_THROW_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    if (state_.get() != NULL) {
+      state_->reset();
+    }
+    query_.set_str(ptr, length);
+  }
+  void set_query(std::size_t key_id) {
+    if (state_.get() != NULL) {
+      state_->reset();
+    }
+    query_.set_id(key_id);
+  }
 
   const grimoire::trie::State &state() const {
     return *state_;

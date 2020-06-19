@@ -15,7 +15,7 @@ void Keyset::push_back(const Key &key) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
 
   char * const key_ptr = reserve(key.length());
-  std::memmove(key_ptr, key.ptr(), key.length());
+  std::memcpy(key_ptr, key.ptr(), key.length());
 
   Key &new_key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
   new_key.set_str(key_ptr, key.length());
@@ -32,7 +32,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
   }
 
   char * const key_ptr = reserve(key.length() + 1);
-  std::memmove(key_ptr, key.ptr(), key.length());
+  std::memcpy(key_ptr, key.ptr(), key.length());
   key_ptr[key.length()] = end_marker;
 
   Key &new_key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
@@ -59,7 +59,7 @@ void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   MARISA_THROW_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
 
   char * const key_ptr = reserve(length);
-  std::memmove(key_ptr, ptr, length);
+  std::memcpy(key_ptr, ptr, length);
 
   Key &key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
   key.set_str(key_ptr, length);

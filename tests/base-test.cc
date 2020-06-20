@@ -87,6 +87,17 @@ void TestKey() {
   ASSERT(key.ptr() == str);
   ASSERT(key.length() == 4);
 
+#if __cplusplus >= 201703L
+  const std::string_view view = "orange";
+  key.set_str(view);
+
+  ASSERT(key.ptr() == view.data());
+  ASSERT(key.length() == 6);
+
+  // Compare string_view, emphasizing that it is not a pointer comparison.
+  ASSERT(key.str() == std::string("orange"));
+#endif  // __cplusplus >= 201703L
+
   key.set_weight(1.0);
 
   ASSERT(key.weight() == 1.0);
@@ -126,6 +137,27 @@ void TestKeyset() {
         keyset[i].length()) == 0);
     ASSERT(keyset[i].weight() == 1.0);
   }
+
+#if __cplusplus >= 201703L
+  keyset.clear();
+  total_length = 0;
+  // Same thing again, but now via string_view, and with a weight.
+  for (std::size_t i = 0; i < keys.size(); ++i) {
+    keyset.push_back(keys[i], 2.0);
+    ASSERT(keyset.size() == (i + 1));
+    ASSERT(!keyset.empty());
+
+    total_length += keys[i].length();
+    ASSERT(keyset.total_length() == total_length);
+
+    ASSERT(keyset[i].length() == keys[i].length());
+    ASSERT(keyset[i].str().length() == keys[i].length());
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
+        keyset[i].length()) == 0);
+    ASSERT(keyset[i].str() == keys[i]);
+    ASSERT(keyset[i].weight() == 2.0);
+  }
+#endif  // __cplusplus >= 201703L
 
   keyset.clear();
 
@@ -232,6 +264,17 @@ void TestQuery() {
   ASSERT(query.ptr() == str);
   ASSERT(query.length() == 3);
 
+#if __cplusplus >= 201703L
+  const std::string_view view = "orange";
+  query.set_str(view);
+
+  ASSERT(query.ptr() == view.data());
+  ASSERT(query.length() == 6);
+
+  // Compare string_view, emphasizing that it is not a pointer comparison.
+  ASSERT(query.str() == std::string("orange"));
+#endif  // __cplusplus >= 201703L
+
   query.set_id(100);
 
   ASSERT(query.id() == 100);
@@ -274,6 +317,23 @@ void TestAgent() {
   ASSERT(agent.key().ptr() == key_str);
   ASSERT(agent.key().length() == std::strlen(key_str));
   ASSERT(agent.key().id() == 234);
+
+#if __cplusplus >= 201703L
+  const std::string_view query_view = "query2";
+  const std::string_view key_view = "key2";
+
+  agent.set_query(query_view);
+  agent.set_key(key_view);
+
+  ASSERT(agent.query().ptr() == query_view.data());
+  ASSERT(agent.query().length() == 6);
+  // Compare string_view, emphasizing that it is not a pointer comparison.
+  ASSERT(agent.query().str() == std::string("query2"));
+
+  ASSERT(agent.key().ptr() == key_view.data());
+  ASSERT(agent.key().length() == 4);
+  ASSERT(agent.key().str() == std::string("key2"));
+#endif  // __cplusplus >= 201703L
 
   agent.init_state();
 

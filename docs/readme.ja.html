@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 14 Jun 2020</div>
+   <div class="right">Last modified: 21 Jun 2020</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -491,6 +491,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Key {
  public:
   char operator[](std::size_t i) const;
+  std::string_view str() const;  // C++17
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -507,6 +508,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Query {
  public:
   char operator[](std::size_t i) const;
+  std::string_view str() const;  // C++17
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -527,6 +529,8 @@ typedef enum marisa_num_tries_ {
   void push_back(const Key &amp;key);
   void push_back(const Key &amp;key, char end_marker);
 
+  void push_back(std::string_view str,
+                 float weight = 1.0);  // C++17
   void push_back(const char *str);
   void push_back(const char *ptr,
                  std::size_t length,
@@ -586,6 +590,7 @@ typedef enum marisa_num_tries_ {
   const Query &amp;query() const;
   const Key &amp;key() const;
 
+  void set_query(std::string_view str);  // C++17
   void set_query(const char *str);
   void set_query(const char *ptr,
                  std::size_t length);

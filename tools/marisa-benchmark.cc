@@ -17,7 +17,7 @@ int param_max_num_tries = 5;
 marisa::TailMode param_tail_mode = MARISA_DEFAULT_TAIL;
 marisa::NodeOrder param_node_order = MARISA_DEFAULT_ORDER;
 marisa::CacheLevel param_cache_level = MARISA_DEFAULT_CACHE;
-bool param_with_predict = true;
+bool param_predict_on = true;
 bool param_print_speed = true;
 
 class Clock {
@@ -232,7 +232,7 @@ void benchmark_common_prefix_search(const marisa::Trie &trie,
 
 void benchmark_predictive_search(const marisa::Trie &trie,
     const marisa::Keyset &keyset) {
-  if (!param_with_predict) {
+  if (!param_predict_on) {
     print_time_info(keyset.size(), 0.0);
     return;
   }
@@ -390,11 +390,11 @@ int main(int argc, char *argv[]) {
         break;
       }
       case 'P': {
-        param_with_predict = true;
+        param_predict_on = true;
         break;
       }
       case 'p': {
-        param_with_predict = false;
+        param_predict_on = false;
         break;
       }
       case 'S': {

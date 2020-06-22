@@ -18,6 +18,7 @@ marisa::TailMode param_tail_mode = MARISA_DEFAULT_TAIL;
 marisa::NodeOrder param_node_order = MARISA_DEFAULT_ORDER;
 marisa::CacheLevel param_cache_level = MARISA_DEFAULT_CACHE;
 bool param_predict_on = true;
+bool param_reuse_on = true;
 bool param_print_speed = true;
 
 class Clock {
@@ -54,6 +55,8 @@ void print_help(const char *cmd) {
       " [1, 5] (default: 3)\n"
       "  -P, --predict-on    include predictive search (default)\n"
       "  -p, --predict-off   skip predictive search\n"
+      "  -R, --reuse-on      reuse agents (default)\n"
+      "  -r, --reuse-off     don't reuse agents\n"
       "  -S, --print-speed   print speed [1000 keys/s] (default)\n"
       "  -s, --print-time    print time [ns/key]\n"
       "  -h, --help          print this help\n"
@@ -181,12 +184,23 @@ void benchmark_build(marisa::Keyset &keyset,
 void benchmark_lookup(const marisa::Trie &trie,
     const marisa::Keyset &keyset) {
   Clock cl;
-  marisa::Agent agent;
-  for (std::size_t i = 0; i < keyset.size(); ++i) {
-    agent.set_query(keyset[i].ptr(), keyset[i].length());
-    if (!trie.lookup(agent) || (agent.key().id() != keyset[i].id())) {
-      std::cerr << "error: lookup() failed" << std::endl;
-      return;
+  if (param_reuse_on) {
+    marisa::Agent agent;
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      if (!trie.lookup(agent) || (agent.key().id() != keyset[i].id())) {
+        std::cerr << "error: lookup() failed" << std::endl;
+        return;
+      }
+    }
+  } else {
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      marisa::Agent agent;
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      if (!trie.lookup(agent) || (agent.key().id() != keyset[i].id())) {
+        std::cerr << "error: lookup() failed" << std::endl;
+        return;
+      }
     }
   }
   print_time_info(keyset.size(), cl.elasped());
@@ -195,16 +209,31 @@ void benchmark_lookup(const marisa::Trie &trie,
 void benchmark_reverse_lookup(const marisa::Trie &trie,
     const marisa::Keyset &keyset) {
   Clock cl;
-  marisa::Agent agent;
-  for (std::size_t i = 0; i < keyset.size(); ++i) {
-    agent.set_query(keyset[i].id());
-    trie.reverse_lookup(agent);
-    if ((agent.key().id() != keyset[i].id()) ||
-        (agent.key().length() != keyset[i].length()) ||
-        (std::memcmp(agent.key().ptr(), keyset[i].ptr(),
-            agent.key().length()) != 0)) {
-      std::cerr << "error: reverse_lookup() failed" << std::endl;
-      return;
+  if (param_reuse_on) {
+    marisa::Agent agent;
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      agent.set_query(keyset[i].id());
+      trie.reverse_lookup(agent);
+      if ((agent.key().id() != keyset[i].id()) ||
+          (agent.key().length() != keyset[i].length()) ||
+          (std::memcmp(agent.key().ptr(), keyset[i].ptr(),
+              agent.key().length()) != 0)) {
+        std::cerr << "error: reverse_lookup() failed" << std::endl;
+        return;
+      }
+    }
+  } else {
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      marisa::Agent agent;
+      agent.set_query(keyset[i].id());
+      trie.reverse_lookup(agent);
+      if ((agent.key().id() != keyset[i].id()) ||
+          (agent.key().length() != keyset[i].length()) ||
+          (std::memcmp(agent.key().ptr(), keyset[i].ptr(),
+              agent.key().length()) != 0)) {
+        std::cerr << "error: reverse_lookup() failed" << std::endl;
+        return;
+      }
     }
   }
   print_time_info(keyset.size(), cl.elasped());
@@ -213,18 +242,35 @@ void benchmark_reverse_lookup(const marisa::Trie &trie,
 void benchmark_common_prefix_search(const marisa::Trie &trie,
     const marisa::Keyset &keyset) {
   Clock cl;
-  marisa::Agent agent;
-  for (std::size_t i = 0; i < keyset.size(); ++i) {
-    agent.set_query(keyset[i].ptr(), keyset[i].length());
-    while (trie.common_prefix_search(agent)) {
-      if (agent.key().id() > keyset[i].id()) {
+  if (param_reuse_on) {
+    marisa::Agent agent;
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      while (trie.common_prefix_search(agent)) {
+        if (agent.key().id() > keyset[i].id()) {
+          std::cerr << "error: common_prefix_search() failed" << std::endl;
+          return;
+        }
+      }
+      if (agent.key().id() != keyset[i].id()) {
         std::cerr << "error: common_prefix_search() failed" << std::endl;
         return;
       }
     }
-    if (agent.key().id() != keyset[i].id()) {
-      std::cerr << "error: common_prefix_search() failed" << std::endl;
-      return;
+  } else {
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      marisa::Agent agent;
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      while (trie.common_prefix_search(agent)) {
+        if (agent.key().id() > keyset[i].id()) {
+          std::cerr << "error: common_prefix_search() failed" << std::endl;
+          return;
+        }
+      }
+      if (agent.key().id() != keyset[i].id()) {
+        std::cerr << "error: common_prefix_search() failed" << std::endl;
+        return;
+      }
     }
   }
   print_time_info(keyset.size(), cl.elasped());
@@ -238,18 +284,36 @@ void benchmark_predictive_search(const marisa::Trie &trie,
   }
 
   Clock cl;
-  marisa::Agent agent;
-  for (std::size_t i = 0; i < keyset.size(); ++i) {
-    agent.set_query(keyset[i].ptr(), keyset[i].length());
-    if (!trie.predictive_search(agent) ||
-        (agent.key().id() != keyset[i].id())) {
-      std::cerr << "error: predictive_search() failed" << std::endl;
-      return;
-    }
-    while (trie.predictive_search(agent)) {
-      if (agent.key().id() <= keyset[i].id()) {
+  if (param_reuse_on) {
+    marisa::Agent agent;
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      if (!trie.predictive_search(agent) ||
+          (agent.key().id() != keyset[i].id())) {
         std::cerr << "error: predictive_search() failed" << std::endl;
         return;
+      }
+      while (trie.predictive_search(agent)) {
+        if (agent.key().id() <= keyset[i].id()) {
+          std::cerr << "error: predictive_search() failed" << std::endl;
+          return;
+        }
+      }
+    }
+  } else {
+    for (std::size_t i = 0; i < keyset.size(); ++i) {
+      marisa::Agent agent;
+      agent.set_query(keyset[i].ptr(), keyset[i].length());
+      if (!trie.predictive_search(agent) ||
+          (agent.key().id() != keyset[i].id())) {
+        std::cerr << "error: predictive_search() failed" << std::endl;
+        return;
+      }
+      while (trie.predictive_search(agent)) {
+        if (agent.key().id() <= keyset[i].id()) {
+          std::cerr << "error: predictive_search() failed" << std::endl;
+          return;
+        }
       }
     }
   }
@@ -319,13 +383,15 @@ int main(int argc, char *argv[]) {
     { "cache-level", 1, NULL, 'c' },
     { "predict-on", 0, NULL, 'P' },
     { "predict-off", 0, NULL, 'p' },
+    { "reuse-on", 0, NULL, 'R' },
+    { "reuse-off", 0, NULL, 'r' },
     { "print-speed", 0, NULL, 'S' },
     { "print-time", 0, NULL, 's' },
     { "help", 0, NULL, 'h' },
     { NULL, 0, NULL, 0 }
   };
   ::cmdopt_t cmdopt;
-  ::cmdopt_init(&cmdopt, argc, argv, "N:n:tbwlc:PpSsh", long_options);
+  ::cmdopt_init(&cmdopt, argc, argv, "N:n:tbwlc:PpRrSsh", long_options);
   int label;
   while ((label = ::cmdopt_get(&cmdopt)) != -1) {
     switch (label) {
@@ -395,6 +461,14 @@ int main(int argc, char *argv[]) {
       }
       case 'p': {
         param_predict_on = false;
+        break;
+      }
+      case 'R': {
+        param_reuse_on = true;
+        break;
+      }
+      case 'r': {
+        param_reuse_on = false;
         break;
       }
       case 'S': {

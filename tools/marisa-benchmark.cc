@@ -46,17 +46,17 @@ void print_help(const char *cmd) {
       "  -n, --max-num-tries=[N]  limit the number of tries"
       " [" << MARISA_MIN_NUM_TRIES << ", " << MARISA_MAX_NUM_TRIES
       << "] (default: 5)\n"
-      "  -t, --text-tail      build a dictionary with text TAIL (default)\n"
-      "  -b, --binary-tail    build a dictionary with binary TAIL\n"
-      "  -w, --weight-order   arrange siblings in weight order (default)\n"
-      "  -l, --label-order    arrange siblings in label order\n"
+      "  -t, --text-tail     build a dictionary with text TAIL (default)\n"
+      "  -b, --binary-tail   build a dictionary with binary TAIL\n"
+      "  -w, --weight-order  arrange siblings in weight order (default)\n"
+      "  -l, --label-order   arrange siblings in label order\n"
       "  -c, --cache-level=[N]    specify the cache size"
       " [1, 5] (default: 3)\n"
-      "  -P, --with-predict       include predictive search (default)\n"
-      "  -p, --without-predict    skip predictive search\n"
-      "  -S, --print-speed    print speed [1000 keys/s] (default)\n"
-      "  -s, --print-time     print time [ns/key]\n"
-      "  -h, --help           print this help\n"
+      "  -P, --predict-on    include predictive search (default)\n"
+      "  -p, --predict-off   skip predictive search\n"
+      "  -S, --print-speed   print speed [1000 keys/s] (default)\n"
+      "  -s, --print-time    print time [ns/key]\n"
+      "  -h, --help          print this help\n"
       << std::endl;
 }
 

@@ -1,4 +1,4 @@
-MY_INCLUDE = -I$(top_srcdir)/include -I$(top_srcdir)/lib
+MY_INCLUDE = -I$(top_srcdir)/include
 MY_LIBS = $(top_srcdir)/lib/marisa/libmarisa.la libcmdopt.la
 
 AM_CXXFLAGS = -Wall -Weffc++ -Wextra -Wconversion $(MY_INCLUDE)

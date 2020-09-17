@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../lib"
+				AdditionalIncludeDirectories="../../lib;../../include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MARISA_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

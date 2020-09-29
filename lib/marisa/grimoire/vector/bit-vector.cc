@@ -782,7 +782,7 @@ void BitVector::build_index(const BitVector &bv,
       const std::size_t unit_num_0s =
           std::min<std::size_t>(bits_remaining, MARISA_WORD_SIZE) - unit_num_1s;
 
-      const std::size_t zero_bit_id = -num_0s % 512;
+      const std::size_t zero_bit_id = (~num_0s + 1) % 512;
       if (unit_num_0s > zero_bit_id) {
         // select0s_ is UInt32, but select_bit returns size_t, so cast to
         // suppress narrowing conversion warning.  push_back checks the
@@ -795,7 +795,7 @@ void BitVector::build_index(const BitVector &bv,
     }
 
     if (enables_select1) {
-      const std::size_t one_bit_id = -num_1s % 512;
+      const std::size_t one_bit_id = (~num_1s + 1) % 512;
       if (unit_num_1s > one_bit_id) {
         select1s_.push_back(
             static_cast<UInt32>(select_bit(one_bit_id, bit_id, unit)));

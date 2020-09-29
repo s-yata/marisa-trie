@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\lib">
+      <UniqueIdentifier>{6a5e8699-c05a-4222-a73e-ee9a9b69c9bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{0f1adaef-6e2e-40c0-85db-ebf6dd88d816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include\marisa">
+      <UniqueIdentifier>{98dcf8e4-e9d3-4a59-915a-ecf81cf523de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa">
+      <UniqueIdentifier>{3d912a1c-f709-4a9f-9ec6-71ce4138ff07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa\grimoire">
+      <UniqueIdentifier>{f583a859-4da1-40b7-92f5-6fe00a24c724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa\grimoire\algorithm">
+      <UniqueIdentifier>{b4e0e26e-0cf9-47a9-9a41-1846f59ddb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa\grimoire\io">
+      <UniqueIdentifier>{5cd51437-40da-4f42-a2f4-1e3c4e969883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa\grimoire\trie">
+      <UniqueIdentifier>{9ebc8862-4947-47ad-b59b-4099c0e173d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lib\marisa\grimoire\vector">
+      <UniqueIdentifier>{e6553ca1-683f-49d6-8bf5-72ad7d9ca0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\marisa">
+      <UniqueIdentifier>{e2d4a196-6cf8-4cd4-8cee-f26474f1538d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\marisa\grimoire">
+      <UniqueIdentifier>{b8efd0b8-cb6d-4142-acfa-3f2a5eee0540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\marisa\grimoire\io">
+      <UniqueIdentifier>{590bea35-0677-4c6e-a766-7d737c2c91e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\marisa\grimoire\trie">
+      <UniqueIdentifier>{ba09a25a-f7f4-4c09-a359-7e32b7dd1eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\marisa\grimoire\vector">
+      <UniqueIdentifier>{0342abbf-dd98-4720-9df3-7622b39a7efb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\lib\marisa\grimoire\io\mapper.cc">
+      <Filter>Source Files\marisa\grimoire\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\grimoire\io\reader.cc">
+      <Filter>Source Files\marisa\grimoire\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\grimoire\io\writer.cc">
+      <Filter>Source Files\marisa\grimoire\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\grimoire\trie\louds-trie.cc">
+      <Filter>Source Files\marisa\grimoire\trie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\grimoire\trie\tail.cc">
+      <Filter>Source Files\marisa\grimoire\trie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\agent.cc">
+      <Filter>Source Files\marisa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\keyset.cc">
+      <Filter>Source Files\marisa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\trie.cc">
+      <Filter>Source Files\marisa</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\marisa\grimoire\vector\bit-vector.cc">
+      <Filter>Source Files\marisa\grimoire\vector</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\marisa.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\agent.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\base.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\exception.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\iostream.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\key.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\keyset.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\query.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\scoped-array.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\scoped-ptr.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\stdio.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\marisa\trie.h">
+      <Filter>Header Files\include\marisa</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\algorithm.h">
+      <Filter>Header Files\lib\marisa\grimoire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\intrin.h">
+      <Filter>Header Files\lib\marisa\grimoire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\io.h">
+      <Filter>Header Files\lib\marisa\grimoire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie.h">
+      <Filter>Header Files\lib\marisa\grimoire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector.h">
+      <Filter>Header Files\lib\marisa\grimoire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\algorithm\sort.h">
+      <Filter>Header Files\lib\marisa\grimoire\algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\io\mapper.h">
+      <Filter>Header Files\lib\marisa\grimoire\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\io\reader.h">
+      <Filter>Header Files\lib\marisa\grimoire\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\io\writer.h">
+      <Filter>Header Files\lib\marisa\grimoire\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector\bit-vector.h">
+      <Filter>Header Files\lib\marisa\grimoire\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector\flat-vector.h">
+      <Filter>Header Files\lib\marisa\grimoire\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector\pop-count.h">
+      <Filter>Header Files\lib\marisa\grimoire\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector\rank-index.h">
+      <Filter>Header Files\lib\marisa\grimoire\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\vector\vector.h">
+      <Filter>Header Files\lib\marisa\grimoire\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\cache.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\config.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\entry.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\header.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\history.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\key.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\louds-trie.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\range.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\state.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\marisa\grimoire\trie\tail.h">
+      <Filter>Header Files\lib\marisa\grimoire\trie</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

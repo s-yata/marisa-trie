@@ -145,7 +145,12 @@ void Mapper::open_(const char *filename) {
   fd_ = ::open(filename, O_RDONLY);
   MARISA_THROW_IF(fd_ == -1, MARISA_IO_ERROR);
 
+#ifdef MAP_POPULATE
+  origin_ = ::mmap(NULL, size_, PROT_READ, MAP_SHARED | MAP_POPULATE, fd_, 0);
+#else
   origin_ = ::mmap(NULL, size_, PROT_READ, MAP_SHARED, fd_, 0);
+#endif
+
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);
 
   ptr_ = static_cast<const char *>(origin_);

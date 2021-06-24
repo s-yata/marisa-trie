@@ -24,6 +24,11 @@ class State {
       : key_buf_(), history_(), node_id_(0), query_pos_(0),
         history_pos_(0), status_code_(MARISA_READY_TO_ALL) {}
 
+  State(const State &) = default;
+  State &operator=(const State &) = default;
+  State(State &&) noexcept = default;
+  State &operator=(State &&) noexcept = default;
+
   void set_node_id(std::size_t node_id) {
     MARISA_DEBUG_IF(node_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     node_id_ = (UInt32)node_id;
@@ -104,10 +109,6 @@ class State {
   UInt32 query_pos_;
   UInt32 history_pos_;
   StatusCode status_code_;
-
-  // Disallows copy and assignment.
-  State(const State &);
-  State &operator=(const State &);
 };
 
 }  // namespace trie

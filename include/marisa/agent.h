@@ -22,6 +22,14 @@ class Agent {
   Agent();
   ~Agent();
 
+  Agent(const Agent &other);
+  Agent &operator=(const Agent &other);
+
+#if __cplusplus >= 201103L
+  Agent(Agent &&other) noexcept;
+  Agent &operator=(Agent &&other) noexcept;
+#endif
+
   const Query &query() const {
     return query_;
   }
@@ -37,6 +45,9 @@ class Agent {
   void set_query(const char *str);
   void set_query(const char *ptr, std::size_t length);
   void set_query(std::size_t key_id);
+  void set_query(const Query &query) {
+    query_ = query;
+  }
 
   const grimoire::trie::State &state() const {
     return *state_;
@@ -65,7 +76,7 @@ class Agent {
   }
 
   bool has_state() const {
-    return state_.get() != NULL;
+    return state_ != NULL;
   }
   void init_state();
 
@@ -75,11 +86,11 @@ class Agent {
  private:
   Query query_;
   Key key_;
-  scoped_ptr<grimoire::trie::State> state_;
 
-  // Disallows copy and assignment.
-  Agent(const Agent &);
-  Agent &operator=(const Agent &);
+  // Cannot be `scoped_ptr` because `State` is forward-declared.
+  grimoire::trie::State *state_;
+
+  void clear_state();
 };
 
 }  // namespace marisa

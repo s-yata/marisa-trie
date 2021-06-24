@@ -16,6 +16,18 @@ class scoped_ptr {
     delete ptr_;
   }
 
+#if __cplusplus >= 201103L
+  scoped_ptr(scoped_ptr &&other) noexcept : ptr_(other.ptr_) {
+    other.ptr_ = NULL;
+  }
+  scoped_ptr<T> &operator=(scoped_ptr<T> &&other) noexcept {
+    delete ptr_;
+    ptr_ = other.ptr_;
+    other.ptr_ = NULL;
+    return *this;
+  }
+#endif
+
   void reset(T *ptr = NULL) {
     MARISA_DEBUG_IF((ptr != NULL) && (ptr == ptr_), MARISA_RESET_ERROR);
     scoped_ptr(ptr).swap(*this);

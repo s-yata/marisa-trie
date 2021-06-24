@@ -25,6 +25,38 @@ class Vector {
     }
   }
 
+  Vector(const Vector<T> &other)
+        : buf_(), objs_(NULL), const_objs_(NULL),
+          size_(0), capacity_(0), fixed_(other.fixed_) {
+    if (other.buf_.get() == NULL) {
+      objs_ = other.objs_;
+      const_objs_ = other.const_objs_;
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+    } else {
+      copy(other.const_objs_, other.size_, other.capacity_);
+    }
+  }
+
+  Vector &operator=(const Vector<T> &other) {
+    clear();
+    fixed_ = other.fixed_;
+    if (other.buf_.get() == NULL) {
+      objs_ = other.objs_;
+      const_objs_ = other.const_objs_;
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+    } else {
+      copy(other.const_objs_, other.size_, other.capacity_);
+    }
+    return *this;
+  }
+
+#if __cplusplus >= 201103L
+  Vector(Vector &&) noexcept = default;
+  Vector &operator=(Vector<T> &&) noexcept = default;
+#endif
+
   void map(Mapper &mapper) {
     Vector temp;
     temp.map_(mapper);
@@ -227,19 +259,22 @@ class Vector {
   // realloc() assumes that T's placement new does not throw an exception.
   void realloc(std::size_t new_capacity) {
     MARISA_DEBUG_IF(new_capacity > max_size(), MARISA_SIZE_ERROR);
+    copy(objs_, size_, new_capacity);
+  }
 
-    scoped_array<char> new_buf(
-        new (std::nothrow) char[sizeof(T) * new_capacity]);
+  // copy() assumes that T's placement new does not throw an exception.
+  void copy(const T *src, std::size_t src_size, std::size_t capacity) {
+    scoped_array<char> new_buf(new (std::nothrow) char[sizeof(T) * capacity]);
     MARISA_DEBUG_IF(new_buf.get() == NULL, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     if (std::is_trivially_copyable<T>::value) {
       std::memcpy(reinterpret_cast<void*>(new_objs),
-                  reinterpret_cast<const void*>(objs_),
-                  sizeof(T) * size_);
+                  reinterpret_cast<const void*>(src),
+                  sizeof(T) * src_size);
     } else {
-      for (std::size_t i = 0; i < size_; ++i) {
-        new (&new_objs[i]) T(objs_[i]);
+      for (std::size_t i = 0; i < src_size; ++i) {
+        new (&new_objs[i]) T(src[i]);
       }
     }
     for (std::size_t i = 0; i < size_; ++i) {
@@ -249,12 +284,9 @@ class Vector {
     buf_.swap(new_buf);
     objs_ = new_objs;
     const_objs_ = new_objs;
-    capacity_ = new_capacity;
+    size_ = src_size;
+    capacity_ = capacity;
   }
-
-  // Disallows copy and assignment.
-  Vector(const Vector &);
-  Vector &operator=(const Vector &);
 };
 
 }  // namespace vector

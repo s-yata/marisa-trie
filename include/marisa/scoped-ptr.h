@@ -43,6 +43,11 @@ class scoped_ptr {
   T *get() const {
     return ptr_;
   }
+  T *release() {
+    T *ptr = ptr_;
+    ptr_ = NULL;
+    return ptr;
+  }
 
   void clear() {
     scoped_ptr().swap(*this);

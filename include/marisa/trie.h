@@ -20,6 +20,11 @@ class Trie {
   Trie();
   ~Trie();
 
+#if __cplusplus >= 201103L
+  Trie(Trie &&other) noexcept;
+  Trie &operator=(Trie &&other) noexcept;
+#endif
+
   void build(Keyset &keyset, int config_flags = 0);
 
   void mmap(const char *filename);
@@ -52,7 +57,8 @@ class Trie {
   void swap(Trie &rhs);
 
  private:
-  scoped_ptr<grimoire::trie::LoudsTrie> trie_;
+  // Cannot be `scoped_ptr` because `LoudsTrie` is forward-declared.
+  grimoire::trie::LoudsTrie *trie_;
 
   // Disallows copy and assignment.
   Trie(const Trie &);

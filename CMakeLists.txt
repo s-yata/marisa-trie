@@ -29,7 +29,7 @@ set(MARISA_SRC
 
 include_directories( ${MARISA_INCLUDE_DIRS} )
 
-add_library( marisa ${MARISA_SRC} )
+add_library( marisa STATIC ${MARISA_SRC} )
 
 install(TARGETS marisa
         RUNTIME DESTINATION bin

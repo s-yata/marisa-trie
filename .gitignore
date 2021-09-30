@@ -16,6 +16,7 @@
 *.out
 *.slo
 *.so
+build/
 Makefile
 Makefile.in
 aclocal.m4

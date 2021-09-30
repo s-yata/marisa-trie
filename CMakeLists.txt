@@ -11,6 +11,8 @@ set(MARISA_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 option(Marisa_FOUND  "marisa found" ON)
 set(Marisa_INCLUDE_PATH ${MARISA_ROOT}/include CACHE INTERNAL "marisa public include path" FORCE)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 set(MARISA_INCLUDE_DIRS
     ${MARISA_ROOT}/lib
     ${MARISA_ROOT}/include)
@@ -29,7 +31,7 @@ set(MARISA_SRC
 
 include_directories( ${MARISA_INCLUDE_DIRS} )
 
-add_library( marisa STATIC ${MARISA_SRC} )
+add_library( marisa SHARED ${MARISA_SRC} )
 
 install(TARGETS marisa
         RUNTIME DESTINATION bin

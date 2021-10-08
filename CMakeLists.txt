@@ -4,6 +4,7 @@ project(marisa)
 
 if(UNIX)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Weffc++ -Wextra -Wconversion")
+  add_compile_options( -fPIC )
 endif()
 
 set(MARISA_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
@@ -31,7 +32,7 @@ set(MARISA_SRC
 
 include_directories( ${MARISA_INCLUDE_DIRS} )
 
-add_library( marisa SHARED ${MARISA_SRC} )
+add_library( marisa STATIC ${MARISA_SRC} )
 
 install(TARGETS marisa
         RUNTIME DESTINATION bin

@@ -30,7 +30,7 @@ typedef uint64_t marisa_uint64;
 
 #if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__) || \
     defined(__ia64__) || defined(__ppc64__) || defined(__powerpc64__) || \
-    defined(__sparc64__) || defined(__mips64__) || defined(__aarch64__) || \
+    (defined(__sparc__) && defined(__LP64__)) || defined(__mips64__) || defined(__aarch64__) || \
     defined(__s390x__)
  #define MARISA_WORD_SIZE 64
 #else  // defined(_WIN64), etc.

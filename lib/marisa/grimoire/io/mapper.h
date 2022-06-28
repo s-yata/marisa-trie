@@ -9,6 +9,16 @@ namespace marisa {
 namespace grimoire {
 namespace io {
 
+template <typename T> static inline T PtrValue(const void *ptr) {
+#ifdef __ARM_ARCH_7A__
+    T tmp;
+    memcpy(&tmp, ptr, sizeof(T));
+    return tmp;
+#else
+    return *static_cast<const T *>(ptr);
+#endif
+}
+
 class Mapper {
  public:
   Mapper();
@@ -20,7 +30,7 @@ class Mapper {
   template <typename T>
   void map(T *obj) {
     MARISA_THROW_IF(obj == NULL, MARISA_NULL_ERROR);
-    *obj = *static_cast<const T *>(map_data(sizeof(T)));
+    *obj = PtrValue<T>(map_data(sizeof(T)));
   }
 
   template <typename T>

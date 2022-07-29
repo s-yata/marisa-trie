@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {
-    { "max-num-tries", 1, NULL, 'n' },
+    { "num-tries", 1, NULL, 'n' },
     { "text-tail", 0, NULL, 't' },
     { "binary-tail", 0, NULL, 'b' },
     { "weight-order", 0, NULL, 'w' },

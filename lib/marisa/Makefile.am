@@ -14,6 +14,7 @@ libmarisa_la_LIBADD = \
   grimoire/vector/libvector.la
 
 libmarisa_la_SOURCES = \
+  exception.cc \
   keyset.cc \
   agent.cc \
   trie.cc

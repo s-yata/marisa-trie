@@ -196,11 +196,16 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 
     counts = static_cast<UInt64>(_mm_cvtsi128_si64(
        _mm_add_epi8(lower_counts, upper_counts)));
-  #else  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
+  #elif defined(MARISA_AARCH64)
+    // Byte-wise popcount using CNT (plus a lot of conversion noise).
+    // This actually only requires NEON, not AArch64, but we are already
+    // in a 64-bit `#ifdef`.
+    counts = vget_lane_u64(vreinterpret_u64_u8(vcnt_u8(vcreate_u8(unit))), 0);
+  #else  // defined(MARISA_AARCH64)
     counts = unit - ((unit >> 1) & MASK_55);
     counts = (counts & MASK_33) + ((counts >> 2) & MASK_33);
     counts = (counts + (counts >> 4)) & MASK_0F;
-  #endif  // defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
+  #endif  // defined(MARISA_AARCH64)
     counts *= MASK_01;
   }
 

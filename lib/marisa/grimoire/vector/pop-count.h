@@ -51,9 +51,12 @@ class PopCount {
  #else  // _MSC_VER
     return static_cast<std::size_t>(_mm_popcnt_u64(x));
  #endif  // _MSC_VER
-#else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+#elif defined(MARISA_AARCH64)
+    // Byte-wise popcount followed by horizontal add.
+    return vaddv_u8(vcnt_u8(vcreate_u8(x)));
+#else  // defined(MARISA_AARCH64)
     return PopCount(x).lo64();
-#endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+#endif  // defined(MARISA_AARCH64)
   }
 
  private:

@@ -173,9 +173,33 @@ const UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
 const UInt64 MASK_33 = 0x3333333333333333ULL;
 const UInt64 MASK_55 = 0x5555555555555555ULL;
   #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
-  #if !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
 const UInt64 MASK_80 = 0x8080808080808080ULL;
-  #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_POPCNT)
+
+// Pre-computed lookup table trick from Gog, Simon and Matthias Petri.
+// "Optimized succinct data structures for massive data."  Software:
+// Practice and Experience 44 (2014): 1287 - 1314.
+// PREFIX_SUM_OVERFLOW[i] = (0x7F - i) * MASK_01.
+const UInt64 PREFIX_SUM_OVERFLOW[64] = {
+  0x7F * MASK_01, 0x7E * MASK_01, 0x7D * MASK_01, 0x7C * MASK_01,
+  0x7B * MASK_01, 0x7A * MASK_01, 0x79 * MASK_01, 0x78 * MASK_01,
+  0x77 * MASK_01, 0x76 * MASK_01, 0x75 * MASK_01, 0x74 * MASK_01,
+  0x73 * MASK_01, 0x72 * MASK_01, 0x71 * MASK_01, 0x70 * MASK_01,
+
+  0x6F * MASK_01, 0x6E * MASK_01, 0x6D * MASK_01, 0x6C * MASK_01,
+  0x6B * MASK_01, 0x6A * MASK_01, 0x69 * MASK_01, 0x68 * MASK_01,
+  0x67 * MASK_01, 0x66 * MASK_01, 0x65 * MASK_01, 0x64 * MASK_01,
+  0x63 * MASK_01, 0x62 * MASK_01, 0x61 * MASK_01, 0x60 * MASK_01,
+
+  0x5F * MASK_01, 0x5E * MASK_01, 0x5D * MASK_01, 0x5C * MASK_01,
+  0x5B * MASK_01, 0x5A * MASK_01, 0x59 * MASK_01, 0x58 * MASK_01,
+  0x57 * MASK_01, 0x56 * MASK_01, 0x55 * MASK_01, 0x54 * MASK_01,
+  0x53 * MASK_01, 0x52 * MASK_01, 0x51 * MASK_01, 0x50 * MASK_01,
+
+  0x4F * MASK_01, 0x4E * MASK_01, 0x4D * MASK_01, 0x4C * MASK_01,
+  0x4B * MASK_01, 0x4A * MASK_01, 0x49 * MASK_01, 0x48 * MASK_01,
+  0x47 * MASK_01, 0x46 * MASK_01, 0x45 * MASK_01, 0x44 * MASK_01,
+  0x43 * MASK_01, 0x42 * MASK_01, 0x41 * MASK_01, 0x40 * MASK_01
+};
 
 std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   UInt64 counts;
@@ -218,12 +242,17 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     skip = (UInt8)PopCount::count(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
   #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
-  const UInt64 x = (counts | MASK_80) - ((i + 1) * MASK_01);
+  const UInt64 x = (counts + PREFIX_SUM_OVERFLOW[i]) & MASK_80;
+  // We masked with `MASK_80`, so the first bit set is the high bit in the
+  // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte
+  // number is the number of trailing zeros divided by 8.  We just shift off
+  // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
+  // number of bits of `counts` to shift.
    #ifdef _MSC_VER
   unsigned long skip;
-  ::_BitScanForward64(&skip, (x & MASK_80) >> 7);
+  ::_BitScanForward64(&skip, x >> 7);
    #else  // _MSC_VER
-  const int skip = ::__builtin_ctzll((x & MASK_80) >> 7);
+  const int skip = ::__builtin_ctzll(x >> 7);
    #endif  // _MSC_VER
   #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 

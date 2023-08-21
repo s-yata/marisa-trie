@@ -235,7 +235,8 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 }
  #else  // MARISA_WORD_SIZE == 64
   #ifdef MARISA_USE_SSE2
-const UInt8 POPCNT_TABLE[256] = {
+// Popcount of the byte times eight.
+const UInt8 POPCNT_X8_TABLE[256] = {
    0,  8,  8, 16,  8, 16, 16, 24,  8, 16, 16, 24, 16, 24, 24, 32,
    8, 16, 16, 24, 16, 24, 24, 32, 16, 24, 24, 32, 24, 32, 32, 40,
    8, 16, 16, 24, 16, 24, 24, 32, 16, 24, 24, 32, 24, 32, 32, 40,
@@ -320,7 +321,10 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
   {
     __m128i x = _mm_set1_epi8((UInt8)(i + 1));
     x = _mm_cmpgt_epi8(x, accumulated_counts);
-    skip = POPCNT_TABLE[_mm_movemask_epi8(x)];
+    // Since we use `_mm_movemask_epi8`, to move the top bit of every byte,
+    // popcount times eight gives the original popcount of `x` before the
+    // movemask.  (`_mm_cmpgt_epi8` sets all bits in a byte to 0 or 1.)
+    skip = POPCNT_X8_TABLE[_mm_movemask_epi8(x)];
   }
 
   UInt8 byte;
@@ -345,33 +349,62 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
   return bit_id + SELECT_TABLE[i][byte];
 }
   #else  // MARISA_USE_SSE2
+const UInt8 POPCNT_TABLE[256] = {
+  0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
+  1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+  1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+  1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+  2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+  3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+  3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+  4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
+};
+
 std::size_t select_bit(std::size_t i, std::size_t bit_id,
     UInt32 unit_lo, UInt32 unit_hi) {
-  UInt32 unit = unit_lo;
-  PopCount count(unit);
-  if (i >= count.lo32()) {
-    bit_id += 32;
-    i -= count.lo32();
-    unit = unit_hi;
-    count = PopCount(unit);
-  }
+  UInt32 next_byte = unit_lo & 0xFF;
+  UInt32 byte_popcount = POPCNT_TABLE[next_byte];
+  // Assuming the desired bit is in a random byte, branches are not
+  // taken 7/8 of the time, so this is branch-predictor friendly,
+  // unlike binary search.
+  if (i < byte_popcount) return bit_id + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = (unit_lo >> 8) & 0xFF;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 8 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = (unit_lo >> 16) & 0xFF;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 16 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = unit_lo >> 24;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 24 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
 
-  if (i < count.lo16()) {
-    if (i >= count.lo8()) {
-      bit_id += 8;
-      unit >>= 8;
-      i -= count.lo8();
-    }
-  } else if (i < count.lo24()) {
-    bit_id += 16;
-    unit >>= 16;
-    i -= count.lo16();
-  } else {
-    bit_id += 24;
-    unit >>= 24;
-    i -= count.lo24();
-  }
-  return bit_id + SELECT_TABLE[i][unit & 0xFF];
+  next_byte = unit_hi & 0xFF;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 32 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = (unit_hi >> 8) & 0xFF;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 40 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = (unit_hi >> 16) & 0xFF;
+  byte_popcount = POPCNT_TABLE[next_byte];
+  if (i < byte_popcount) return bit_id + 48 + SELECT_TABLE[i][next_byte];
+  i -= byte_popcount;
+  next_byte = unit_hi >> 24;
+  // Assume `i < POPCNT_TABLE[next_byte]`.
+  return bit_id + 56 + SELECT_TABLE[i][next_byte];
 }
   #endif  // MARISA_USE_SSE2
 

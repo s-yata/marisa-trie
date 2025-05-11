@@ -1,10 +1,10 @@
 ### COPYING
 
-libmarisa and its command line tools are dual-licensed under the BSD 2-clause license and the LGPL.
+libmarisa and its command line tools are licensed under BSD-2-Clause OR LGPL-2.1-or-later.
 
 #### The BSD 2-clause license
 
-Copyright (c) 2010-2019, Susumu Yata
+Copyright (c) 2010-2025, Susumu Yata
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -17,7 +17,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #### The LGPL 2.1 or any later version
 
 marisa-trie - A static and space-efficient trie data structure.
-Copyright (C) 2010-2019  Susumu Yata
+Copyright (C) 2010-2025  Susumu Yata
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

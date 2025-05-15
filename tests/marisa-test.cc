@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <random>
 #include <sstream>
 
 #include <marisa.h>
@@ -8,6 +9,9 @@
 #include "marisa-assert.h"
 
 namespace {
+
+std::random_device seed_gen;
+std::mt19937 random_engine(seed_gen());
 
 void TestEmptyTrie() {
   TEST_START();
@@ -205,9 +209,9 @@ void MakeKeyset(std::size_t num_keys, marisa::TailMode tail_mode,
   char key_buf[16];
   for (std::size_t i = 0; i < num_keys; ++i) {
     const std::size_t length =
-        static_cast<std::size_t>(std::rand()) % sizeof(key_buf);
+        static_cast<std::size_t>(random_engine()) % sizeof(key_buf);
     for (std::size_t j = 0; j < length; ++j) {
-      key_buf[j] = (char)(std::rand() % 10);
+      key_buf[j] = static_cast<char>(random_engine() % 10);
       if (tail_mode == MARISA_TEXT_TAIL) {
         key_buf[j] = static_cast<char>(key_buf[j] + '0');
       }
@@ -376,8 +380,6 @@ void TestTrie() {
 }  // namespace
 
 int main() try {
-  std::srand((unsigned int)std::time(NULL));
-
   TestEmptyTrie();
   TestTinyTrie();
   TestTrie();

@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <ctime>
+#include <random>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -11,6 +12,9 @@
 #include "marisa-assert.h"
 
 namespace {
+
+std::random_device seed_gen;
+std::mt19937 random_engine(seed_gen());
 
 #if MARISA_WORD_SIZE == 64
 void TestPopCount() {
@@ -126,7 +130,7 @@ void TestVector() {
 
   std::vector<int> values;
   for (std::size_t i = 0; i < 10000; ++i) {
-    values.push_back(std::rand());
+    values.push_back(static_cast<int>(random_engine()));
   }
 
   marisa::grimoire::Vector<int> vec;
@@ -340,7 +344,7 @@ void TestFlatVector() {
 
   values.clear();
   for (std::size_t i = 0; i < 10000; ++i) {
-    values.push_back(static_cast<marisa::UInt32>(std::rand()));
+    values.push_back(static_cast<marisa::UInt32>(random_engine()));
   }
   vec.build(values);
 
@@ -363,7 +367,7 @@ void TestBitVector(std::size_t size) {
   std::vector<bool> bits(size);
   std::vector<std::size_t> zeros, ones;
   for (std::size_t i = 0; i < size; ++i) {
-    const bool bit = (std::rand() % 2) == 0;
+    const bool bit = (random_engine() % 2) == 0;
     bits[i] = bit;
     bv.push_back(bit);
     (bit ? ones : zeros).push_back(i);
@@ -440,7 +444,7 @@ void TestBitVector() {
   TestBitVector(513);
 
   for (int i = 0; i < 100; ++i) {
-    TestBitVector(std::rand() % 4096);
+    TestBitVector(static_cast<std::size_t>(random_engine()) % 4096);
   }
 
   TEST_END();
@@ -449,8 +453,6 @@ void TestBitVector() {
 }  // namespace
 
 int main() try {
-  std::srand((unsigned int)std::time(NULL));
-
   TestPopCount();
   TestPopCount();
   TestRankIndex();

@@ -19,7 +19,7 @@ class Exception : public std::exception {
   Exception(const Exception &ex)
       : std::exception(), filename_(ex.filename_), line_(ex.line_),
         error_code_(ex.error_code_), error_message_(ex.error_message_) {}
-  virtual ~Exception() throw() {}
+  virtual ~Exception() noexcept;
 
   Exception &operator=(const Exception &rhs) {
     filename_ = rhs.filename_;

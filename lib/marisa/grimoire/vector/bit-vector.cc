@@ -782,6 +782,7 @@ void BitVector::build_index(const BitVector &bv,
       const std::size_t unit_num_0s =
           std::min<std::size_t>(bits_remaining, MARISA_WORD_SIZE) - unit_num_1s;
 
+      // Note: MSVC rejects unary minus operator applied to unsigned type.
       const std::size_t zero_bit_id = (0 - num_0s) % 512;
       if (unit_num_0s > zero_bit_id) {
         // select0s_ is UInt32, but select_bit returns size_t, so cast to
@@ -795,6 +796,7 @@ void BitVector::build_index(const BitVector &bv,
     }
 
     if (enables_select1) {
+      // Note: MSVC rejects unary minus operator applied to unsigned type.
       const std::size_t one_bit_id = (0 - num_1s) % 512;
       if (unit_num_1s > one_bit_id) {
         select1s_.push_back(

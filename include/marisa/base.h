@@ -1,10 +1,7 @@
 #ifndef MARISA_BASE_H_
 #define MARISA_BASE_H_
 
-// Old Visual C++ does not provide stdint.h.
-#ifndef _MSC_VER
- #include <stdint.h>
-#endif  // _MSC_VER
+#include <stdint.h>
 
 #ifdef __cplusplus
  #include <cstddef>
@@ -28,9 +25,9 @@ typedef uint32_t marisa_uint32;
 typedef uint64_t marisa_uint64;
 #endif  // _MSC_VER
 
-#if (UINTPTR_MAX == 0xffffffffffffffff)
+#if UINTPTR_MAX == UINT64_MAX
  #define MARISA_WORD_SIZE 64
-#elif (UINTPTR_MAX == 0xffffffff)
+#elif UINTPTR_MAX == UINT32_MAX
  #define MARISA_WORD_SIZE 32
 #else
  #error Failed to detect MARISA_WORD_SIZE

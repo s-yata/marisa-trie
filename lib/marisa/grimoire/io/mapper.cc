@@ -112,19 +112,14 @@ const void *Mapper::map_data(std::size_t size) {
   #endif  // __MSVCRT_VERSION__ >= 0x0601
  #endif  // __MSVCRT_VERSION__
 void Mapper::open_(const char *filename) {
- #ifdef MARISA_HAS_STAT64
-  struct __stat64 st;
-  MARISA_THROW_IF(::_stat64(filename, &st) != 0, MARISA_IO_ERROR);
- #else  // MARISA_HAS_STAT64
-  struct _stat st;
-  MARISA_THROW_IF(::_stat(filename, &st) != 0, MARISA_IO_ERROR);
- #endif  // MARISA_HAS_STAT64
-  MARISA_THROW_IF((UInt64)st.st_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
-  size_ = (std::size_t)st.st_size;
-
   file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ,
       NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
   MARISA_THROW_IF(file_ == INVALID_HANDLE_VALUE, MARISA_IO_ERROR);
+
+  DWORD size_high, size_low;
+  size_low = ::GetFileSize(file_, &size_high);
+  MARISA_THROW_IF(size_low == INVALID_FILE_SIZE, MARISA_IO_ERROR);
+  size_ = ((std::size_t)size_high << 32) | size_low;
 
   map_ = ::CreateFileMapping(file_, NULL, PAGE_READONLY, 0, 0, NULL);
   MARISA_THROW_IF(map_ == NULL, MARISA_IO_ERROR);

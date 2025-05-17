@@ -135,4 +135,9 @@
  #endif  // MARISA_WORD_SIZE == 64
 #endif  // _MSC_VER
 
+#if defined(__aarch64__)
+ #define MARISA_AARCH64
+ #include <arm_neon.h>
+#endif
+
 #endif  // MARISA_GRIMOIRE_INTRIN_H_

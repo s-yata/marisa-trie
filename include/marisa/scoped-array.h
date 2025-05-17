@@ -12,6 +12,18 @@ class scoped_array {
   scoped_array() : array_(NULL) {}
   explicit scoped_array(T *array) : array_(array) {}
 
+#if __cplusplus >= 201103L
+  scoped_array(scoped_array &&other) noexcept : array_(other.array_) {
+    other.array_ = NULL;
+  }
+  scoped_array<T> &operator=(scoped_array<T> &&other) noexcept {
+    delete [] array_;
+    array_ = other.array_;
+    other.array_ = NULL;
+    return *this;
+  }
+#endif
+
   ~scoped_array() {
     delete [] array_;
   }

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.67])
-AC_INIT([marisa], [0.2.6], [susumu.yata@gmail.com])
+AC_INIT([marisa], [0.2.7], [susumu.yata@gmail.com])
 AC_CONFIG_SRCDIR([include/marisa.h])
 AM_INIT_AUTOMAKE([foreign])
 

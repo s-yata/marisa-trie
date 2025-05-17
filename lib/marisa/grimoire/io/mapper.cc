@@ -137,13 +137,13 @@ void Mapper::open_(const char *filename) {
 }
 #else  // (defined _WIN32) || (defined _WIN64)
 void Mapper::open_(const char *filename) {
-  struct stat st;
-  MARISA_THROW_IF(::stat(filename, &st) != 0, MARISA_IO_ERROR);
-  MARISA_THROW_IF((UInt64)st.st_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
-  size_ = (std::size_t)st.st_size;
-
   fd_ = ::open(filename, O_RDONLY);
   MARISA_THROW_IF(fd_ == -1, MARISA_IO_ERROR);
+
+  struct stat st;
+  MARISA_THROW_IF(::fstat(fd_, &st) != 0, MARISA_IO_ERROR);
+  MARISA_THROW_IF((UInt64)st.st_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
+  size_ = (std::size_t)st.st_size;
 
   origin_ = ::mmap(NULL, size_, PROT_READ, MAP_SHARED, fd_, 0);
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);

@@ -13,6 +13,9 @@ AC_PROG_INSTALL
 
 AC_CONFIG_MACRO_DIR([m4])
 
+# Sanitizers
+AC_ARG_ENABLE([asan], AS_HELP_STRING([--enable-asan], [Enable address sanitizer]))
+
 # Macros for SSE availability check.
 AC_DEFUN([MARISA_ENABLE_SSE2],
           [AC_EGREP_CPP([yes], [
@@ -240,6 +243,10 @@ elif test "x${enable_sse3}" != "xno"; then
 elif test "x${enable_sse2}" != "xno"; then
   CXXFLAGS="$CXXFLAGS -DMARISA_USE_SSE2 -msse2"
 fi
+
+AS_IF([test "x$enable_asan" = "xyes"], [
+  CXXFLAGS="$CXXFLAGS -fsanitize=address"
+])
 
 AC_CONFIG_FILES([Makefile
                  marisa.pc

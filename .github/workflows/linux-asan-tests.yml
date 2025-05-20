@@ -36,7 +36,7 @@ jobs:
       shell: bash
       run: |
         autoreconf -i && \
-        configure --enable-native-code --enable-asan CXXFLAGS="-g -O0 -D_DEBUG"
+        ./configure --enable-native-code --enable-asan CXXFLAGS="-g -O0 -D_DEBUG"
 
     - name: Build and test
       working-directory: ${{github.workspace}}

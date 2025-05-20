@@ -1,6 +1,8 @@
 #ifndef MARISA_AGENT_H_
 #define MARISA_AGENT_H_
 
+#include <memory>
+
 #if __cplusplus >= 201703L
  #include <string_view>
 #endif  // __cplusplus >= 201703L
@@ -75,7 +77,7 @@ class Agent {
  private:
   Query query_;
   Key key_;
-  scoped_ptr<grimoire::trie::State> state_;
+  std::unique_ptr<grimoire::trie::State> state_;
 
   // Disallows copy and assignment.
   Agent(const Agent &);

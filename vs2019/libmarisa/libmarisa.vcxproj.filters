@@ -113,9 +113,6 @@
     <ClInclude Include="..\..\include\marisa\scoped-array.h">
       <Filter>Header Files\include\marisa</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\marisa\scoped-ptr.h">
-      <Filter>Header Files\include\marisa</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\marisa\stdio.h">
       <Filter>Header Files\include\marisa</Filter>
     </ClInclude>

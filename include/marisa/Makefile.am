@@ -2,7 +2,6 @@ libmarisa_includedir = ${includedir}/marisa
 libmarisa_include_HEADERS = \
   base.h \
   exception.h \
-  scoped-ptr.h \
   scoped-array.h \
   key.h \
   keyset.h \

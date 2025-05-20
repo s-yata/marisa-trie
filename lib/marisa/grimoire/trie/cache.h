@@ -14,15 +14,9 @@ class Cache {
   Cache() : parent_(0), child_(0), union_() {
     union_.weight = FLT_MIN;
   }
-  Cache(const Cache &cache)
-      : parent_(cache.parent_), child_(cache.child_), union_(cache.union_) {}
 
-  Cache &operator=(const Cache &cache) {
-    parent_ = cache.parent_;
-    child_ = cache.child_;
-    union_ = cache.union_;
-    return *this;
-  }
+  Cache(const Cache &cache) = default;
+  Cache &operator=(const Cache &cache) = default;
 
   void set_parent(std::size_t parent) {
     MARISA_DEBUG_IF(parent > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);

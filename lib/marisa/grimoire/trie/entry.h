@@ -10,15 +10,9 @@ namespace trie {
 class Entry {
  public:
   Entry() : ptr_(NULL), length_(0), id_(0) {}
-  Entry(const Entry &entry)
-      : ptr_(entry.ptr_), length_(entry.length_), id_(entry.id_) {}
 
-  Entry &operator=(const Entry &entry) {
-    ptr_ = entry.ptr_;
-    length_ = entry.length_;
-    id_ = entry.id_;
-    return *this;
-  }
+  Entry(const Entry &entry) = default;
+  Entry &operator=(const Entry &entry) = default;
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);

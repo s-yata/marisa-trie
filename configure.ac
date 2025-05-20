@@ -16,6 +16,10 @@ AC_CONFIG_MACRO_DIR([m4])
 # Sanitizers
 AC_ARG_ENABLE([asan], AS_HELP_STRING([--enable-asan], [Enable address sanitizer]))
 
+# https://github.com/gperftools/gperftools
+# Provided by libgoogle-perftools-dev on Debian.
+AC_ARG_ENABLE([gperftools-profiler], AS_HELP_STRING([--enable-gperftools-profiler], [Enable gperftools profiler]))
+
 # Macros for SSE availability check.
 AC_DEFUN([MARISA_ENABLE_SSE2],
           [AC_EGREP_CPP([yes], [
@@ -246,6 +250,18 @@ fi
 
 AS_IF([test "x$enable_asan" = "xyes"], [
   CXXFLAGS="$CXXFLAGS -fsanitize=address"
+])
+
+AS_IF([test "x$enable_gperftools_profiler" = "xyes"], [
+  LDFLAGS="$LDFLAGS -ltcmalloc_and_profiler"
+
+  # Compile with information about source file and line numbers:
+  AS_IF([test "x$GXX" = "xyes"],
+        [CXXFLAGS="$CXXFLAGS -g2"],
+        [
+          # Assume clang and use the more efficient "-gmlt" option.
+          CXXFLAGS="$CXXFLAGS -gmlt"
+        ])
 ])
 
 AC_CONFIG_FILES([Makefile

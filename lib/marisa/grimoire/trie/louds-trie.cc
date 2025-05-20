@@ -258,7 +258,9 @@ void LoudsTrie::build_(Keyset &keyset, const Config &config) {
 
   using TerminalIdPair = std::pair<UInt32, UInt32>;
   const std::size_t pairs_size = terminals.size();
-  std::unique_ptr<TerminalIdPair[]> pairs(new TerminalIdPair[pairs_size]);
+  std::unique_ptr<TerminalIdPair[]> pairs(
+      new (std::nothrow) TerminalIdPair[pairs_size]);
+  MARISA_THROW_IF(!pairs, MARISA_MEMORY_ERROR);
   for (std::size_t i = 0; i < pairs_size; ++i) {
     pairs[i].first = terminals[i];
     pairs[i].second = (UInt32)i;

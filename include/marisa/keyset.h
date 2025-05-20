@@ -1,6 +1,8 @@
 #ifndef MARISA_KEYSET_H_
 #define MARISA_KEYSET_H_
 
+#include <memory>
+
 #if __cplusplus >= 201703L
  #include <string_view>
 #endif //  __cplusplus >= 201703L
@@ -59,13 +61,13 @@ class Keyset {
   void swap(Keyset &rhs);
 
  private:
-  scoped_array<scoped_array<char> > base_blocks_;
+  std::unique_ptr<std::unique_ptr<char[]>[]> base_blocks_;
   std::size_t base_blocks_size_;
   std::size_t base_blocks_capacity_;
-  scoped_array<scoped_array<char> > extra_blocks_;
+  std::unique_ptr<std::unique_ptr<char[]>[]> extra_blocks_;
   std::size_t extra_blocks_size_;
   std::size_t extra_blocks_capacity_;
-  scoped_array<scoped_array<Key> > key_blocks_;
+  std::unique_ptr<std::unique_ptr<Key[]>[]> key_blocks_;
   std::size_t key_blocks_size_;
   std::size_t key_blocks_capacity_;
   char *ptr_;

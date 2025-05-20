@@ -1,6 +1,8 @@
 #ifndef MARISA_TRIE_H_
 #define MARISA_TRIE_H_
 
+#include <memory>
+
 #include "marisa/keyset.h"
 #include "marisa/agent.h"
 
@@ -52,7 +54,7 @@ class Trie {
   void swap(Trie &rhs);
 
  private:
-  scoped_ptr<grimoire::trie::LoudsTrie> trie_;
+  std::unique_ptr<grimoire::trie::LoudsTrie> trie_;
 
   // Disallows copy and assignment.
   Trie(const Trie &);

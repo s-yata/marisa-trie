@@ -181,8 +181,6 @@ using std::swap;
 
 #ifdef __cplusplus
  #include "marisa/exception.h"
- #include "marisa/scoped-ptr.h"
- #include "marisa/scoped-array.h"
 #endif  // __cplusplus
 
 #endif  // MARISA_BASE_H_

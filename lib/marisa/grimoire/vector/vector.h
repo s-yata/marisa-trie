@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_VECTOR_VECTOR_H_
 
 #include <cstring>
+#include <memory>
 #include <new>
 #include <type_traits>
 
@@ -190,7 +191,7 @@ class Vector {
   }
 
  private:
-  scoped_array<char> buf_;
+  std::unique_ptr<char[]> buf_;
   T *objs_;
   const T *const_objs_;
   std::size_t size_;
@@ -228,7 +229,7 @@ class Vector {
   void realloc(std::size_t new_capacity) {
     MARISA_DEBUG_IF(new_capacity > max_size(), MARISA_SIZE_ERROR);
 
-    scoped_array<char> new_buf(
+    std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * new_capacity]);
     MARISA_DEBUG_IF(new_buf.get() == NULL, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());

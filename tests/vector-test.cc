@@ -454,7 +454,6 @@ void TestBitVector() {
 
 int main() try {
   TestPopCount();
-  TestPopCount();
   TestRankIndex();
 
   TestVector();

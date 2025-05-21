@@ -57,3 +57,5 @@ tools/marisa-dump
 tools/marisa-lookup
 tools/marisa-predictive-search
 tools/marisa-reverse-lookup
+/build/
+/build-*/

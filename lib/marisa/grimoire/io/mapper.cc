@@ -141,9 +141,12 @@ void Mapper::open_(const char *filename, int flags) {
   size_ = (std::size_t)st.st_size;
 
   int map_flags = MAP_SHARED;
+  // `MAP_POPULATE` is Linux-specific.
+#ifdef MAP_POPULATE
   if (flags & MARISA_MAP_POPULATE) {
     map_flags |= MAP_POPULATE;
   }
+#endif
 
   origin_ = ::mmap(NULL, size_, PROT_READ, map_flags, fd_, 0);
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);

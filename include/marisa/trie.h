@@ -24,7 +24,7 @@ class Trie {
 
   void build(Keyset &keyset, int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename, int flags = 0);
   void map(const void *ptr, std::size_t size);
 
   void load(const char *filename);

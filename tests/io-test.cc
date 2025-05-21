@@ -71,6 +71,25 @@ void TestFilename() {
   }
 
   {
+    marisa::grimoire::Mapper mapper;
+    mapper.open("io-test.dat", MARISA_MAP_POPULATE);
+
+    marisa::UInt32 value;
+    mapper.map(&value);
+    ASSERT(value == 123);
+    mapper.map(&value);
+    ASSERT(value == 234);
+
+    const double *values;
+    mapper.map(&values, 2);
+    ASSERT(values[0] == 3.45);
+    ASSERT(values[1] == 4.56);
+
+    char byte;
+    EXCEPT(mapper.map(&byte), MARISA_IO_ERROR);
+  }
+
+  {
     marisa::grimoire::Writer writer;
     writer.open("io-test.dat");
   }

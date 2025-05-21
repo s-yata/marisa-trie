@@ -14,7 +14,7 @@ class Mapper {
   Mapper();
   ~Mapper();
 
-  void open(const char *filename);
+  void open(const char *filename, int flags = 0);
   void open(const void *ptr, std::size_t size);
 
   template <typename T>
@@ -50,7 +50,7 @@ class Mapper {
   int fd_;
 #endif  // (defined _WIN32) || (defined _WIN64)
 
-  void open_(const char *filename);
+  void open_(const char *filename, int flags);
   void open_(const void *ptr, std::size_t size);
 
   const void *map_data(std::size_t size);

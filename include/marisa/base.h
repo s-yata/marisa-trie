@@ -87,6 +87,13 @@ typedef enum marisa_error_code_ {
   MARISA_FORMAT_ERROR = 10,
 } marisa_error_code;
 
+// Flags for memory mapping are defined as members of marisa_map_flags.
+// Trie::open() accepts a combination of these flags.
+typedef enum marisa_map_flags {
+  // MARISA_MAP_POPULATE specifies MAP_POPULATE.
+  MARISA_MAP_POPULATE = 1 << 0,
+} marisa_map_flags;
+
 // Min/max values, flags and masks for dictionary settings are defined below.
 // Please note that unspecified settings will be replaced with the default
 // settings. For example, 0 is equivalent to (MARISA_DEFAULT_NUM_TRIES |

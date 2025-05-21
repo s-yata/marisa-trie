@@ -19,14 +19,14 @@ void Trie::build(Keyset &keyset, int config_flags) {
   trie_.swap(temp);
 }
 
-void Trie::mmap(const char *filename) {
+void Trie::mmap(const char *filename, int flags) {
   MARISA_THROW_IF(filename == NULL, MARISA_NULL_ERROR);
 
   std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow) grimoire::LoudsTrie);
   MARISA_THROW_IF(temp.get() == NULL, MARISA_MEMORY_ERROR);
 
   grimoire::Mapper mapper;
-  mapper.open(filename);
+  mapper.open(filename, flags);
   temp->map(mapper);
   trie_.swap(temp);
 }

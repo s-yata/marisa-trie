@@ -72,7 +72,7 @@ class Agent {
   }
 
   bool has_state() const {
-    return state_.get() != NULL;
+    return state_ != nullptr;
   }
   void init_state();
 

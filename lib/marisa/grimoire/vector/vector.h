@@ -5,6 +5,7 @@
 #include <memory>
 #include <new>
 #include <type_traits>
+#include <utility>
 
 #include "marisa/grimoire/io.h"
 
@@ -29,7 +30,7 @@ class Vector {
   Vector(const Vector<T> &other)
         : buf_(), objs_(NULL), const_objs_(NULL),
           size_(0), capacity_(0), fixed_(other.fixed_) {
-    if (other.buf_.get() == NULL) {
+    if (other.buf_ == nullptr) {
       objs_ = other.objs_;
       const_objs_ = other.const_objs_;
       size_ = other.size_;
@@ -42,7 +43,7 @@ class Vector {
   Vector &operator=(const Vector<T> &other) {
     clear();
     fixed_ = other.fixed_;
-    if (other.buf_.get() == NULL) {
+    if (other.buf_ == nullptr) {
       objs_ = other.objs_;
       const_objs_ = other.const_objs_;
       size_ = other.size_;
@@ -287,7 +288,7 @@ class Vector {
 
     buf_ = std::unique_ptr<char[]>(
         new (std::nothrow) char[sizeof(T) * capacity]);
-    MARISA_DEBUG_IF(buf_.get() == NULL, MARISA_MEMORY_ERROR);
+    MARISA_DEBUG_IF(buf_ == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(buf_.get());
 
     if (std::is_trivially_copyable<T>::value) {

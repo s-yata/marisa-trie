@@ -12,15 +12,9 @@ namespace marisa {
 class Query {
  public:
   Query() : ptr_(NULL), length_(0), id_(0) {}
-  Query(const Query &query)
-      : ptr_(query.ptr_), length_(query.length_), id_(query.id_) {}
+  Query(const Query &query) = default;
 
-  Query &operator=(const Query &query) {
-    ptr_ = query.ptr_;
-    length_ = query.length_;
-    id_ = query.id_;
-    return *this;
-  }
+  Query &operator=(const Query &query) = default;
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);

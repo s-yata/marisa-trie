@@ -21,6 +21,7 @@ function(check_macro_defined MACRO OUTPUT_VAR)
       "#ifndef ${MACRO}\n#error \"${MACRO} is missing\"\n#endif\n"
     COMPILE_DEFINITIONS -march=native
   )
+  set("${OUTPUT_VAR}" "${result}" PARENT_SCOPE)
   message("${OUTPUT_VAR}: ${result}")
 endfunction()
 if(ENABLE_NATIVE_CODE)

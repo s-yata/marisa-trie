@@ -3309,7 +3309,7 @@ namespace swig {
 }
 
 
-#include "marisa-swig.h"
+#include "marisa-swig-python3.h"
 
 
 SWIGINTERNINLINE PyObject*
@@ -3836,7 +3836,7 @@ SWIG_AsVal_int (PyObject * obj, int *val)
 #ifdef __cplusplus
 extern "C" {
 #endif
-SWIGINTERN PyObject *_wrap_Key_str(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_Key_key_str(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   marisa_swig::Key *arg1 = (marisa_swig::Key *) 0 ;
   char **arg2 = (char **) 0 ;
@@ -3853,12 +3853,12 @@ SWIGINTERN PyObject *_wrap_Key_str(PyObject *self, PyObject *args) {
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Key, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Key_str" "', argument " "1"" of type '" "marisa_swig::Key const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Key_key_str" "', argument " "1"" of type '" "marisa_swig::Key const *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Key * >(argp1);
   {
     try {
-      ((marisa_swig::Key const *)arg1)->str((char const **)arg2,arg3);
+      ((marisa_swig::Key const *)arg1)->key_str((char const **)arg2,arg3);
     } catch (const marisa::Exception &ex) {
       SWIG_exception(SWIG_RuntimeError, ex.what());
     } catch (...) {
@@ -3876,7 +3876,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Key_id(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_Key_key_id(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   marisa_swig::Key *arg1 = (marisa_swig::Key *) 0 ;
   void *argp1 = 0 ;
@@ -3889,12 +3889,12 @@ SWIGINTERN PyObject *_wrap_Key_id(PyObject *self, PyObject *args) {
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Key, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Key_id" "', argument " "1"" of type '" "marisa_swig::Key const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Key_key_id" "', argument " "1"" of type '" "marisa_swig::Key const *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Key * >(argp1);
   {
     try {
-      result = ((marisa_swig::Key const *)arg1)->id();
+      result = ((marisa_swig::Key const *)arg1)->key_id();
     } catch (const marisa::Exception &ex) {
       SWIG_exception(SWIG_RuntimeError, ex.what());
     } catch (...) {
@@ -3978,7 +3978,7 @@ SWIGINTERN PyObject *Key_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_Query_str(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_Query_query_str(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   marisa_swig::Query *arg1 = (marisa_swig::Query *) 0 ;
   char **arg2 = (char **) 0 ;
@@ -3995,12 +3995,12 @@ SWIGINTERN PyObject *_wrap_Query_str(PyObject *self, PyObject *args) {
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Query, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Query_str" "', argument " "1"" of type '" "marisa_swig::Query const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Query_query_str" "', argument " "1"" of type '" "marisa_swig::Query const *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Query * >(argp1);
   {
     try {
-      ((marisa_swig::Query const *)arg1)->str((char const **)arg2,arg3);
+      ((marisa_swig::Query const *)arg1)->query_str((char const **)arg2,arg3);
     } catch (const marisa::Exception &ex) {
       SWIG_exception(SWIG_RuntimeError, ex.what());
     } catch (...) {
@@ -4018,7 +4018,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Query_id(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_Query_query_id(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   marisa_swig::Query *arg1 = (marisa_swig::Query *) 0 ;
   void *argp1 = 0 ;
@@ -4031,12 +4031,12 @@ SWIGINTERN PyObject *_wrap_Query_id(PyObject *self, PyObject *args) {
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Query, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Query_id" "', argument " "1"" of type '" "marisa_swig::Query const *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Query_query_id" "', argument " "1"" of type '" "marisa_swig::Query const *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Query * >(argp1);
   {
     try {
-      result = ((marisa_swig::Query const *)arg1)->id();
+      result = ((marisa_swig::Query const *)arg1)->query_id();
     } catch (const marisa::Exception &ex) {
       SWIG_exception(SWIG_RuntimeError, ex.what());
     } catch (...) {
@@ -6084,13 +6084,13 @@ SWIGINTERN PyObject *Trie_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *arg
 }
 
 static PyMethodDef SwigMethods[] = {
-	 { "Key_str", _wrap_Key_str, METH_O, NULL},
-	 { "Key_id", _wrap_Key_id, METH_O, NULL},
+	 { "Key_key_str", _wrap_Key_key_str, METH_O, NULL},
+	 { "Key_key_id", _wrap_Key_key_id, METH_O, NULL},
 	 { "Key_weight", _wrap_Key_weight, METH_O, NULL},
 	 { "delete_Key", _wrap_delete_Key, METH_O, NULL},
 	 { "Key_swigregister", Key_swigregister, METH_O, NULL},
-	 { "Query_str", _wrap_Query_str, METH_O, NULL},
-	 { "Query_id", _wrap_Query_id, METH_O, NULL},
+	 { "Query_query_str", _wrap_Query_query_str, METH_O, NULL},
+	 { "Query_query_id", _wrap_Query_query_id, METH_O, NULL},
 	 { "delete_Query", _wrap_delete_Query, METH_O, NULL},
 	 { "Query_swigregister", Query_swigregister, METH_O, NULL},
 	 { "new_Keyset", _wrap_new_Keyset, METH_NOARGS, NULL},

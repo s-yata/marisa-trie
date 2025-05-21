@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 26 Jun 2020</div>
+   <div class="right">Last modified: 21 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body" style="text-align: justify">
@@ -66,7 +66,7 @@
     <div class="subsection">
      <h3><a name="license">License</a></h3>
      <p>
-      libmarisa and its command line tools are dual-licensed under the BSD 2-clause license and the LGPL.
+      libmarisa and its command line tools are licensed under BSD-2-Clause OR LGPL-2.1-or-later.
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -82,7 +82,7 @@
       </li>
       <li>Source
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/files/4832504/marisa-0.2.6.tar.gz">marisa-0.2.6.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.2.7.tar.gz">marisa-trie-0.2.7.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,8 +94,9 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-0.2.6.tar.gz
-$ cd marisa-0.2.6
+      <pre class="console">$ tar zxf marisa-trie-0.2.7.tar.gz
+$ cd marisa-trie-0.2.7
+$ autoreconf -i
 $ ./configure
 $ make
 $ make check
@@ -109,9 +110,9 @@ $ make install</pre>
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Visual C++ 2008</a></h3>
+     <h3><a name="vc">Visual Studio 2019</a></h3>
      <p>
-      There are project files for Visual C++ 2008 in <kbd>vs2008/</kbd>. Users can build a static library <kbd>libmarisa.lib</kbd> and the command line tools by using <kbd>vs2008/vs2008.sln</kbd>. If your Visual C++ is older than 2008. New projects are required to build libmarisa.
+      There are project files for Visual Studio 2019 in <kbd>vs2019/</kbd>. Users can build a static library <kbd>libmarisa.lib</kbd> and the command line tools by using <kbd>vs2019/vs2019.sln</kbd>. If your Visual C++ is older than 2019. New projects are required to build libmarisa.
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -376,6 +377,17 @@ apple: 2</pre>
       </p>
      </div><!-- subsubsection -->
      <div class="subsubsection">
+      <h4>Flags for memory mapping</h4>
+      <div class="float">
+       <pre class="code">typedef enum marisa_map_flags {
+  MARISA_MAP_POPULATE = 1 &lt;&lt; 0,
+} marisa_map_flags;</pre>
+      </div><!-- float -->
+      <p>
+       libmarisa supports memory mapping for dictionaries. <var>MARISA_MAP_POPULATE</var> is a flag to populate (prefault) page tables for a mapping. It takes time when you open a dictionary, but it can reduce page faults later. If you heavily use the dictionary, MARISA_MAP_POPULATE may work well. If you accesses only a few keys, the overhead may be unacceptable.
+      </p>
+     </div><!-- subsubsection -->
+     <div class="subsubsection">
       <h4>Number of Tries</h4>
       <div class="float">
        <pre class="code">
@@ -610,7 +622,8 @@ typedef enum marisa_num_tries_ {
   void build(Keyset &amp;keyset,
              int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename,
+            int flags = 0);
   void map(const void *ptr,
            std::size_t size);
 
@@ -661,7 +674,7 @@ typedef enum marisa_num_tries_ {
      <div class="subsubsection">
       <h4>File I/O</h4>
       <p>
-       <code>mmap()</code> is an interface for memory mapped I/O. If an application performs a few search operations, it is unnecessary to read the whole dictionary, and in such a case, <code>mmap()</code> is useful. Also, memory mapped I/O is an easy way to share dictionary data among processes. On the other hand, if an application performs a lot of search operations, a memory mapped dictionary might cause a lot of random disk accesses which considerably increase the search time.
+       <code>mmap()</code> is an interface for memory mapped I/O. If an application performs a few search operations, it is unnecessary to read the whole dictionary, and in such a case, <code>mmap()</code> is useful. Also, memory mapped I/O is an easy way to share dictionary data among processes. On the other hand, if an application performs a lot of search operations, a memory mapped dictionary might cause a lot of random disk accesses which considerably increase the search time. In such a case, you can specify <var>flags</var> as <var>MARISA_MAP_POPULATE</var> to populate (prefault) page tables and reduces page faults in searches.
       </p>
       <p>
        <code>map()</code> restores an instance of <code>Trie</code> from dictionary data on memory. <code>load()</code> and <code>read()</code> read a dictionary from a file or a file descriptor. <code>save()</code> and <code>write()</code> write a dictionary to a file or a file descriptor.

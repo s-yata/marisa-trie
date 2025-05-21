@@ -1,5 +1,6 @@
 .deps/
 .libs/
+.vscode/
 *.a
 *.app
 *.dll
@@ -17,6 +18,7 @@
 *.slo
 *.so
 build/
+*~
 Makefile
 Makefile.in
 aclocal.m4

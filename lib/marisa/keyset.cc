@@ -1,3 +1,5 @@
+#include <cstring>
+#include <memory>
 #include <new>
 
 #include "marisa/keyset.h"
@@ -14,9 +16,7 @@ void Keyset::push_back(const Key &key) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
 
   char * const key_ptr = reserve(key.length());
-  for (std::size_t i = 0; i < key.length(); ++i) {
-    key_ptr[i] = key[i];
-  }
+  std::memcpy(key_ptr, key.ptr(), key.length());
 
   Key &new_key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
   new_key.set_str(key_ptr, key.length());
@@ -33,9 +33,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
   }
 
   char * const key_ptr = reserve(key.length() + 1);
-  for (std::size_t i = 0; i < key.length(); ++i) {
-    key_ptr[i] = key[i];
-  }
+  std::memcpy(key_ptr, key.ptr(), key.length());
   key_ptr[key.length()] = end_marker;
 
   Key &new_key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
@@ -62,9 +60,7 @@ void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   MARISA_THROW_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
 
   char * const key_ptr = reserve(length);
-  for (std::size_t i = 0; i < length; ++i) {
-    key_ptr[i] = ptr[i];
-  }
+  std::memcpy(key_ptr, ptr, length);
 
   Key &key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
   key.set_str(key_ptr, length);
@@ -124,8 +120,8 @@ void Keyset::append_base_block() {
   if (base_blocks_size_ == base_blocks_capacity_) {
     const std::size_t new_capacity =
         (base_blocks_size_ != 0) ? (base_blocks_size_ * 2) : 1;
-    scoped_array<scoped_array<char> > new_blocks(
-        new (std::nothrow) scoped_array<char>[new_capacity]);
+    std::unique_ptr<std::unique_ptr<char[]>[]> new_blocks(
+        new (std::nothrow) std::unique_ptr<char[]>[new_capacity]);
     MARISA_THROW_IF(new_blocks.get() == NULL, MARISA_MEMORY_ERROR);
     for (std::size_t i = 0; i < base_blocks_size_; ++i) {
       base_blocks_[i].swap(new_blocks[i]);
@@ -134,7 +130,7 @@ void Keyset::append_base_block() {
     base_blocks_capacity_ = new_capacity;
   }
   if (base_blocks_[base_blocks_size_].get() == NULL) {
-    scoped_array<char> new_block(new (std::nothrow) char[BASE_BLOCK_SIZE]);
+    std::unique_ptr<char[]> new_block(new (std::nothrow) char[BASE_BLOCK_SIZE]);
     MARISA_THROW_IF(new_block.get() == NULL, MARISA_MEMORY_ERROR);
     base_blocks_[base_blocks_size_].swap(new_block);
   }
@@ -146,8 +142,8 @@ void Keyset::append_extra_block(std::size_t size) {
   if (extra_blocks_size_ == extra_blocks_capacity_) {
     const std::size_t new_capacity =
         (extra_blocks_size_ != 0) ? (extra_blocks_size_ * 2) : 1;
-    scoped_array<scoped_array<char> > new_blocks(
-        new (std::nothrow) scoped_array<char>[new_capacity]);
+    std::unique_ptr<std::unique_ptr<char[]>[]> new_blocks(
+        new (std::nothrow) std::unique_ptr<char[]>[new_capacity]);
     MARISA_THROW_IF(new_blocks.get() == NULL, MARISA_MEMORY_ERROR);
     for (std::size_t i = 0; i < extra_blocks_size_; ++i) {
       extra_blocks_[i].swap(new_blocks[i]);
@@ -155,7 +151,7 @@ void Keyset::append_extra_block(std::size_t size) {
     extra_blocks_.swap(new_blocks);
     extra_blocks_capacity_ = new_capacity;
   }
-  scoped_array<char> new_block(new (std::nothrow) char[size]);
+  std::unique_ptr<char[]> new_block(new (std::nothrow) char[size]);
   MARISA_THROW_IF(new_block.get() == NULL, MARISA_MEMORY_ERROR);
   extra_blocks_[extra_blocks_size_++].swap(new_block);
 }
@@ -164,8 +160,8 @@ void Keyset::append_key_block() {
   if (key_blocks_size_ == key_blocks_capacity_) {
     const std::size_t new_capacity =
         (key_blocks_size_ != 0) ? (key_blocks_size_ * 2) : 1;
-    scoped_array<scoped_array<Key> > new_blocks(
-        new (std::nothrow) scoped_array<Key>[new_capacity]);
+    std::unique_ptr<std::unique_ptr<Key[]>[]> new_blocks(
+        new (std::nothrow) std::unique_ptr<Key[]>[new_capacity]);
     MARISA_THROW_IF(new_blocks.get() == NULL, MARISA_MEMORY_ERROR);
     for (std::size_t i = 0; i < key_blocks_size_; ++i) {
       key_blocks_[i].swap(new_blocks[i]);
@@ -173,7 +169,7 @@ void Keyset::append_key_block() {
     key_blocks_.swap(new_blocks);
     key_blocks_capacity_ = new_capacity;
   }
-  scoped_array<Key> new_block(new (std::nothrow) Key[KEY_BLOCK_SIZE]);
+  std::unique_ptr<Key[]> new_block(new (std::nothrow) Key[KEY_BLOCK_SIZE]);
   MARISA_THROW_IF(new_block.get() == NULL, MARISA_MEMORY_ERROR);
   key_blocks_[key_blocks_size_++].swap(new_block);
 }

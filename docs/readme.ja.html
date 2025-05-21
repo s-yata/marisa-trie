@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 26 Jun 2020</div>
+   <div class="right">Last modified: 21 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -66,7 +66,7 @@
     <div class="subsection">
      <h3><a name="license">ライセンス</a></h3>
      <p>
-      libmarisa および付属のコマンドラインツールはフリーソフトウェアです．使用・再配布については，二条項 BSD ライセンスと LGPL のデュアルライセンスを採用しています．
+      libmarisa および付属のコマンドラインツールはフリーソフトウェアです．使用・再配布については， BSD-2-Clause OR LGPL-2.1-or-later を採用しています．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -82,7 +82,7 @@
       </li>
       <li>ソースコード
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/files/4832504/marisa-0.2.6.tar.gz">marisa-0.2.6.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.2.7.tar.gz">marisa-trie-0.2.7.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,8 +94,9 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-0.2.6.tar.gz
-$ cd marisa-0.2.6
+      <pre class="console">$ tar zxf marisa-trie-0.2.7.tar.gz
+$ cd marisa-trie-0.2.7
+$ autoreconf -i
 $ ./configure
 $ make
 $ make check
@@ -109,12 +110,12 @@ $ make install</pre>
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Visual C++ 2008</a></h3>
+     <h3><a name="vc">Visual Studio 2019</a></h3>
      <p>
-      Visual C++ 2008 にて作成したファイルを <kbd>vs2008/</kbd> 以下に配置しています．Visual C++ 2008 以降であれば，<kbd>vs2008/vs2008.sln</kbd> を開くだけでスタティックライブラリ <kbd>libmarisa.lib</kbd> とコマンドラインツールをビルドできます．
+      Visual Studio 2019 にて作成したファイルを <kbd>vs2019/</kbd> 以下に配置しています．Visual Studio 2019 以降であれば，<kbd>vs2019/vs2019.sln</kbd> を開くだけでスタティックライブラリ <kbd>libmarisa.lib</kbd> とコマンドラインツールをビルドできます．
      </p>
      <p>
-      Visual C++ 2008 より古い環境では，新しくプロジェクトを作る必要があります．プロジェクトを作成すれば問題なくビルドできると思いますが，試していないので断言はできません．
+      Visual Studio 2019 より古い環境では，新しくプロジェクトを作る必要があります．プロジェクトを作成すれば問題なくビルドできると思いますが，試していないので断言はできません．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -132,12 +133,12 @@ $ make install</pre>
     <div class="subsection">
      <h3><a name="vc">Python バインディング</a></h3>
      <div class="float">
-      <pre class="console">$ cd bindings/python
-$ python setup.py build
-$ python setup.py install</pre>
+      <pre class="console">$ cd bindings/python3
+$ python3 setup.py build
+$ python3 setup.py install</pre>
      </div><!-- float -->
      <p>
-      <a href="http://www.swig.org/">SWIG</a> による Python バインディングが <kbd>bindings/python/</kbd> にあります．<kbd>python setup.py install</kbd> により インストールできます．使い方については，<kbd>bindings/python/sample.py</kbd> を参考にしてください．
+      <a href="http://www.swig.org/">SWIG</a> による Python バインディングが <kbd>bindings/python3/</kbd> にあります．<kbd>python3 setup.py install</kbd> により インストールできます．使い方については，<kbd>bindings/python3/sample.py</kbd> を参考にしてください． <kbd>bindings/python/</kbd> は古い Python バインディングであり，互換性のために残されています．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
@@ -381,6 +382,17 @@ apple: 2</pre>
       </p>
      </div><!-- subsubsection -->
      <div class="subsubsection">
+      <h4>メモリマッピング用のフラグ</h4>
+      <div class="float">
+       <pre class="code">typedef enum marisa_map_flags {
+  MARISA_MAP_POPULATE = 1 &lt;&lt; 0,
+} marisa_map_flags;</pre>
+      </div><!-- float -->
+      <p>
+       libmarisa では，メモリマッピングを使用して辞書を開くことができます．<var>MARISA_MAP_POPULATE</var> は辞書の先読みを有効にするフラグであり，辞書を開くときに時間がかかるものの，辞書を引くときにページフォルトの発生を抑制できます．参照するキーが多いときに有効です．参照するキーが少ないキーでは逆に遅くなることもあります．
+      </p>
+     </div><!-- subsubsection -->
+     <div class="subsubsection">
       <h4>トライの数</h4>
       <div class="float">
        <pre class="code">
@@ -615,7 +627,8 @@ typedef enum marisa_num_tries_ {
   void build(Keyset &amp;keyset,
              int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename,
+            int flags = 0);
   void map(const void *ptr,
            std::size_t size);
 
@@ -666,7 +679,7 @@ typedef enum marisa_num_tries_ {
      <div class="subsubsection">
       <h4>ファイル入出力</h4>
       <p>
-       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．
+       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．このような場合，<var>flags</var> に <var>MARISA_MAP_POPULATE</var> を指定すれば，ページテーブルを先読みさせて，検索時のページフォルトを抑制できます．
       </p>
       <p>
        <code>map()</code> はメモリ上に展開されている辞書のバイナリを使って検索できる状態にする関数です．<code>load()</code> と <code>read()</code> は辞書を入力する関数であり，<code>save()</code> と <code>write()</code> は辞書を出力する関数です．

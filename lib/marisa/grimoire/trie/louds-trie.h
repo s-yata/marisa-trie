@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_LOUDS_TRIE_H_
 #define MARISA_GRIMOIRE_TRIE_LOUDS_TRIE_H_
 
+#include <memory>
+
 #include "marisa/keyset.h"
 #include "marisa/agent.h"
 #include "marisa/grimoire/vector.h"
@@ -68,7 +70,7 @@ class LoudsTrie  {
   Vector<UInt8> bases_;
   FlatVector extras_;
   Tail tail_;
-  scoped_ptr<LoudsTrie> next_trie_;
+  std::unique_ptr<LoudsTrie> next_trie_;
   Vector<Cache> cache_;
   std::size_t cache_mask_;
   std::size_t num_l1_nodes_;

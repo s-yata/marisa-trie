@@ -1,13 +1,20 @@
+#include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <random>
 #include <sstream>
+#include <utility>
+#include <vector>
 
 #include <marisa.h>
 
 #include "marisa-assert.h"
 
 namespace {
+
+std::random_device seed_gen;
+std::mt19937 random_engine(seed_gen());
 
 void TestEmptyTrie() {
   TEST_START();
@@ -205,9 +212,9 @@ void MakeKeyset(std::size_t num_keys, marisa::TailMode tail_mode,
   char key_buf[16];
   for (std::size_t i = 0; i < num_keys; ++i) {
     const std::size_t length =
-        static_cast<std::size_t>(std::rand()) % sizeof(key_buf);
+        static_cast<std::size_t>(random_engine()) % sizeof(key_buf);
     for (std::size_t j = 0; j < length; ++j) {
-      key_buf[j] = (char)(std::rand() % 10);
+      key_buf[j] = static_cast<char>(random_engine() % 10);
       if (tail_mode == MARISA_TEXT_TAIL) {
         key_buf[j] = static_cast<char>(key_buf[j] + '0');
       }
@@ -258,6 +265,69 @@ void TestPredictiveSearch(const marisa::Trie &trie,
   }
 }
 
+void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
+    const marisa::Keyset &keyset) {
+  marisa::Agent agent;
+  for (std::size_t i = 0; i < keyset.size(); ++i) {
+    agent.set_query(keyset[i].ptr(), keyset[i].length());
+    ASSERT(trie.predictive_search(agent));
+    ASSERT(agent.key().id() == keyset[i].id());
+
+    std::vector<marisa::Agent> agent_copies;
+    std::vector<std::size_t> ids;
+    while (trie.predictive_search(agent)) {
+      ASSERT(agent.key().id() > keyset[i].id());
+      ids.push_back(agent.key().id());
+
+      // Tests copy constructor.
+      agent_copies.push_back(agent);
+    }
+
+    for (std::size_t i = 0; i < agent_copies.size(); ++i) {
+      marisa::Agent agent_copy;
+
+      // Tests copy assignment.
+      agent_copy = agent_copies[i];
+
+      ASSERT(agent_copy.key().id() == ids[i]);
+      if (i + 1 < agent_copies.size()) {
+        ASSERT(trie.predictive_search(agent_copy));
+        ASSERT(agent_copy.key().id() == ids[i + 1]);
+      } else {
+        ASSERT(!trie.predictive_search(agent_copy));
+      }
+    }
+  }
+}
+
+void TestPredictiveSearchAgentMove(const marisa::Trie &trie,
+    const marisa::Keyset &keyset) {
+  marisa::Agent agents[2];
+  std::size_t current_agent = 0;
+
+  const auto move_agent = [&]() {
+    const std::size_t other_agent = (current_agent + 1) % 2;
+    agents[other_agent] = std::move(agents[current_agent]);
+    agents[current_agent] = {};
+    current_agent = other_agent;
+  };
+
+  for (std::size_t i = 0; i < keyset.size(); ++i) {
+    agents[current_agent].set_query(keyset[i].ptr(), keyset[i].length());
+    move_agent();
+
+    ASSERT(trie.predictive_search(agents[current_agent]));
+    move_agent();
+
+    ASSERT(agents[current_agent].key().id() == keyset[i].id());
+
+    while (trie.predictive_search(agents[current_agent])) {
+      move_agent();
+      ASSERT(agents[current_agent].key().id() > keyset[i].id());
+    }
+  }
+}
+
 void TestTrie(int num_tries, marisa::TailMode tail_mode,
     marisa::NodeOrder node_order, marisa::Keyset &keyset) {
   for (std::size_t i = 0; i < keyset.size(); ++i) {
@@ -276,6 +346,8 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
   TestLookup(trie, keyset);
   TestCommonPrefixSearch(trie, keyset);
   TestPredictiveSearch(trie, keyset);
+  TestPredictiveSearchAgentCopy(trie, keyset);
+  TestPredictiveSearchAgentMove(trie, keyset);
 
   trie.save("marisa-test.dat");
 
@@ -376,8 +448,6 @@ void TestTrie() {
 }  // namespace
 
 int main() try {
-  std::srand((unsigned int)std::time(NULL));
-
   TestEmptyTrie();
   TestTinyTrie();
   TestTrie();

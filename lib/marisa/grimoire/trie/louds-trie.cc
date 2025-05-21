@@ -256,19 +256,20 @@ void LoudsTrie::build_(Keyset &keyset, const Config &config) {
   Vector<UInt32> terminals;
   build_trie(keys, &terminals, config, 1);
 
-  typedef std::pair<UInt32, UInt32> TerminalIdPair;
-
-  Vector<TerminalIdPair> pairs;
-  pairs.resize(terminals.size());
-  for (std::size_t i = 0; i < pairs.size(); ++i) {
+  using TerminalIdPair = std::pair<UInt32, UInt32>;
+  const std::size_t pairs_size = terminals.size();
+  std::unique_ptr<TerminalIdPair[]> pairs(
+      new (std::nothrow) TerminalIdPair[pairs_size]);
+  MARISA_THROW_IF(!pairs, MARISA_MEMORY_ERROR);
+  for (std::size_t i = 0; i < pairs_size; ++i) {
     pairs[i].first = terminals[i];
     pairs[i].second = (UInt32)i;
   }
   terminals.clear();
-  std::sort(pairs.begin(), pairs.end());
+  std::sort(pairs.get(), pairs.get() + pairs_size);
 
   std::size_t node_id = 0;
-  for (std::size_t i = 0; i < pairs.size(); ++i) {
+  for (std::size_t i = 0; i < pairs_size; ++i) {
     while (node_id < pairs[i].first) {
       terminal_flags_.push_back(false);
       ++node_id;

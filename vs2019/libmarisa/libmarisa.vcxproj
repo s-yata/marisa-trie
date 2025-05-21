@@ -38,8 +38,6 @@
     <ClInclude Include="..\..\include\marisa\key.h" />
     <ClInclude Include="..\..\include\marisa\keyset.h" />
     <ClInclude Include="..\..\include\marisa\query.h" />
-    <ClInclude Include="..\..\include\marisa\scoped-array.h" />
-    <ClInclude Include="..\..\include\marisa\scoped-ptr.h" />
     <ClInclude Include="..\..\include\marisa\stdio.h" />
     <ClInclude Include="..\..\include\marisa\trie.h" />
     <ClInclude Include="..\..\lib\marisa\grimoire\algorithm.h" />

@@ -2,6 +2,7 @@
 #include <cstring>
 #include <ctime>
 #include <string>
+#include <random>
 #include <vector>
 
 #include <marisa.h>
@@ -9,6 +10,9 @@
 #include "marisa-assert.h"
 
 namespace {
+
+std::random_device seed_gen;
+std::mt19937 random_engine(seed_gen());
 
 void TestTypes() {
   TEST_START();
@@ -192,11 +196,11 @@ void TestKeyset() {
 
   total_length = 0;
   for (std::size_t i = 0; i < keys.size(); ++i) {
-    keys[i].resize(std::rand() % (marisa::Keyset::EXTRA_BLOCK_SIZE * 2));
+    keys[i].resize(random_engine() % (marisa::Keyset::EXTRA_BLOCK_SIZE * 2));
     for (std::size_t j = 0; j < keys[i].length(); ++j) {
-      keys[i][j] = (char)(std::rand() & 0xFF);
+      keys[i][j] = static_cast<char>(random_engine() & 0xFF);
     }
-    double weight = 100.0 * static_cast<double>(std::rand()) /
+    double weight = 100.0 * static_cast<double>(random_engine()) /
     	  static_cast<double>(RAND_MAX);
     weights[i] = static_cast<float>(weight);
 
@@ -220,11 +224,11 @@ void TestKeyset() {
 
   total_length = 0;
   for (std::size_t i = 0; i < keys.size(); ++i) {
-    keys[i].resize(std::rand() % (marisa::Keyset::EXTRA_BLOCK_SIZE * 2));
+    keys[i].resize(random_engine() % (marisa::Keyset::EXTRA_BLOCK_SIZE * 2));
     for (std::size_t j = 0; j < keys[i].length(); ++j) {
-      keys[i][j] = (char)(std::rand() & 0xFF);
+      keys[i][j] = static_cast<char>(random_engine() & 0xFF);
     }
-    double weight = 100.0 * static_cast<double>(std::rand()) /
+    double weight = 100.0 * static_cast<double>(random_engine()) /
         static_cast<double>(RAND_MAX);
     weights[i] = static_cast<float>(weight);
 

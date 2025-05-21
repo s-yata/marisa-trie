@@ -1,6 +1,8 @@
 #ifndef MARISA_TRIE_H_
 #define MARISA_TRIE_H_
 
+#include <memory>
+
 #include "marisa/keyset.h"
 #include "marisa/agent.h"
 
@@ -20,9 +22,12 @@ class Trie {
   Trie();
   ~Trie();
 
+  Trie(Trie &&);
+  Trie &operator=(Trie &&);
+
   void build(Keyset &keyset, int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename, int flags = 0);
   void map(const void *ptr, std::size_t size);
 
   void load(const char *filename);
@@ -52,7 +57,7 @@ class Trie {
   void swap(Trie &rhs);
 
  private:
-  scoped_ptr<grimoire::trie::LoudsTrie> trie_;
+  std::unique_ptr<grimoire::trie::LoudsTrie> trie_;
 
   // Disallows copy and assignment.
   Trie(const Trie &);

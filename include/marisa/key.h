@@ -14,15 +14,9 @@ class Key {
   Key() : ptr_(NULL), length_(0), union_() {
     union_.id = 0;
   }
-  Key(const Key &key)
-      : ptr_(key.ptr_), length_(key.length_), union_(key.union_) {}
 
-  Key &operator=(const Key &key) {
-    ptr_ = key.ptr_;
-    length_ = key.length_;
-    union_ = key.union_;
-    return *this;
-  }
+  Key(const Key &key) = default;
+  Key &operator=(const Key &key) = default;
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);

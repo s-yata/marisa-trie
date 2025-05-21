@@ -10,7 +10,7 @@ MARISA: Matching Algorithm with Recursively Implemented StorAge
 
 #### Latest version
 
-0.2.6
+0.2.7
 
 #### Description
 
@@ -57,5 +57,6 @@ $ make install
 
 #### Source code license
 
-* The BSD 2-clause License
-* The LGPL 2.1 or any later version
+Licensed under BSD-2-Clause OR LGPL-2.1-or-later.
+
+See [COPYING](COPYING.md) for details.

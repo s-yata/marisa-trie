@@ -12,17 +12,9 @@ class Key {
   Key() : ptr_(NULL), length_(0), union_(), id_(0) {
     union_.terminal = 0;
   }
-  Key(const Key &entry)
-      : ptr_(entry.ptr_), length_(entry.length_),
-        union_(entry.union_), id_(entry.id_) {}
 
-  Key &operator=(const Key &entry) {
-    ptr_ = entry.ptr_;
-    length_ = entry.length_;
-    union_ = entry.union_;
-    id_ = entry.id_;
-    return *this;
-  }
+  Key(const Key &entry) = default;
+  Key &operator=(const Key &entry) = default;
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
@@ -118,17 +110,9 @@ class ReverseKey {
   ReverseKey() : ptr_(NULL), length_(0), union_(), id_(0) {
     union_.terminal = 0;
   }
-  ReverseKey(const ReverseKey &entry)
-      : ptr_(entry.ptr_), length_(entry.length_),
-        union_(entry.union_), id_(entry.id_) {}
 
-  ReverseKey &operator=(const ReverseKey &entry) {
-    ptr_ = entry.ptr_;
-    length_ = entry.length_;
-    union_ = entry.union_;
-    id_ = entry.id_;
-    return *this;
-  }
+  ReverseKey(const ReverseKey &entry) = default;
+  ReverseKey &operator=(const ReverseKey &entry) = default;
 
   char operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);

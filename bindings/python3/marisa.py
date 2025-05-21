@@ -91,11 +91,11 @@ class Key(object):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
 
-    def str(self):
-        return _marisa.Key_str(self)
+    def key_str(self):
+        return _marisa.Key_key_str(self)
 
-    def id(self):
-        return _marisa.Key_id(self)
+    def key_id(self):
+        return _marisa.Key_key_id(self)
 
     def weight(self):
         return _marisa.Key_weight(self)
@@ -110,11 +110,11 @@ class Query(object):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
 
-    def str(self):
-        return _marisa.Query_str(self)
+    def query_str(self):
+        return _marisa.Query_query_str(self)
 
-    def id(self):
-        return _marisa.Query_id(self)
+    def query_id(self):
+        return _marisa.Query_query_id(self)
     __swig_destroy__ = _marisa.delete_Query
 
 # Register Query in _marisa:

@@ -1,0 +1,44 @@
+name: Linux ASAN Tests
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+  pull_request:
+    types: [opened, synchronize]
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+  release:
+    types: [published]
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      with:
+        fetch-depth: 0
+
+    - name: Configure
+      working-directory: ${{github.workspace}}
+      shell: bash
+      run: |
+        autoreconf -i && \
+        ./configure --enable-native-code --enable-asan CXXFLAGS="-g -O0 -D_DEBUG"
+
+    - name: Build and test
+      working-directory: ${{github.workspace}}
+      shell: bash
+      run: make -j check

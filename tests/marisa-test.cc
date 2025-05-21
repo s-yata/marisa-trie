@@ -4,6 +4,7 @@
 #include <ctime>
 #include <random>
 #include <sstream>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -252,6 +253,18 @@ void TestCommonPrefixSearch(const marisa::Trie &trie,
   }
 }
 
+void TestCommonPrefixSearchAgentCopy(const marisa::Trie &trie,
+    const marisa::Keyset &keyset) {
+  if (keyset.empty()) return;
+  marisa::Agent agent;
+  agent.set_query(keyset[0].ptr(), keyset[0].length());
+  ASSERT(trie.common_prefix_search(agent));
+  const std::string original_agent_key(agent.key().ptr(), agent.key().length());
+  marisa::Agent agent_copy = agent;
+  trie.common_prefix_search(agent);
+  ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == original_agent_key);
+}
+
 void TestPredictiveSearch(const marisa::Trie &trie,
     const marisa::Keyset &keyset) {
   marisa::Agent agent;
@@ -275,9 +288,11 @@ void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
 
     std::vector<marisa::Agent> agent_copies;
     std::vector<std::size_t> ids;
+    std::vector<std::string> keys;
     while (trie.predictive_search(agent)) {
       ASSERT(agent.key().id() > keyset[i].id());
       ids.push_back(agent.key().id());
+      keys.emplace_back(agent.key().ptr(), agent.key().length());
 
       // Tests copy constructor.
       agent_copies.push_back(agent);
@@ -290,9 +305,11 @@ void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
       agent_copy = agent_copies[i];
 
       ASSERT(agent_copy.key().id() == ids[i]);
+      ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == keys[i]);
       if (i + 1 < agent_copies.size()) {
         ASSERT(trie.predictive_search(agent_copy));
         ASSERT(agent_copy.key().id() == ids[i + 1]);
+        ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == keys[i + 1]);
       } else {
         ASSERT(!trie.predictive_search(agent_copy));
       }
@@ -345,6 +362,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
 
   TestLookup(trie, keyset);
   TestCommonPrefixSearch(trie, keyset);
+  TestCommonPrefixSearchAgentCopy(trie, keyset);
   TestPredictiveSearch(trie, keyset);
   TestPredictiveSearchAgentCopy(trie, keyset);
   TestPredictiveSearchAgentMove(trie, keyset);

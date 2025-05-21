@@ -4,8 +4,28 @@
 #include "marisa/agent.h"
 #include "marisa/grimoire/trie.h"
 #include "marisa/grimoire/trie/state.h"
+#include "marisa/key.h"
 
 namespace marisa {
+namespace {
+void UpdateAgentAfterCopyingState(const grimoire::trie::State &state,
+                                  Agent &agent) {
+  // Point the agent's key to the newly copied buffer if necessary.
+  switch (state.status_code()) {
+    case grimoire::trie::MARISA_READY_TO_PREDICTIVE_SEARCH:
+    case grimoire::trie::MARISA_END_OF_PREDICTIVE_SEARCH:
+      // In states corresponding to predictive_search, the agent's
+      // key points into the state key buffer. We need to repoint
+      // after copying the state.
+      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      break;
+    default:
+      // In other states, they key is either null, or points to the
+      // query, so we do not need to repoint it.
+      break;
+  }
+}
+}  // namespace
 
 Agent::Agent() : query_(), key_(), state_() {}
 
@@ -14,12 +34,25 @@ Agent::~Agent() {}
 Agent::Agent(const Agent &other)
     : query_(other.query_),
       key_(other.key_),
-      state_(other.has_state() ? new (std::nothrow) grimoire::trie::State(other.state()) : NULL) {}
+      state_(other.has_state() ? new (std::nothrow)
+                                     grimoire::trie::State(other.state())
+                               : nullptr) {
+  if (other.has_state()) {
+    MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
+    UpdateAgentAfterCopyingState(*state_, *this);
+  }
+}
 
 Agent &Agent::operator=(const Agent &other) {
   query_ = other.query_;
   key_ = other.key_;
-  state_.reset(other.has_state() ? new (std::nothrow) grimoire::trie::State(other.state()) : NULL);
+  if (other.has_state()) {
+    state_.reset(new (std::nothrow) grimoire::trie::State(other.state()));
+    MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
+    UpdateAgentAfterCopyingState(*state_, *this);
+  } else {
+    state_ = nullptr;
+  }
   return *this;
 }
 

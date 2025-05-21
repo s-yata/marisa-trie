@@ -24,6 +24,11 @@ class Agent {
   Agent();
   ~Agent();
 
+  Agent(const Agent &other);
+  Agent &operator=(const Agent &other);
+  Agent(Agent &&other) noexcept;
+  Agent &operator=(Agent &&other) noexcept;
+
   const Query &query() const {
     return query_;
   }
@@ -78,10 +83,6 @@ class Agent {
   Query query_;
   Key key_;
   std::unique_ptr<grimoire::trie::State> state_;
-
-  // Disallows copy and assignment.
-  Agent(const Agent &);
-  Agent &operator=(const Agent &);
 };
 
 }  // namespace marisa

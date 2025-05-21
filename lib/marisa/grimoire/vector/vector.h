@@ -26,6 +26,36 @@ class Vector {
     }
   }
 
+  Vector(const Vector<T> &other)
+        : buf_(), objs_(NULL), const_objs_(NULL),
+          size_(0), capacity_(0), fixed_(other.fixed_) {
+    if (other.buf_.get() == NULL) {
+      objs_ = other.objs_;
+      const_objs_ = other.const_objs_;
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+    } else {
+      copyInit(other.const_objs_, other.size_, other.capacity_);
+    }
+  }
+
+  Vector &operator=(const Vector<T> &other) {
+    clear();
+    fixed_ = other.fixed_;
+    if (other.buf_.get() == NULL) {
+      objs_ = other.objs_;
+      const_objs_ = other.const_objs_;
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+    } else {
+      copyInit(other.const_objs_, other.size_, other.capacity_);
+    }
+    return *this;
+  }
+
+  Vector(Vector &&) noexcept = default;
+  Vector &operator=(Vector<T> &&) noexcept = default;
+
   void map(Mapper &mapper) {
     Vector temp;
     temp.map_(mapper);
@@ -235,27 +265,43 @@ class Vector {
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     if (std::is_trivially_copyable<T>::value) {
-      std::memcpy(reinterpret_cast<void*>(new_objs),
-                  reinterpret_cast<const void*>(objs_),
-                  sizeof(T) * size_);
+      std::memcpy(new_objs, objs_, sizeof(T) * size_);
     } else {
       for (std::size_t i = 0; i < size_; ++i) {
         new (&new_objs[i]) T(objs_[i]);
       }
+      for (std::size_t i = 0; i < size_; ++i) {
+        objs_[i].~T();
+      }
     }
-    for (std::size_t i = 0; i < size_; ++i) {
-      objs_[i].~T();
-    }
-
-    buf_.swap(new_buf);
+    buf_ = std::move(new_buf);
     objs_ = new_objs;
     const_objs_ = new_objs;
     capacity_ = new_capacity;
   }
 
-  // Disallows copy and assignment.
-  Vector(const Vector &);
-  Vector &operator=(const Vector &);
+  // copyInit() assumes that T's placement new does not throw an exception.
+  // Requires the vector to be empty.
+  void copyInit(const T *src, std::size_t size, std::size_t capacity) {
+    MARISA_DEBUG_IF(size_ > 0, MARISA_CODE_ERROR);
+
+    buf_ = std::unique_ptr<char[]>(
+        new (std::nothrow) char[sizeof(T) * capacity]);
+    MARISA_DEBUG_IF(buf_.get() == NULL, MARISA_MEMORY_ERROR);
+    T *new_objs = reinterpret_cast<T *>(buf_.get());
+
+    if (std::is_trivially_copyable<T>::value) {
+      std::memcpy(new_objs, src, sizeof(T) * size);
+    } else {
+      for (std::size_t i = 0; i < size; ++i) {
+        new (&new_objs[i]) T(src[i]);
+      }
+    }
+    objs_ = new_objs;
+    const_objs_ = new_objs;
+    size_ = size;
+    capacity_ = capacity;
+  }
 };
 
 }  // namespace vector

@@ -622,7 +622,8 @@ typedef enum marisa_num_tries_ {
   void build(Keyset &amp;keyset,
              int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename,
+            int flags = 0);
   void map(const void *ptr,
            std::size_t size);
 
@@ -673,7 +674,7 @@ typedef enum marisa_num_tries_ {
      <div class="subsubsection">
       <h4>File I/O</h4>
       <p>
-       <code>mmap()</code> is an interface for memory mapped I/O. If an application performs a few search operations, it is unnecessary to read the whole dictionary, and in such a case, <code>mmap()</code> is useful. Also, memory mapped I/O is an easy way to share dictionary data among processes. On the other hand, if an application performs a lot of search operations, a memory mapped dictionary might cause a lot of random disk accesses which considerably increase the search time.
+       <code>mmap()</code> is an interface for memory mapped I/O. If an application performs a few search operations, it is unnecessary to read the whole dictionary, and in such a case, <code>mmap()</code> is useful. Also, memory mapped I/O is an easy way to share dictionary data among processes. On the other hand, if an application performs a lot of search operations, a memory mapped dictionary might cause a lot of random disk accesses which considerably increase the search time. In such a case, you can specify <var>flags</var> as <var>MARISA_MAP_POPULATE</var> to populate (prefault) page tables and reduces page faults in searches.
       </p>
       <p>
        <code>map()</code> restores an instance of <code>Trie</code> from dictionary data on memory. <code>load()</code> and <code>read()</code> read a dictionary from a file or a file descriptor. <code>save()</code> and <code>write()</code> write a dictionary to a file or a file descriptor.

@@ -627,7 +627,8 @@ typedef enum marisa_num_tries_ {
   void build(Keyset &amp;keyset,
              int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename,
+            int flags = 0);
   void map(const void *ptr,
            std::size_t size);
 
@@ -678,7 +679,7 @@ typedef enum marisa_num_tries_ {
      <div class="subsubsection">
       <h4>ファイル入出力</h4>
       <p>
-       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．
+       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．このような場合，<var>flags</var> に <var>MARISA_MAP_POPULATE</var> を指定すれば，ページテーブルを先読みさせて，検索時のページフォルトを抑制できます．
       </p>
       <p>
        <code>map()</code> はメモリ上に展開されている辞書のバイナリを使って検索できる状態にする関数です．<code>load()</code> と <code>read()</code> は辞書を入力する関数であり，<code>save()</code> と <code>write()</code> は辞書を出力する関数です．

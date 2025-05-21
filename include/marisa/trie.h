@@ -22,8 +22,8 @@ class Trie {
   Trie();
   ~Trie();
 
-  Trie(Trie &&);
-  Trie &operator=(Trie &&);
+  Trie(Trie &&) noexcept;
+  Trie &operator=(Trie &&) noexcept;
 
   void build(Keyset &keyset, int config_flags = 0);
 

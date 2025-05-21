@@ -11,9 +11,9 @@ Trie::Trie() : trie_() {}
 
 Trie::~Trie() {}
 
-Trie::Trie(Trie &&other) = default;
+Trie::Trie(Trie &&other) noexcept = default;
 
-Trie &Trie::operator=(Trie &&other) = default;
+Trie &Trie::operator=(Trie &&other) noexcept = default;
 
 void Trie::build(Keyset &keyset, int config_flags) {
   std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow) grimoire::LoudsTrie);

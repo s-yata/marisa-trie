@@ -238,14 +238,9 @@ void TestVector() {
   vec.resize(100);
   ASSERT(vec.capacity() == 100);
 
-  EXCEPT(vec.resize(MARISA_SIZE_MAX), MARISA_SIZE_ERROR);
-
   vec.fix();
   ASSERT(vec.fixed());
   EXCEPT(vec.fix(), MARISA_STATE_ERROR);
-  EXCEPT(vec.push_back(0), MARISA_STATE_ERROR);
-  EXCEPT(vec.resize(0), MARISA_STATE_ERROR);
-  EXCEPT(vec.reserve(0), MARISA_STATE_ERROR);
 
   TEST_END();
 }

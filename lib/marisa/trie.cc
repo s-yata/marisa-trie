@@ -11,6 +11,10 @@ Trie::Trie() : trie_() {}
 
 Trie::~Trie() {}
 
+Trie::Trie(Trie &&other) = default;
+
+Trie &Trie::operator=(Trie &&other) = default;
+
 void Trie::build(Keyset &keyset, int config_flags) {
   std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow) grimoire::LoudsTrie);
   MARISA_THROW_IF(temp.get() == NULL, MARISA_MEMORY_ERROR);

@@ -22,6 +22,9 @@ class Trie {
   Trie();
   ~Trie();
 
+  Trie(Trie &&);
+  Trie &operator=(Trie &&);
+
   void build(Keyset &keyset, int config_flags = 0);
 
   void mmap(const char *filename, int flags = 0);

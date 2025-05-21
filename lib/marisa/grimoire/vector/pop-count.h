@@ -1,11 +1,21 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_
 #define MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_
 
+#if __cplusplus >= 202002L
+#include <bit>
+#endif
+
 #include "marisa/grimoire/intrin.h"
 
 namespace marisa {
 namespace grimoire {
 namespace vector {
+
+#ifdef __has_builtin
+#define MARISA_HAS_BUILTIN(x) __has_builtin(x)
+#else
+#define MARISA_HAS_BUILTIN(x) 0
+#endif
 
 #if MARISA_WORD_SIZE == 64
 
@@ -45,7 +55,13 @@ class PopCount {
   }
 
   static std::size_t count(UInt64 x) {
-#if defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+#if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
+    return std::popcount(x);
+#elif MARISA_HAS_BUILTIN(__builtin_popcountll)
+    static_assert(sizeof(x) == sizeof(unsigned long long),
+                  "__builtin_popcountll does not take 64-bit arg");
+    return __builtin_popcountll(x);
+#elif defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
  #ifdef _MSC_VER
     return __popcnt64(x);
  #else  // _MSC_VER
@@ -86,7 +102,13 @@ class PopCount {
   }
 
   static std::size_t count(UInt32 x) {
-#ifdef MARISA_USE_POPCNT
+#if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
+    return std::popcount(x);
+#elif MARISA_HAS_BUILTIN(__builtin_popcount)
+    static_assert(sizeof(x) == sizeof(unsigned int),
+                  "__builtin_popcount does not take 32-bit arg");
+    return __builtin_popcount(x);
+#elif defined(MARISA_USE_POPCNT)
  #ifdef _MSC_VER
     return __popcnt(x);
  #else  // _MSC_VER
@@ -102,6 +124,8 @@ class PopCount {
 };
 
 #endif  // MARISA_WORD_SIZE == 64
+
+#undef MARISA_HAS_BUILTIN
 
 }  // namespace vector
 }  // namespace grimoire

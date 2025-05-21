@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 17 May 2025</div>
+   <div class="right">Last modified: 21 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -379,6 +379,17 @@ apple: 2</pre>
       </p>
       <p>
        辞書の入出力に関するエラーコードである <var>MARISA_IO_ERROR</var> と <var>MARISA_FORMAT_ERROR</var> 以外については，バグによる可能性が高いと思います．各エラーコードの詳細については，<kbd>marisa/base.h</kbd> をご覧ください．
+      </p>
+     </div><!-- subsubsection -->
+     <div class="subsubsection">
+      <h4>メモリマッピング用のフラグ</h4>
+      <div class="float">
+       <pre class="code">typedef enum marisa_map_flags {
+  MARISA_MAP_POPULATE = 1 &lt;&lt; 0,
+} marisa_map_flags;</pre>
+      </div><!-- float -->
+      <p>
+       libmarisa では，メモリマッピングを使用して辞書を開くことができます．<var>MARISA_MAP_POPULATE</var> は辞書の先読みを有効にするフラグであり，辞書を開くときに時間がかかるものの，辞書を引くときにページフォルトの発生を抑制できます．参照するキーが多いときに有効です．参照するキーが少ないキーでは逆に遅くなることもあります．
       </p>
      </div><!-- subsubsection -->
      <div class="subsubsection">

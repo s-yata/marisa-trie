@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 17 May 2025</div>
+   <div class="right">Last modified: 21 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body" style="text-align: justify">
@@ -374,6 +374,17 @@ apple: 2</pre>
       </div><!-- float -->
       <p>
        libmarisa throws an instance of <code>Exception</code> when an error occurs, such as a file I/O error (<var>MARISA_IO_ERROR</var>), a size limitation error (<var>MARISA_SIZE_ERROR</var>), etc. For details, see <kbd>marisa/base.h</kbd>.
+      </p>
+     </div><!-- subsubsection -->
+     <div class="subsubsection">
+      <h4>Flags for memory mapping</h4>
+      <div class="float">
+       <pre class="code">typedef enum marisa_map_flags {
+  MARISA_MAP_POPULATE = 1 &lt;&lt; 0,
+} marisa_map_flags;</pre>
+      </div><!-- float -->
+      <p>
+       libmarisa supports memory mapping for dictionaries. <var>MARISA_MAP_POPULATE</var> is a flag to populate (prefault) page tables for a mapping. It takes time when you open a dictionary, but it can reduce page faults later. If you heavily use the dictionary, MARISA_MAP_POPULATE may work well. If you accesses only a few keys, the overhead may be unacceptable.
       </p>
      </div><!-- subsubsection -->
      <div class="subsubsection">

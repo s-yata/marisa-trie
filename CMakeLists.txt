@@ -145,6 +145,7 @@ set(MARISA_HEADERS
 add_library(marisa
   ${MARISA_HEADERS}
   lib/marisa/agent.cc
+  lib/marisa/exception.cc
   lib/marisa/grimoire/algorithm.h
   lib/marisa/grimoire/algorithm/sort.h
   lib/marisa/grimoire/intrin.h

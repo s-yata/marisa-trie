@@ -14,36 +14,28 @@ namespace marisa {
 class Exception : public std::exception {
  public:
   Exception(const char *filename, int line,
-      ErrorCode error_code, const char *error_message)
+      ErrorCode error_code, const char *error_message) noexcept
       : std::exception(), filename_(filename), line_(line),
         error_code_(error_code), error_message_(error_message) {}
-  Exception(const Exception &ex)
-      : std::exception(), filename_(ex.filename_), line_(ex.line_),
-        error_code_(ex.error_code_), error_message_(ex.error_message_) {}
-  virtual ~Exception() throw() {}
+  Exception(const Exception &ex) noexcept = default;
+  virtual ~Exception() noexcept;
 
-  Exception &operator=(const Exception &rhs) {
-    filename_ = rhs.filename_;
-    line_ = rhs.line_;
-    error_code_ = rhs.error_code_;
-    error_message_ = rhs.error_message_;
-    return *this;
-  }
+  Exception &operator=(const Exception &rhs) noexcept;
 
-  const char *filename() const {
+  const char *filename() const noexcept {
     return filename_;
   }
-  int line() const {
+  int line() const noexcept {
     return line_;
   }
-  ErrorCode error_code() const {
+  ErrorCode error_code() const noexcept {
     return error_code_;
   }
-  const char *error_message() const {
+  const char *error_message() const noexcept {
     return error_message_;
   }
 
-  virtual const char *what() const throw() {
+  virtual const char *what() const noexcept {
     return error_message_;
   }
 

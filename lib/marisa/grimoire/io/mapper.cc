@@ -140,10 +140,15 @@ void Mapper::open_(const char *filename, int flags) {
   size_ = (std::size_t)st.st_size;
 
   int map_flags = MAP_SHARED;
+ #if defined(MAP_POPULATE)
   // `MAP_POPULATE` is Linux-specific.
- #ifdef MAP_POPULATE
   if (flags & MARISA_MAP_POPULATE) {
     map_flags |= MAP_POPULATE;
+  }
+ #elif defined(MAP_PREFAULT_READ)
+  // `MAP_PREFAULT_READ` is FreeBSD-specific.
+  if (flags & MARISA_MAP_POPULATE) {
+    map_flags |= MAP_PREFAULT_READ;
   }
  #endif
 

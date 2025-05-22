@@ -2,7 +2,7 @@
 #define MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_
 
 #if __cplusplus >= 202002L
-#include <bit>
+ #include <bit>
 #endif
 
 #include "marisa/grimoire/intrin.h"
@@ -12,9 +12,9 @@ namespace grimoire {
 namespace vector {
 
 #ifdef __has_builtin
-#define MARISA_HAS_BUILTIN(x) __has_builtin(x)
+ #define MARISA_HAS_BUILTIN(x) __has_builtin(x)
 #else
-#define MARISA_HAS_BUILTIN(x) 0
+ #define MARISA_HAS_BUILTIN(x) 0
 #endif
 
 #if MARISA_WORD_SIZE == 64
@@ -55,24 +55,24 @@ class PopCount {
   }
 
   static std::size_t count(UInt64 x) {
-#if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
+ #if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
     return std::popcount(x);
-#elif MARISA_HAS_BUILTIN(__builtin_popcountll)
+ #elif MARISA_HAS_BUILTIN(__builtin_popcountll)
     static_assert(sizeof(x) == sizeof(unsigned long long),
                   "__builtin_popcountll does not take 64-bit arg");
     return __builtin_popcountll(x);
-#elif defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
- #ifdef _MSC_VER
+ #elif defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  #ifdef _MSC_VER
     return __popcnt64(x);
- #else  // _MSC_VER
+  #else   // _MSC_VER
     return static_cast<std::size_t>(_mm_popcnt_u64(x));
- #endif  // _MSC_VER
-#elif defined(MARISA_AARCH64)
+  #endif  // _MSC_VER
+ #elif defined(MARISA_AARCH64)
     // Byte-wise popcount followed by horizontal add.
     return vaddv_u8(vcnt_u8(vcreate_u8(x)));
-#else  // defined(MARISA_AARCH64)
+ #else   // defined(MARISA_AARCH64)
     return PopCount(x).lo64();
-#endif  // defined(MARISA_AARCH64)
+ #endif  // defined(MARISA_AARCH64)
   }
 
  private:
@@ -105,21 +105,21 @@ class PopCount {
   }
 
   static std::size_t count(UInt32 x) {
-#if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
+ #if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
     return std::popcount(x);
-#elif MARISA_HAS_BUILTIN(__builtin_popcount)
+ #elif MARISA_HAS_BUILTIN(__builtin_popcount)
     static_assert(sizeof(x) == sizeof(unsigned int),
                   "__builtin_popcount does not take 32-bit arg");
     return __builtin_popcount(x);
-#elif defined(MARISA_USE_POPCNT)
- #ifdef _MSC_VER
+ #elif defined(MARISA_USE_POPCNT)
+  #ifdef _MSC_VER
     return __popcnt(x);
- #else  // _MSC_VER
+  #else   // _MSC_VER
     return _mm_popcnt_u32(x);
- #endif  // _MSC_VER
-#else  // MARISA_USE_POPCNT
+  #endif  // _MSC_VER
+ #else    // MARISA_USE_POPCNT
     return PopCount(x).lo32();
-#endif  // MARISA_USE_POPCNT
+ #endif   // MARISA_USE_POPCNT
   }
 
  private:

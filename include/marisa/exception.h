@@ -13,8 +13,8 @@ namespace marisa {
 //  "__FILE__:__LINE__: error_code: error_message"
 class Exception : public std::exception {
  public:
-  Exception(const char *filename, int line,
-      ErrorCode error_code, const char *error_message) noexcept
+  Exception(const char *filename, int line, ErrorCode error_code,
+            const char *error_message) noexcept
       : std::exception(), filename_(filename), line_(line),
         error_code_(error_code), error_message_(error_message) {}
   Exception(const Exception &ex) noexcept = default;
@@ -49,14 +49,15 @@ class Exception : public std::exception {
 // These macros are used to convert a line number to a string constant.
 #define MARISA_INT_TO_STR(value) #value
 #define MARISA_LINE_TO_STR(line) MARISA_INT_TO_STR(line)
-#define MARISA_LINE_STR MARISA_LINE_TO_STR(__LINE__)
+#define MARISA_LINE_STR          MARISA_LINE_TO_STR(__LINE__)
 
 // MARISA_THROW throws an exception with a filename, a line number, an error
 // code and an error message. The message format is as follows:
 //  "__FILE__:__LINE__: error_code: error_message"
-#define MARISA_THROW(error_code, error_message) \
-  (throw marisa::Exception(__FILE__, __LINE__, error_code, \
-       __FILE__ ":" MARISA_LINE_STR ": " #error_code ": " error_message))
+#define MARISA_THROW(error_code, error_message)                          \
+  (throw marisa::Exception(__FILE__, __LINE__, error_code,               \
+                           __FILE__ ":" MARISA_LINE_STR ": " #error_code \
+                                    ": " error_message))
 
 // MARISA_THROW_IF throws an exception if `condition' is true.
 #define MARISA_THROW_IF(condition, error_code) \

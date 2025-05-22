@@ -3,19 +3,19 @@
 
 #include <memory>
 
-#include "marisa/keyset.h"
 #include "marisa/agent.h"
-#include "marisa/grimoire/vector.h"
+#include "marisa/grimoire/trie/cache.h"
 #include "marisa/grimoire/trie/config.h"
 #include "marisa/grimoire/trie/key.h"
 #include "marisa/grimoire/trie/tail.h"
-#include "marisa/grimoire/trie/cache.h"
+#include "marisa/grimoire/vector.h"
+#include "marisa/keyset.h"
 
 namespace marisa {
 namespace grimoire {
 namespace trie {
 
-class LoudsTrie  {
+class LoudsTrie {
  public:
   LoudsTrie();
   ~LoudsTrie();
@@ -80,23 +80,21 @@ class LoudsTrie  {
   void build_(Keyset &keyset, const Config &config);
 
   template <typename T>
-  void build_trie(Vector<T> &keys,
-      Vector<UInt32> *terminals, const Config &config, std::size_t trie_id);
+  void build_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+                  const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_current_trie(Vector<T> &keys,
-      Vector<UInt32> *terminals, const Config &config, std::size_t trie_id);
+  void build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+                          const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_next_trie(Vector<T> &keys,
-      Vector<UInt32> *terminals, const Config &config, std::size_t trie_id);
+  void build_next_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+                       const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_terminals(const Vector<T> &keys,
-      Vector<UInt32> *terminals) const;
+  void build_terminals(const Vector<T> &keys, Vector<UInt32> *terminals) const;
 
   void reserve_cache(const Config &config, std::size_t trie_id,
-      std::size_t num_keys);
+                     std::size_t num_keys);
   template <typename T>
-  void cache(std::size_t parent, std::size_t child,
-      float weight, char label);
+  void cache(std::size_t parent, std::size_t child, float weight, char label);
   void fill_cache();
 
   void map_(Mapper &mapper);
@@ -118,11 +116,10 @@ class LoudsTrie  {
   inline std::size_t get_cache_id(std::size_t node_id) const;
 
   inline std::size_t get_link(std::size_t node_id) const;
-  inline std::size_t get_link(std::size_t node_id,
-      std::size_t link_id) const;
+  inline std::size_t get_link(std::size_t node_id, std::size_t link_id) const;
 
   inline std::size_t update_link_id(std::size_t link_id,
-      std::size_t node_id) const;
+                                    std::size_t node_id) const;
 
   // Disallows copy and assignment.
   LoudsTrie(const LoudsTrie &);

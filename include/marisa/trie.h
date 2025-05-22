@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "marisa/keyset.h"
 #include "marisa/agent.h"
+#include "marisa/keyset.h"
 
 namespace marisa {
 namespace grimoire {

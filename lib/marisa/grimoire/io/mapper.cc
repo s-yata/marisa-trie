@@ -1,12 +1,12 @@
 #if (defined _WIN32) || (defined _WIN64)
- #include <sys/types.h>
  #include <sys/stat.h>
+ #include <sys/types.h>
  #include <windows.h>
 #else  // (defined _WIN32) || (defined _WIN64)
+ #include <fcntl.h>
  #include <sys/mman.h>
  #include <sys/stat.h>
  #include <sys/types.h>
- #include <fcntl.h>
  #include <unistd.h>
 #endif  // (defined _WIN32) || (defined _WIN64)
 
@@ -18,9 +18,8 @@ namespace io {
 
 #if (defined _WIN32) || (defined _WIN64)
 Mapper::Mapper()
-    : ptr_(NULL), origin_(NULL), avail_(0), size_(0),
-      file_(NULL), map_(NULL) {}
-#else  // (defined _WIN32) || (defined _WIN64)
+    : ptr_(NULL), origin_(NULL), avail_(0), size_(0), file_(NULL), map_(NULL) {}
+#else   // (defined _WIN32) || (defined _WIN64)
 Mapper::Mapper()
     : ptr_(NULL), origin_(MAP_FAILED), avail_(0), size_(0), fd_(-1) {}
 #endif  // (defined _WIN32) || (defined _WIN64)
@@ -39,7 +38,7 @@ Mapper::~Mapper() {
     ::CloseHandle(file_);
   }
 }
-#else  // (defined _WIN32) || (defined _WIN64)
+#else   // (defined _WIN32) || (defined _WIN64)
 Mapper::~Mapper() {
   if (origin_ != MAP_FAILED) {
     ::munmap(origin_, size_);
@@ -90,7 +89,7 @@ void Mapper::swap(Mapper &rhs) {
 #if (defined _WIN32) || (defined _WIN64)
   marisa::swap(file_, rhs.file_);
   marisa::swap(map_, rhs.map_);
-#else  // (defined _WIN32) || (defined _WIN64)
+#else   // (defined _WIN32) || (defined _WIN64)
   marisa::swap(fd_, rhs.fd_);
 #endif  // (defined _WIN32) || (defined _WIN64)
 }
@@ -99,7 +98,7 @@ const void *Mapper::map_data(std::size_t size) {
   MARISA_THROW_IF(!is_open(), MARISA_STATE_ERROR);
   MARISA_THROW_IF(size > avail_, MARISA_IO_ERROR);
 
-  const char * const data = static_cast<const char *>(ptr_);
+  const char *const data = static_cast<const char *>(ptr_);
   ptr_ = data + size;
   avail_ -= size;
   return data;
@@ -110,10 +109,10 @@ const void *Mapper::map_data(std::size_t size) {
   #if __MSVCRT_VERSION__ >= 0x0601
    #define MARISA_HAS_STAT64
   #endif  // __MSVCRT_VERSION__ >= 0x0601
- #endif  // __MSVCRT_VERSION__
+ #endif   // __MSVCRT_VERSION__
 void Mapper::open_(const char *filename, int flags) {
-  file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ,
-      NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, NULL,
+                        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
   MARISA_THROW_IF(file_ == INVALID_HANDLE_VALUE, MARISA_IO_ERROR);
 
   DWORD size_high, size_low;
@@ -142,11 +141,11 @@ void Mapper::open_(const char *filename, int flags) {
 
   int map_flags = MAP_SHARED;
   // `MAP_POPULATE` is Linux-specific.
-#ifdef MAP_POPULATE
+ #ifdef MAP_POPULATE
   if (flags & MARISA_MAP_POPULATE) {
     map_flags |= MAP_POPULATE;
   }
-#endif
+ #endif
 
   origin_ = ::mmap(NULL, size_, PROT_READ, map_flags, fd_, 0);
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);

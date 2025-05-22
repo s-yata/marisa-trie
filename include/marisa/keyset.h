@@ -5,7 +5,7 @@
 
 #if __cplusplus >= 201703L
  #include <string_view>
-#endif //  __cplusplus >= 201703L
+#endif  //  __cplusplus >= 201703L
 
 #include "marisa/key.h"
 
@@ -14,9 +14,9 @@ namespace marisa {
 class Keyset {
  public:
   enum {
-    BASE_BLOCK_SIZE  = 4096,
+    BASE_BLOCK_SIZE = 4096,
     EXTRA_BLOCK_SIZE = 1024,
-    KEY_BLOCK_SIZE   = 256
+    KEY_BLOCK_SIZE = 256
   };
 
   Keyset();
@@ -28,7 +28,7 @@ class Keyset {
   void push_back(std::string_view str, float weight = 1.0) {
     push_back(str.data(), str.length(), weight);
   }
-#endif // __cplusplus >= 201703L
+#endif  // __cplusplus >= 201703L
   void push_back(const char *str);
   void push_back(const char *ptr, std::size_t length, float weight = 1.0);
 

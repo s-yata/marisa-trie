@@ -1,8 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_STATE_H_
 #define MARISA_GRIMOIRE_TRIE_STATE_H_
 
-#include "marisa/grimoire/vector.h"
 #include "marisa/grimoire/trie/history.h"
+#include "marisa/grimoire/vector.h"
 
 namespace marisa {
 namespace grimoire {
@@ -21,8 +21,8 @@ typedef enum StatusCode {
 class State {
  public:
   State()
-      : key_buf_(), history_(), node_id_(0), query_pos_(0),
-        history_pos_(0), status_code_(MARISA_READY_TO_ALL) {}
+      : key_buf_(), history_(), node_id_(0), query_pos_(0), history_pos_(0),
+        status_code_(MARISA_READY_TO_ALL) {}
 
   State(const State &) = default;
   State &operator=(const State &) = default;

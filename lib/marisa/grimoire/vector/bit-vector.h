@@ -12,7 +12,7 @@ class BitVector {
  public:
 #if MARISA_WORD_SIZE == 64
   typedef UInt64 Unit;
-#else  // MARISA_WORD_SIZE == 64
+#else   // MARISA_WORD_SIZE == 64
   typedef UInt32 Unit;
 #endif  // MARISA_WORD_SIZE == 64
 
@@ -54,8 +54,7 @@ class BitVector {
       units_.resize(units_.size() + (64 / MARISA_WORD_SIZE), 0);
     }
     if (bit) {
-      units_[size_ / MARISA_WORD_SIZE] |=
-          (Unit)1 << (size_ % MARISA_WORD_SIZE);
+      units_[size_ / MARISA_WORD_SIZE] |= (Unit)1 << (size_ % MARISA_WORD_SIZE);
       ++num_1s_;
     }
     ++size_;
@@ -63,8 +62,8 @@ class BitVector {
 
   bool operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
-    return (units_[i / MARISA_WORD_SIZE]
-        & ((Unit)1 << (i % MARISA_WORD_SIZE))) != 0;
+    return (units_[i / MARISA_WORD_SIZE] &
+            ((Unit)1 << (i % MARISA_WORD_SIZE))) != 0;
   }
 
   std::size_t rank0(std::size_t i) const {
@@ -91,12 +90,12 @@ class BitVector {
     return size_;
   }
   std::size_t total_size() const {
-    return units_.total_size() + ranks_.total_size()
-        + select0s_.total_size() + select1s_.total_size();
+    return units_.total_size() + ranks_.total_size() + select0s_.total_size() +
+           select1s_.total_size();
   }
   std::size_t io_size() const {
-    return units_.io_size() + (sizeof(UInt32) * 2) + ranks_.io_size()
-        + select0s_.io_size() + select1s_.io_size();
+    return units_.io_size() + (sizeof(UInt32) * 2) + ranks_.io_size() +
+           select0s_.io_size() + select1s_.io_size();
   }
 
   void clear() {
@@ -119,8 +118,8 @@ class BitVector {
   Vector<UInt32> select0s_;
   Vector<UInt32> select1s_;
 
-  void build_index(const BitVector &bv,
-      bool enables_select0, bool enables_select1);
+  void build_index(const BitVector &bv, bool enables_select0,
+                   bool enables_select1);
 
   void map_(Mapper &mapper) {
     units_.map(mapper);

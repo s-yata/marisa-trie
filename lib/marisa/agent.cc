@@ -1,7 +1,8 @@
+#include "marisa/agent.h"
+
 #include <new>
 #include <utility>
 
-#include "marisa/agent.h"
 #include "marisa/grimoire/trie.h"
 #include "marisa/grimoire/trie/state.h"
 #include "marisa/key.h"
@@ -32,8 +33,7 @@ Agent::Agent() : query_(), key_(), state_() {}
 Agent::~Agent() {}
 
 Agent::Agent(const Agent &other)
-    : query_(other.query_),
-      key_(other.key_),
+    : query_(other.query_), key_(other.key_),
       state_(other.has_state() ? new (std::nothrow)
                                      grimoire::trie::State(other.state())
                                : nullptr) {

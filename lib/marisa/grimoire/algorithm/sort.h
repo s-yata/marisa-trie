@@ -88,7 +88,7 @@ std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
     Iterator pivot_r = r;
 
     const int pivot = median(*l, *(l + (r - l) / 2), *(r - 1), depth);
-    for ( ; ; ) {
+    for (;;) {
       while (pl < pr) {
         const int label = get_label(*pl, depth);
         if (label > pivot) {

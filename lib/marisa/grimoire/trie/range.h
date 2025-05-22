@@ -41,7 +41,7 @@ class Range {
 };
 
 inline Range make_range(std::size_t begin, std::size_t end,
-    std::size_t key_pos) {
+                        std::size_t key_pos) {
   Range range;
   range.set_begin(begin);
   range.set_end(end);
@@ -99,7 +99,7 @@ inline bool operator>(const WeightedRange &lhs, const WeightedRange &rhs) {
 }
 
 inline WeightedRange make_weighted_range(std::size_t begin, std::size_t end,
-    std::size_t key_pos, float weight) {
+                                         std::size_t key_pos, float weight) {
   WeightedRange range;
   range.set_begin(begin);
   range.set_end(end);

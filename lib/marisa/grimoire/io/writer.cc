@@ -14,8 +14,7 @@ namespace marisa {
 namespace grimoire {
 namespace io {
 
-Writer::Writer()
-    : file_(NULL), fd_(-1), stream_(NULL), needs_fclose_(false) {}
+Writer::Writer() : file_(NULL), fd_(-1), stream_(NULL), needs_fclose_(false) {}
 
 Writer::~Writer() {
   if (needs_fclose_) {
@@ -89,7 +88,7 @@ void Writer::open_(const char *filename) {
   std::FILE *file = NULL;
 #ifdef _MSC_VER
   MARISA_THROW_IF(::fopen_s(&file, filename, "wb") != 0, MARISA_IO_ERROR);
-#else  // _MSC_VER
+#else   // _MSC_VER
   file = ::fopen(filename, "wb");
   MARISA_THROW_IF(file == NULL, MARISA_IO_ERROR);
 #endif  // _MSC_VER
@@ -116,11 +115,10 @@ void Writer::write_data(const void *data, std::size_t size) {
   } else if (fd_ != -1) {
     while (size != 0) {
 #ifdef _WIN32
-      static const std::size_t CHUNK_SIZE =
-          std::numeric_limits<int>::max();
+      static const std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
       const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const int size_written = ::_write(fd_, data, count);
-#else  // _WIN32
+#else   // _WIN32
       static const std::size_t CHUNK_SIZE =
           std::numeric_limits< ::ssize_t>::max();
       const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
@@ -136,7 +134,8 @@ void Writer::write_data(const void *data, std::size_t size) {
   } else if (stream_ != NULL) {
     try {
       MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),
-          static_cast<std::streamsize>(size)), MARISA_IO_ERROR);
+                                      static_cast<std::streamsize>(size)),
+                      MARISA_IO_ERROR);
     } catch (const std::ios_base::failure &) {
       MARISA_THROW(MARISA_IO_ERROR, "std::ios_base::failure");
     }

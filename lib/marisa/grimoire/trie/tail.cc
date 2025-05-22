@@ -1,6 +1,7 @@
+#include "marisa/grimoire/trie/tail.h"
+
 #include "marisa/grimoire/algorithm.h"
 #include "marisa/grimoire/trie/state.h"
-#include "marisa/grimoire/trie/tail.h"
 
 namespace marisa {
 namespace grimoire {
@@ -9,13 +10,13 @@ namespace trie {
 Tail::Tail() : buf_(), end_flags_() {}
 
 void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
-    TailMode mode) {
+                 TailMode mode) {
   MARISA_THROW_IF(offsets == NULL, MARISA_NULL_ERROR);
 
   switch (mode) {
     case MARISA_TEXT_TAIL: {
       for (std::size_t i = 0; i < entries.size(); ++i) {
-        const char * const ptr = entries[i].ptr();
+        const char *const ptr = entries[i].ptr();
         const std::size_t length = entries[i].length();
         for (std::size_t j = 0; j < length; ++j) {
           if (ptr[j] == '\0') {
@@ -76,11 +77,11 @@ void Tail::restore(Agent &agent, std::size_t offset) const {
 bool Tail::match(Agent &agent, std::size_t offset) const {
   MARISA_DEBUG_IF(buf_.empty(), MARISA_STATE_ERROR);
   MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-      MARISA_BOUND_ERROR);
+                  MARISA_BOUND_ERROR);
 
   State &state = agent.state();
   if (end_flags_.empty()) {
-    const char * const ptr = &buf_[offset] - state.query_pos();
+    const char *const ptr = &buf_[offset] - state.query_pos();
     do {
       if (ptr[state.query_pos()] != agent.query()[state.query_pos()]) {
         return false;
@@ -154,7 +155,7 @@ void Tail::swap(Tail &rhs) {
 }
 
 void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
-    TailMode mode) {
+                  TailMode mode) {
   for (std::size_t i = 0; i < entries.size(); ++i) {
     entries[i].set_id(i);
   }
@@ -170,12 +171,12 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
     MARISA_THROW_IF(current.length() == 0, MARISA_RANGE_ERROR);
     std::size_t match = 0;
     while ((match < current.length()) && (match < last->length()) &&
-        ((*last)[match] == current[match])) {
+           ((*last)[match] == current[match])) {
       ++match;
     }
     if ((match == current.length()) && (last->length() != 0)) {
-      temp_offsets[current.id()] = (UInt32)(
-          temp_offsets[last->id()] + (last->length() - match));
+      temp_offsets[current.id()] =
+          (UInt32)(temp_offsets[last->id()] + (last->length() - match));
     } else {
       temp_offsets[current.id()] = (UInt32)buf_.size();
       for (std::size_t j = 1; j <= current.length(); ++j) {

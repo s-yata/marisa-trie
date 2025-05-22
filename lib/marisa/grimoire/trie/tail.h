@@ -2,8 +2,8 @@
 #define MARISA_GRIMOIRE_TRIE_TAIL_H_
 
 #include "marisa/agent.h"
-#include "marisa/grimoire/vector.h"
 #include "marisa/grimoire/trie/entry.h"
+#include "marisa/grimoire/vector.h"
 
 namespace marisa {
 namespace grimoire {
@@ -13,8 +13,7 @@ class Tail {
  public:
   Tail();
 
-  void build(Vector<Entry> &entries, Vector<UInt32> *offsets,
-      TailMode mode);
+  void build(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
 
   void map(Mapper &mapper);
   void read(Reader &reader);
@@ -53,8 +52,7 @@ class Tail {
   Vector<char> buf_;
   BitVector end_flags_;
 
-  void build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
-      TailMode mode);
+  void build_(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
 
   void map_(Mapper &mapper);
   void read_(Reader &reader);

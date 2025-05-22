@@ -11,8 +11,7 @@ class Config {
  public:
   Config()
       : num_tries_(MARISA_DEFAULT_NUM_TRIES),
-        cache_level_(MARISA_DEFAULT_CACHE),
-        tail_mode_(MARISA_DEFAULT_TAIL),
+        cache_level_(MARISA_DEFAULT_CACHE), tail_mode_(MARISA_DEFAULT_TAIL),
         node_order_(MARISA_DEFAULT_ORDER) {}
 
   void parse(int config_flags) {
@@ -56,7 +55,7 @@ class Config {
 
   void parse_(int config_flags) {
     MARISA_THROW_IF((config_flags & ~MARISA_CONFIG_MASK) != 0,
-        MARISA_CODE_ERROR);
+                    MARISA_CODE_ERROR);
 
     parse_num_tries(config_flags);
     parse_cache_level(config_flags);

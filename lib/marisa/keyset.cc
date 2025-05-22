@@ -1,21 +1,21 @@
+#include "marisa/keyset.h"
+
 #include <cstring>
 #include <memory>
 #include <new>
-
-#include "marisa/keyset.h"
 
 namespace marisa {
 
 Keyset::Keyset()
     : base_blocks_(), base_blocks_size_(0), base_blocks_capacity_(0),
       extra_blocks_(), extra_blocks_size_(0), extra_blocks_capacity_(0),
-      key_blocks_(), key_blocks_size_(0), key_blocks_capacity_(0),
-      ptr_(NULL), avail_(0), size_(0), total_length_(0) {}
+      key_blocks_(), key_blocks_size_(0), key_blocks_capacity_(0), ptr_(NULL),
+      avail_(0), size_(0), total_length_(0) {}
 
 void Keyset::push_back(const Key &key) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
 
-  char * const key_ptr = reserve(key.length());
+  char *const key_ptr = reserve(key.length());
   std::memcpy(key_ptr, key.ptr(), key.length());
 
   Key &new_key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];
@@ -32,7 +32,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
     append_key_block();
   }
 
-  char * const key_ptr = reserve(key.length() + 1);
+  char *const key_ptr = reserve(key.length() + 1);
   std::memcpy(key_ptr, key.ptr(), key.length());
   key_ptr[key.length()] = end_marker;
 
@@ -59,7 +59,7 @@ void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   MARISA_THROW_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
   MARISA_THROW_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
 
-  char * const key_ptr = reserve(length);
+  char *const key_ptr = reserve(length);
   std::memcpy(key_ptr, ptr, length);
 
   Key &key = key_blocks_[size_ / KEY_BLOCK_SIZE][size_ % KEY_BLOCK_SIZE];

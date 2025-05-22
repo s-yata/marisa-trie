@@ -34,7 +34,6 @@ class Header {
   }
 
  private:
-
   static const char *get_header() {
     static const char buf[HEADER_SIZE] = "We love Marisa.";
     return buf;
@@ -55,7 +54,7 @@ class Header {
 };
 
 }  // namespace trie
-}  // namespace marisa
 }  // namespace grimoire
+}  // namespace marisa
 
 #endif  // MARISA_GRIMOIRE_TRIE_HEADER_H_

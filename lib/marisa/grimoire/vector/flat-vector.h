@@ -11,7 +11,7 @@ class FlatVector {
  public:
 #if MARISA_WORD_SIZE == 64
   typedef UInt64 Unit;
-#else  // MARISA_WORD_SIZE == 64
+#else   // MARISA_WORD_SIZE == 64
   typedef UInt32 Unit;
 #endif  // MARISA_WORD_SIZE == 64
 
@@ -47,8 +47,10 @@ class FlatVector {
     if ((unit_offset + value_size_) <= MARISA_WORD_SIZE) {
       return (UInt32)(units_[unit_id] >> unit_offset) & mask_;
     } else {
-      return (UInt32)((units_[unit_id] >> unit_offset)
-          | (units_[unit_id + 1] << (MARISA_WORD_SIZE - unit_offset))) & mask_;
+      return (UInt32)((units_[unit_id] >> unit_offset) |
+                      (units_[unit_id + 1]
+                       << (MARISA_WORD_SIZE - unit_offset))) &
+             mask_;
     }
   }
 
@@ -104,9 +106,9 @@ class FlatVector {
 
     std::size_t num_units = values.empty() ? 0 : (64 / MARISA_WORD_SIZE);
     if (value_size != 0) {
-      num_units = (std::size_t)(
-          (((UInt64)value_size * values.size()) + (MARISA_WORD_SIZE - 1))
-          / MARISA_WORD_SIZE);
+      num_units = (std::size_t)((((UInt64)value_size * values.size()) +
+                                 (MARISA_WORD_SIZE - 1)) /
+                                MARISA_WORD_SIZE);
       num_units += num_units % (64 / MARISA_WORD_SIZE);
     }
 
@@ -186,8 +188,7 @@ class FlatVector {
     units_[unit_id] &= ~((Unit)mask_ << unit_offset);
     units_[unit_id] |= (Unit)(value & mask_) << unit_offset;
     if ((unit_offset + value_size_) > MARISA_WORD_SIZE) {
-      units_[unit_id + 1] &=
-          ~((Unit)mask_ >> (MARISA_WORD_SIZE - unit_offset));
+      units_[unit_id + 1] &= ~((Unit)mask_ >> (MARISA_WORD_SIZE - unit_offset));
       units_[unit_id + 1] |=
           (Unit)(value & mask_) >> (MARISA_WORD_SIZE - unit_offset);
     }

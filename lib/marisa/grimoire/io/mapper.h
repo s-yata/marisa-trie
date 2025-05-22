@@ -27,7 +27,7 @@ class Mapper {
   void map(const T **objs, std::size_t num_objs) {
     MARISA_THROW_IF((objs == NULL) && (num_objs != 0), MARISA_NULL_ERROR);
     MARISA_THROW_IF(num_objs > (MARISA_SIZE_MAX / sizeof(T)),
-        MARISA_SIZE_ERROR);
+                    MARISA_SIZE_ERROR);
     *objs = static_cast<const T *>(map_data(sizeof(T) * num_objs));
   }
 
@@ -46,7 +46,7 @@ class Mapper {
 #if (defined _WIN32) || (defined _WIN64)
   void *file_;
   void *map_;
-#else  // (defined _WIN32) || (defined _WIN64)
+#else   // (defined _WIN32) || (defined _WIN64)
   int fd_;
 #endif  // (defined _WIN32) || (defined _WIN64)
 

@@ -1,7 +1,8 @@
+#include "marisa/grimoire/vector/bit-vector.h"
+
 #include <algorithm>
 
 #include "marisa/grimoire/vector/pop-count.h"
-#include "marisa/grimoire/vector/bit-vector.h"
 
 namespace marisa {
 namespace grimoire {
@@ -14,11 +15,12 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   unsigned long pos;
   ::_BitScanForward64(&pos, _pdep_u64(1ULL << i, unit));
   return bit_id + pos;
- #else  // _MSC_VER
+ #else   // _MSC_VER
   return bit_id + ::__builtin_ctzll(_pdep_u64(1ULL << i, unit));
  #endif  // _MSC_VER
 }
 #else  // MARISA_USE_BMI2
+// clang-format off
 const UInt8 SELECT_TABLE[8][256] = {
   {
     7, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
@@ -165,6 +167,7 @@ const UInt8 SELECT_TABLE[8][256] = {
     7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7
   }
 };
+// clang-format on
 
  #if MARISA_WORD_SIZE == 64
 const UInt64 MASK_01 = 0x0101010101010101ULL;
@@ -180,6 +183,7 @@ const UInt64 MASK_80 = 0x8080808080808080ULL;
 // Practice and Experience 44 (2014): 1287 - 1314.
 // PREFIX_SUM_OVERFLOW[i] = (0x7F - i) * MASK_01.
 const UInt64 PREFIX_SUM_OVERFLOW[64] = {
+    // clang-format off
   0x7F * MASK_01, 0x7E * MASK_01, 0x7D * MASK_01, 0x7C * MASK_01,
   0x7B * MASK_01, 0x7A * MASK_01, 0x79 * MASK_01, 0x78 * MASK_01,
   0x77 * MASK_01, 0x76 * MASK_01, 0x75 * MASK_01, 0x74 * MASK_01,
@@ -199,16 +203,17 @@ const UInt64 PREFIX_SUM_OVERFLOW[64] = {
   0x4B * MASK_01, 0x4A * MASK_01, 0x49 * MASK_01, 0x48 * MASK_01,
   0x47 * MASK_01, 0x46 * MASK_01, 0x45 * MASK_01, 0x44 * MASK_01,
   0x43 * MASK_01, 0x42 * MASK_01, 0x41 * MASK_01, 0x40 * MASK_01
+    // clang-format on
 };
 
 std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   UInt64 counts;
   {
   #if defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
-    __m128i lower_nibbles = _mm_cvtsi64_si128(
-        static_cast<long long>(unit & 0x0F0F0F0F0F0F0F0FULL));
-    __m128i upper_nibbles = _mm_cvtsi64_si128(
-        static_cast<long long>(unit & 0xF0F0F0F0F0F0F0F0ULL));
+    __m128i lower_nibbles =
+        _mm_cvtsi64_si128(static_cast<long long>(unit & 0x0F0F0F0F0F0F0F0FULL));
+    __m128i upper_nibbles =
+        _mm_cvtsi64_si128(static_cast<long long>(unit & 0xF0F0F0F0F0F0F0F0ULL));
     upper_nibbles = _mm_srli_epi32(upper_nibbles, 4);
 
     __m128i lower_counts =
@@ -218,14 +223,14 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
         _mm_set_epi8(4, 3, 3, 2, 3, 2, 2, 1, 3, 2, 2, 1, 2, 1, 1, 0);
     upper_counts = _mm_shuffle_epi8(upper_counts, upper_nibbles);
 
-    counts = static_cast<UInt64>(_mm_cvtsi128_si64(
-       _mm_add_epi8(lower_counts, upper_counts)));
+    counts = static_cast<UInt64>(
+        _mm_cvtsi128_si64(_mm_add_epi8(lower_counts, upper_counts)));
   #elif defined(MARISA_AARCH64)
     // Byte-wise popcount using CNT (plus a lot of conversion noise).
     // This actually only requires NEON, not AArch64, but we are already
     // in a 64-bit `#ifdef`.
     counts = vget_lane_u64(vreinterpret_u64_u8(vcnt_u8(vcreate_u8(unit))), 0);
-  #else  // defined(MARISA_AARCH64)
+  #else   // defined(MARISA_AARCH64)
     counts = unit - ((unit >> 1) & MASK_55);
     counts = (counts & MASK_33) + ((counts >> 2) & MASK_33);
     counts = (counts + (counts >> 4)) & MASK_0F;
@@ -243,18 +248,18 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
   }
   #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   const UInt64 x = (counts + PREFIX_SUM_OVERFLOW[i]) & MASK_80;
-  // We masked with `MASK_80`, so the first bit set is the high bit in the
-  // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte
-  // number is the number of trailing zeros divided by 8.  We just shift off
-  // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
-  // number of bits of `counts` to shift.
+      // We masked with `MASK_80`, so the first bit set is the high bit in the
+      // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte
+      // number is the number of trailing zeros divided by 8.  We just shift off
+      // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
+      // number of bits of `counts` to shift.
    #ifdef _MSC_VER
   unsigned long skip;
   ::_BitScanForward64(&skip, x >> 7);
-   #else  // _MSC_VER
+   #else   // _MSC_VER
   const int skip = ::__builtin_ctzll(x >> 7);
    #endif  // _MSC_VER
-  #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  #endif   // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 
   bit_id += static_cast<std::size_t>(skip);
   unit >>= skip;
@@ -262,10 +267,11 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 
   return bit_id + SELECT_TABLE[i][unit & 0xFF];
 }
- #else  // MARISA_WORD_SIZE == 64
+ #else     // MARISA_WORD_SIZE == 64
   #ifdef MARISA_USE_SSE2
 // Popcount of the byte times eight.
 const UInt8 POPCNT_X8_TABLE[256] = {
+    // clang-format off
    0,  8,  8, 16,  8, 16, 16, 24,  8, 16, 16, 24, 16, 24, 24, 32,
    8, 16, 16, 24, 16, 24, 24, 32, 16, 24, 24, 32, 24, 32, 32, 40,
    8, 16, 16, 24, 16, 24, 24, 32, 16, 24, 24, 32, 24, 32, 32, 40,
@@ -282,10 +288,11 @@ const UInt8 POPCNT_X8_TABLE[256] = {
   24, 32, 32, 40, 32, 40, 40, 48, 32, 40, 40, 48, 40, 48, 48, 56,
   24, 32, 32, 40, 32, 40, 40, 48, 32, 40, 40, 48, 40, 48, 48, 56,
   32, 40, 40, 48, 40, 48, 48, 56, 40, 48, 48, 56, 48, 56, 56, 64
+    // clang-format on
 };
 
-std::size_t select_bit(std::size_t i, std::size_t bit_id,
-    UInt32 unit_lo, UInt32 unit_hi) {
+std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit_lo,
+                       UInt32 unit_hi) {
   __m128i unit;
   {
     __m128i lower_dword = _mm_cvtsi32_si128(unit_lo);
@@ -311,7 +318,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
     upper_counts = _mm_shuffle_epi8(upper_counts, upper_nibbles);
 
     counts = _mm_add_epi8(lower_counts, upper_counts);
-   #else  // MARISA_USE_SSSE3
+   #else   // MARISA_USE_SSSE3
     __m128i x = _mm_srli_epi32(unit, 1);
     x = _mm_and_si128(x, _mm_set1_epi8(0x55));
     x = _mm_sub_epi8(unit, x);
@@ -361,14 +368,14 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
    #ifdef _MSC_VER
     __declspec(align(16)) UInt8 unit_bytes[16];
     __declspec(align(16)) UInt8 accumulated_counts_bytes[16];
-   #else  // _MSC_VER
-    UInt8 unit_bytes[16] __attribute__ ((aligned (16)));
-    UInt8 accumulated_counts_bytes[16] __attribute__ ((aligned (16)));
+   #else   // _MSC_VER
+    UInt8 unit_bytes[16] __attribute__((aligned(16)));
+    UInt8 accumulated_counts_bytes[16] __attribute__((aligned(16)));
    #endif  // _MSC_VER
     accumulated_counts = _mm_slli_si128(accumulated_counts, 1);
     _mm_store_si128(reinterpret_cast<__m128i *>(unit_bytes), unit);
     _mm_store_si128(reinterpret_cast<__m128i *>(accumulated_counts_bytes),
-        accumulated_counts);
+                    accumulated_counts);
 
     bit_id += skip;
     byte = unit_bytes[skip / 8];
@@ -377,8 +384,9 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
   return bit_id + SELECT_TABLE[i][byte];
 }
-  #else  // MARISA_USE_SSE2
+  #else    // MARISA_USE_SSE2
 const UInt8 POPCNT_TABLE[256] = {
+    // clang-format off
   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
@@ -395,10 +403,11 @@ const UInt8 POPCNT_TABLE[256] = {
   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
   4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
+    // clang-format on
 };
 
-std::size_t select_bit(std::size_t i, std::size_t bit_id,
-    UInt32 unit_lo, UInt32 unit_hi) {
+std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit_lo,
+                       UInt32 unit_hi) {
   UInt32 next_byte = unit_lo & 0xFF;
   UInt32 byte_popcount = POPCNT_TABLE[next_byte];
   // Assuming the desired bit is in a random byte, branches are not
@@ -435,8 +444,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id,
   // Assume `i < POPCNT_TABLE[next_byte]`.
   return bit_id + 56 + SELECT_TABLE[i][next_byte];
 }
-  #endif  // MARISA_USE_SSE2
-
+  #endif   // MARISA_USE_SSE2
 
 // This is only used by build_index, so don't worry about the small performance
 // penalty from not having version taking only a UInt32.
@@ -445,7 +453,7 @@ inline std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit) {
 }
 
  #endif  // MARISA_WORD_SIZE == 64
-#endif  // MARISA_USE_BMI2
+#endif   // MARISA_USE_BMI2
 
 }  // namespace
 
@@ -786,8 +794,8 @@ std::size_t BitVector::select1(std::size_t i) const {
 
 #endif  // MARISA_WORD_SIZE == 64
 
-void BitVector::build_index(const BitVector &bv,
-    bool enables_select0, bool enables_select1) {
+void BitVector::build_index(const BitVector &bv, bool enables_select0,
+                            bool enables_select1) {
   const std::size_t num_bits = bv.size();
   ranks_.resize((num_bits / 512) + (((num_bits % 512) != 0) ? 1 : 0) + 1);
 

@@ -9,7 +9,7 @@ namespace trie {
 
 class Range {
  public:
-  Range() : begin_(0), end_(0), key_pos_(0) {}
+  Range() = default;
 
   void set_begin(std::size_t begin) {
     MARISA_DEBUG_IF(begin > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
@@ -35,9 +35,9 @@ class Range {
   }
 
  private:
-  UInt32 begin_;
-  UInt32 end_;
-  UInt32 key_pos_;
+  UInt32 begin_ = 0;
+  UInt32 end_ = 0;
+  UInt32 key_pos_ = 0;
 };
 
 inline Range make_range(std::size_t begin, std::size_t end,

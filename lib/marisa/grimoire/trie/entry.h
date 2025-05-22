@@ -9,8 +9,7 @@ namespace trie {
 
 class Entry {
  public:
-  Entry() : ptr_(nullptr), length_(0), id_(0) {}
-
+  Entry() = default;
   Entry(const Entry &entry) = default;
   Entry &operator=(const Entry &entry) = default;
 
@@ -63,9 +62,9 @@ class Entry {
   };
 
  private:
-  const char *ptr_;
-  UInt32 length_;
-  UInt32 id_;
+  const char *ptr_ = nullptr;
+  UInt32 length_ = 0;
+  UInt32 id_ = 0;
 };
 
 }  // namespace trie

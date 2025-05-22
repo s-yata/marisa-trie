@@ -9,10 +9,7 @@ namespace trie {
 
 class Key {
  public:
-  Key() : ptr_(nullptr), length_(0), union_(), id_(0) {
-    union_.terminal = 0;
-  }
-
+  Key() = default;
   Key(const Key &entry) = default;
   Key &operator=(const Key &entry) = default;
 
@@ -64,13 +61,13 @@ class Key {
   }
 
  private:
-  const char *ptr_;
-  UInt32 length_;
+  const char *ptr_ = nullptr;
+  UInt32 length_ = 0;
   union Union {
     float weight;
-    UInt32 terminal;
+    UInt32 terminal = 0;
   } union_;
-  UInt32 id_;
+  UInt32 id_ = 0;
 };
 
 inline bool operator==(const Key &lhs, const Key &rhs) {
@@ -107,10 +104,7 @@ inline bool operator>(const Key &lhs, const Key &rhs) {
 
 class ReverseKey {
  public:
-  ReverseKey() : ptr_(nullptr), length_(0), union_(), id_(0) {
-    union_.terminal = 0;
-  }
-
+  ReverseKey() = default;
   ReverseKey(const ReverseKey &entry) = default;
   ReverseKey &operator=(const ReverseKey &entry) = default;
 
@@ -162,13 +156,13 @@ class ReverseKey {
   }
 
  private:
-  const char *ptr_;
-  UInt32 length_;
+  const char *ptr_ = nullptr;
+  UInt32 length_ = 0;
   union Union {
     float weight;
-    UInt32 terminal;
+    UInt32 terminal = 0;
   } union_;
-  UInt32 id_;
+  UInt32 id_ = 0;
 };
 
 inline bool operator==(const ReverseKey &lhs, const ReverseKey &rhs) {

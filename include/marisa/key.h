@@ -11,10 +11,7 @@ namespace marisa {
 
 class Key {
  public:
-  Key() : ptr_(nullptr), length_(0), union_() {
-    union_.id = 0;
-  }
-
+  Key() = default;
   Key(const Key &key) = default;
   Key &operator=(const Key &key) = default;
 
@@ -80,10 +77,10 @@ class Key {
   }
 
  private:
-  const char *ptr_;
-  UInt32 length_;
+  const char *ptr_ = nullptr;
+  UInt32 length_ = 0;
   union Union {
-    UInt32 id;
+    UInt32 id = 0;
     float weight;
   } union_;
 };

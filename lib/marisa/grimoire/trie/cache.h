@@ -11,10 +11,7 @@ namespace trie {
 
 class Cache {
  public:
-  Cache() : parent_(0), child_(0), union_() {
-    union_.weight = FLT_MIN;
-  }
-
+  Cache() = default;
   Cache(const Cache &cache) = default;
   Cache &operator=(const Cache &cache) = default;
 
@@ -60,11 +57,11 @@ class Cache {
   }
 
  private:
-  UInt32 parent_;
-  UInt32 child_;
+  UInt32 parent_ = 0;
+  UInt32 child_ = 0;
   union Union {
     UInt32 link;
-    float weight;
+    float weight = FLT_MIN;
   } union_;
 };
 

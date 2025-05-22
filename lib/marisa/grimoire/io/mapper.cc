@@ -126,6 +126,13 @@ void Mapper::open_(const char *filename, int flags) {
   origin_ = ::MapViewOfFile(map_, FILE_MAP_READ, 0, 0, 0);
   MARISA_THROW_IF(origin_ == NULL, MARISA_IO_ERROR);
 
+  if (flags & MARISA_MAP_POPULATE) {
+    WIN32_MEMORY_RANGE_ENTRY range_entry;
+    range_entry.VirtualAddress = origin_;
+    range_entry.NumberOfBytes = size_;
+    PrefetchVirtualMemory(GetCurrentProcess(), 1, &range_entry, 0);
+  }
+
   ptr_ = static_cast<const char *>(origin_);
   avail_ = size_;
 }
@@ -140,10 +147,15 @@ void Mapper::open_(const char *filename, int flags) {
   size_ = (std::size_t)st.st_size;
 
   int map_flags = MAP_SHARED;
+ #if defined(MAP_POPULATE)
   // `MAP_POPULATE` is Linux-specific.
- #ifdef MAP_POPULATE
   if (flags & MARISA_MAP_POPULATE) {
     map_flags |= MAP_POPULATE;
+  }
+ #elif defined(MAP_PREFAULT_READ)
+  // `MAP_PREFAULT_READ` is FreeBSD-specific.
+  if (flags & MARISA_MAP_POPULATE) {
+    map_flags |= MAP_PREFAULT_READ;
   }
  #endif
 

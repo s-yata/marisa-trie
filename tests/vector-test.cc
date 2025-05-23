@@ -13,78 +13,28 @@
 
 namespace {
 
+using marisa::grimoire::vector::popcount;
+
 std::random_device seed_gen;
 std::mt19937 random_engine(seed_gen());
 
 #if MARISA_WORD_SIZE == 64
-void TestPopCount() {
+void TestPopcount() {
   TEST_START();
 
-  {
-    marisa::grimoire::vector::PopCount count(0);
-    ASSERT(count.lo8() == 0);
-    ASSERT(count.lo16() == 0);
-    ASSERT(count.lo24() == 0);
-    ASSERT(count.lo32() == 0);
-    ASSERT(count.lo40() == 0);
-    ASSERT(count.lo48() == 0);
-    ASSERT(count.lo56() == 0);
-    ASSERT(count.lo64() == 0);
-  }
-
-  {
-    marisa::grimoire::vector::PopCount count(0xFFFFFFFFFFFFFFFFULL);
-    ASSERT(count.lo8() == 8);
-    ASSERT(count.lo16() == 16);
-    ASSERT(count.lo24() == 24);
-    ASSERT(count.lo32() == 32);
-    ASSERT(count.lo40() == 40);
-    ASSERT(count.lo48() == 48);
-    ASSERT(count.lo56() == 56);
-    ASSERT(count.lo64() == 64);
-  }
-
-  {
-    marisa::grimoire::vector::PopCount count(0xFF7F3F1F0F070301ULL);
-    ASSERT(count.lo8() == 1);
-    ASSERT(count.lo16() == 3);
-    ASSERT(count.lo24() == 6);
-    ASSERT(count.lo32() == 10);
-    ASSERT(count.lo40() == 15);
-    ASSERT(count.lo48() == 21);
-    ASSERT(count.lo56() == 28);
-    ASSERT(count.lo64() == 36);
-  }
+  ASSERT(popcount(0U) == 0);
+  ASSERT(popcount(~0ULL) == 64);
+  ASSERT(popcount(0xFF7F3F1F0F070301ULL) == 36);
 
   TEST_END();
 }
 #else  // MARISA_WORD_SIZE == 64
-void TestPopCount() {
+void TestPopcount() {
   TEST_START();
 
-  {
-    marisa::grimoire::vector::PopCount count(0);
-    ASSERT(count.lo8() == 0);
-    ASSERT(count.lo16() == 0);
-    ASSERT(count.lo24() == 0);
-    ASSERT(count.lo32() == 0);
-  }
-
-  {
-    marisa::grimoire::vector::PopCount count(0xFFFFFFFFU);
-    ASSERT(count.lo8() == 8);
-    ASSERT(count.lo16() == 16);
-    ASSERT(count.lo24() == 24);
-    ASSERT(count.lo32() == 32);
-  }
-
-  {
-    marisa::grimoire::vector::PopCount count(0xFF3F0F03U);
-    ASSERT(count.lo8() == 2);
-    ASSERT(count.lo16() == 6);
-    ASSERT(count.lo24() == 12);
-    ASSERT(count.lo32() == 20);
-  }
+  ASSERT(popcount(0U) == 0);
+  ASSERT(popcount(~0U) == 32);
+  ASSERT(popcount(0xFF3F0F03U) == 20);
 
   TEST_END();
 }
@@ -448,7 +398,7 @@ void TestBitVector() {
 }  // namespace
 
 int main() try {
-  TestPopCount();
+  TestPopcount();
   TestRankIndex();
 
   TestVector();

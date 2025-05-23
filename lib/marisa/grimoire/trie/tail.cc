@@ -7,11 +7,11 @@ namespace marisa {
 namespace grimoire {
 namespace trie {
 
-Tail::Tail() : buf_(), end_flags_() {}
+Tail::Tail() = default;
 
 void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
                  TailMode mode) {
-  MARISA_THROW_IF(offsets == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(offsets == nullptr, MARISA_NULL_ERROR);
 
   switch (mode) {
     case MARISA_TEXT_TAIL: {

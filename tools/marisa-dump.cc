@@ -53,7 +53,7 @@ int dump(const marisa::Trie &trie) {
 
 int dump(const char *filename) {
   marisa::Trie trie;
-  if (filename != NULL) {
+  if (filename != nullptr) {
     std::cerr << "input: " << filename << std::endl;
     if (mmap_flag) {
       try {
@@ -99,7 +99,7 @@ int dump(const char *filename) {
 
 int dump(const char * const *args, std::size_t num_args) {
   if (num_args == 0) {
-    return dump(NULL);
+    return dump(nullptr);
   }
   for (std::size_t i = 0; i < num_args; ++i) {
     const int result = dump(args[i]);
@@ -116,11 +116,11 @@ int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {
-    { "delimiter", 1, NULL, 'd' },
-    { "mmap-dictionary", 0, NULL, 'm' },
-    { "read-dictionary", 0, NULL, 'r' },
-    { "help", 0, NULL, 'h' },
-    { NULL, 0, NULL, 0 }
+    { "delimiter", 1, nullptr, 'd' },
+    { "mmap-dictionary", 0, nullptr, 'm' },
+    { "read-dictionary", 0, nullptr, 'r' },
+    { "help", 0, nullptr, 'h' },
+    { nullptr, 0, nullptr, 0 }
   };
   ::cmdopt_t cmdopt;
   ::cmdopt_init(&cmdopt, argc, argv, "d:mrh", long_options);

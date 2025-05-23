@@ -11,7 +11,7 @@ namespace marisa {
 
 class Key {
  public:
-  Key() : ptr_(NULL), length_(0), union_() {
+  Key() : ptr_(nullptr), length_(0), union_() {
     union_.id = 0;
   }
 
@@ -29,7 +29,7 @@ class Key {
   }
 #endif  // __cplusplus >= 201703L
   void set_str(const char *str) {
-    MARISA_DEBUG_IF(str == NULL, MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
     std::size_t length = 0;
     while (str[length] != '\0') {
       ++length;
@@ -39,7 +39,7 @@ class Key {
     length_ = (UInt32)length;
   }
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr;
     length_ = (UInt32)length;

@@ -18,7 +18,7 @@ LoudsTrie::LoudsTrie()
       next_trie_(), cache_(), cache_mask_(0), num_l1_nodes_(0), config_(),
       mapper_() {}
 
-LoudsTrie::~LoudsTrie() {}
+LoudsTrie::~LoudsTrie() = default;
 
 void LoudsTrie::build(Keyset &keyset, int flags) {
   Config config;
@@ -213,7 +213,7 @@ std::size_t LoudsTrie::total_size() const {
   return louds_.total_size() + terminal_flags_.total_size() +
          link_flags_.total_size() + bases_.total_size() + extras_.total_size() +
          tail_.total_size() +
-         ((next_trie_.get() != NULL) ? next_trie_->total_size() : 0) +
+         ((next_trie_ != nullptr) ? next_trie_->total_size() : 0) +
          cache_.total_size();
 }
 
@@ -221,7 +221,7 @@ std::size_t LoudsTrie::io_size() const {
   return Header().io_size() + louds_.io_size() + terminal_flags_.io_size() +
          link_flags_.io_size() + bases_.io_size() + extras_.io_size() +
          tail_.io_size() +
-         ((next_trie_.get() != NULL)
+         ((next_trie_ != nullptr)
               ? (next_trie_->io_size() - Header().io_size())
               : 0) +
          cache_.io_size() + (sizeof(UInt32) * 2);
@@ -302,7 +302,7 @@ void LoudsTrie::build_trie(Vector<T> &keys, Vector<UInt32> *terminals,
     build_next_trie(keys, &next_terminals, config, trie_id);
   }
 
-  if (next_trie_.get() != NULL) {
+  if (next_trie_ != nullptr) {
     config_.parse(static_cast<int>((next_trie_->num_tries() + 1)) |
                   next_trie_->tail_mode() | next_trie_->node_order());
   } else {
@@ -452,7 +452,7 @@ void LoudsTrie::build_next_trie(Vector<Key> &keys, Vector<UInt32> *terminals,
   }
   keys.clear();
   next_trie_.reset(new (std::nothrow) LoudsTrie);
-  MARISA_THROW_IF(next_trie_.get() == NULL, MARISA_MEMORY_ERROR);
+  MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
   next_trie_->build_trie(reverse_keys, terminals, config, trie_id + 1);
 }
 
@@ -470,7 +470,7 @@ void LoudsTrie::build_next_trie(Vector<ReverseKey> &keys,
     return;
   }
   next_trie_.reset(new (std::nothrow) LoudsTrie);
-  MARISA_THROW_IF(next_trie_.get() == NULL, MARISA_MEMORY_ERROR);
+  MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
   next_trie_->build_trie(keys, terminals, config, trie_id + 1);
 }
 
@@ -545,7 +545,7 @@ void LoudsTrie::map_(Mapper &mapper) {
   tail_.map(mapper);
   if ((link_flags_.num_1s() != 0) && tail_.empty()) {
     next_trie_.reset(new (std::nothrow) LoudsTrie);
-    MARISA_THROW_IF(next_trie_.get() == NULL, MARISA_MEMORY_ERROR);
+    MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
     next_trie_->map_(mapper);
   }
   cache_.map(mapper);
@@ -571,7 +571,7 @@ void LoudsTrie::read_(Reader &reader) {
   tail_.read(reader);
   if ((link_flags_.num_1s() != 0) && tail_.empty()) {
     next_trie_.reset(new (std::nothrow) LoudsTrie);
-    MARISA_THROW_IF(next_trie_.get() == NULL, MARISA_MEMORY_ERROR);
+    MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
     next_trie_->read_(reader);
   }
   cache_.read(reader);
@@ -595,7 +595,7 @@ void LoudsTrie::write_(Writer &writer) const {
   bases_.write(writer);
   extras_.write(writer);
   tail_.write(writer);
-  if (next_trie_.get() != NULL) {
+  if (next_trie_ != nullptr) {
     next_trie_->write_(writer);
   }
   cache_.write(writer);
@@ -696,7 +696,7 @@ bool LoudsTrie::predictive_find_child(Agent &agent) const {
 }
 
 void LoudsTrie::restore(Agent &agent, std::size_t link) const {
-  if (next_trie_.get() != NULL) {
+  if (next_trie_ != nullptr) {
     next_trie_->restore_(agent, link);
   } else {
     tail_.restore(agent, link);
@@ -704,7 +704,7 @@ void LoudsTrie::restore(Agent &agent, std::size_t link) const {
 }
 
 bool LoudsTrie::match(Agent &agent, std::size_t link) const {
-  if (next_trie_.get() != NULL) {
+  if (next_trie_ != nullptr) {
     return next_trie_->match_(agent, link);
   } else {
     return tail_.match(agent, link);
@@ -712,7 +712,7 @@ bool LoudsTrie::match(Agent &agent, std::size_t link) const {
 }
 
 bool LoudsTrie::prefix_match(Agent &agent, std::size_t link) const {
-  if (next_trie_.get() != NULL) {
+  if (next_trie_ != nullptr) {
     return next_trie_->prefix_match_(agent, link);
   } else {
     return tail_.prefix_match(agent, link);
@@ -781,7 +781,7 @@ bool LoudsTrie::match_(Agent &agent, std::size_t node_id) const {
     }
 
     if (link_flags_[node_id]) {
-      if (next_trie_.get() != NULL) {
+      if (next_trie_ != nullptr) {
         if (!match(agent, get_link(node_id))) {
           return false;
         }

@@ -22,6 +22,9 @@ class Trie {
   Trie();
   ~Trie();
 
+  Trie(const Trie &) = delete;
+  Trie &operator=(const Trie &) = delete;
+
   Trie(Trie &&) noexcept;
   Trie &operator=(Trie &&) noexcept;
 
@@ -58,10 +61,6 @@ class Trie {
 
  private:
   std::unique_ptr<grimoire::trie::LoudsTrie> trie_;
-
-  // Disallows copy and assignment.
-  Trie(const Trie &);
-  Trie &operator=(const Trie &);
 };
 
 }  // namespace marisa

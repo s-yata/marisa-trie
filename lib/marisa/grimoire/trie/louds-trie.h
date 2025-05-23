@@ -20,6 +20,9 @@ class LoudsTrie {
   LoudsTrie();
   ~LoudsTrie();
 
+  LoudsTrie(const LoudsTrie &) = delete;
+  LoudsTrie &operator=(const LoudsTrie &) = delete;
+
   void build(Keyset &keyset, int flags);
 
   void map(Mapper &mapper);
@@ -120,10 +123,6 @@ class LoudsTrie {
 
   inline std::size_t update_link_id(std::size_t link_id,
                                     std::size_t node_id) const;
-
-  // Disallows copy and assignment.
-  LoudsTrie(const LoudsTrie &);
-  LoudsTrie &operator=(const LoudsTrie &);
 };
 
 }  // namespace trie

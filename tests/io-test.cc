@@ -173,11 +173,11 @@ void TestFile() {
 
   {
 #ifdef _MSC_VER
-    FILE *file = NULL;
+    FILE *file = nullptr;
     ASSERT(::fopen_s(&file, "io-test.dat", "wb") == 0);
 #else  // _MSC_VER
     FILE *file = std::fopen("io-test.dat", "wb");
-    ASSERT(file != NULL);
+    ASSERT(file != nullptr);
 #endif  // _MSC_VER
     marisa::grimoire::Writer writer;
     writer.open(file);
@@ -193,11 +193,11 @@ void TestFile() {
 
   {
 #ifdef _MSC_VER
-    FILE *file = NULL;
+    FILE *file = nullptr;
     ASSERT(::fopen_s(&file, "io-test.dat", "rb") == 0);
 #else  // _MSC_VER
     FILE *file = std::fopen("io-test.dat", "rb");
-    ASSERT(file != NULL);
+    ASSERT(file != nullptr);
 #endif  // _MSC_VER
     marisa::grimoire::Reader reader;
     reader.open(file);

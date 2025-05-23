@@ -62,7 +62,7 @@ void TestException() {
     ASSERT(std::strcmp(ex.filename(), __FILE__) == 0);
     ASSERT(ex.line() == (__LINE__ - 3));
     ASSERT(ex.error_code() == MARISA_OK);
-    ASSERT(std::strstr(ex.error_message(), "Message") != NULL);
+    ASSERT(std::strstr(ex.error_message(), "Message") != nullptr);
   }
 
   EXCEPT(MARISA_THROW(MARISA_OK, "OK"), MARISA_OK);
@@ -78,7 +78,7 @@ void TestKey() {
 
   marisa::Key key;
 
-  ASSERT(key.ptr() == NULL);
+  ASSERT(key.ptr() == nullptr);
   ASSERT(key.length() == 0);
 
   key.set_str(str);
@@ -253,7 +253,7 @@ void TestQuery() {
 
   marisa::Query query;
 
-  ASSERT(query.ptr() == NULL);
+  ASSERT(query.ptr() == nullptr);
   ASSERT(query.length() == 0);
   ASSERT(query.id() == 0);
 
@@ -285,7 +285,7 @@ void TestQuery() {
 
   query.clear();
 
-  ASSERT(query.ptr() == NULL);
+  ASSERT(query.ptr() == nullptr);
   ASSERT(query.length() == 0);
   ASSERT(query.id() == 0);
 
@@ -297,11 +297,11 @@ void TestAgent() {
 
   marisa::Agent agent;
 
-  ASSERT(agent.query().ptr() == NULL);
+  ASSERT(agent.query().ptr() == nullptr);
   ASSERT(agent.query().length() == 0);
   ASSERT(agent.query().id() == 0);
 
-  ASSERT(agent.key().ptr() == NULL);
+  ASSERT(agent.key().ptr() == nullptr);
   ASSERT(agent.key().length() == 0);
 
   ASSERT(!agent.has_state());
@@ -347,11 +347,11 @@ void TestAgent() {
 
   agent.clear();
 
-  ASSERT(agent.query().ptr() == NULL);
+  ASSERT(agent.query().ptr() == nullptr);
   ASSERT(agent.query().length() == 0);
   ASSERT(agent.query().id() == 0);
 
-  ASSERT(agent.key().ptr() == NULL);
+  ASSERT(agent.key().ptr() == nullptr);
   ASSERT(agent.key().length() == 0);
 
   ASSERT(!agent.has_state());

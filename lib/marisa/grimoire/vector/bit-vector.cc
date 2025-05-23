@@ -170,13 +170,13 @@ const UInt8 SELECT_TABLE[8][256] = {
 // clang-format on
 
  #if MARISA_WORD_SIZE == 64
-const UInt64 MASK_01 = 0x0101010101010101ULL;
+constexpr UInt64 MASK_01 = 0x0101010101010101ULL;
   #if !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
-const UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
-const UInt64 MASK_33 = 0x3333333333333333ULL;
-const UInt64 MASK_55 = 0x5555555555555555ULL;
+constexpr UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
+constexpr UInt64 MASK_33 = 0x3333333333333333ULL;
+constexpr UInt64 MASK_55 = 0x5555555555555555ULL;
   #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
-const UInt64 MASK_80 = 0x8080808080808080ULL;
+constexpr UInt64 MASK_80 = 0x8080808080808080ULL;
 
 // Pre-computed lookup table trick from Gog, Simon and Matthias Petri.
 // "Optimized succinct data structures for massive data."  Software:

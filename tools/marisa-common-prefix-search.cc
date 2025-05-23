@@ -97,11 +97,11 @@ int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {
-    { "max-num-results", 1, NULL, 'n' },
-    { "mmap-dictionary", 0, NULL, 'm' },
-    { "read-dictionary", 0, NULL, 'r' },
-    { "help", 0, NULL, 'h' },
-    { NULL, 0, NULL, 0 }
+    { "max-num-results", 1, nullptr, 'n' },
+    { "mmap-dictionary", 0, nullptr, 'm' },
+    { "read-dictionary", 0, nullptr, 'r' },
+    { "help", 0, nullptr, 'h' },
+    { nullptr, 0, nullptr, 0 }
   };
   ::cmdopt_t cmdopt;
   ::cmdopt_init(&cmdopt, argc, argv, "n:mrh", long_options);

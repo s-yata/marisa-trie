@@ -21,6 +21,9 @@ class Keyset {
 
   Keyset();
 
+  Keyset(const Keyset &) = delete;
+  Keyset &operator=(const Keyset &) = delete;
+
   void push_back(const Key &key);
   void push_back(const Key &key, char end_marker);
 
@@ -80,10 +83,6 @@ class Keyset {
   void append_base_block();
   void append_extra_block(std::size_t size);
   void append_key_block();
-
-  // Disallows copy and assignment.
-  Keyset(const Keyset &);
-  Keyset &operator=(const Keyset &);
 };
 
 }  // namespace marisa

@@ -28,13 +28,13 @@ void UpdateAgentAfterCopyingState(const grimoire::trie::State &state,
 }
 }  // namespace
 
-Agent::Agent() : query_(), key_(), state_() {}
+Agent::Agent() = default;
 
-Agent::~Agent() {}
+Agent::~Agent() = default;
 
 Agent::Agent(const Agent &other)
     : query_(other.query_), key_(other.key_),
-      state_(other.has_state() ? new (std::nothrow)
+      state_(other.has_state() ? new(std::nothrow)
                                      grimoire::trie::State(other.state())
                                : nullptr) {
   if (other.has_state()) {
@@ -60,7 +60,7 @@ Agent::Agent(Agent &&other) noexcept = default;
 Agent &Agent::operator=(Agent &&other) noexcept = default;
 
 void Agent::set_query(const char *str) {
-  MARISA_THROW_IF(str == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(str == nullptr, MARISA_NULL_ERROR);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -68,7 +68,7 @@ void Agent::set_query(const char *str) {
 }
 
 void Agent::set_query(const char *ptr, std::size_t length) {
-  MARISA_THROW_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+  MARISA_THROW_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -83,9 +83,9 @@ void Agent::set_query(std::size_t key_id) {
 }
 
 void Agent::init_state() {
-  MARISA_THROW_IF(state_.get() != NULL, MARISA_STATE_ERROR);
+  MARISA_THROW_IF(state_ != nullptr, MARISA_STATE_ERROR);
   state_.reset(new (std::nothrow) grimoire::State);
-  MARISA_THROW_IF(state_.get() == NULL, MARISA_MEMORY_ERROR);
+  MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
 }
 
 void Agent::clear() {

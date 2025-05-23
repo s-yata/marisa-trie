@@ -13,7 +13,10 @@ class Header {
     HEADER_SIZE = 16
   };
 
-  Header() {}
+  Header() = default;
+
+  Header(const Header &) = delete;
+  Header &operator=(const Header &) = delete;
 
   void map(Mapper &mapper) {
     const char *ptr;
@@ -47,10 +50,6 @@ class Header {
     }
     return true;
   }
-
-  // Disallows copy and assignment.
-  Header(const Header &);
-  Header &operator=(const Header &);
 };
 
 }  // namespace trie

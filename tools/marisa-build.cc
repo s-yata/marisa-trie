@@ -19,7 +19,7 @@ int param_num_tries = MARISA_DEFAULT_NUM_TRIES;
 marisa::TailMode param_tail_mode = MARISA_DEFAULT_TAIL;
 marisa::NodeOrder param_node_order = MARISA_DEFAULT_ORDER;
 marisa::CacheLevel param_cache_level = MARISA_DEFAULT_CACHE;
-const char *output_filename = NULL;
+const char *output_filename = nullptr;
 
 void print_help(const char *cmd) {
   std::cerr << "Usage: " << cmd << " [OPTION]... [FILE]...\n\n"
@@ -88,7 +88,7 @@ int build(const char * const *args, std::size_t num_args) {
   std::cerr << "#nodes: " << trie.num_nodes() << std::endl;
   std::cerr << "size: " << trie.io_size() << std::endl;
 
-  if (output_filename != NULL) {
+  if (output_filename != nullptr) {
     try {
       trie.save(output_filename);
     } catch (const marisa::Exception &ex) {
@@ -126,16 +126,16 @@ int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {
-    { "max-num-tries", 1, NULL, 'n' },  // For backward compatibility.
-    { "num-tries", 1, NULL, 'n' },
-    { "text-tail", 0, NULL, 't' },
-    { "binary-tail", 0, NULL, 'b' },
-    { "weight-order", 0, NULL, 'w' },
-    { "label-order", 0, NULL, 'l' },
-    { "cache-level", 1, NULL, 'c' },
-    { "output", 1, NULL, 'o' },
-    { "help", 0, NULL, 'h' },
-    { NULL, 0, NULL, 0 }
+    { "max-num-tries", 1, nullptr, 'n' },  // For backward compatibility.
+    { "num-tries", 1, nullptr, 'n' },
+    { "text-tail", 0, nullptr, 't' },
+    { "binary-tail", 0, nullptr, 'b' },
+    { "weight-order", 0, nullptr, 'w' },
+    { "label-order", 0, nullptr, 'l' },
+    { "cache-level", 1, nullptr, 'c' },
+    { "output", 1, nullptr, 'o' },
+    { "help", 0, nullptr, 'h' },
+    { nullptr, 0, nullptr, 0 }
   };
   ::cmdopt_t cmdopt;
   ::cmdopt_init(&cmdopt, argc, argv, "n:tbwlc:o:h", long_options);

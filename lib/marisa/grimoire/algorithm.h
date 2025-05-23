@@ -8,16 +8,15 @@ namespace grimoire {
 
 class Algorithm {
  public:
-  Algorithm() {}
+  Algorithm() = default;
+
+  Algorithm(const Algorithm &) = delete;
+  Algorithm &operator=(const Algorithm &) = delete;
 
   template <typename Iterator>
   std::size_t sort(Iterator begin, Iterator end) const {
     return algorithm::sort(begin, end);
   }
-
- private:
-  Algorithm(const Algorithm &);
-  Algorithm &operator=(const Algorithm &);
 };
 
 }  // namespace grimoire

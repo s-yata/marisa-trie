@@ -1,6 +1,6 @@
-#include <stdio.h>
-
 #include "cmdopt.h"
+
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,7 +8,7 @@ extern "C" {
 
 // Moves `optind' to the end and shifts other arguments.
 static void cmdopt_shift(cmdopt_t *h) {
-  int   i;
+  int i;
   char *tmp;
 
   tmp = h->argv[h->optind];
@@ -29,7 +29,7 @@ static void cmdopt_next(cmdopt_t *h) {
 
 // Checks if the current argument is an option or not.
 static int cmdopt_check(cmdopt_t *h) {
-  int         ret = 1;
+  int ret = 1;
   const char *arg = h->argv[h->optind];
 
   if (*arg++ != '-') {
@@ -174,7 +174,7 @@ static int cmdopt_search_long(cmdopt_t *h) {
 
   // Gets the next option.
   h->longindex = cmdopt_match(h);
-  if (h->longindex  < 0) {
+  if (h->longindex < 0) {
     cmdopt_next(h);
     return '?';
   }
@@ -239,8 +239,8 @@ static int cmdopt_main(cmdopt_t *h) {
 }
 
 // cmdopt_init() initializes a cmdopt_t for successive cmdopt_get()s.
-void cmdopt_init(cmdopt_t *h, int argc, char **argv,
-    const char *optstring, const cmdopt_option *longopts) {
+void cmdopt_init(cmdopt_t *h, int argc, char **argv, const char *optstring,
+                 const cmdopt_option *longopts) {
   static const char empty_optstring[] = "";
 
   h->argc = argc;
@@ -271,7 +271,7 @@ int cmdopt_get(cmdopt_t *h) {
         fprintf(stderr, "option requires an argument -- %c\n", h->optopt);
       } else {
         fprintf(stderr, "option `--%s' requires an argument\n",
-            h->longopts[h->longindex].name);
+                h->longopts[h->longindex].name);
       }
     } else if (value == '?') {
       // Warning for an invalid option.
@@ -286,7 +286,7 @@ int cmdopt_get(cmdopt_t *h) {
         fprintf(stderr, "option with `%s' -- %c\n", h->optarg, h->optopt);
       } else {
         fprintf(stderr, "option `--%s' with `%s'\n",
-            h->longopts[h->longindex].name, h->optarg);
+                h->longopts[h->longindex].name, h->optarg);
       }
     }
   }

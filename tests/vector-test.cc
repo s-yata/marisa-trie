@@ -1,13 +1,13 @@
+#include <marisa/grimoire/vector.h>
+#include <marisa/grimoire/vector/pop-count.h>
+#include <marisa/grimoire/vector/rank-index.h>
+
 #include <cstdlib>
 #include <ctime>
 #include <random>
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include <marisa/grimoire/vector/pop-count.h>
-#include <marisa/grimoire/vector/rank-index.h>
-#include <marisa/grimoire/vector.h>
 
 #include "marisa-assert.h"
 
@@ -28,7 +28,7 @@ void TestPopcount() {
 
   TEST_END();
 }
-#else  // MARISA_WORD_SIZE == 64
+#else   // MARISA_WORD_SIZE == 64
 void TestPopcount() {
   TEST_START();
 
@@ -96,21 +96,21 @@ void TestVector() {
   for (std::size_t i = 0; i < values.size(); ++i) {
     vec.push_back(values[i]);
     ASSERT(vec[i] == values[i]);
-    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i]
-        == values[i]);
+    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
+           values[i]);
   }
 
   ASSERT(vec.size() == values.size());
   ASSERT(vec.capacity() >= vec.size());
   ASSERT(!vec.empty());
   ASSERT(vec.total_size() == (sizeof(int) * values.size()));
-  ASSERT(vec.io_size() == sizeof(marisa::UInt64)
-      + ((sizeof(int) * values.size())));
+  ASSERT(vec.io_size() ==
+         sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
 
-  ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec).front()
-      == values.front());
-  ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec).back()
-      == values.back());
+  ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec).front() ==
+         values.front());
+  ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec).back() ==
+         values.back());
   ASSERT(vec.front() == values.front());
   ASSERT(vec.back() == values.back());
 
@@ -120,8 +120,8 @@ void TestVector() {
   ASSERT(vec.capacity() == vec.size());
   for (std::size_t i = 0; i < values.size(); ++i) {
     ASSERT(vec[i] == values[i]);
-    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i]
-        == values[i]);
+    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
+           values[i]);
   }
 
   {
@@ -144,12 +144,12 @@ void TestVector() {
     ASSERT(vec.fixed());
     ASSERT(!vec.empty());
     ASSERT(vec.total_size() == (sizeof(int) * values.size()));
-    ASSERT(vec.io_size() == sizeof(marisa::UInt64)
-        + ((sizeof(int) * values.size())));
+    ASSERT(vec.io_size() ==
+           sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
 
     for (std::size_t i = 0; i < values.size(); ++i) {
-      ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i]
-          == values[i]);
+      ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
+             values[i]);
     }
 
     vec.clear();
@@ -166,13 +166,13 @@ void TestVector() {
   ASSERT(!vec.fixed());
   ASSERT(!vec.empty());
   ASSERT(vec.total_size() == (sizeof(int) * values.size()));
-  ASSERT(vec.io_size() == sizeof(marisa::UInt64)
-      + ((sizeof(int) * values.size())));
+  ASSERT(vec.io_size() ==
+         sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
 
   for (std::size_t i = 0; i < values.size(); ++i) {
     ASSERT(vec[i] == values[i]);
-    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i]
-        == values[i]);
+    ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
+           values[i]);
   }
 
   vec.clear();

@@ -1,3 +1,5 @@
+#include <marisa.h>
+
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -7,8 +9,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-
-#include <marisa.h>
 
 #include "marisa-assert.h"
 
@@ -25,7 +25,7 @@ void TestEmptyTrie() {
   EXCEPT(trie.save("marisa-test.dat"), MARISA_STATE_ERROR);
 #ifdef _MSC_VER
   EXCEPT(trie.write(::_fileno(stdout)), MARISA_STATE_ERROR);
-#else  // _MSC_VER
+#else   // _MSC_VER
   EXCEPT(trie.write(::fileno(stdout)), MARISA_STATE_ERROR);
 #endif  // _MSC_VER
   EXCEPT(std::cout << trie, MARISA_STATE_ERROR);
@@ -127,7 +127,7 @@ void TestTinyTrie() {
     trie.reverse_lookup(agent);
     ASSERT(agent.key().length() == keyset[i].length());
     ASSERT(std::memcmp(agent.key().ptr(), keyset[i].ptr(),
-        agent.key().length()) == 0);
+                       agent.key().length()) == 0);
   }
 
   agent.set_query("be");
@@ -195,7 +195,7 @@ void TestTinyTrie() {
     trie.reverse_lookup(agent);
     ASSERT(agent.key().length() == keyset[i].length());
     ASSERT(std::memcmp(agent.key().ptr(), keyset[i].ptr(),
-        agent.key().length()) == 0);
+                       agent.key().length()) == 0);
   }
 
   agent.set_query("");
@@ -209,7 +209,7 @@ void TestTinyTrie() {
 }
 
 void MakeKeyset(std::size_t num_keys, marisa::TailMode tail_mode,
-    marisa::Keyset *keyset) {
+                marisa::Keyset *keyset) {
   char key_buf[16];
   for (std::size_t i = 0; i < num_keys; ++i) {
     const std::size_t length =
@@ -235,12 +235,12 @@ void TestLookup(const marisa::Trie &trie, const marisa::Keyset &keyset) {
     trie.reverse_lookup(agent);
     ASSERT(agent.key().length() == keyset[i].length());
     ASSERT(std::memcmp(agent.key().ptr(), keyset[i].ptr(),
-        agent.key().length()) == 0);
+                       agent.key().length()) == 0);
   }
 }
 
 void TestCommonPrefixSearch(const marisa::Trie &trie,
-    const marisa::Keyset &keyset) {
+                            const marisa::Keyset &keyset) {
   marisa::Agent agent;
   for (std::size_t i = 0; i < keyset.size(); ++i) {
     agent.set_query(keyset[i].ptr(), keyset[i].length());
@@ -254,7 +254,7 @@ void TestCommonPrefixSearch(const marisa::Trie &trie,
 }
 
 void TestCommonPrefixSearchAgentCopy(const marisa::Trie &trie,
-    const marisa::Keyset &keyset) {
+                                     const marisa::Keyset &keyset) {
   if (keyset.empty()) return;
   marisa::Agent agent;
   agent.set_query(keyset[0].ptr(), keyset[0].length());
@@ -262,11 +262,12 @@ void TestCommonPrefixSearchAgentCopy(const marisa::Trie &trie,
   const std::string original_agent_key(agent.key().ptr(), agent.key().length());
   marisa::Agent agent_copy = agent;
   trie.common_prefix_search(agent);
-  ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == original_agent_key);
+  ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) ==
+         original_agent_key);
 }
 
 void TestPredictiveSearch(const marisa::Trie &trie,
-    const marisa::Keyset &keyset) {
+                          const marisa::Keyset &keyset) {
   marisa::Agent agent;
   for (std::size_t i = 0; i < keyset.size(); ++i) {
     agent.set_query(keyset[i].ptr(), keyset[i].length());
@@ -279,7 +280,7 @@ void TestPredictiveSearch(const marisa::Trie &trie,
 }
 
 void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
-    const marisa::Keyset &keyset) {
+                                   const marisa::Keyset &keyset) {
   marisa::Agent agent;
   for (std::size_t i = 0; i < keyset.size(); ++i) {
     agent.set_query(keyset[i].ptr(), keyset[i].length());
@@ -305,11 +306,13 @@ void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
       agent_copy = agent_copies[i];
 
       ASSERT(agent_copy.key().id() == ids[i]);
-      ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == keys[i]);
+      ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) ==
+             keys[i]);
       if (i + 1 < agent_copies.size()) {
         ASSERT(trie.predictive_search(agent_copy));
         ASSERT(agent_copy.key().id() == ids[i + 1]);
-        ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) == keys[i + 1]);
+        ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) ==
+               keys[i + 1]);
       } else {
         ASSERT(!trie.predictive_search(agent_copy));
       }
@@ -318,7 +321,7 @@ void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
 }
 
 void TestPredictiveSearchAgentMove(const marisa::Trie &trie,
-    const marisa::Keyset &keyset) {
+                                   const marisa::Keyset &keyset) {
   marisa::Agent agents[2];
   std::size_t current_agent = 0;
 
@@ -346,7 +349,7 @@ void TestPredictiveSearchAgentMove(const marisa::Trie &trie,
 }
 
 void TestTrie(int num_tries, marisa::TailMode tail_mode,
-    marisa::NodeOrder node_order, marisa::Keyset &keyset) {
+              marisa::NodeOrder node_order, marisa::Keyset &keyset) {
   for (std::size_t i = 0; i < keyset.size(); ++i) {
     keyset[i].set_weight(1.0F);
   }
@@ -384,7 +387,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     std::FILE *file;
 #ifdef _MSC_VER
     ASSERT(::fopen_s(&file, "marisa-test.dat", "wb") == 0);
-#else  // _MSC_VER
+#else   // _MSC_VER
     file = std::fopen("marisa-test.dat", "wb");
     ASSERT(file != nullptr);
 #endif  // _MSC_VER
@@ -393,7 +396,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     trie.clear();
 #ifdef _MSC_VER
     ASSERT(::fopen_s(&file, "marisa-test.dat", "rb") == 0);
-#else  // _MSC_VER
+#else   // _MSC_VER
     file = std::fopen("marisa-test.dat", "rb");
     ASSERT(file != nullptr);
 #endif  // _MSC_VER
@@ -437,11 +440,11 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
 }
 
 void TestTrie(marisa::TailMode tail_mode, marisa::NodeOrder node_order,
-    marisa::Keyset &keyset) {
+              marisa::Keyset &keyset) {
   TEST_START();
   std::cout << ((tail_mode == MARISA_TEXT_TAIL) ? "TEXT" : "BINARY") << ", ";
-  std::cout << ((node_order == MARISA_WEIGHT_ORDER) ?
-      "WEIGHT" : "LABEL") << ": ";
+  std::cout << ((node_order == MARISA_WEIGHT_ORDER) ? "WEIGHT" : "LABEL")
+            << ": ";
 
   for (int i = 1; i < 5; ++i) {
     TestTrie(i, tail_mode, node_order, keyset);

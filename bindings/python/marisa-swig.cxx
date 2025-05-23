@@ -1,7 +1,7 @@
+#include "marisa-swig.h"
+
 #include <cstring>
 #include <new>
-
-#include "marisa-swig.h"
 
 namespace marisa_swig {
 
@@ -27,7 +27,7 @@ size_t Query::id() const {
   return query_.id();
 }
 
-Keyset::Keyset() : keyset_(new (std::nothrow) marisa::Keyset) {
+Keyset::Keyset() : keyset_(new(std::nothrow) marisa::Keyset) {
   MARISA_THROW_IF(keyset_ == NULL, ::MARISA_MEMORY_ERROR);
 }
 
@@ -47,8 +47,7 @@ const Key &Keyset::key(size_t i) const {
   return reinterpret_cast<const Key &>((*keyset_)[i]);
 }
 
-void Keyset::key_str(size_t i,
-    const char **ptr_out, size_t *length_out) const {
+void Keyset::key_str(size_t i, const char **ptr_out, size_t *length_out) const {
   *ptr_out = (*keyset_)[i].ptr();
   *length_out = (*keyset_)[i].length();
 }
@@ -82,13 +81,13 @@ void Keyset::clear() {
 }
 
 Agent::Agent()
-    : agent_(new (std::nothrow) marisa::Agent), buf_(NULL), buf_size_(0) {
+    : agent_(new(std::nothrow) marisa::Agent), buf_(NULL), buf_size_(0) {
   MARISA_THROW_IF(agent_ == NULL, ::MARISA_MEMORY_ERROR);
 }
 
 Agent::~Agent() {
   delete agent_;
-  delete [] buf_;
+  delete[] buf_;
 }
 
 void Agent::set_query(const char *ptr, size_t length) {
@@ -103,7 +102,7 @@ void Agent::set_query(const char *ptr, size_t length) {
     }
     char *new_buf = new (std::nothrow) char[new_buf_size];
     MARISA_THROW_IF(new_buf == NULL, MARISA_MEMORY_ERROR);
-    delete [] buf_;
+    delete[] buf_;
     buf_ = new_buf;
     buf_size_ = new_buf_size;
   }
@@ -141,7 +140,7 @@ size_t Agent::query_id() const {
   return agent_->query().id();
 }
 
-Trie::Trie() : trie_(new (std::nothrow) marisa::Trie) {
+Trie::Trie() : trie_(new(std::nothrow) marisa::Trie) {
   MARISA_THROW_IF(trie_ == NULL, ::MARISA_MEMORY_ERROR);
 }
 
@@ -190,12 +189,12 @@ size_t Trie::lookup(const char *ptr, size_t length) const {
   return agent.key().id();
 }
 
-void Trie::reverse_lookup(size_t id,
-    const char **ptr_out_to_be_deleted, size_t *length_out) const {
+void Trie::reverse_lookup(size_t id, const char **ptr_out_to_be_deleted,
+                          size_t *length_out) const {
   marisa::Agent agent;
   agent.set_query(id);
   trie_->reverse_lookup(agent);
-  char * const buf = new (std::nothrow) char[agent.key().length()];
+  char *const buf = new (std::nothrow) char[agent.key().length()];
   MARISA_THROW_IF(buf == NULL, MARISA_MEMORY_ERROR);
   std::memcpy(buf, agent.key().ptr(), agent.key().length());
   *ptr_out_to_be_deleted = buf;

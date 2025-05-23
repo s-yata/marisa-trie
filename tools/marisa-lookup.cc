@@ -1,7 +1,7 @@
+#include <marisa.h>
+
 #include <iostream>
 #include <string>
-
-#include <marisa.h>
 
 #include "cmdopt.h"
 
@@ -10,22 +10,23 @@ namespace {
 bool mmap_flag = true;
 
 void print_help(const char *cmd) {
-  std::cerr << "Usage: " << cmd << " [OPTION]... DIC\n\n"
-      "Options:\n"
-      "  -m, --mmap-dictionary  use memory-mapped I/O to load a dictionary"
-      " (default)\n"
-      "  -r, --read-dictionary  read an entire dictionary into memory\n"
-      "  -h, --help             print this help\n"
+  std::cerr
+      << "Usage: " << cmd
+      << " [OPTION]... DIC\n\n"
+         "Options:\n"
+         "  -m, --mmap-dictionary  use memory-mapped I/O to load a dictionary"
+         " (default)\n"
+         "  -r, --read-dictionary  read an entire dictionary into memory\n"
+         "  -h, --help             print this help\n"
       << std::endl;
 }
 
-int lookup(const char * const *args, std::size_t num_args) {
+int lookup(const char *const *args, std::size_t num_args) {
   if (num_args == 0) {
     std::cerr << "error: dictionary is not specified" << std::endl;
     return 10;
   } else if (num_args > 1) {
-    std::cerr << "error: more than one dictionaries are specified"
-        << std::endl;
+    std::cerr << "error: more than one dictionaries are specified" << std::endl;
     return 11;
   }
 
@@ -34,16 +35,18 @@ int lookup(const char * const *args, std::size_t num_args) {
     try {
       trie.mmap(args[0]);
     } catch (const marisa::Exception &ex) {
-      std::cerr << ex.what() << ": failed to mmap a dictionary file: "
-          << args[0] << std::endl;
+      std::cerr << ex.what()
+                << ": failed to mmap a dictionary file: " << args[0]
+                << std::endl;
       return 20;
     }
   } else {
     try {
       trie.load(args[0]);
     } catch (const marisa::Exception &ex) {
-      std::cerr << ex.what() << ": failed to load a dictionary file: "
-          << args[0] << std::endl;
+      std::cerr << ex.what()
+                << ": failed to load a dictionary file: " << args[0]
+                << std::endl;
       return 21;
     }
   }
@@ -65,7 +68,7 @@ int lookup(const char * const *args, std::size_t num_args) {
 
     if (!std::cout) {
       std::cerr << "error: failed to write results to standard output"
-          << std::endl;
+                << std::endl;
       return 30;
     }
   }
@@ -78,12 +81,10 @@ int lookup(const char * const *args, std::size_t num_args) {
 int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
-  ::cmdopt_option long_options[] = {
-    { "mmap-dictionary", 0, nullptr, 'm' },
-    { "read-dictionary", 0, nullptr, 'r' },
-    { "help", 0, nullptr, 'h' },
-    { nullptr, 0, nullptr, 0 }
-  };
+  ::cmdopt_option long_options[] = {{"mmap-dictionary", 0, nullptr, 'm'},
+                                    {"read-dictionary", 0, nullptr, 'r'},
+                                    {"help", 0, nullptr, 'h'},
+                                    {nullptr, 0, nullptr, 0}};
   ::cmdopt_t cmdopt;
   ::cmdopt_init(&cmdopt, argc, argv, "mrh", long_options);
   int label;
@@ -107,5 +108,5 @@ int main(int argc, char *argv[]) {
     }
   }
   return lookup(cmdopt.argv + cmdopt.optind,
-      static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
+                static_cast<std::size_t>(cmdopt.argc - cmdopt.optind));
 }

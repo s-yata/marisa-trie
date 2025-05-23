@@ -1,11 +1,11 @@
+#include <marisa.h>
+
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <string>
 #include <random>
+#include <string>
 #include <vector>
-
-#include <marisa.h>
 
 #include "marisa-assert.h"
 
@@ -74,7 +74,7 @@ void TestException() {
 void TestKey() {
   TEST_START();
 
-  const char * const str = "apple";
+  const char *const str = "apple";
 
   marisa::Key key;
 
@@ -135,8 +135,8 @@ void TestKeyset() {
     ASSERT(keyset.total_length() == total_length);
 
     ASSERT(keyset[i].length() == keys[i].length());
-    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
-        keyset[i].length()) == 0);
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
+           0);
     ASSERT(keyset[i].weight() == 1.0);
   }
 
@@ -153,8 +153,8 @@ void TestKeyset() {
 
     ASSERT(keyset[i].length() == keys[i].length());
     ASSERT(keyset[i].str().length() == keys[i].length());
-    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
-        keyset[i].length()) == 0);
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
+           0);
     ASSERT(keyset[i].str() == keys[i]);
     ASSERT(keyset[i].weight() == 2.0);
   }
@@ -197,7 +197,7 @@ void TestKeyset() {
       keys[i][j] = static_cast<char>(random_engine() & 0xFF);
     }
     double weight = 100.0 * static_cast<double>(random_engine()) /
-    	  static_cast<double>(RAND_MAX);
+                    static_cast<double>(RAND_MAX);
     weights[i] = static_cast<float>(weight);
 
     keyset.push_back(keys[i].c_str(), keys[i].length(), weights[i]);
@@ -208,8 +208,8 @@ void TestKeyset() {
   ASSERT(keyset.size() == keys.size());
   for (std::size_t i = 0; i < keys.size(); ++i) {
     ASSERT(keyset[i].length() == keys[i].length());
-    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
-        keyset[i].length()) == 0);
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
+           0);
     ASSERT(keyset[i].weight() == weights[i]);
   }
 
@@ -225,7 +225,7 @@ void TestKeyset() {
       keys[i][j] = static_cast<char>(random_engine() & 0xFF);
     }
     double weight = 100.0 * static_cast<double>(random_engine()) /
-        static_cast<double>(RAND_MAX);
+                    static_cast<double>(RAND_MAX);
     weights[i] = static_cast<float>(weight);
 
     keyset.push_back(keys[i].c_str(), keys[i].length(), weights[i]);
@@ -236,8 +236,8 @@ void TestKeyset() {
   ASSERT(keyset.size() == keys.size());
   for (std::size_t i = 0; i < keys.size(); ++i) {
     ASSERT(keyset[i].length() == keys[i].length());
-    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(),
-        keyset[i].length()) == 0);
+    ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
+           0);
     ASSERT(keyset[i].weight() == weights[i]);
   }
 

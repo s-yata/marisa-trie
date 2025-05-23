@@ -1,13 +1,13 @@
-#include <algorithm>
-#include <cstring>
-#include <sstream>
-
 #include <marisa/grimoire/trie/config.h>
 #include <marisa/grimoire/trie/header.h>
 #include <marisa/grimoire/trie/key.h>
 #include <marisa/grimoire/trie/range.h>
-#include <marisa/grimoire/trie/tail.h>
 #include <marisa/grimoire/trie/state.h>
+#include <marisa/grimoire/trie/tail.h>
+
+#include <algorithm>
+#include <cstring>
+#include <sstream>
 
 #include "marisa-assert.h"
 
@@ -24,7 +24,7 @@ void TestConfig() {
   ASSERT(config.cache_level() == MARISA_DEFAULT_CACHE);
 
   config.parse(10 | MARISA_BINARY_TAIL | MARISA_LABEL_ORDER |
-      MARISA_TINY_CACHE);
+               MARISA_TINY_CACHE);
 
   ASSERT(config.num_tries() == 10);
   ASSERT(config.tail_mode() == MARISA_BINARY_TAIL);
@@ -82,7 +82,6 @@ void TestKey() {
   key.set_str(str, 3);
   key.set_weight(10.0F);
   key.set_id(20);
-
 
   ASSERT(key.ptr() == str);
   ASSERT(key.length() == 3);
@@ -276,12 +275,12 @@ void TestTextTail() {
 
   tail.build(entries, &offsets, MARISA_TEXT_TAIL);
   std::sort(entries.begin(), entries.end(),
-      marisa::grimoire::trie::Entry::IDComparer());
+            marisa::grimoire::trie::Entry::IDComparer());
 
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
   for (std::size_t i = 0; i < entries.size(); ++i) {
-    const char * const ptr = &tail[offsets[i]];
+    const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
   }
@@ -305,9 +304,9 @@ void TestTextTail() {
     ASSERT(tail.mode() == MARISA_TEXT_TAIL);
     ASSERT(tail.size() == 11);
     for (std::size_t i = 0; i < entries.size(); ++i) {
-      const char * const ptr = &tail[offsets[i]];
-    ASSERT(std::strlen(ptr) == entries[i].length());
-    ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
+      const char *const ptr = &tail[offsets[i]];
+      ASSERT(std::strlen(ptr) == entries[i].length());
+      ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
     }
     tail.clear();
   }
@@ -321,7 +320,7 @@ void TestTextTail() {
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
   for (std::size_t i = 0; i < entries.size(); ++i) {
-    const char * const ptr = &tail[offsets[i]];
+    const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
   }
@@ -340,7 +339,7 @@ void TestTextTail() {
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
   for (std::size_t i = 0; i < entries.size(); ++i) {
-    const char * const ptr = &tail[offsets[i]];
+    const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
   }
@@ -379,7 +378,7 @@ void TestBinaryTail() {
   ASSERT(offsets.size() == entries.size());
   ASSERT(offsets[0] == 0);
 
-  const char binary_entry[] = { 'N', 'P', '\0', 'T', 'r', 'i', 'e' };
+  const char binary_entry[] = {'N', 'P', '\0', 'T', 'r', 'i', 'e'};
   entries[0].set_str(binary_entry, sizeof(binary_entry));
 
   tail.build(entries, &offsets, MARISA_TEXT_TAIL);
@@ -406,13 +405,13 @@ void TestBinaryTail() {
 
   tail.build(entries, &offsets, MARISA_BINARY_TAIL);
   std::sort(entries.begin(), entries.end(),
-      marisa::grimoire::trie::Entry::IDComparer());
+            marisa::grimoire::trie::Entry::IDComparer());
 
   ASSERT(tail.mode() == MARISA_BINARY_TAIL);
   ASSERT(tail.size() == 8);
   ASSERT(offsets.size() == entries.size());
   for (std::size_t i = 0; i < entries.size(); ++i) {
-    const char * const ptr = &tail[offsets[i]];
+    const char *const ptr = &tail[offsets[i]];
     ASSERT(std::memcmp(ptr, entries[i].ptr(), entries[i].length()) == 0);
   }
 
@@ -467,7 +466,7 @@ void TestState() {
   ASSERT(state.query_pos() == 100);
   ASSERT(state.history_pos() == 1000);
   ASSERT(state.status_code() ==
-      marisa::grimoire::trie::MARISA_END_OF_PREDICTIVE_SEARCH);
+         marisa::grimoire::trie::MARISA_END_OF_PREDICTIVE_SEARCH);
 
   state.lookup_init();
   ASSERT(state.status_code() == marisa::grimoire::trie::MARISA_READY_TO_ALL);
@@ -477,11 +476,11 @@ void TestState() {
 
   state.common_prefix_search_init();
   ASSERT(state.status_code() ==
-      marisa::grimoire::trie::MARISA_READY_TO_COMMON_PREFIX_SEARCH);
+         marisa::grimoire::trie::MARISA_READY_TO_COMMON_PREFIX_SEARCH);
 
   state.predictive_search_init();
   ASSERT(state.status_code() ==
-      marisa::grimoire::trie::MARISA_READY_TO_PREDICTIVE_SEARCH);
+         marisa::grimoire::trie::MARISA_READY_TO_PREDICTIVE_SEARCH);
 
   TEST_END();
 }

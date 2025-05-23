@@ -17,6 +17,9 @@ class FlatVector {
 
   FlatVector() : units_(), value_size_(0), mask_(0), size_(0) {}
 
+  FlatVector(const FlatVector &) = delete;
+  FlatVector &operator=(const FlatVector &) = delete;
+
   void build(const Vector<UInt32> &values) {
     FlatVector temp;
     temp.build_(values);
@@ -193,10 +196,6 @@ class FlatVector {
           (Unit)(value & mask_) >> (MARISA_WORD_SIZE - unit_offset);
     }
   }
-
-  // Disallows copy and assignment.
-  FlatVector(const FlatVector &);
-  FlatVector &operator=(const FlatVector &);
 };
 
 }  // namespace vector

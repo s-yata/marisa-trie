@@ -15,6 +15,9 @@ class Reader {
   Reader();
   ~Reader();
 
+  Reader(const Reader &) = delete;
+  Reader &operator=(const Reader &) = delete;
+
   void open(const char *filename);
   void open(std::FILE *file);
   void open(int fd);
@@ -53,10 +56,6 @@ class Reader {
   void open_(std::istream &stream);
 
   void read_data(void *buf, std::size_t size);
-
-  // Disallows copy and assignment.
-  Reader(const Reader &);
-  Reader &operator=(const Reader &);
 };
 
 }  // namespace io

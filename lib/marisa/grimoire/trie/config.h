@@ -14,6 +14,9 @@ class Config {
         cache_level_(MARISA_DEFAULT_CACHE), tail_mode_(MARISA_DEFAULT_TAIL),
         node_order_(MARISA_DEFAULT_ORDER) {}
 
+  Config(const Config &) = delete;
+  Config &operator=(const Config &) = delete;
+
   void parse(int config_flags) {
     Config temp;
     temp.parse_(config_flags);
@@ -141,10 +144,6 @@ class Config {
       }
     }
   }
-
-  // Disallows copy and assignment.
-  Config(const Config &);
-  Config &operator=(const Config &);
 };
 
 }  // namespace trie

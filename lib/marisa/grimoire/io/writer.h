@@ -15,6 +15,9 @@ class Writer {
   Writer();
   ~Writer();
 
+  Writer(const Writer &) = delete;
+  Writer &operator=(const Writer &) = delete;
+
   void open(const char *filename);
   void open(std::FILE *file);
   void open(int fd);
@@ -52,10 +55,6 @@ class Writer {
   void open_(std::ostream &stream);
 
   void write_data(const void *data, std::size_t size);
-
-  // Disallows copy and assignment.
-  Writer(const Writer &);
-  Writer &operator=(const Writer &);
 };
 
 }  // namespace io

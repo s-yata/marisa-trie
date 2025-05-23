@@ -13,6 +13,9 @@ class Tail {
  public:
   Tail();
 
+  Tail(const Tail &) = delete;
+  Tail &operator=(const Tail &) = delete;
+
   void build(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
 
   void map(Mapper &mapper);
@@ -57,10 +60,6 @@ class Tail {
   void map_(Mapper &mapper);
   void read_(Reader &reader);
   void write_(Writer &writer) const;
-
-  // Disallows copy and assignment.
-  Tail(const Tail &);
-  Tail &operator=(const Tail &);
 };
 
 }  // namespace trie

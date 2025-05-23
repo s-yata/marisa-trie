@@ -19,6 +19,9 @@ class BitVector {
   BitVector()
       : units_(), size_(0), num_1s_(0), ranks_(), select0s_(), select1s_() {}
 
+  BitVector(const BitVector &) = delete;
+  BitVector &operator=(const BitVector &) = delete;
+
   void build(bool enables_select0, bool enables_select1) {
     BitVector temp;
     temp.build_index(*this, enables_select0, enables_select1);
@@ -165,10 +168,6 @@ class BitVector {
     select0s_.write(writer);
     select1s_.write(writer);
   }
-
-  // Disallows copy and assignment.
-  BitVector(const BitVector &);
-  BitVector &operator=(const BitVector &);
 };
 
 }  // namespace vector

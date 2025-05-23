@@ -14,6 +14,9 @@ class Mapper {
   Mapper();
   ~Mapper();
 
+  Mapper(const Mapper &) = delete;
+  Mapper &operator=(const Mapper &) = delete;
+
   void open(const char *filename, int flags = 0);
   void open(const void *ptr, std::size_t size);
 
@@ -54,10 +57,6 @@ class Mapper {
   void open_(const void *ptr, std::size_t size);
 
   const void *map_data(std::size_t size);
-
-  // Disallows copy and assignment.
-  Mapper(const Mapper &);
-  Mapper &operator=(const Mapper &);
 };
 
 }  // namespace io

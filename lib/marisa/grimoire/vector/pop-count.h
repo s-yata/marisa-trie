@@ -7,9 +7,7 @@
 
 #include "marisa/grimoire/intrin.h"
 
-namespace marisa {
-namespace grimoire {
-namespace vector {
+namespace marisa::grimoire::vector {
 
 #ifdef __has_builtin
  #define MARISA_HAS_BUILTIN(x) __has_builtin(x)
@@ -130,8 +128,6 @@ class PopCount {
 
 #undef MARISA_HAS_BUILTIN
 
-}  // namespace vector
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::vector
 
 #endif  // MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_

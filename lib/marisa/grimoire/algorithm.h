@@ -3,8 +3,7 @@
 
 #include "marisa/grimoire/algorithm/sort.h"
 
-namespace marisa {
-namespace grimoire {
+namespace marisa::grimoire {
 
 class Algorithm {
  public:
@@ -19,7 +18,6 @@ class Algorithm {
   }
 };
 
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire
 
 #endif  // MARISA_GRIMOIRE_ALGORITHM_H_

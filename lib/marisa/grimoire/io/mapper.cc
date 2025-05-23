@@ -12,9 +12,7 @@
 
 #include "marisa/grimoire/io/mapper.h"
 
-namespace marisa {
-namespace grimoire {
-namespace io {
+namespace marisa::grimoire::io {
 
 #if (defined _WIN32) || (defined _WIN64)
 Mapper::Mapper()
@@ -173,6 +171,4 @@ void Mapper::open_(const void *ptr, std::size_t size) {
   avail_ = size;
 }
 
-}  // namespace io
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::io

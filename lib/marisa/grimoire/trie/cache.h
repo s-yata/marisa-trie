@@ -5,9 +5,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 class Cache {
  public:
@@ -65,8 +63,6 @@ class Cache {
   } union_;
 };
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_CACHE_H_

@@ -3,9 +3,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace algorithm {
+namespace marisa::grimoire::algorithm {
 namespace details {
 
 enum {
@@ -189,8 +187,6 @@ std::size_t sort(Iterator begin, Iterator end) {
   return details::sort(begin, end, 0);
 }
 
-}  // namespace algorithm
-}  // namespace grimoire
-}  // namespace marisa
+}  // marisa::grimoire::algorithm
 
 #endif  // MARISA_GRIMOIRE_ALGORITHM_SORT_H_

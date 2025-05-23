@@ -6,9 +6,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace io {
+namespace marisa::grimoire::io {
 
 class Reader {
  public:
@@ -58,8 +56,6 @@ class Reader {
   void read_data(void *buf, std::size_t size);
 };
 
-}  // namespace io
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::io
 
 #endif  // MARISA_GRIMOIRE_IO_READER_H_

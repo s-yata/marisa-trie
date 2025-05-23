@@ -9,9 +9,7 @@
 
 #include "marisa/grimoire/io.h"
 
-namespace marisa {
-namespace grimoire {
-namespace vector {
+namespace marisa::grimoire::vector {
 
 template <typename T>
 class Vector {
@@ -303,8 +301,6 @@ class Vector {
   }
 };
 
-}  // namespace vector
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::vector
 
 #endif  // MARISA_GRIMOIRE_VECTOR_VECTOR_H_

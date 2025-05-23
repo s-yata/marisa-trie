@@ -6,9 +6,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace io {
+namespace marisa::grimoire::io {
 
 class Writer {
  public:
@@ -57,8 +55,6 @@ class Writer {
   void write_data(const void *data, std::size_t size);
 };
 
-}  // namespace io
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::io
 
 #endif  // MARISA_GRIMOIRE_IO_WRITER_H_

@@ -9,9 +9,7 @@
 #include "marisa/grimoire/trie/range.h"
 #include "marisa/grimoire/trie/state.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 LoudsTrie::LoudsTrie()
     : louds_(), terminal_flags_(), link_flags_(), bases_(), extras_(), tail_(),
@@ -875,6 +873,4 @@ std::size_t LoudsTrie::update_link_id(std::size_t link_id,
                                              : (link_id + 1);
 }
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie

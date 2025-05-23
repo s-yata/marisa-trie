@@ -4,9 +4,7 @@
 #include "marisa/grimoire/trie/history.h"
 #include "marisa/grimoire/vector.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 // A search agent has its internal state and the status codes are defined
 // below.
@@ -109,8 +107,6 @@ class State {
   StatusCode status_code_ = MARISA_READY_TO_ALL;
 };
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_STATE_H_

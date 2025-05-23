@@ -5,14 +5,12 @@
 #include "marisa/grimoire/vector/flat-vector.h"
 #include "marisa/grimoire/vector/vector.h"
 
-namespace marisa {
-namespace grimoire {
+namespace marisa::grimoire {
 
 using vector::Vector;
 typedef vector::FlatVector FlatVector;
 typedef vector::BitVector BitVector;
 
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire
 
 #endif  // MARISA_GRIMOIRE_VECTOR_H_

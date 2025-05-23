@@ -5,9 +5,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace io {
+namespace marisa::grimoire::io {
 
 class Mapper {
  public:
@@ -59,8 +57,6 @@ class Mapper {
   const void *map_data(std::size_t size);
 };
 
-}  // namespace io
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::io
 
 #endif  // MARISA_GRIMOIRE_IO_MAPPER_H_

@@ -5,9 +5,7 @@
 #include "marisa/grimoire/trie/entry.h"
 #include "marisa/grimoire/vector.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 class Tail {
  public:
@@ -62,8 +60,6 @@ class Tail {
   void write_(Writer &writer) const;
 };
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_TAIL_H_

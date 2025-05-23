@@ -2,10 +2,7 @@
 #define MARISA_KEYSET_H_
 
 #include <memory>
-
-#if __cplusplus >= 201703L
- #include <string_view>
-#endif  //  __cplusplus >= 201703L
+#include <string_view>
 
 #include "marisa/key.h"
 
@@ -27,11 +24,9 @@ class Keyset {
   void push_back(const Key &key);
   void push_back(const Key &key, char end_marker);
 
-#if __cplusplus >= 201703L
   void push_back(std::string_view str, float weight = 1.0) {
     push_back(str.data(), str.length(), weight);
   }
-#endif  // __cplusplus >= 201703L
   void push_back(const char *str);
   void push_back(const char *ptr, std::size_t length, float weight = 1.0);
 

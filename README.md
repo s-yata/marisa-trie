@@ -44,15 +44,27 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 
 #### Build instructions
 
-You can get the latest version via `git clone`. Then, you can generate a `configure` script via `autoreconf -i`. After that, you can build and install libmarisa and its command line tools via `configure` and `make`. For details, see also documentation in `docs`.
+You can get the latest version via `git clone`. Then, you can build and install libmarisa and its command line tools via `cmake`.
+<!-- For details, see also documentation in `docs`. -->
 
 ```
 $ git clone https://github.com/s-yata/marisa-trie.git
 $ cd marisa-trie
-$ autoreconf -i
-$ ./configure --enable-native-code
-$ make
-$ make install
+$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DENABLE_NATIVE_CODE=ON -DBUILD_TESTING=OFF
+$ cmake --build build-rel
+$ sudo cmake --install bulld-rel
+```
+
+To install just the library without the binaries:
+
+```
+$ sudo cmake --install build-rel --component Library
+```
+
+To install just the binaries:
+
+```
+$ sudo cmake --install build-rel --component Binaries
 ```
 
 #### Source code license

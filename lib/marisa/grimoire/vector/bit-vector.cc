@@ -242,7 +242,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     __m128i x = _mm_cvtsi64_si128(static_cast<long long>((i + 1) * MASK_01));
     __m128i y = _mm_cvtsi64_si128(static_cast<long long>(counts));
     x = _mm_cmpgt_epi8(x, y);
-    skip = (UInt8)PopCount::count(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
+    skip = (UInt8)popcount(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
   #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   const UInt64 x = (counts + PREFIX_SUM_OVERFLOW[i]) & MASK_80;
@@ -493,7 +493,7 @@ std::size_t BitVector::rank1(std::size_t i) const {
       break;
     }
   }
-  offset += PopCount::count(units_[i / 64] & ((1ULL << (i % 64)) - 1));
+  offset += popcount(units_[i / 64] & ((1ULL << (i % 64)) - 1));
   return offset;
 }
 
@@ -660,9 +660,9 @@ std::size_t BitVector::rank1(std::size_t i) const {
     }
   }
   if (((i / 32) & 1) == 1) {
-    offset += PopCount::count(units_[(i / 32) - 1]);
+    offset += popcount(units_[(i / 32) - 1]);
   }
-  offset += PopCount::count(units_[i / 32] & ((1U << (i % 32)) - 1));
+  offset += popcount(units_[i / 32] & ((1U << (i % 32)) - 1));
   return offset;
 }
 
@@ -845,7 +845,7 @@ void BitVector::build_index(const BitVector &bv, bool enables_select0,
     const Unit unit = bv.units_[unit_id];
     // push_back resizes with 0, so the high bits of the last unit are 0 and
     // do not affect the 1s count.
-    const std::size_t unit_num_1s = PopCount::count(unit);
+    const std::size_t unit_num_1s = popcount(unit);
 
     if (enables_select0) {
       // num_0s is somewhat move involved to compute, so only do it if we

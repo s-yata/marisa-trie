@@ -189,7 +189,6 @@ target_include_directories(marisa
 set_target_properties(marisa PROPERTIES
   VERSION "${Marisa_VERSION}"
   SOVERSION "${Marisa_VERSION_MAJOR}"
-  PUBLIC_HEADER "${MARISA_HEADERS}"
 )
 configure_target_from_options(marisa)
 add_native_code(marisa)
@@ -247,13 +246,27 @@ if(BUILD_TESTING)
 endif()
 
 # Install configuration
+
+if(NOT DEFINED LIB_INSTALL_DIR)
+  set(LIB_INSTALL_DIR lib)
+endif()
+
+# We do not pass PUBLIC_HEADER because it doesn't respect subdirectories.
+# Instead, we install the headers manually via a second call to `install`.
 install(
   TARGETS marisa
   EXPORT MarisaTargets
-  PUBLIC_HEADER
   CONFIGURATIONS Release
-  DESTINATION include
+  DESTINATION ${LIB_INSTALL_DIR}
+  COMPONENT Library
 )
+install(
+  DIRECTORY include/
+  DESTINATION include
+  COMPONENT Library
+  FILES_MATCHING PATTERN "*.h"
+)
+
 if(ENABLE_TOOLS)
   install(
     TARGETS ${MARISA_TOOLS}
@@ -262,9 +275,6 @@ if(ENABLE_TOOLS)
   )
 endif()
 
-if(NOT DEFINED LIB_INSTALL_DIR)
-  set(LIB_INSTALL_DIR lib)
-endif()
 set(ConfigPackageLocation "${LIB_INSTALL_DIR}/cmake/Marisa")
 
 include(CMakePackageConfigHelpers)
@@ -287,6 +297,7 @@ install(EXPORT MarisaTargets
   FILE MarisaTargets.cmake
   NAMESPACE Marisa::
   DESTINATION ${ConfigPackageLocation}
+  COMPONENT Library
 )
 
 install(
@@ -295,4 +306,5 @@ install(
     "${CMAKE_CURRENT_BINARY_DIR}/Marisa/MarisaConfigVersion.cmake"
   DESTINATION
     ${ConfigPackageLocation}
+  COMPONENT Library
 )

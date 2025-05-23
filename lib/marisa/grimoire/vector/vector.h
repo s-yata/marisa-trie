@@ -14,14 +14,14 @@ namespace marisa::grimoire::vector {
 template <typename T>
 class Vector {
  public:
+  // These assertions are repeated for clarity/robustness where the property
+  // is used.
+  static_assert(std::is_trivially_copyable_v<T>);
+  static_assert(std::is_trivially_destructible_v<T>);
+
   Vector() = default;
-  ~Vector() {
-    if (objs_ != nullptr) {
-      for (std::size_t i = 0; i < size_; ++i) {
-        objs_[i].~T();
-      }
-    }
-  }
+  // `T` is trivially destructible, so default destructor is ok.
+  ~Vector() = default;
 
   Vector(const Vector<T> &other)
       : buf_(), objs_(nullptr), const_objs_(nullptr), size_(0), capacity_(0),
@@ -80,7 +80,8 @@ class Vector {
   void pop_back() {
     MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
     MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
-    objs_[--size_].~T();
+    --size_;
+    static_assert(std::is_trivially_destructible_v<T>);
   }
 
   // resize() assumes that T's placement new does not throw an exception.
@@ -90,9 +91,7 @@ class Vector {
     for (std::size_t i = size_; i < size; ++i) {
       new (&objs_[i]) T;
     }
-    for (std::size_t i = size; i < size_; ++i) {
-      objs_[i].~T();
-    }
+    static_assert(std::is_trivially_destructible_v<T>);
     size_ = size;
   }
 
@@ -100,12 +99,11 @@ class Vector {
   void resize(std::size_t size, const T &x) {
     MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
     reserve(size);
-    for (std::size_t i = size_; i < size; ++i) {
-      new (&objs_[i]) T(x);
+    if (size > size_) {
+      std::fill_n(&objs_[size_], size - size_, x);
     }
-    for (std::size_t i = size; i < size_; ++i) {
-      objs_[i].~T();
-    }
+    // No need to destroy old elements.
+    static_assert(std::is_trivially_destructible_v<T>);
     size_ = size;
   }
 
@@ -252,8 +250,10 @@ class Vector {
     writer.seek((8 - (total_size() % 8)) % 8);
   }
 
-  // realloc() assumes that T's placement new does not throw an exception.
+  // Copies current elements to new buffer of size `new_capacity`.
+  // Requires `new_capacity >= size_`.
   void realloc(std::size_t new_capacity) {
+    MARISA_DEBUG_IF(new_capacity < size_, MARISA_CODE_ERROR);
     MARISA_DEBUG_IF(new_capacity > max_size(), MARISA_SIZE_ERROR);
 
     std::unique_ptr<char[]> new_buf(
@@ -261,16 +261,9 @@ class Vector {
     MARISA_DEBUG_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
-    if (std::is_trivially_copyable<T>::value) {
-      std::memcpy(new_objs, objs_, sizeof(T) * size_);
-    } else {
-      for (std::size_t i = 0; i < size_; ++i) {
-        new (&new_objs[i]) T(objs_[i]);
-      }
-      for (std::size_t i = 0; i < size_; ++i) {
-        objs_[i].~T();
-      }
-    }
+    static_assert(std::is_trivially_copyable_v<T>);
+    std::memcpy(new_objs, objs_, sizeof(T) * size_);
+
     buf_ = std::move(new_buf);
     objs_ = new_objs;
     const_objs_ = new_objs;
@@ -282,18 +275,13 @@ class Vector {
   void copyInit(const T *src, std::size_t size, std::size_t capacity) {
     MARISA_DEBUG_IF(size_ > 0, MARISA_CODE_ERROR);
 
-    buf_ =
-        std::unique_ptr<char[]>(new (std::nothrow) char[sizeof(T) * capacity]);
+    buf_.reset(new (std::nothrow) char[sizeof(T) * capacity]);
     MARISA_DEBUG_IF(buf_ == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(buf_.get());
 
-    if (std::is_trivially_copyable<T>::value) {
-      std::memcpy(new_objs, src, sizeof(T) * size);
-    } else {
-      for (std::size_t i = 0; i < size; ++i) {
-        new (&new_objs[i]) T(src[i]);
-      }
-    }
+    static_assert(std::is_trivially_copyable_v<T>);
+    std::memcpy(new_objs, src, sizeof(T) * size);
+
     objs_ = new_objs;
     const_objs_ = new_objs;
     size_ = size;

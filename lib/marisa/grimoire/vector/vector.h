@@ -262,7 +262,7 @@ class Vector {
 
     std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * new_capacity]);
-    MARISA_DEBUG_IF(new_buf.get() == nullptr, MARISA_MEMORY_ERROR);
+    MARISA_DEBUG_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     if (std::is_trivially_copyable<T>::value) {

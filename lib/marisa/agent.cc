@@ -83,9 +83,9 @@ void Agent::set_query(std::size_t key_id) {
 }
 
 void Agent::init_state() {
-  MARISA_THROW_IF(state_.get() != nullptr, MARISA_STATE_ERROR);
+  MARISA_THROW_IF(state_ != nullptr, MARISA_STATE_ERROR);
   state_.reset(new (std::nothrow) grimoire::State);
-  MARISA_THROW_IF(state_.get() == nullptr, MARISA_MEMORY_ERROR);
+  MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
 }
 
 void Agent::clear() {

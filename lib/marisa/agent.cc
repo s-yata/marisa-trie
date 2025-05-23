@@ -28,9 +28,9 @@ void UpdateAgentAfterCopyingState(const grimoire::trie::State &state,
 }
 }  // namespace
 
-Agent::Agent() : query_(), key_(), state_() {}
+Agent::Agent() = default;
 
-Agent::~Agent() {}
+Agent::~Agent() = default;
 
 Agent::Agent(const Agent &other)
     : query_(other.query_), key_(other.key_),

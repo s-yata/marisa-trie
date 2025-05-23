@@ -18,7 +18,7 @@ LoudsTrie::LoudsTrie()
       next_trie_(), cache_(), cache_mask_(0), num_l1_nodes_(0), config_(),
       mapper_() {}
 
-LoudsTrie::~LoudsTrie() {}
+LoudsTrie::~LoudsTrie() = default;
 
 void LoudsTrie::build(Keyset &keyset, int flags) {
   Config config;

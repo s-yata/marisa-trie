@@ -8,7 +8,7 @@ namespace grimoire {
 
 class Algorithm {
  public:
-  Algorithm() {}
+  Algorithm() = default;
 
   Algorithm(const Algorithm &) = delete;
   Algorithm &operator=(const Algorithm &) = delete;

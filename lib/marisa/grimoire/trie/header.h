@@ -13,7 +13,7 @@ class Header {
     HEADER_SIZE = 16
   };
 
-  Header() {}
+  Header() = default;
 
   Header(const Header &) = delete;
   Header &operator=(const Header &) = delete;

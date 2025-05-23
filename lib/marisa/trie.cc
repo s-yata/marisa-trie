@@ -8,9 +8,9 @@
 
 namespace marisa {
 
-Trie::Trie() : trie_() {}
+Trie::Trie() = default;
 
-Trie::~Trie() {}
+Trie::~Trie() = default;
 
 Trie::Trie(Trie &&other) noexcept = default;
 

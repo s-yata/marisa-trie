@@ -7,7 +7,7 @@ namespace marisa {
 namespace grimoire {
 namespace trie {
 
-Tail::Tail() : buf_(), end_flags_() {}
+Tail::Tail() = default;
 
 void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
                  TailMode mode) {

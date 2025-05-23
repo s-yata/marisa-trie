@@ -15,7 +15,7 @@ class FlatVector {
   typedef UInt32 Unit;
 #endif  // MARISA_WORD_SIZE == 64
 
-  FlatVector() : units_(), value_size_(0), mask_(0), size_(0) {}
+  FlatVector() = default;
 
   FlatVector(const FlatVector &) = delete;
   FlatVector &operator=(const FlatVector &) = delete;
@@ -89,9 +89,9 @@ class FlatVector {
 
  private:
   Vector<Unit> units_;
-  std::size_t value_size_;
-  UInt32 mask_;
-  std::size_t size_;
+  std::size_t value_size_ = 0;
+  UInt32 mask_ = 0;
+  std::size_t size_ = 0;
 
   void build_(const Vector<UInt32> &values) {
     UInt32 max_value = 0;

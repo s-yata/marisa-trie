@@ -9,9 +9,7 @@ namespace trie {
 
 class History {
  public:
-  History()
-      : node_id_(0), louds_pos_(0), key_pos_(0),
-        link_id_(MARISA_INVALID_LINK_ID), key_id_(MARISA_INVALID_KEY_ID) {}
+  History() = default;
 
   void set_node_id(std::size_t node_id) {
     MARISA_DEBUG_IF(node_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
@@ -51,11 +49,11 @@ class History {
   }
 
  private:
-  UInt32 node_id_;
-  UInt32 louds_pos_;
-  UInt32 key_pos_;
-  UInt32 link_id_;
-  UInt32 key_id_;
+  UInt32 node_id_ = 0;
+  UInt32 louds_pos_ = 0;
+  UInt32 key_pos_ = 0;
+  UInt32 link_id_ = MARISA_INVALID_LINK_ID;
+  UInt32 key_id_ = MARISA_INVALID_KEY_ID;
 };
 
 }  // namespace trie

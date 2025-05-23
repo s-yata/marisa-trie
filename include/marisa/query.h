@@ -11,7 +11,7 @@ namespace marisa {
 
 class Query {
  public:
-  Query() : ptr_(nullptr), length_(0), id_(0) {}
+  Query() = default;
   Query(const Query &query) = default;
 
   Query &operator=(const Query &query) = default;
@@ -69,9 +69,9 @@ class Query {
   }
 
  private:
-  const char *ptr_;
-  std::size_t length_;
-  std::size_t id_;
+  const char *ptr_ = nullptr;
+  std::size_t length_ = 0;
+  std::size_t id_ = 0;
 };
 
 }  // namespace marisa

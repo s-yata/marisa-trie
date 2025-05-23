@@ -16,8 +16,7 @@ class BitVector {
   typedef UInt32 Unit;
 #endif  // MARISA_WORD_SIZE == 64
 
-  BitVector()
-      : units_(), size_(0), num_1s_(0), ranks_(), select0s_(), select1s_() {}
+  BitVector() = default;
 
   BitVector(const BitVector &) = delete;
   BitVector &operator=(const BitVector &) = delete;
@@ -115,8 +114,8 @@ class BitVector {
 
  private:
   Vector<Unit> units_;
-  std::size_t size_;
-  std::size_t num_1s_;
+  std::size_t size_ = 0;
+  std::size_t num_1s_ = 0;
   Vector<RankIndex> ranks_;
   Vector<UInt32> select0s_;
   Vector<UInt32> select1s_;

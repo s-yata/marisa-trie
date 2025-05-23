@@ -16,9 +16,7 @@ namespace vector {
 template <typename T>
 class Vector {
  public:
-  Vector()
-      : buf_(), objs_(nullptr), const_objs_(nullptr), size_(0), capacity_(0),
-        fixed_(false) {}
+  Vector() = default;
   ~Vector() {
     if (objs_ != nullptr) {
       for (std::size_t i = 0; i < size_; ++i) {
@@ -223,11 +221,11 @@ class Vector {
 
  private:
   std::unique_ptr<char[]> buf_;
-  T *objs_;
-  const T *const_objs_;
-  std::size_t size_;
-  std::size_t capacity_;
-  bool fixed_;
+  T *objs_ = nullptr;
+  const T *const_objs_ = nullptr;
+  std::size_t size_ = 0;
+  std::size_t capacity_ = 0;
+  bool fixed_ = false;
 
   void map_(Mapper &mapper) {
     UInt64 total_size;

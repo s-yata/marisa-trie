@@ -11,7 +11,7 @@ namespace marisa {
 
 class Query {
  public:
-  Query() : ptr_(NULL), length_(0), id_(0) {}
+  Query() : ptr_(nullptr), length_(0), id_(0) {}
   Query(const Query &query) = default;
 
   Query &operator=(const Query &query) = default;
@@ -27,7 +27,7 @@ class Query {
   }
 #endif  // __cplusplus >= 201703L
   void set_str(const char *str) {
-    MARISA_DEBUG_IF(str == NULL, MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
     std::size_t length = 0;
     while (str[length] != '\0') {
       ++length;
@@ -36,7 +36,7 @@ class Query {
     length_ = length;
   }
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     ptr_ = ptr;
     length_ = length;
   }

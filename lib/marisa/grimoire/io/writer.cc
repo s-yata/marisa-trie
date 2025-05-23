@@ -14,7 +14,8 @@ namespace marisa {
 namespace grimoire {
 namespace io {
 
-Writer::Writer() : file_(NULL), fd_(-1), stream_(NULL), needs_fclose_(false) {}
+Writer::Writer()
+    : file_(nullptr), fd_(-1), stream_(nullptr), needs_fclose_(false) {}
 
 Writer::~Writer() {
   if (needs_fclose_) {
@@ -23,7 +24,7 @@ Writer::~Writer() {
 }
 
 void Writer::open(const char *filename) {
-  MARISA_THROW_IF(filename == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(filename == nullptr, MARISA_NULL_ERROR);
 
   Writer temp;
   temp.open_(filename);
@@ -31,7 +32,7 @@ void Writer::open(const char *filename) {
 }
 
 void Writer::open(std::FILE *file) {
-  MARISA_THROW_IF(file == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(file == nullptr, MARISA_NULL_ERROR);
 
   Writer temp;
   temp.open_(file);
@@ -81,16 +82,16 @@ void Writer::seek(std::size_t size) {
 }
 
 bool Writer::is_open() const {
-  return (file_ != NULL) || (fd_ != -1) || (stream_ != NULL);
+  return (file_ != nullptr) || (fd_ != -1) || (stream_ != nullptr);
 }
 
 void Writer::open_(const char *filename) {
-  std::FILE *file = NULL;
+  std::FILE *file = nullptr;
 #ifdef _MSC_VER
   MARISA_THROW_IF(::fopen_s(&file, filename, "wb") != 0, MARISA_IO_ERROR);
 #else   // _MSC_VER
   file = ::fopen(filename, "wb");
-  MARISA_THROW_IF(file == NULL, MARISA_IO_ERROR);
+  MARISA_THROW_IF(file == nullptr, MARISA_IO_ERROR);
 #endif  // _MSC_VER
   file_ = file;
   needs_fclose_ = true;
@@ -128,10 +129,10 @@ void Writer::write_data(const void *data, std::size_t size) {
       data = static_cast<const char *>(data) + size_written;
       size -= static_cast<std::size_t>(size_written);
     }
-  } else if (file_ != NULL) {
+  } else if (file_ != nullptr) {
     MARISA_THROW_IF(::fwrite(data, 1, size, file_) != size, MARISA_IO_ERROR);
     MARISA_THROW_IF(::fflush(file_) != 0, MARISA_IO_ERROR);
-  } else if (stream_ != NULL) {
+  } else if (stream_ != nullptr) {
     try {
       MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),
                                       static_cast<std::streamsize>(size)),

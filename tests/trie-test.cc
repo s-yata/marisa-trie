@@ -72,7 +72,7 @@ void TestKey() {
 
   marisa::grimoire::trie::Key key;
 
-  ASSERT(key.ptr() == NULL);
+  ASSERT(key.ptr() == nullptr);
   ASSERT(key.length() == 0);
   ASSERT(key.id() == 0);
   ASSERT(key.terminal() == 0);
@@ -112,7 +112,7 @@ void TestKey() {
 
   marisa::grimoire::trie::ReverseKey r_key;
 
-  ASSERT(r_key.ptr() == NULL);
+  ASSERT(r_key.ptr() == nullptr);
   ASSERT(r_key.length() == 0);
   ASSERT(r_key.id() == 0);
   ASSERT(r_key.terminal() == 0);

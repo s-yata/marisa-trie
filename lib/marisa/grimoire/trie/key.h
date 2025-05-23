@@ -9,7 +9,7 @@ namespace trie {
 
 class Key {
  public:
-  Key() : ptr_(NULL), length_(0), union_(), id_(0) {
+  Key() : ptr_(nullptr), length_(0), union_(), id_(0) {
     union_.terminal = 0;
   }
 
@@ -30,7 +30,7 @@ class Key {
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr;
     length_ = (UInt32)length;
@@ -107,7 +107,7 @@ inline bool operator>(const Key &lhs, const Key &rhs) {
 
 class ReverseKey {
  public:
-  ReverseKey() : ptr_(NULL), length_(0), union_(), id_(0) {
+  ReverseKey() : ptr_(nullptr), length_(0), union_(), id_(0) {
     union_.terminal = 0;
   }
 
@@ -128,7 +128,7 @@ class ReverseKey {
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length;
     length_ = (UInt32)length;

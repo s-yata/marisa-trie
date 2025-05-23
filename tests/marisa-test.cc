@@ -386,7 +386,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     ASSERT(::fopen_s(&file, "marisa-test.dat", "wb") == 0);
 #else  // _MSC_VER
     file = std::fopen("marisa-test.dat", "wb");
-    ASSERT(file != NULL);
+    ASSERT(file != nullptr);
 #endif  // _MSC_VER
     marisa::fwrite(file, trie);
     std::fclose(file);
@@ -395,7 +395,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     ASSERT(::fopen_s(&file, "marisa-test.dat", "rb") == 0);
 #else  // _MSC_VER
     file = std::fopen("marisa-test.dat", "rb");
-    ASSERT(file != NULL);
+    ASSERT(file != nullptr);
 #endif  // _MSC_VER
     marisa::fread(file, &trie);
     std::fclose(file);

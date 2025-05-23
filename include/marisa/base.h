@@ -57,7 +57,7 @@ typedef enum marisa_error_code_ {
   // exception with MARISA_STATE_ERROR.
   MARISA_STATE_ERROR = 1,
 
-  // MARISA_NULL_ERROR means that an invalid NULL pointer has been given.
+  // MARISA_NULL_ERROR means that an invalid nullptr has been given.
   MARISA_NULL_ERROR = 2,
 
   // MARISA_BOUND_ERROR means that an operation has tried to access an out of

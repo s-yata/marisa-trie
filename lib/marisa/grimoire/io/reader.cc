@@ -14,7 +14,8 @@ namespace marisa {
 namespace grimoire {
 namespace io {
 
-Reader::Reader() : file_(NULL), fd_(-1), stream_(NULL), needs_fclose_(false) {}
+Reader::Reader()
+    : file_(nullptr), fd_(-1), stream_(nullptr), needs_fclose_(false) {}
 
 Reader::~Reader() {
   if (needs_fclose_) {
@@ -23,7 +24,7 @@ Reader::~Reader() {
 }
 
 void Reader::open(const char *filename) {
-  MARISA_THROW_IF(filename == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(filename == nullptr, MARISA_NULL_ERROR);
 
   Reader temp;
   temp.open_(filename);
@@ -31,7 +32,7 @@ void Reader::open(const char *filename) {
 }
 
 void Reader::open(std::FILE *file) {
-  MARISA_THROW_IF(file == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(file == nullptr, MARISA_NULL_ERROR);
 
   Reader temp;
   temp.open_(file);
@@ -81,16 +82,16 @@ void Reader::seek(std::size_t size) {
 }
 
 bool Reader::is_open() const {
-  return (file_ != NULL) || (fd_ != -1) || (stream_ != NULL);
+  return (file_ != nullptr) || (fd_ != -1) || (stream_ != nullptr);
 }
 
 void Reader::open_(const char *filename) {
-  std::FILE *file = NULL;
+  std::FILE *file = nullptr;
 #ifdef _MSC_VER
   MARISA_THROW_IF(::fopen_s(&file, filename, "rb") != 0, MARISA_IO_ERROR);
 #else   // _MSC_VER
   file = ::fopen(filename, "rb");
-  MARISA_THROW_IF(file == NULL, MARISA_IO_ERROR);
+  MARISA_THROW_IF(file == nullptr, MARISA_IO_ERROR);
 #endif  // _MSC_VER
   file_ = file;
   needs_fclose_ = true;
@@ -128,9 +129,9 @@ void Reader::read_data(void *buf, std::size_t size) {
       buf = static_cast<char *>(buf) + size_read;
       size -= static_cast<std::size_t>(size_read);
     }
-  } else if (file_ != NULL) {
+  } else if (file_ != nullptr) {
     MARISA_THROW_IF(::fread(buf, 1, size, file_) != size, MARISA_IO_ERROR);
-  } else if (stream_ != NULL) {
+  } else if (stream_ != nullptr) {
     try {
       MARISA_THROW_IF(!stream_->read(static_cast<char *>(buf),
                                      static_cast<std::streamsize>(size)),

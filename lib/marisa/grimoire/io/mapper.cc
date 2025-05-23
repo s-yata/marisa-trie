@@ -18,23 +18,24 @@ namespace io {
 
 #if (defined _WIN32) || (defined _WIN64)
 Mapper::Mapper()
-    : ptr_(NULL), origin_(NULL), avail_(0), size_(0), file_(NULL), map_(NULL) {}
+    : ptr_(nullptr), origin_(nullptr), avail_(0), size_(0), file_(nullptr),
+      map_(nullptr) {}
 #else   // (defined _WIN32) || (defined _WIN64)
 Mapper::Mapper()
-    : ptr_(NULL), origin_(MAP_FAILED), avail_(0), size_(0), fd_(-1) {}
+    : ptr_(nullptr), origin_(MAP_FAILED), avail_(0), size_(0), fd_(-1) {}
 #endif  // (defined _WIN32) || (defined _WIN64)
 
 #if (defined _WIN32) || (defined _WIN64)
 Mapper::~Mapper() {
-  if (origin_ != NULL) {
+  if (origin_ != nullptr) {
     ::UnmapViewOfFile(origin_);
   }
 
-  if (map_ != NULL) {
+  if (map_ != nullptr) {
     ::CloseHandle(map_);
   }
 
-  if (file_ != NULL) {
+  if (file_ != nullptr) {
     ::CloseHandle(file_);
   }
 }
@@ -51,7 +52,7 @@ Mapper::~Mapper() {
 #endif  // (defined _WIN32) || (defined _WIN64)
 
 void Mapper::open(const char *filename, int flags) {
-  MARISA_THROW_IF(filename == NULL, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(filename == nullptr, MARISA_NULL_ERROR);
 
   Mapper temp;
   temp.open_(filename, flags);
@@ -59,7 +60,7 @@ void Mapper::open(const char *filename, int flags) {
 }
 
 void Mapper::open(const void *ptr, std::size_t size) {
-  MARISA_THROW_IF((ptr == NULL) && (size != 0), MARISA_NULL_ERROR);
+  MARISA_THROW_IF((ptr == nullptr) && (size != 0), MARISA_NULL_ERROR);
 
   Mapper temp;
   temp.open_(ptr, size);
@@ -74,7 +75,7 @@ void Mapper::seek(std::size_t size) {
 }
 
 bool Mapper::is_open() const {
-  return ptr_ != NULL;
+  return ptr_ != nullptr;
 }
 
 void Mapper::clear() {
@@ -111,8 +112,8 @@ const void *Mapper::map_data(std::size_t size) {
   #endif  // __MSVCRT_VERSION__ >= 0x0601
  #endif   // __MSVCRT_VERSION__
 void Mapper::open_(const char *filename, int flags) {
-  file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, NULL,
-                        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+  file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, nullptr,
+                        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
   MARISA_THROW_IF(file_ == INVALID_HANDLE_VALUE, MARISA_IO_ERROR);
 
   DWORD size_high, size_low;
@@ -120,11 +121,11 @@ void Mapper::open_(const char *filename, int flags) {
   MARISA_THROW_IF(size_low == INVALID_FILE_SIZE, MARISA_IO_ERROR);
   size_ = ((std::size_t)size_high << 32) | size_low;
 
-  map_ = ::CreateFileMapping(file_, NULL, PAGE_READONLY, 0, 0, NULL);
-  MARISA_THROW_IF(map_ == NULL, MARISA_IO_ERROR);
+  map_ = ::CreateFileMapping(file_, nullptr, PAGE_READONLY, 0, 0, nullptr);
+  MARISA_THROW_IF(map_ == nullptr, MARISA_IO_ERROR);
 
   origin_ = ::MapViewOfFile(map_, FILE_MAP_READ, 0, 0, 0);
-  MARISA_THROW_IF(origin_ == NULL, MARISA_IO_ERROR);
+  MARISA_THROW_IF(origin_ == nullptr, MARISA_IO_ERROR);
 
   if (flags & MARISA_MAP_POPULATE) {
     WIN32_MEMORY_RANGE_ENTRY range_entry;
@@ -159,7 +160,7 @@ void Mapper::open_(const char *filename, int flags) {
   }
  #endif
 
-  origin_ = ::mmap(NULL, size_, PROT_READ, map_flags, fd_, 0);
+  origin_ = ::mmap(nullptr, size_, PROT_READ, map_flags, fd_, 0);
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);
 
   ptr_ = static_cast<const char *>(origin_);

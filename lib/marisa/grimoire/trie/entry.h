@@ -9,7 +9,7 @@ namespace trie {
 
 class Entry {
  public:
-  Entry() : ptr_(NULL), length_(0), id_(0) {}
+  Entry() : ptr_(nullptr), length_(0), id_(0) {}
 
   Entry(const Entry &entry) = default;
   Entry &operator=(const Entry &entry) = default;
@@ -20,7 +20,7 @@ class Entry {
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == NULL) && (length != 0), MARISA_NULL_ERROR);
+    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length - 1;
     length_ = (UInt32)length;

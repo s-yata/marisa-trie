@@ -17,10 +17,10 @@ template <typename T>
 class Vector {
  public:
   Vector()
-      : buf_(), objs_(NULL), const_objs_(NULL), size_(0), capacity_(0),
+      : buf_(), objs_(nullptr), const_objs_(nullptr), size_(0), capacity_(0),
         fixed_(false) {}
   ~Vector() {
-    if (objs_ != NULL) {
+    if (objs_ != nullptr) {
       for (std::size_t i = 0; i < size_; ++i) {
         objs_[i].~T();
       }
@@ -28,7 +28,7 @@ class Vector {
   }
 
   Vector(const Vector<T> &other)
-      : buf_(), objs_(NULL), const_objs_(NULL), size_(0), capacity_(0),
+      : buf_(), objs_(nullptr), const_objs_(nullptr), size_(0), capacity_(0),
         fixed_(other.fixed_) {
     if (other.buf_ == nullptr) {
       objs_ = other.objs_;
@@ -262,7 +262,7 @@ class Vector {
 
     std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * new_capacity]);
-    MARISA_DEBUG_IF(new_buf.get() == NULL, MARISA_MEMORY_ERROR);
+    MARISA_DEBUG_IF(new_buf.get() == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     if (std::is_trivially_copyable<T>::value) {

@@ -374,21 +374,21 @@ int main(int argc, char *argv[]) {
   std::ios::sync_with_stdio(false);
 
   ::cmdopt_option long_options[] = {
-    { "min-num-tries", 1, NULL, 'N' },
-    { "max-num-tries", 1, NULL, 'n' },
-    { "text-tail", 0, NULL, 't' },
-    { "binary-tail", 0, NULL, 'b' },
-    { "weight-order", 0, NULL, 'w' },
-    { "label-order", 0, NULL, 'l' },
-    { "cache-level", 1, NULL, 'c' },
-    { "predict-on", 0, NULL, 'P' },
-    { "predict-off", 0, NULL, 'p' },
-    { "reuse-on", 0, NULL, 'R' },
-    { "reuse-off", 0, NULL, 'r' },
-    { "print-speed", 0, NULL, 'S' },
-    { "print-time", 0, NULL, 's' },
-    { "help", 0, NULL, 'h' },
-    { NULL, 0, NULL, 0 }
+    { "min-num-tries", 1, nullptr, 'N' },
+    { "max-num-tries", 1, nullptr, 'n' },
+    { "text-tail", 0, nullptr, 't' },
+    { "binary-tail", 0, nullptr, 'b' },
+    { "weight-order", 0, nullptr, 'w' },
+    { "label-order", 0, nullptr, 'l' },
+    { "cache-level", 1, nullptr, 'c' },
+    { "predict-on", 0, nullptr, 'P' },
+    { "predict-off", 0, nullptr, 'p' },
+    { "reuse-on", 0, nullptr, 'R' },
+    { "reuse-off", 0, nullptr, 'r' },
+    { "print-speed", 0, nullptr, 'S' },
+    { "print-time", 0, nullptr, 's' },
+    { "help", 0, nullptr, 'h' },
+    { nullptr, 0, nullptr, 0 }
   };
   ::cmdopt_t cmdopt;
   ::cmdopt_init(&cmdopt, argc, argv, "N:n:tbwlc:PpRrSsh", long_options);

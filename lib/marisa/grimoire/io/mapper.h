@@ -40,15 +40,15 @@ class Mapper {
   void swap(Mapper &rhs);
 
  private:
-  const void *ptr_;
-  void *origin_;
-  std::size_t avail_;
-  std::size_t size_;
+  const void *ptr_ = nullptr;
+  void *origin_ = nullptr;
+  std::size_t avail_ = 0;
+  std::size_t size_ = 0;
 #if (defined _WIN32) || (defined _WIN64)
-  void *file_;
-  void *map_;
+  void *file_ = nullptr;
+  void *map_ = nullptr;
 #else   // (defined _WIN32) || (defined _WIN64)
-  int fd_;
+  int fd_ = -1;
 #endif  // (defined _WIN32) || (defined _WIN64)
 
   void open_(const char *filename, int flags);

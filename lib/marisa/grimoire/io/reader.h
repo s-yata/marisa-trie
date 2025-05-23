@@ -43,10 +43,10 @@ class Reader {
   void swap(Reader &rhs);
 
  private:
-  std::FILE *file_;
-  int fd_;
-  std::istream *stream_;
-  bool needs_fclose_;
+  std::FILE *file_ = nullptr;
+  int fd_ = -1;
+  std::istream *stream_ = nullptr;
+  bool needs_fclose_ = false;
 
   void open_(const char *filename);
   void open_(std::FILE *file);

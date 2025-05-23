@@ -14,14 +14,7 @@
 
 namespace marisa::grimoire::io {
 
-#if (defined _WIN32) || (defined _WIN64)
-Mapper::Mapper()
-    : ptr_(nullptr), origin_(nullptr), avail_(0), size_(0), file_(nullptr),
-      map_(nullptr) {}
-#else   // (defined _WIN32) || (defined _WIN64)
-Mapper::Mapper()
-    : ptr_(nullptr), origin_(MAP_FAILED), avail_(0), size_(0), fd_(-1) {}
-#endif  // (defined _WIN32) || (defined _WIN64)
+Mapper::Mapper() = default;
 
 #if (defined _WIN32) || (defined _WIN64)
 Mapper::~Mapper() {

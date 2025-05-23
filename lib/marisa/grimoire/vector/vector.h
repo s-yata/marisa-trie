@@ -23,9 +23,7 @@ class Vector {
     }
   }
 
-  Vector(const Vector<T> &other)
-      : buf_(), objs_(nullptr), const_objs_(nullptr), size_(0), capacity_(0),
-        fixed_(other.fixed_) {
+  Vector(const Vector<T> &other) : fixed_(other.fixed_) {
     if (other.buf_ == nullptr) {
       objs_ = other.objs_;
       const_objs_ = other.const_objs_;

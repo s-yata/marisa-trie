@@ -42,10 +42,10 @@ class Writer {
   void swap(Writer &rhs);
 
  private:
-  std::FILE *file_;
-  int fd_;
-  std::ostream *stream_;
-  bool needs_fclose_;
+  std::FILE *file_ = nullptr;
+  int fd_ = -1;
+  std::ostream *stream_ = nullptr;
+  bool needs_fclose_ = false;
 
   void open_(const char *filename);
   void open_(std::FILE *file);

@@ -4,9 +4,7 @@
 
 #include "marisa/grimoire/vector/pop-count.h"
 
-namespace marisa {
-namespace grimoire {
-namespace vector {
+namespace marisa::grimoire::vector {
 namespace {
 
 #ifdef MARISA_USE_BMI2
@@ -924,6 +922,4 @@ void BitVector::build_index(const BitVector &bv, bool enables_select0,
   }
 }
 
-}  // namespace vector
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::vector

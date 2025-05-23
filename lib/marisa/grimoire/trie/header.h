@@ -3,9 +3,7 @@
 
 #include "marisa/grimoire/io.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 class Header {
  public:
@@ -52,8 +50,6 @@ class Header {
   }
 };
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_HEADER_H_

@@ -4,9 +4,7 @@
 #include "marisa/grimoire/vector/rank-index.h"
 #include "marisa/grimoire/vector/vector.h"
 
-namespace marisa {
-namespace grimoire {
-namespace vector {
+namespace marisa::grimoire::vector {
 
 class BitVector {
  public:
@@ -169,8 +167,6 @@ class BitVector {
   }
 };
 
-}  // namespace vector
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::vector
 
 #endif  // MARISA_GRIMOIRE_VECTOR_BIT_VECTOR_H_

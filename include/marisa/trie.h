@@ -7,13 +7,11 @@
 #include "marisa/keyset.h"
 
 namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace grimoire::trie {
 
 class LoudsTrie;
 
-}  // namespace trie
-}  // namespace grimoire
+}  // namespace grimoire::trie
 
 class Trie {
   friend class TrieIO;

@@ -11,13 +11,11 @@
 #include "marisa/query.h"
 
 namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace grimoire::trie {
 
 class State;
 
-}  // namespace trie
-}  // namespace grimoire
+}  // namespace grimoire::trie
 
 class Agent {
  public:

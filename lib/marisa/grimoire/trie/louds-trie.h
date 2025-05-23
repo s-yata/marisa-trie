@@ -11,9 +11,7 @@
 #include "marisa/grimoire/vector.h"
 #include "marisa/keyset.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 class LoudsTrie {
  public:
@@ -125,8 +123,6 @@ class LoudsTrie {
                                     std::size_t node_id) const;
 };
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_LOUDS_TRIE_H_

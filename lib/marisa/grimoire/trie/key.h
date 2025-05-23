@@ -3,9 +3,7 @@
 
 #include "marisa/base.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 class Key {
  public:
@@ -197,8 +195,6 @@ inline bool operator>(const ReverseKey &lhs, const ReverseKey &rhs) {
   return rhs < lhs;
 }
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie
 
 #endif  // MARISA_GRIMOIRE_TRIE_KEY_H_

@@ -3,9 +3,7 @@
 
 #include "marisa/grimoire/vector/vector.h"
 
-namespace marisa {
-namespace grimoire {
-namespace vector {
+namespace marisa::grimoire::vector {
 
 class FlatVector {
  public:
@@ -198,8 +196,6 @@ class FlatVector {
   }
 };
 
-}  // namespace vector
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::vector
 
 #endif  // MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_

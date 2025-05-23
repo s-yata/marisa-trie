@@ -3,9 +3,7 @@
 #include "marisa/grimoire/algorithm.h"
 #include "marisa/grimoire/trie/state.h"
 
-namespace marisa {
-namespace grimoire {
-namespace trie {
+namespace marisa::grimoire::trie {
 
 Tail::Tail() = default;
 
@@ -214,6 +212,4 @@ void Tail::write_(Writer &writer) const {
   end_flags_.write(writer);
 }
 
-}  // namespace trie
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::trie

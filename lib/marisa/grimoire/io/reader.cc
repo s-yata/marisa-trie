@@ -10,9 +10,7 @@
 
 #include "marisa/grimoire/io/reader.h"
 
-namespace marisa {
-namespace grimoire {
-namespace io {
+namespace marisa::grimoire::io {
 
 Reader::Reader()
     : file_(nullptr), fd_(-1), stream_(nullptr), needs_fclose_(false) {}
@@ -142,6 +140,4 @@ void Reader::read_data(void *buf, std::size_t size) {
   }
 }
 
-}  // namespace io
-}  // namespace grimoire
-}  // namespace marisa
+}  // namespace marisa::grimoire::io

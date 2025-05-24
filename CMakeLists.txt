@@ -205,7 +205,7 @@ set(MARISA_TOOLS
   marisa-benchmark
 )
 if(ENABLE_TOOLS)
-  add_library(cmdopt tools/cmdopt.h tools/cmdopt.cc)
+  add_library(cmdopt STATIC tools/cmdopt.h tools/cmdopt.cc)
   target_include_directories(cmdopt PUBLIC tools)
 
   foreach(_tool ${MARISA_TOOLS})

@@ -187,6 +187,6 @@ std::size_t sort(Iterator begin, Iterator end) {
   return details::sort(begin, end, 0);
 }
 
-}  // marisa::grimoire::algorithm
+}  // namespace marisa::grimoire::algorithm
 
 #endif  // MARISA_GRIMOIRE_ALGORITHM_SORT_H_

@@ -12,8 +12,7 @@
 
 namespace marisa::grimoire::io {
 
-Reader::Reader()
-    : file_(nullptr), fd_(-1), stream_(nullptr), needs_fclose_(false) {}
+Reader::Reader() = default;
 
 Reader::~Reader() {
   if (needs_fclose_) {

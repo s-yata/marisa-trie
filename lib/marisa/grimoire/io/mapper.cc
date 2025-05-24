@@ -15,12 +15,10 @@
 namespace marisa::grimoire::io {
 
 #if (defined _WIN32) || (defined _WIN64)
-Mapper::Mapper()
-    : ptr_(nullptr), origin_(nullptr), avail_(0), size_(0), file_(nullptr),
-      map_(nullptr) {}
+Mapper::Mapper() = default;
 #else   // (defined _WIN32) || (defined _WIN64)
-Mapper::Mapper()
-    : ptr_(nullptr), origin_(MAP_FAILED), avail_(0), size_(0), fd_(-1) {}
+// mmap() returns MAP_FAILED on failure.
+Mapper::Mapper() : origin_(MAP_FAILED) {}
 #endif  // (defined _WIN32) || (defined _WIN64)
 
 #if (defined _WIN32) || (defined _WIN64)

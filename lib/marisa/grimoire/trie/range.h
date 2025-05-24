@@ -49,7 +49,7 @@ inline Range make_range(std::size_t begin, std::size_t end,
 
 class WeightedRange {
  public:
-  WeightedRange() : range_(), weight_(0.0F) {}
+  WeightedRange() = default;
 
   void set_range(const Range &range) {
     range_ = range;
@@ -85,7 +85,7 @@ class WeightedRange {
 
  private:
   Range range_;
-  float weight_;
+  float weight_ = 0.0F;
 };
 
 inline bool operator<(const WeightedRange &lhs, const WeightedRange &rhs) {

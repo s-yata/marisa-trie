@@ -12,8 +12,7 @@
 
 namespace marisa::grimoire::io {
 
-Writer::Writer()
-    : file_(nullptr), fd_(-1), stream_(nullptr), needs_fclose_(false) {}
+Writer::Writer() = default;
 
 Writer::~Writer() {
   if (needs_fclose_) {

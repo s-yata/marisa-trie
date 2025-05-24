@@ -153,8 +153,8 @@ void Trie::build(Keyset &keyset, int config_flags) {
   trie_->build(*keyset.keyset_, config_flags);
 }
 
-void Trie::mmap(const char *filename) {
-  trie_->mmap(filename);
+void Trie::mmap(const char *filename, int flags) {
+  trie_->mmap(filename, flags);
 }
 
 void Trie::load(const char *filename) {

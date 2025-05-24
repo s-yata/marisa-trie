@@ -21,6 +21,10 @@ enum ErrorCode {
   MARISA_SWIG_ENUM_COPY(FORMAT_ERROR)
 };
 
+enum MapFlags {
+  MARISA_SWIG_ENUM_COPY(MAP_POPULATE),
+};
+
 enum NumTries {
   MARISA_SWIG_ENUM_COPY(MIN_NUM_TRIES),
   MARISA_SWIG_ENUM_COPY(MAX_NUM_TRIES),
@@ -144,7 +148,7 @@ class Trie {
 
   void build(Keyset &keyset, int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename, int flags = 0);
   void load(const char *filename);
   void save(const char *filename) const;
 

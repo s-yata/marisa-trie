@@ -69,6 +69,7 @@ SIZE_ERROR = _marisa.SIZE_ERROR
 MEMORY_ERROR = _marisa.MEMORY_ERROR
 IO_ERROR = _marisa.IO_ERROR
 FORMAT_ERROR = _marisa.FORMAT_ERROR
+MAP_POPULATE = _marisa.MAP_POPULATE
 MIN_NUM_TRIES = _marisa.MIN_NUM_TRIES
 MAX_NUM_TRIES = _marisa.MAX_NUM_TRIES
 DEFAULT_NUM_TRIES = _marisa.DEFAULT_NUM_TRIES
@@ -201,8 +202,8 @@ class Trie(object):
     def build(self, keyset, config_flags=0):
         return _marisa.Trie_build(self, keyset, config_flags)
 
-    def mmap(self, filename):
-        return _marisa.Trie_mmap(self, filename)
+    def mmap(self, filename, flags=0):
+        return _marisa.Trie_mmap(self, filename, flags)
 
     def load(self, filename):
         return _marisa.Trie_load(self, filename)

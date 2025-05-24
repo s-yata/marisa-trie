@@ -1,4 +1,4 @@
-ALL: swig-perl swig-python swig-ruby
+ALL: swig-perl swig-python3 swig-ruby
 
 swig-perl:
 	swig -Wall -c++ -perl -outdir perl marisa-swig.i

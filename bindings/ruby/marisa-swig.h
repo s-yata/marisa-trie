@@ -5,7 +5,7 @@
 
 namespace marisa_swig {
 
-#define MARISA_SWIG_ENUM_COPY(name) name = MARISA_##name
+#define MARISA_SWIG_ENUM_COPY(name) name = MARISA_ ## name
 
 enum ErrorCode {
   MARISA_SWIG_ENUM_COPY(OK),
@@ -19,6 +19,10 @@ enum ErrorCode {
   MARISA_SWIG_ENUM_COPY(MEMORY_ERROR),
   MARISA_SWIG_ENUM_COPY(IO_ERROR),
   MARISA_SWIG_ENUM_COPY(FORMAT_ERROR)
+};
+
+enum MapFlags {
+  MARISA_SWIG_ENUM_COPY(MAP_POPULATE),
 };
 
 enum NumTries {
@@ -78,7 +82,7 @@ class Query {
 };
 
 class Keyset {
-  friend class Trie;
+ friend class Trie;
 
  public:
   Keyset();
@@ -89,8 +93,8 @@ class Keyset {
 
   const Key &key(std::size_t i) const;
 
-  void key_str(std::size_t i, const char **ptr_out,
-               std::size_t *length_out) const;
+  void key_str(std::size_t i,
+      const char **ptr_out, std::size_t *length_out) const;
   std::size_t key_id(std::size_t i) const;
 
   std::size_t num_keys() const;
@@ -110,7 +114,7 @@ class Keyset {
 };
 
 class Agent {
-  friend class Trie;
+ friend class Trie;
 
  public:
   Agent();
@@ -144,7 +148,7 @@ class Trie {
 
   void build(Keyset &keyset, int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename, int flags = 0);
   void load(const char *filename);
   void save(const char *filename) const;
 
@@ -154,8 +158,8 @@ class Trie {
   bool predictive_search(Agent &agent) const;
 
   std::size_t lookup(const char *ptr, std::size_t length) const;
-  void reverse_lookup(std::size_t id, const char **ptr_out_to_be_deleted,
-                      std::size_t *length_out) const;
+  void reverse_lookup(std::size_t id,
+      const char **ptr_out_to_be_deleted, std::size_t *length_out) const;
 
   std::size_t num_tries() const;
   std::size_t num_keys() const;

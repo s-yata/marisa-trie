@@ -278,6 +278,7 @@ package marisa;
 *MEMORY_ERROR = *marisac::MEMORY_ERROR;
 *IO_ERROR = *marisac::IO_ERROR;
 *FORMAT_ERROR = *marisac::FORMAT_ERROR;
+*MAP_POPULATE = *marisac::MAP_POPULATE;
 *MIN_NUM_TRIES = *marisac::MIN_NUM_TRIES;
 *MAX_NUM_TRIES = *marisac::MAX_NUM_TRIES;
 *DEFAULT_NUM_TRIES = *marisac::DEFAULT_NUM_TRIES;

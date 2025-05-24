@@ -201,8 +201,8 @@ class Trie(object):
     def build(self, keyset, config_flags=0):
         return _marisa.Trie_build(self, keyset, config_flags)
 
-    def mmap(self, filename):
-        return _marisa.Trie_mmap(self, filename)
+    def mmap(self, filename, flags=0):
+        return _marisa.Trie_mmap(self, filename, flags)
 
     def load(self, filename):
         return _marisa.Trie_load(self, filename)

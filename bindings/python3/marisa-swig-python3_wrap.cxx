@@ -5274,7 +5274,55 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Trie_mmap(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_Trie_mmap__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  marisa_swig::Trie *arg1 = (marisa_swig::Trie *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Trie, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Trie_mmap" "', argument " "1"" of type '" "marisa_swig::Trie *""'"); 
+  }
+  arg1 = reinterpret_cast< marisa_swig::Trie * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(swig_obj[1], &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Trie_mmap" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = reinterpret_cast< char * >(buf2);
+  ecode3 = SWIG_AsVal_int(swig_obj[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Trie_mmap" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  {
+    try {
+      (arg1)->mmap((char const *)arg2,arg3);
+    } catch (const marisa::Exception &ex) {
+      SWIG_exception(SWIG_RuntimeError, ex.what());
+    } catch (...) {
+      SWIG_exception(SWIG_UnknownError,"Unknown exception");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Trie_mmap__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   marisa_swig::Trie *arg1 = (marisa_swig::Trie *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -5283,10 +5331,9 @@ SWIGINTERN PyObject *_wrap_Trie_mmap(PyObject *self, PyObject *args) {
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
-  PyObject *swig_obj[2] ;
   
   (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "Trie_mmap", 2, 2, swig_obj)) SWIG_fail;
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_marisa_swig__Trie, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Trie_mmap" "', argument " "1"" of type '" "marisa_swig::Trie *""'"); 
@@ -5312,6 +5359,56 @@ SWIGINTERN PyObject *_wrap_Trie_mmap(PyObject *self, PyObject *args) {
 fail:
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Trie_mmap(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[4] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "Trie_mmap", 0, 3, argv))) SWIG_fail;
+  --argc;
+  if (argc == 2) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_marisa_swig__Trie, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_Trie_mmap__SWIG_1(self, argc, argv);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v = 0;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_marisa_swig__Trie, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_Trie_mmap__SWIG_0(self, argc, argv);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Trie_mmap'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    marisa_swig::Trie::mmap(char const *,int)\n"
+    "    marisa_swig::Trie::mmap(char const *)\n");
+  return 0;
 }
 
 
@@ -6665,6 +6762,7 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "MEMORY_ERROR",SWIG_From_int(static_cast< int >(marisa_swig::MEMORY_ERROR)));
   SWIG_Python_SetConstant(d, "IO_ERROR",SWIG_From_int(static_cast< int >(marisa_swig::IO_ERROR)));
   SWIG_Python_SetConstant(d, "FORMAT_ERROR",SWIG_From_int(static_cast< int >(marisa_swig::FORMAT_ERROR)));
+  SWIG_Python_SetConstant(d, "MAP_POPULATE",SWIG_From_int(static_cast< int >(marisa_swig::MAP_POPULATE)));
   SWIG_Python_SetConstant(d, "MIN_NUM_TRIES",SWIG_From_int(static_cast< int >(marisa_swig::MIN_NUM_TRIES)));
   SWIG_Python_SetConstant(d, "MAX_NUM_TRIES",SWIG_From_int(static_cast< int >(marisa_swig::MAX_NUM_TRIES)));
   SWIG_Python_SetConstant(d, "DEFAULT_NUM_TRIES",SWIG_From_int(static_cast< int >(marisa_swig::DEFAULT_NUM_TRIES)));

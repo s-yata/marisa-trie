@@ -77,7 +77,7 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
 
   state.set_node_id(terminal_flags_.select1(agent.query().id()));
   if (state.node_id() == 0) {
-    agent.set_key(state.key_buf().begin(), state.key_buf().size());
+    agent.set_key(state.key_buf().data(), state.key_buf().size());
     agent.set_key(agent.query().id());
     return;
   }
@@ -93,7 +93,7 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
 
     if (state.node_id() <= num_l1_nodes_) {
       std::reverse(state.key_buf().begin(), state.key_buf().end());
-      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      agent.set_key(state.key_buf().data(), state.key_buf().size());
       agent.set_key(agent.query().id());
       return;
     }
@@ -156,7 +156,7 @@ bool LoudsTrie::predictive_search(Agent &agent) const {
     state.set_history_pos(1);
 
     if (terminal_flags_[state.node_id()]) {
-      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      agent.set_key(state.key_buf().data(), state.key_buf().size());
       agent.set_key(terminal_flags_.rank1(state.node_id()));
       return true;
     }
@@ -190,7 +190,7 @@ bool LoudsTrie::predictive_search(Agent &agent) const {
         } else {
           next.set_key_id(next.key_id() + 1);
         }
-        agent.set_key(state.key_buf().begin(), state.key_buf().size());
+        agent.set_key(state.key_buf().data(), state.key_buf().size());
         agent.set_key(next.key_id());
         return true;
       }

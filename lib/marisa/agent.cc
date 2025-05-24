@@ -18,7 +18,7 @@ void UpdateAgentAfterCopyingState(const grimoire::trie::State &state,
       // In states corresponding to predictive_search, the agent's
       // key points into the state key buffer. We need to repoint
       // after copying the state.
-      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      agent.set_key(state.key_buf().data(), state.key_buf().size());
       break;
     default:
       // In other states, they key is either null, or points to the

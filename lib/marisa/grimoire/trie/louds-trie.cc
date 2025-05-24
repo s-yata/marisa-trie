@@ -219,9 +219,8 @@ std::size_t LoudsTrie::io_size() const {
   return Header().io_size() + louds_.io_size() + terminal_flags_.io_size() +
          link_flags_.io_size() + bases_.io_size() + extras_.io_size() +
          tail_.io_size() +
-         ((next_trie_ != nullptr)
-              ? (next_trie_->io_size() - Header().io_size())
-              : 0) +
+         ((next_trie_ != nullptr) ? (next_trie_->io_size() - Header().io_size())
+                                  : 0) +
          cache_.io_size() + (sizeof(UInt32) * 2);
 }
 

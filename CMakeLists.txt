@@ -308,3 +308,6 @@ install(
     ${ConfigPackageLocation}
   COMPONENT Library
 )
+
+configure_file(marisa.pc.in ${CMAKE_CURRENT_BINARY_DIR}/marisa.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/marisa.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)

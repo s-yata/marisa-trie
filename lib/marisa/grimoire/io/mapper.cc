@@ -115,7 +115,7 @@ void Mapper::open_(const char *filename, int flags) {
   DWORD size_high, size_low;
   size_low = ::GetFileSize(file_, &size_high);
   MARISA_THROW_IF(size_low == INVALID_FILE_SIZE, MARISA_IO_ERROR);
-  size_ = (static_cast<std::size_t>(size_high) << 32) | size_low;
+  size_ = (std::size_t{size_high} << 32) | size_low;
 
   map_ = ::CreateFileMapping(file_, nullptr, PAGE_READONLY, 0, 0, nullptr);
   MARISA_THROW_IF(map_ == nullptr, MARISA_IO_ERROR);

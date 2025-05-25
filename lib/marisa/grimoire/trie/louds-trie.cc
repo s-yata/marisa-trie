@@ -360,7 +360,7 @@ void LoudsTrie::build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
     }
 
     w_ranges.clear();
-    double weight = static_cast<double>(keys[range.begin()].weight());
+    double weight = double{keys[range.begin()].weight()};
     for (std::size_t i = range.begin() + 1; i < range.end(); ++i) {
       if (keys[i - 1][range.key_pos()] != keys[i][range.key_pos()]) {
         w_ranges.push_back(make_weighted_range(
@@ -368,7 +368,7 @@ void LoudsTrie::build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
         range.set_begin(i);
         weight = 0.0;
       }
-      weight += static_cast<double>(keys[i].weight());
+      weight += double{keys[i].weight()};
     }
     w_ranges.push_back(make_weighted_range(range.begin(), range.end(),
                                            range.key_pos(),

@@ -18,7 +18,7 @@ class Exception : public std::exception {
       : std::exception(), filename_(filename), line_(line),
         error_code_(error_code), error_message_(error_message) {}
   Exception(const Exception &ex) noexcept = default;
-  virtual ~Exception() noexcept;
+  ~Exception() noexcept override;
 
   Exception &operator=(const Exception &rhs) noexcept;
 
@@ -35,7 +35,7 @@ class Exception : public std::exception {
     return error_message_;
   }
 
-  virtual const char *what() const noexcept {
+  const char *what() const noexcept override {
     return error_message_;
   }
 
@@ -69,6 +69,26 @@ class Exception : public std::exception {
  #define MARISA_DEBUG_IF(cond, error_code) MARISA_THROW_IF(cond, error_code)
 #else
  #define MARISA_DEBUG_IF(cond, error_code)
+#endif
+
+#ifndef MARISA_USE_EXCEPTIONS
+ #if defined(__GNUC__) && !defined(__EXCEPTIONS)
+  #define MARISA_USE_EXCEPTIONS 0
+ #elif defined(__clang__) && !defined(__cpp_exceptions)
+  #define MARISA_USE_EXCEPTIONS 0
+ #elif defined(_MSC_VER) && !_HAS_EXCEPTIONS
+  #define MARISA_USE_EXCEPTIONS 0
+ #else
+  #define MARISA_USE_EXCEPTIONS 1
+ #endif
+#endif
+
+#if MARISA_USE_EXCEPTIONS
+ #define MARISA_TRY      try
+ #define MARISA_CATCH(x) catch (x)
+#else
+ #define MARISA_TRY      if (true)
+ #define MARISA_CATCH(x) if (false)
 #endif
 
 }  // namespace marisa

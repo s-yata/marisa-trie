@@ -77,7 +77,7 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
 
   state.set_node_id(terminal_flags_.select1(agent.query().id()));
   if (state.node_id() == 0) {
-    agent.set_key(state.key_buf().begin(), state.key_buf().size());
+    agent.set_key(state.key_buf().data(), state.key_buf().size());
     agent.set_key(agent.query().id());
     return;
   }
@@ -88,12 +88,12 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
       std::reverse(state.key_buf().begin() + prev_key_pos,
                    state.key_buf().end());
     } else {
-      state.key_buf().push_back((char)bases_[state.node_id()]);
+      state.key_buf().push_back(static_cast<char>(bases_[state.node_id()]));
     }
 
     if (state.node_id() <= num_l1_nodes_) {
       std::reverse(state.key_buf().begin(), state.key_buf().end());
-      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      agent.set_key(state.key_buf().data(), state.key_buf().size());
       agent.set_key(agent.query().id());
       return;
     }
@@ -156,7 +156,7 @@ bool LoudsTrie::predictive_search(Agent &agent) const {
     state.set_history_pos(1);
 
     if (terminal_flags_[state.node_id()]) {
-      agent.set_key(state.key_buf().begin(), state.key_buf().size());
+      agent.set_key(state.key_buf().data(), state.key_buf().size());
       agent.set_key(terminal_flags_.rank1(state.node_id()));
       return true;
     }
@@ -180,7 +180,7 @@ bool LoudsTrie::predictive_search(Agent &agent) const {
         next.set_link_id(update_link_id(next.link_id(), next.node_id()));
         restore(agent, get_link(next.node_id(), next.link_id()));
       } else {
-        state.key_buf().push_back((char)bases_[next.node_id()]);
+        state.key_buf().push_back(static_cast<char>(bases_[next.node_id()]));
       }
       next.set_key_pos(state.key_buf().size());
 
@@ -190,7 +190,7 @@ bool LoudsTrie::predictive_search(Agent &agent) const {
         } else {
           next.set_key_id(next.key_id() + 1);
         }
-        agent.set_key(state.key_buf().begin(), state.key_buf().size());
+        agent.set_key(state.key_buf().data(), state.key_buf().size());
         agent.set_key(next.key_id());
         return true;
       }
@@ -682,7 +682,7 @@ bool LoudsTrie::predictive_find_child(Agent &agent) const {
       }
     } else if (bases_[state.node_id()] ==
                (UInt8)agent.query()[state.query_pos()]) {
-      state.key_buf().push_back((char)bases_[state.node_id()]);
+      state.key_buf().push_back(static_cast<char>(bases_[state.node_id()]));
       state.set_query_pos(state.query_pos() + 1);
       return true;
     }
@@ -739,7 +739,7 @@ void LoudsTrie::restore_(Agent &agent, std::size_t node_id) const {
     if (link_flags_[node_id]) {
       restore(agent, get_link(node_id));
     } else {
-      state.key_buf().push_back((char)bases_[node_id]);
+      state.key_buf().push_back(static_cast<char>(bases_[node_id]));
     }
 
     if (node_id <= num_l1_nodes_) {
@@ -830,7 +830,7 @@ bool LoudsTrie::prefix_match_(Agent &agent, std::size_t node_id) const {
           return false;
         }
       } else if (bases_[node_id] == (UInt8)agent.query()[state.query_pos()]) {
-        state.key_buf().push_back((char)bases_[node_id]);
+        state.key_buf().push_back(static_cast<char>(bases_[node_id]));
         state.set_query_pos(state.query_pos() + 1);
       } else {
         return false;

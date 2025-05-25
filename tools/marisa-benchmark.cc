@@ -143,7 +143,8 @@ void read_keys(std::istream &input, marisa::Keyset *keyset,
     float weight = 1.0F;
     if (delim_pos != line.npos) {
       char *end_of_value;
-      weight = (float)std::strtod(&line[delim_pos + 1], &end_of_value);
+      weight =
+          static_cast<float>(std::strtod(&line[delim_pos + 1], &end_of_value));
       if (*end_of_value == '\0') {
         line.resize(delim_pos);
       }
@@ -179,7 +180,7 @@ void benchmark_build(marisa::Keyset &keyset, const std::vector<float> &weights,
   Clock cl;
   trie->build(keyset, num_tries | param_tail_mode | param_node_order |
                           param_cache_level);
-  std::printf(" %10lu", (unsigned long)trie->io_size());
+  std::printf(" %10lu", static_cast<unsigned long>(trie->io_size()));
   print_time_info(keyset.size(), cl.elasped());
 }
 
@@ -402,7 +403,7 @@ int main(int argc, char *argv[]) {
                     << cmdopt.optarg << std::endl;
           return 1;
         }
-        param_min_num_tries = (int)value;
+        param_min_num_tries = static_cast<int>(value);
         break;
       }
       case 'n': {
@@ -414,7 +415,7 @@ int main(int argc, char *argv[]) {
                     << cmdopt.optarg << std::endl;
           return 2;
         }
-        param_max_num_tries = (int)value;
+        param_max_num_tries = static_cast<int>(value);
         break;
       }
       case 't': {

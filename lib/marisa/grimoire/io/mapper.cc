@@ -115,7 +115,7 @@ void Mapper::open_(const char *filename, int flags) {
   DWORD size_high, size_low;
   size_low = ::GetFileSize(file_, &size_high);
   MARISA_THROW_IF(size_low == INVALID_FILE_SIZE, MARISA_IO_ERROR);
-  size_ = ((std::size_t)size_high << 32) | size_low;
+  size_ = (static_cast<std::size_t>(size_high) << 32) | size_low;
 
   map_ = ::CreateFileMapping(file_, nullptr, PAGE_READONLY, 0, 0, nullptr);
   MARISA_THROW_IF(map_ == nullptr, MARISA_IO_ERROR);
@@ -140,8 +140,9 @@ void Mapper::open_(const char *filename, int flags) {
 
   struct stat st;
   MARISA_THROW_IF(::fstat(fd_, &st) != 0, MARISA_IO_ERROR);
-  MARISA_THROW_IF((UInt64)st.st_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
-  size_ = (std::size_t)st.st_size;
+  MARISA_THROW_IF(static_cast<UInt64>(st.st_size) > MARISA_SIZE_MAX,
+                  MARISA_SIZE_ERROR);
+  size_ = static_cast<std::size_t>(st.st_size);
 
   int map_flags = MAP_SHARED;
  #if defined(MAP_POPULATE)

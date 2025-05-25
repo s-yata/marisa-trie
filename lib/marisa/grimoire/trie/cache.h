@@ -15,18 +15,18 @@ class Cache {
 
   void set_parent(std::size_t parent) {
     MARISA_DEBUG_IF(parent > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
-    parent_ = (UInt32)parent;
+    parent_ = static_cast<UInt32>(parent);
   }
   void set_child(std::size_t child) {
     MARISA_DEBUG_IF(child > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
-    child_ = (UInt32)child;
+    child_ = static_cast<UInt32>(child);
   }
   void set_base(UInt8 base) {
     union_.link = (union_.link & ~0xFFU) | base;
   }
   void set_extra(std::size_t extra) {
     MARISA_DEBUG_IF(extra > (MARISA_UINT32_MAX >> 8), MARISA_SIZE_ERROR);
-    union_.link = (UInt32)((union_.link & 0xFFU) | (extra << 8));
+    union_.link = static_cast<UInt32>((union_.link & 0xFFU) | (extra << 8));
   }
   void set_weight(float weight) {
     union_.weight = weight;
@@ -39,13 +39,13 @@ class Cache {
     return child_;
   }
   UInt8 base() const {
-    return (UInt8)(union_.link & 0xFFU);
+    return static_cast<UInt8>(union_.link & 0xFFU);
   }
   std::size_t extra() const {
     return union_.link >> 8;
   }
   char label() const {
-    return (char)base();
+    return static_cast<char>(base());
   }
   std::size_t link() const {
     return union_.link;

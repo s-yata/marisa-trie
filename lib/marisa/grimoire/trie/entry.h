@@ -20,11 +20,11 @@ class Entry {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length - 1;
-    length_ = (UInt32)length;
+    length_ = static_cast<UInt32>(length);
   }
   void set_id(std::size_t id) {
     MARISA_DEBUG_IF(id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
-    id_ = (UInt32)id;
+    id_ = static_cast<UInt32>(id);
   }
 
   const char *ptr() const {
@@ -45,7 +45,7 @@ class Entry {
           return true;
         }
         if (lhs[i] != rhs[i]) {
-          return (UInt8)lhs[i] > (UInt8)rhs[i];
+          return static_cast<UInt8>(lhs[i]) > static_cast<UInt8>(rhs[i]);
         }
       }
       return lhs.length() > rhs.length();

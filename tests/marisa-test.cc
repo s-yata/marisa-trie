@@ -357,7 +357,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
   marisa::Trie trie;
   trie.build(keyset, num_tries | tail_mode | node_order);
 
-  ASSERT(trie.num_tries() == (std::size_t)num_tries);
+  ASSERT(trie.num_tries() == static_cast<std::size_t>(num_tries));
   ASSERT(trie.num_keys() <= keyset.size());
 
   ASSERT(trie.tail_mode() == tail_mode);
@@ -375,7 +375,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
   trie.clear();
   trie.load("marisa-test.dat");
 
-  ASSERT(trie.num_tries() == (std::size_t)num_tries);
+  ASSERT(trie.num_tries() == static_cast<std::size_t>(num_tries));
   ASSERT(trie.num_keys() <= keyset.size());
 
   ASSERT(trie.tail_mode() == tail_mode);
@@ -404,7 +404,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     std::fclose(file);
   }
 
-  ASSERT(trie.num_tries() == (std::size_t)num_tries);
+  ASSERT(trie.num_tries() == static_cast<std::size_t>(num_tries));
   ASSERT(trie.num_keys() <= keyset.size());
 
   ASSERT(trie.tail_mode() == tail_mode);
@@ -415,7 +415,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
   trie.clear();
   trie.mmap("marisa-test.dat");
 
-  ASSERT(trie.num_tries() == (std::size_t)num_tries);
+  ASSERT(trie.num_tries() == static_cast<std::size_t>(num_tries));
   ASSERT(trie.num_keys() <= keyset.size());
 
   ASSERT(trie.tail_mode() == tail_mode);
@@ -430,7 +430,7 @@ void TestTrie(int num_tries, marisa::TailMode tail_mode,
     stream >> trie;
   }
 
-  ASSERT(trie.num_tries() == (std::size_t)num_tries);
+  ASSERT(trie.num_tries() == static_cast<std::size_t>(num_tries));
   ASSERT(trie.num_keys() <= keyset.size());
 
   ASSERT(trie.tail_mode() == tail_mode);

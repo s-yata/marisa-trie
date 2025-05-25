@@ -47,7 +47,8 @@ void read_keys(std::istream &input, marisa::Keyset *keyset) {
     float weight = 1.0F;
     if (delim_pos != line.npos) {
       char *end_of_value;
-      weight = (float)std::strtod(&line[delim_pos + 1], &end_of_value);
+      weight =
+          static_cast<float>(std::strtod(&line[delim_pos + 1], &end_of_value));
       if (*end_of_value == '\0') {
         line.resize(delim_pos);
       }
@@ -155,7 +156,7 @@ int main(int argc, char *argv[]) {
                     << cmdopt.optarg << std::endl;
           return 1;
         }
-        param_num_tries = (int)value;
+        param_num_tries = static_cast<int>(value);
         break;
       }
       case 't': {

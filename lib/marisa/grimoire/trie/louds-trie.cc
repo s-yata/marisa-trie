@@ -85,8 +85,9 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
     if (link_flags_[state.node_id()]) {
       const std::size_t prev_key_pos = state.key_buf().size();
       restore(agent, get_link(state.node_id()));
-      std::reverse(state.key_buf().begin() + prev_key_pos,
-                   state.key_buf().end());
+      std::reverse(
+          state.key_buf().begin() + static_cast<ptrdiff_t>(prev_key_pos),
+          state.key_buf().end());
     } else {
       state.key_buf().push_back(static_cast<char>(bases_[state.node_id()]));
     }

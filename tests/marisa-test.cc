@@ -299,20 +299,20 @@ void TestPredictiveSearchAgentCopy(const marisa::Trie &trie,
       agent_copies.push_back(agent);
     }
 
-    for (std::size_t i = 0; i < agent_copies.size(); ++i) {
+    for (std::size_t j = 0; j < agent_copies.size(); ++j) {
       marisa::Agent agent_copy;
 
       // Tests copy assignment.
-      agent_copy = agent_copies[i];
+      agent_copy = agent_copies[j];
 
-      ASSERT(agent_copy.key().id() == ids[i]);
+      ASSERT(agent_copy.key().id() == ids[j]);
       ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) ==
-             keys[i]);
-      if (i + 1 < agent_copies.size()) {
+             keys[j]);
+      if (j + 1 < agent_copies.size()) {
         ASSERT(trie.predictive_search(agent_copy));
-        ASSERT(agent_copy.key().id() == ids[i + 1]);
+        ASSERT(agent_copy.key().id() == ids[j + 1]);
         ASSERT(std::string(agent_copy.key().ptr(), agent_copy.key().length()) ==
-               keys[i + 1]);
+               keys[j + 1]);
       } else {
         ASSERT(!trie.predictive_search(agent_copy));
       }

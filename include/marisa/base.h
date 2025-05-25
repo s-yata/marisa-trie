@@ -162,6 +162,6 @@ using std::swap;
 
 }  // namespace marisa
 
-#include "marisa/exception.h"
+#include "marisa/exception.h"  // IWYU pragma: export
 
 #endif  // MARISA_BASE_H_

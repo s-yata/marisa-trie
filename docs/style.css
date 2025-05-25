@@ -75,6 +75,7 @@ kbd {
  font-family: sans-serif;
  font-style: normal;
  padding: 0px 2px;
+ white-space: nowrap;
 }
 var {
  color: darkred;

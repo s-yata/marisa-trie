@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 21 May 2025</div>
+   <div class="right">Last modified: 25 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body" style="text-align: justify">
@@ -82,7 +82,7 @@
       </li>
       <li>Source
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.2.7.tar.gz">marisa-trie-0.2.7.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.0.tar.gz">marisa-trie-0.3.0.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,29 +94,48 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-trie-0.2.7.tar.gz
-$ cd marisa-trie-0.2.7
-$ autoreconf -i
-$ ./configure
-$ make
-$ make check
-$ make install</pre>
+      <pre class="console">$ tar zxf marisa-trie-0.3.0.tar.gz
+$ cd marisa-trie-0.3.0
+$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release
+$ cmake --build build-rel
+$ cmake --install bulld-rel</pre>
      </div><!-- float -->
      <p>
-      Users can install libmarisa by using <kbd>configure</kbd> and <kbd>make</kbd>. <kbd>make install</kbd> might require <kbd>sudo</kbd> to install libmarisa as the root user. Additionally, <kbd>ldconfig</kbd> might be required because libmarisa is installed as a shared library in default settings.
+      You can build and install libmarisa by using <kbd>cmake</kbd>. If you want to install files into directories other than the default, specify <kbd>-DCMAKE_INSTALL_PREFIX</kbd> to the first <kbd>cmake</kbd>. <kbd>cmake --install</kbd> may require <kbd>sudo</kbd> to install libmarisa as the root user. With the default settings, libmarisa is installed as a static library.
      </p>
+     <div class="float">
+      <pre class="console">$ cmake --install build-rel --component Library</pre>
+     </div><!-- float -->
      <p>
-      If a POPCNT instruction is available on your environment, you can specify <kbd>--enable-popcnt</kbd>, when you run <kbd>configure</kbd>, to improve the performance of libmarisa. Likewise, <kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd>, <kbd>--enable-bmi</kbd>, <kbd>--enable-bmi2</kbd> are available. Note that <kbd>--enable-native-code</kbd> enables instructions available on the compilation environment. Also, if you need a static library, specify <kbd>--enable-static</kbd> to <kbd>configure</kbd>. For other options, see <kbd>./configure --help</kbd>.
+      If you want to install just the library without the binaries, specify <kbd>--component Library</kbd> to <kbd>cmake --install</kbd>.
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake --install build-rel --component Binaries</pre>
+     </div><!-- float -->
+     <p>
+      If you want to install just the binaries, specify <kbd>--component Binaries</kbd> to <kbd>cmake --install</kbd>.
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON</pre>
+     </div><!-- float -->
+     <p>
+      If you want to build and install a shared library, specify <kbd>-DBUILD_SHARED_LIBS=ON</kbd> to the first <kbd>cmake</kbd>. The remaining steps are the same. Try <kbd>cmake --build</kbd> and <kbd>cmake --install</kbd>.
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DENABLE_NATIVE_CODE=ON</pre>
+     </div><!-- float -->
+     <p>
+      You can specify <kbd>-DENABLE_NATIVE_CODE=ON</kbd> to the first <kbd>cmake</kbd>. This option enables SIMD instructions available on your environment and improves the performance of libmarisa.
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Visual Studio 2019</a></h3>
+     <h3><a name="vc">Visual Studio 2022</a></h3>
      <p>
-      There are project files for Visual Studio 2019 in <kbd>vs2019/</kbd>. Users can build a static library <kbd>libmarisa.lib</kbd> and the command line tools by using <kbd>vs2019/vs2019.sln</kbd>. If your Visual C++ is older than 2019. New projects are required to build libmarisa.
+      When you open the marisa-trie folder in the source archive via Visual Studio 2022, it detects CMakeLists.txt and creates a project for marisa-trie. The project builds a static library <kbd>marisa.lib</kbd> and the command line tools in debug mode by default.
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Perl Bindings</a></h3>
+     <h3><a name="perl">Perl Bindings</a></h3>
      <div class="float">
       <pre class="console">$ cd bindings/perl
 $ perl Makefile.PL
@@ -128,18 +147,18 @@ $ make install</pre>
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Python Bindings</a></h3>
+     <h3><a name="python">Python Bindings</a></h3>
      <div class="float">
-      <pre class="console">$ cd bindings/python
-$ python setup.py build
-$ python setup.py install</pre>
+      <pre class="console">$ cd bindings/python3
+$ python3 setup.py build
+$ python3 setup.py install</pre>
      </div><!-- float -->
      <p>
-      Users can find a Python bindings in <kbd>bindings/python/</kbd>, in which the wrapper was generated by <a href="https://www.swig.org/">SWIG</a>. To install the Python bindings, run <kbd>python setup.py install</kbd>. See also <kbd>bindings/python/sample.py</kbd>.
+      Users can find a Python bindings in <kbd>bindings/python3/</kbd>, in which the wrapper was generated by <a href="https://www.swig.org/">SWIG</a>. To install the Python bindings, run <kbd>python3 setup.py install</kbd>. See also <kbd>bindings/python/sample.py</kbd>. <kbd>bindings/python/</kbd> contains old bindngs and it is left for compatibitity.
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Ruby Bindings</a></h3>
+     <h3><a name="ruby">Ruby Bindings</a></h3>
      <div class="float">
       <pre class="console">$ cd bindings/ruby
 $ ruby extconf.rb
@@ -151,19 +170,14 @@ $ make install</pre>
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Others</a></h3>
+     <h3><a name="others">Others</a></h3>
      <p>
-      There are some other bindings.
+      There are other bindings.
      </p>
      <ul>
       <li>Python
        <ul>
-        <li><a href="https://github.com/kmike/marisa-trie/">https://github.com/kmike/marisa-trie/</a> an alternative Cython-based pip-installable Python bindings which is faster than the above Python bindings.</li>
-       </ul>
-      </li>
-      <li>Node.js
-       <ul>
-        <li><a href="https://github.com/jakwings/iojs-marisa-trie">https://github.com/jakwings/iojs-marisa-trie</a> a wrapper of marisa-trie</li>
+        <li><a href="https://github.com/pytries/marisa-trie">https://github.com/pytries/marisa-trie/</a> an alternative Cython-based pip-installable Python bindings which is faster than the above Python bindings.</li>
        </ul>
       </li>
      </ul>
@@ -498,7 +512,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Key {
  public:
   char operator[](std::size_t i) const;
-  std::string_view str() const;  // C++17
+  std::string_view str() const;
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -515,7 +529,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Query {
  public:
   char operator[](std::size_t i) const;
-  std::string_view str() const;  // C++17
+  std::string_view str() const;
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -537,7 +551,7 @@ typedef enum marisa_num_tries_ {
   void push_back(const Key &amp;key, char end_marker);
 
   void push_back(std::string_view str,
-                 float weight = 1.0);  // C++17
+                 float weight = 1.0);
   void push_back(const char *str);
   void push_back(const char *ptr,
                  std::size_t length,
@@ -597,7 +611,7 @@ typedef enum marisa_num_tries_ {
   const Query &amp;query() const;
   const Key &amp;key() const;
 
-  void set_query(std::string_view str);  // C++17
+  void set_query(std::string_view str);
   void set_query(const char *str);
   void set_query(const char *ptr,
                  std::size_t length);

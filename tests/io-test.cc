@@ -22,8 +22,8 @@ void TestFilename() {
     marisa::grimoire::Writer writer;
     writer.open("io-test.dat");
 
-    writer.write((marisa::UInt32)123);
-    writer.write((marisa::UInt32)234);
+    writer.write(marisa::UInt32{123});
+    writer.write(marisa::UInt32{234});
 
     double values[] = {3.45, 4.56};
     writer.write(values, 2);

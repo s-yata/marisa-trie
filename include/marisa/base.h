@@ -35,11 +35,11 @@ typedef uint64_t marisa_uint64;
 
 // #define MARISA_WORD_SIZE  (sizeof(void *) * 8)
 
-#define MARISA_UINT8_MAX  ((marisa_uint8) ~(marisa_uint8)0)
-#define MARISA_UINT16_MAX ((marisa_uint16) ~(marisa_uint16)0)
-#define MARISA_UINT32_MAX ((marisa_uint32) ~(marisa_uint32)0)
-#define MARISA_UINT64_MAX ((marisa_uint64) ~(marisa_uint64)0)
-#define MARISA_SIZE_MAX   ((size_t)~(size_t)0)
+#define MARISA_UINT8_MAX  UINT8_MAX
+#define MARISA_UINT16_MAX UINT16_MAX
+#define MARISA_UINT32_MAX UINT32_MAX
+#define MARISA_UINT64_MAX UINT64_MAX
+#define MARISA_SIZE_MAX   SIZE_MAX
 
 #define MARISA_INVALID_LINK_ID MARISA_UINT32_MAX
 #define MARISA_INVALID_KEY_ID  MARISA_UINT32_MAX

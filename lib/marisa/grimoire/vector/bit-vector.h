@@ -54,7 +54,7 @@ class BitVector {
       units_.resize(units_.size() + (64 / MARISA_WORD_SIZE), 0);
     }
     if (bit) {
-      units_[size_ / MARISA_WORD_SIZE] |= (Unit)1 << (size_ % MARISA_WORD_SIZE);
+      units_[size_ / MARISA_WORD_SIZE] |= Unit{1} << (size_ % MARISA_WORD_SIZE);
       ++num_1s_;
     }
     ++size_;
@@ -63,7 +63,7 @@ class BitVector {
   bool operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
     return (units_[i / MARISA_WORD_SIZE] &
-            ((Unit)1 << (i % MARISA_WORD_SIZE))) != 0;
+            (Unit{1} << (i % MARISA_WORD_SIZE))) != 0;
   }
 
   std::size_t rank0(std::size_t i) const {
@@ -159,8 +159,8 @@ class BitVector {
 
   void write_(Writer &writer) const {
     units_.write(writer);
-    writer.write((UInt32)size_);
-    writer.write((UInt32)num_1s_);
+    writer.write(static_cast<UInt32>(size_));
+    writer.write(static_cast<UInt32>(num_1s_));
     ranks_.write(writer);
     select0s_.write(writer);
     select1s_.write(writer);

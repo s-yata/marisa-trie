@@ -11,7 +11,9 @@ namespace marisa::grimoire::vector {
 
 #if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
 
-using std::popcount;
+inline std::size_t popcount(UInt64 x) {
+  return static_cast<std::size_t>(std::popcount(x));
+}
 
 #else  // c++17
 

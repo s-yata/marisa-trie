@@ -46,11 +46,11 @@ class FlatVector {
     const std::size_t unit_offset = pos % MARISA_WORD_SIZE;
 
     if ((unit_offset + value_size_) <= MARISA_WORD_SIZE) {
-      return (UInt32)(units_[unit_id] >> unit_offset) & mask_;
+      return static_cast<UInt32>(units_[unit_id] >> unit_offset) & mask_;
     } else {
-      return (UInt32)((units_[unit_id] >> unit_offset) |
-                      (units_[unit_id + 1]
-                       << (MARISA_WORD_SIZE - unit_offset))) &
+      return static_cast<UInt32>(
+                 (units_[unit_id] >> unit_offset) |
+                 (units_[unit_id + 1] << (MARISA_WORD_SIZE - unit_offset))) &
              mask_;
     }
   }
@@ -107,9 +107,10 @@ class FlatVector {
 
     std::size_t num_units = values.empty() ? 0 : (64 / MARISA_WORD_SIZE);
     if (value_size != 0) {
-      num_units = (std::size_t)((((UInt64)value_size * values.size()) +
-                                 (MARISA_WORD_SIZE - 1)) /
-                                MARISA_WORD_SIZE);
+      num_units = static_cast<std::size_t>(
+          ((static_cast<UInt64>(value_size) * values.size()) +
+           (MARISA_WORD_SIZE - 1)) /
+          MARISA_WORD_SIZE);
       num_units += num_units % (64 / MARISA_WORD_SIZE);
     }
 
@@ -146,7 +147,7 @@ class FlatVector {
       UInt64 temp_size;
       mapper.map(&temp_size);
       MARISA_THROW_IF(temp_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
-      size_ = (std::size_t)temp_size;
+      size_ = static_cast<std::size_t>(temp_size);
     }
   }
 
@@ -167,15 +168,15 @@ class FlatVector {
       UInt64 temp_size;
       reader.read(&temp_size);
       MARISA_THROW_IF(temp_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
-      size_ = (std::size_t)temp_size;
+      size_ = static_cast<std::size_t>(temp_size);
     }
   }
 
   void write_(Writer &writer) const {
     units_.write(writer);
-    writer.write((UInt32)value_size_);
-    writer.write((UInt32)mask_);
-    writer.write((UInt64)size_);
+    writer.write(static_cast<UInt32>(value_size_));
+    writer.write(static_cast<UInt32>(mask_));
+    writer.write(static_cast<UInt64>(size_));
   }
 
   void set(std::size_t i, UInt32 value) {
@@ -186,12 +187,13 @@ class FlatVector {
     const std::size_t unit_id = pos / MARISA_WORD_SIZE;
     const std::size_t unit_offset = pos % MARISA_WORD_SIZE;
 
-    units_[unit_id] &= ~((Unit)mask_ << unit_offset);
-    units_[unit_id] |= (Unit)(value & mask_) << unit_offset;
+    units_[unit_id] &= ~(static_cast<Unit>(mask_) << unit_offset);
+    units_[unit_id] |= static_cast<Unit>(value & mask_) << unit_offset;
     if ((unit_offset + value_size_) > MARISA_WORD_SIZE) {
-      units_[unit_id + 1] &= ~((Unit)mask_ >> (MARISA_WORD_SIZE - unit_offset));
+      units_[unit_id + 1] &=
+          ~(static_cast<Unit>(mask_) >> (MARISA_WORD_SIZE - unit_offset));
       units_[unit_id + 1] |=
-          (Unit)(value & mask_) >> (MARISA_WORD_SIZE - unit_offset);
+          static_cast<Unit>(value & mask_) >> (MARISA_WORD_SIZE - unit_offset);
     }
   }
 };

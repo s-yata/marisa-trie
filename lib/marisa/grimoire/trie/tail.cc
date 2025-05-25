@@ -173,10 +173,10 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
       ++match;
     }
     if ((match == current.length()) && (last->length() != 0)) {
-      temp_offsets[current.id()] =
-          (UInt32)(temp_offsets[last->id()] + (last->length() - match));
+      temp_offsets[current.id()] = static_cast<UInt32>(
+          temp_offsets[last->id()] + (last->length() - match));
     } else {
-      temp_offsets[current.id()] = (UInt32)buf_.size();
+      temp_offsets[current.id()] = static_cast<UInt32>(buf_.size());
       for (std::size_t j = 1; j <= current.length(); ++j) {
         buf_.push_back(current[current.length() - j]);
       }

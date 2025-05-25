@@ -19,7 +19,7 @@ class Config {
   }
 
   int flags() const {
-    return (int)num_tries_ | tail_mode_ | node_order_;
+    return static_cast<int>(num_tries_) | tail_mode_ | node_order_;
   }
 
   std::size_t num_tries() const {

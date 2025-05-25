@@ -14,7 +14,7 @@ template <typename T>
 int get_label(const T &unit, std::size_t depth) {
   MARISA_DEBUG_IF(depth > unit.length(), MARISA_BOUND_ERROR);
 
-  return (depth < unit.length()) ? (int)(UInt8)unit[depth] : -1;
+  return (depth < unit.length()) ? int{static_cast<UInt8>(unit[depth])} : -1;
 }
 
 template <typename T>
@@ -44,7 +44,7 @@ int compare(const T &lhs, const T &rhs, std::size_t depth) {
       return 1;
     }
     if (lhs[i] != rhs[i]) {
-      return (UInt8)lhs[i] - (UInt8)rhs[i];
+      return static_cast<UInt8>(lhs[i]) - static_cast<UInt8>(rhs[i]);
     }
   }
   if (lhs.length() == rhs.length()) {

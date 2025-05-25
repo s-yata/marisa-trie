@@ -102,7 +102,7 @@ void TestKey() {
 
   key.set_weight(1.0);
 
-  ASSERT(key.weight() == 1.0);
+  ASSERT(key.weight() == 1.0F);
 
   key.set_id(100);
 
@@ -137,7 +137,7 @@ void TestKeyset() {
     ASSERT(keyset[i].length() == keys[i].length());
     ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
            0);
-    ASSERT(keyset[i].weight() == 1.0);
+    ASSERT(keyset[i].weight() == 1.0F);
   }
 
   keyset.clear();
@@ -156,7 +156,7 @@ void TestKeyset() {
     ASSERT(std::memcmp(keyset[i].ptr(), keys[i].c_str(), keyset[i].length()) ==
            0);
     ASSERT(keyset[i].str() == keys[i]);
-    ASSERT(keyset[i].weight() == 2.0);
+    ASSERT(keyset[i].weight() == 2.0F);
   }
 
   keyset.clear();

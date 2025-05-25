@@ -67,6 +67,7 @@ jobs:
             -DENABLE_NATIVE_CODE=ON \
             -DENABLE_ASAN=ON \
             -DENABLE_UBSAN=ON \
+            -DCMAKE_CXX_CLANG_TIDY=clang-tidy \
             -DCMAKE_BUILD_TYPE=Debug \
             $([ "${{ matrix.coverage }}" = "true" ] && echo "-DENABLE_COVERAGE=ON")
           cmake --build build-debug -j $(getconf _NPROCESSORS_ONLN)

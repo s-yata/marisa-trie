@@ -10,7 +10,7 @@ MARISA: Matching Algorithm with Recursively Implemented StorAge
 
 #### Latest version
 
-0.2.7
+0.3.0
 
 #### Description
 
@@ -44,8 +44,7 @@ The biggest advantage of libmarisa is that its dictionary size is considerably m
 
 #### Build instructions
 
-You can get the latest version via `git clone`. Then, you can build and install libmarisa and its command line tools via `cmake`.
-<!-- For details, see also documentation in `docs`. -->
+You can get the latest version via `git clone`. Then, you can build and install libmarisa and its command line tools via `cmake`. See also documentation for details.
 
 ```
 $ git clone https://github.com/s-yata/marisa-trie.git

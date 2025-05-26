@@ -1,6 +1,6 @@
 #include "marisa/grimoire/trie/tail.h"
 
-#include "marisa/grimoire/algorithm.h"
+#include "marisa/grimoire/algorithm/sort.h"
 #include "marisa/grimoire/trie/state.h"
 
 namespace marisa::grimoire::trie {
@@ -157,7 +157,7 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
   for (std::size_t i = 0; i < entries.size(); ++i) {
     entries[i].set_id(i);
   }
-  Algorithm().sort(entries.begin(), entries.end());
+  algorithm::sort(entries.begin(), entries.end());
 
   Vector<UInt32> temp_offsets;
   temp_offsets.resize(entries.size(), 0);

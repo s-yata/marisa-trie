@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 17 May 2025</div>
+   <div class="right">Last modified: 25 May 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body">
@@ -82,7 +82,7 @@
       </li>
       <li>ソースコード
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.2.7.tar.gz">marisa-trie-0.2.7.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.0.tar.gz">marisa-trie-0.3.0.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,32 +94,48 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-trie-0.2.7.tar.gz
-$ cd marisa-trie-0.2.7
-$ autoreconf -i
-$ ./configure
-$ make
-$ make check
-$ make install</pre>
+      <pre class="console">$ tar zxf marisa-trie-0.3.0.tar.gz
+$ cd marisa-trie-0.3.0
+$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release
+$ cmake --build build-rel
+$ cmake --install bulld-rel</pre>
      </div><!-- float -->
      <p>
-      <kbd>configure</kbd> と <kbd>make</kbd> によりインストールできるようになっています．<kbd>make install</kbd> については，必要に応じて <kbd>sudo</kbd> を付けてご利用ください．また，特に指定がなければ libmarisa は共有ライブラリとしてインストールされるので，<kbd>ldconfig</kbd> が必要になるかもしれません．
+      <kbd>cmake</kbd> を使ってビルド，インストールできるようになっています．インストール先を変更したいときは，最初の <kbd>cmake</kbd> に <kbd>-DCMAKE_INSTALL_PREFIX</kbd> で指定してください．<kbd>cmake --install</kbd> については，必要に応じて <kbd>sudo</kbd> を付けてご利用ください．特に指定がなければ libmarisa はスタティックライブラリとしてインストールされます．
      </p>
+     <div class="float">
+      <pre class="console">$ cmake --install build-rel --component Library</pre>
+     </div><!-- float -->
      <p>
-      POPCNT 命令が使える環境では，<kbd>configure</kbd> に <kbd>--enable-popcnt</kbd> を渡すことで，少し高速化することができます．同様に，<kbd>--enable-sse2</kbd>, <kbd>--enable-sse3</kbd>, <kbd>--enable-ssse3</kbd>, <kbd>--enable-sse4.1</kbd>, <kbd>--enable-sse4.2</kbd>, <kbd>--enable-sse4</kbd>, <kbd>--enable-sse4a</kbd>, <kbd>--enable-bmi</kbd>, <kbd>--enable-bmi2</kbd> というオプションがあります．<kbd>--enable-native-code</kbd> を渡せば，コンパイル環境で使える命令がすべて有効になります．また，スタティックライブラリが必要なときは，<kbd>configure</kbd> に <kbd>--enable-static</kbd> を渡すようにしてください．その他，<kbd>configure</kbd> のオプションについては <kbd>./configure --help</kbd> をご覧ください．
+      ツールが不要でライブラリのみをインストールしたいときは，<kbd>cmake --install</kbd> に <kbd>--component Library</kbd> を指定してください．
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake --install build-rel --component Binaries</pre>
+     </div><!-- float -->
+     <p>
+      ツールのみをインストールしたいときは，<kbd>cmake --install</kbd> に <kbd>--component Binaries</kbd> を指定してください．
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON</pre>
+     </div><!-- float -->
+     <p>
+      共有ライブラリをビルド，インストールしたいときは，最初の <kbd>cmake</kbd> に追加で <kbd>-DBUILD_SHARED_LIBS=ON</kbd> を渡します．後の手順は同様です．
+     </p>
+     <div class="float">
+      <pre class="console">$ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DENABLE_NATIVE_CODE=ON</pre>
+     </div><!-- float -->
+     <p>
+      各種 SIMD 命令が使える環境では，最初の <kbd>cmake</kbd> に追加で <kbd>-DENABLE_NATIVE_CODE=ON</kbd> を渡すことで，コンパイル環境で使える命令が有効になり，libmarisa の性能が向上します．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Visual Studio 2019</a></h3>
+     <h3><a name="vs">Visual Studio 2022</a></h3>
      <p>
-      Visual Studio 2019 にて作成したファイルを <kbd>vs2019/</kbd> 以下に配置しています．Visual Studio 2019 以降であれば，<kbd>vs2019/vs2019.sln</kbd> を開くだけでスタティックライブラリ <kbd>libmarisa.lib</kbd> とコマンドラインツールをビルドできます．
-     </p>
-     <p>
-      Visual Studio 2019 より古い環境では，新しくプロジェクトを作る必要があります．プロジェクトを作成すれば問題なくビルドできると思いますが，試していないので断言はできません．
+      アーカイブを展開して作成されたフォルダを Visual Studio 2022 で開けば，CMakeLists.txt が自動で検出されて，プロジェクトが作成されます．デフォルトではデバッグモードでスタティックライブラリ <kbd>marisa.lib</kbd> とコマンドラインツールをビルドするようになっています．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Perl バインディング</a></h3>
+     <h3><a name="perl">Perl バインディング</a></h3>
      <div class="float">
       <pre class="console">$ cd bindings/perl
 $ perl Makefile.PL
@@ -127,22 +143,22 @@ $ make
 $ make install</pre>
      </div><!-- float -->
      <p>
-      <a href="http://www.swig.org/">SWIG</a> による Perl バインディングが <kbd>bindings/perl/</kbd> にあります．<kbd>perl Makefile.PL</kbd> により <kbd>Makefile</kbd> を作成し，<kbd>make install</kbd> を実行することでインストールできます．使い方については，<kbd>bindings/perl/sample.pl</kbd> を参考にしてください．
+      <a href="https://www.swig.org/">SWIG</a> による Perl バインディングが <kbd>bindings/perl/</kbd> にあります．<kbd>perl Makefile.PL</kbd> により <kbd>Makefile</kbd> を作成し，<kbd>make install</kbd> を実行することでインストールできます．使い方については，<kbd>bindings/perl/sample.pl</kbd> を参考にしてください．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Python バインディング</a></h3>
+     <h3><a name="python">Python バインディング</a></h3>
      <div class="float">
       <pre class="console">$ cd bindings/python3
 $ python3 setup.py build
 $ python3 setup.py install</pre>
      </div><!-- float -->
      <p>
-      <a href="http://www.swig.org/">SWIG</a> による Python バインディングが <kbd>bindings/python3/</kbd> にあります．<kbd>python3 setup.py install</kbd> により インストールできます．使い方については，<kbd>bindings/python3/sample.py</kbd> を参考にしてください． <kbd>bindings/python/</kbd> は古い Python バインディングであり，互換性のために残されています．
+      <a href="https://www.swig.org/">SWIG</a> による Python バインディングが <kbd>bindings/python3/</kbd> にあります．<kbd>python3 setup.py install</kbd> により インストールできます．使い方については，<kbd>bindings/python3/sample.py</kbd> を参考にしてください． <kbd>bindings/python/</kbd> には古い Python バインディングがあり，互換性のために残されています．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">Ruby バインディング</a></h3>
+     <h3><a name="ruby">Ruby バインディング</a></h3>
      <div class="float">
       <pre class="console">$ cd bindings/ruby
 $ ruby extconf.rb
@@ -150,26 +166,21 @@ $ make
 $ make install</pre>
      </div><!-- float -->
      <p>
-      <a href="http://www.swig.org/">SWIG</a> による Ruby バインディングが <kbd>bindings/ruby/</kbd> にあります．<kbd>ruby extconf.rb</kbd> により <kbd>Makefile</kbd> を作成し，<kbd>make install</kbd> を実行することでインストールできます．使い方については，<kbd>bindings/ruby/sample.rb</kbd> を参考にしてください．
+      <a href="https://www.swig.org/">SWIG</a> による Ruby バインディングが <kbd>bindings/ruby/</kbd> にあります．<kbd>ruby extconf.rb</kbd> により <kbd>Makefile</kbd> を作成し，<kbd>make install</kbd> を実行することでインストールできます．使い方については，<kbd>bindings/ruby/sample.rb</kbd> を参考にしてください．
      </p>
     </div><!-- subsection -->
     <div class="subsection">
-     <h3><a name="vc">その他</a></h3>
+     <h3><a name="others">その他</a></h3>
      <p>
-      上記のバインディング以外にも，いくつかのバインディングがあります．
+      上記以外のバインディングもあります．
      </p>
      <ul>
       <li>Python
        <ul>
-        <li><a href="https://github.com/kmike/marisa-trie/">"https://github.com/kmike/marisa-trie/</a>高速・高機能な Python バインディング</li>
+        <li><a href="https://github.com/pytries/marisa-trie">https://github.com/pytries/marisa-trie</a>高速・高機能な Python バインディング</li>
        </ul>
       </li>
-      <li>Node.js
-       <ul>
-        <li><a href="https://github.com/komiya-atsushi/node-marisa-trie">https://github.com/komiya-atsushi/node-marisa-trie</a>Node.js から使うためのモジュール</li>
-       </ul>
-      </li>
-     </p>
+     </ul>
     </div><!-- subsection -->
    </div><!-- section -->
 
@@ -382,6 +393,17 @@ apple: 2</pre>
       </p>
      </div><!-- subsubsection -->
      <div class="subsubsection">
+      <h4>メモリマッピング用のフラグ</h4>
+      <div class="float">
+       <pre class="code">typedef enum marisa_map_flags {
+  MARISA_MAP_POPULATE = 1 &lt;&lt; 0,
+} marisa_map_flags;</pre>
+      </div><!-- float -->
+      <p>
+       libmarisa では，メモリマッピングを使用して辞書を開くことができます．<var>MARISA_MAP_POPULATE</var> は辞書の先読みを有効にするフラグであり，辞書を開くときに時間がかかるものの，辞書を引くときにページフォルトの発生を抑制できます．参照するキーが多いときに有効です．参照するキーが少ないキーでは逆に遅くなることもあります．
+      </p>
+     </div><!-- subsubsection -->
+     <div class="subsubsection">
       <h4>トライの数</h4>
       <div class="float">
        <pre class="code">
@@ -492,7 +514,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Key {
  public:
   char operator[](std::size_t i) const;
-  std::string_view str() const;  // C++17
+  std::string_view str() const;
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -509,7 +531,7 @@ typedef enum marisa_num_tries_ {
       <pre class="code">class Query {
  public:
   char operator[](std::size_t i) const;
-  std::string_view str() const;  // C++17
+  std::string_view str() const;
   const char *ptr() const;
   std::size_t length() const;
   std::size_t id() const;
@@ -531,7 +553,7 @@ typedef enum marisa_num_tries_ {
   void push_back(const Key &amp;key, char end_marker);
 
   void push_back(std::string_view str,
-                 float weight = 1.0);  // C++17
+                 float weight = 1.0);
   void push_back(const char *str);
   void push_back(const char *ptr,
                  std::size_t length,
@@ -591,7 +613,7 @@ typedef enum marisa_num_tries_ {
   const Query &amp;query() const;
   const Key &amp;key() const;
 
-  void set_query(std::string_view str);  // C++17
+  void set_query(std::string_view str);
   void set_query(const char *str);
   void set_query(const char *ptr,
                  std::size_t length);
@@ -616,7 +638,8 @@ typedef enum marisa_num_tries_ {
   void build(Keyset &amp;keyset,
              int config_flags = 0);
 
-  void mmap(const char *filename);
+  void mmap(const char *filename,
+            int flags = 0);
   void map(const void *ptr,
            std::size_t size);
 
@@ -667,7 +690,7 @@ typedef enum marisa_num_tries_ {
      <div class="subsubsection">
       <h4>ファイル入出力</h4>
       <p>
-       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．
+       <code>mmap()</code> は，Memory Mapped I/O により，辞書全体をファイルから読み込むことなく検索できる状態にする関数です．少ししか検索しないのに辞書全体を読み込むのは勿体ないという状況や，異なるプロセスで同じ辞書を共有したいという状況で使うと効果的です．逆に，たくさんの文字列を検索する場合，あらかじめ辞書全体を読み込んでおかないと，外部記憶に対するランダムアクセスにより検索時間が極端に長くなる可能性があります．このような場合，<var>flags</var> に <var>MARISA_MAP_POPULATE</var> を指定すれば，ページテーブルを先読みさせて，検索時のページフォルトを抑制できます．
       </p>
       <p>
        <code>map()</code> はメモリ上に展開されている辞書のバイナリを使って検索できる状態にする関数です．<code>load()</code> と <code>read()</code> は辞書を入力する関数であり，<code>save()</code> と <code>write()</code> は辞書を出力する関数です．
@@ -737,12 +760,12 @@ std::ostream &amp;operator<<(std::ostream &amp;stream, const Trie &amp;trie);</p
    <div class="section">
     <h2><a name="references">参考資料</a></h2>
     <ul>
-     <li><a href="http://www.anlp.jp/proceedings/annual_meeting/2011/html/program.html">言語処理学会第 17 回年次大会（NLP2011）</a>
+     <li><a href="https://www.anlp.jp/proceedings/annual_meeting/2011/html/program.html">言語処理学会第 17 回年次大会（NLP2011）</a>
       <ul>
-       <li>言語処理学会年次大会の予稿集が公開されていて，MARISA に関する論文（<a href="http://www.anlp.jp/proceedings/annual_meeting/2011/pdf_dir/F2-6.pdf">F2-6.pdf</a>）をダウンロードできます．</li>
+       <li>言語処理学会年次大会の予稿集が公開されていて，MARISA に関する論文（<a href="https://www.anlp.jp/proceedings/annual_meeting/2011/pdf_dir/F2-6.pdf">F2-6.pdf</a>）をダウンロードできます．</li>
       </ul>
      </li>
-     <li><a href="http://d.hatena.ne.jp/s-yata/20110310/1299777228">発表資料（Prefix/Patricia Trie の入れ子による辞書圧縮）</a>
+     <li><a href="https://d.hatena.ne.jp/s-yata/20110310/1299777228">発表資料（Prefix/Patricia Trie の入れ子による辞書圧縮）</a>
       <ul>
        <li>MARISA に関する発表資料（<a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pptx?attredirects=0&amp;d=1">NLP2011-F2-6.pptx</a>, <a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6.pdf?attredirects=0&amp;d=1">NLP2011-F2-6.pdf</a>, <a href="https://sites.google.com/site/headdythehero/cabine/2011/0311/NLP2011-F2-6-notes.pdf?attredirects=0&amp;d=1">NLP2011-F2-6-notes.pdf</a>）をダウンロードできます．</li>
       </ul>

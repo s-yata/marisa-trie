@@ -73,8 +73,8 @@ class LoudsTrie {
   Tail tail_;
   std::unique_ptr<LoudsTrie> next_trie_;
   Vector<Cache> cache_;
-  std::size_t cache_mask_;
-  std::size_t num_l1_nodes_;
+  std::size_t cache_mask_ = 0;
+  std::size_t num_l1_nodes_ = 0;
   Config config_;
   Mapper mapper_;
 

@@ -60,18 +60,18 @@ class Keyset {
 
  private:
   std::unique_ptr<std::unique_ptr<char[]>[]> base_blocks_;
-  std::size_t base_blocks_size_;
-  std::size_t base_blocks_capacity_;
+  std::size_t base_blocks_size_ = 0;
+  std::size_t base_blocks_capacity_ = 0;
   std::unique_ptr<std::unique_ptr<char[]>[]> extra_blocks_;
-  std::size_t extra_blocks_size_;
-  std::size_t extra_blocks_capacity_;
+  std::size_t extra_blocks_size_ = 0;
+  std::size_t extra_blocks_capacity_ = 0;
   std::unique_ptr<std::unique_ptr<Key[]>[]> key_blocks_;
-  std::size_t key_blocks_size_;
-  std::size_t key_blocks_capacity_;
-  char *ptr_;
-  std::size_t avail_;
-  std::size_t size_;
-  std::size_t total_length_;
+  std::size_t key_blocks_size_ = 0;
+  std::size_t key_blocks_capacity_ = 0;
+  char *ptr_ = nullptr;
+  std::size_t avail_ = 0;
+  std::size_t size_ = 0;
+  std::size_t total_length_ = 0;
 
   char *reserve(std::size_t size);
 

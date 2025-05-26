@@ -4,7 +4,7 @@
 #include <functional>
 #include <queue>
 
-#include "marisa/grimoire/algorithm.h"
+#include "marisa/grimoire/algorithm/sort.h"
 #include "marisa/grimoire/trie/header.h"
 #include "marisa/grimoire/trie/range.h"
 #include "marisa/grimoire/trie/state.h"
@@ -329,7 +329,7 @@ void LoudsTrie::build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
   for (std::size_t i = 0; i < keys.size(); ++i) {
     keys[i].set_id(i);
   }
-  const std::size_t num_keys = Algorithm().sort(keys.begin(), keys.end());
+  const std::size_t num_keys = algorithm::sort(keys.begin(), keys.end());
   reserve_cache(config, trie_id, num_keys);
 
   louds_.push_back(true);

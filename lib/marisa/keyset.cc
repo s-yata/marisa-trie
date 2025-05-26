@@ -6,11 +6,7 @@
 
 namespace marisa {
 
-Keyset::Keyset()
-    : base_blocks_(), base_blocks_size_(0), base_blocks_capacity_(0),
-      extra_blocks_(), extra_blocks_size_(0), extra_blocks_capacity_(0),
-      key_blocks_(), key_blocks_size_(0), key_blocks_capacity_(0),
-      ptr_(nullptr), avail_(0), size_(0), total_length_(0) {}
+Keyset::Keyset() = default;
 
 void Keyset::push_back(const Key &key) {
   MARISA_DEBUG_IF(size_ == MARISA_SIZE_MAX, MARISA_SIZE_ERROR);

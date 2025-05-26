@@ -11,10 +11,7 @@
 
 namespace marisa::grimoire::trie {
 
-LoudsTrie::LoudsTrie()
-    : louds_(), terminal_flags_(), link_flags_(), bases_(), extras_(), tail_(),
-      next_trie_(), cache_(), cache_mask_(0), num_l1_nodes_(0), config_(),
-      mapper_() {}
+LoudsTrie::LoudsTrie() = default;
 
 LoudsTrie::~LoudsTrie() = default;
 

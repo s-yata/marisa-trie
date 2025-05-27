@@ -180,7 +180,8 @@ int main(int argc, char *argv[]) {
           std::cerr << "error: option `-c' with an invalid argument: "
                     << cmdopt.optarg << "\n";
           return 2;
-        } else if (value == 1) {
+        }
+        if (value == 1) {
           param_cache_level = MARISA_TINY_CACHE;
         } else if (value == 2) {
           param_cache_level = MARISA_SMALL_CACHE;

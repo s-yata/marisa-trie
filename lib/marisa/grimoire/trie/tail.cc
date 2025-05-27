@@ -90,18 +90,18 @@ bool Tail::match(Agent &agent, std::size_t offset) const {
       }
     } while (state.query_pos() < agent.query().length());
     return false;
-  } else {
-    do {
-      if (buf_[offset] != agent.query()[state.query_pos()]) {
-        return false;
-      }
-      state.set_query_pos(state.query_pos() + 1);
-      if (end_flags_[offset++]) {
-        return true;
-      }
-    } while (state.query_pos() < agent.query().length());
-    return false;
   }
+
+  do {
+    if (buf_[offset] != agent.query()[state.query_pos()]) {
+      return false;
+    }
+    state.set_query_pos(state.query_pos() + 1);
+    if (end_flags_[offset++]) {
+      return true;
+    }
+  } while (state.query_pos() < agent.query().length());
+  return false;
 }
 
 bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
@@ -125,22 +125,22 @@ bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
       state.key_buf().push_back(*ptr);
     } while (*++ptr != '\0');
     return true;
-  } else {
-    do {
-      if (buf_[offset] != agent.query()[state.query_pos()]) {
-        return false;
-      }
-      state.key_buf().push_back(buf_[offset]);
-      state.set_query_pos(state.query_pos() + 1);
-      if (end_flags_[offset++]) {
-        return true;
-      }
-    } while (state.query_pos() < agent.query().length());
-    do {
-      state.key_buf().push_back(buf_[offset]);
-    } while (!end_flags_[offset++]);
-    return true;
   }
+
+  do {
+    if (buf_[offset] != agent.query()[state.query_pos()]) {
+      return false;
+    }
+    state.key_buf().push_back(buf_[offset]);
+    state.set_query_pos(state.query_pos() + 1);
+    if (end_flags_[offset++]) {
+      return true;
+    }
+  } while (state.query_pos() < agent.query().length());
+  do {
+    state.key_buf().push_back(buf_[offset]);
+  } while (!end_flags_[offset++]);
+  return true;
 }
 
 void Tail::clear() {

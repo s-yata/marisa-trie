@@ -102,14 +102,13 @@ char *Keyset::reserve(std::size_t size) {
   if (size > EXTRA_BLOCK_SIZE) {
     append_extra_block(size);
     return extra_blocks_[extra_blocks_size_ - 1].get();
-  } else {
-    if (size > avail_) {
-      append_base_block();
-    }
-    ptr_ += size;
-    avail_ -= size;
-    return ptr_ - size;
   }
+  if (size > avail_) {
+    append_base_block();
+  }
+  ptr_ += size;
+  avail_ -= size;
+  return ptr_ - size;
 }
 
 void Keyset::append_base_block() {

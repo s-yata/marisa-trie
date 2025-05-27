@@ -130,7 +130,8 @@ int cmdopt_match(cmdopt_t *h) {
       // In case of a perfect match.
       h->nextchar -= len;
       return i;
-    } else if (len > max) {
+    }
+    if (len > max) {
       // In case of a prefix match.
       max = len;
       max_optind = i;

@@ -25,7 +25,8 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
   if (num_args == 0) {
     std::cerr << "error: dictionary is not specified\n";
     return 10;
-  } else if (num_args > 1) {
+  }
+  if (num_args > 1) {
     std::cerr << "error: more than one dictionaries are specified\n";
     return 11;
   }

@@ -52,7 +52,7 @@ void Reader::clear() {
   Reader().swap(*this);
 }
 
-void Reader::swap(Reader &rhs) noexcept{
+void Reader::swap(Reader &rhs) noexcept {
   std::swap(file_, rhs.file_);
   std::swap(fd_, rhs.fd_);
   std::swap(stream_, rhs.stream_);
@@ -63,7 +63,8 @@ void Reader::seek(std::size_t size) {
   MARISA_THROW_IF(!is_open(), MARISA_STATE_ERROR);
   if (size == 0) {
     return;
-  } else if (size <= 16) {
+  }
+  if (size <= 16) {
     char buf[16];
     read_data(buf, size);
   } else {
@@ -108,7 +109,8 @@ void Reader::read_data(void *buf, std::size_t size) {
   MARISA_THROW_IF(!is_open(), MARISA_STATE_ERROR);
   if (size == 0) {
     return;
-  } else if (fd_ != -1) {
+  }
+  if (fd_ != -1) {
     while (size != 0) {
 #ifdef _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();

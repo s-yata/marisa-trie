@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #ifdef _WIN32
  #include <io.h>
 #else  // _WIN32
@@ -16,7 +14,7 @@ Writer::Writer() = default;
 
 Writer::~Writer() {
   if (needs_fclose_) {
-    ::fclose(file_);
+    std::fclose(file_);
   }
 }
 
@@ -87,7 +85,7 @@ void Writer::open_(const char *filename) {
 #ifdef _MSC_VER
   MARISA_THROW_IF(::fopen_s(&file, filename, "wb") != 0, MARISA_IO_ERROR);
 #else   // _MSC_VER
-  file = ::fopen(filename, "wb");
+  file = std::fopen(filename, "wb");
   MARISA_THROW_IF(file == nullptr, MARISA_IO_ERROR);
 #endif  // _MSC_VER
   file_ = file;
@@ -126,8 +124,8 @@ void Writer::write_data(const void *data, std::size_t size) {
       size -= static_cast<std::size_t>(size_written);
     }
   } else if (file_ != nullptr) {
-    MARISA_THROW_IF(::fwrite(data, 1, size, file_) != size, MARISA_IO_ERROR);
-    MARISA_THROW_IF(::fflush(file_) != 0, MARISA_IO_ERROR);
+    MARISA_THROW_IF(std::fwrite(data, 1, size, file_) != size, MARISA_IO_ERROR);
+    MARISA_THROW_IF(std::fflush(file_) != 0, MARISA_IO_ERROR);
   } else if (stream_ != nullptr) {
     try {
       MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),

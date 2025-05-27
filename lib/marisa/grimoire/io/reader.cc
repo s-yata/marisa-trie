@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #ifdef _WIN32
  #include <io.h>
 #else  // _WIN32
@@ -16,7 +14,7 @@ Reader::Reader() = default;
 
 Reader::~Reader() {
   if (needs_fclose_) {
-    ::fclose(file_);
+    std::fclose(file_);
   }
 }
 
@@ -87,7 +85,7 @@ void Reader::open_(const char *filename) {
 #ifdef _MSC_VER
   MARISA_THROW_IF(::fopen_s(&file, filename, "rb") != 0, MARISA_IO_ERROR);
 #else   // _MSC_VER
-  file = ::fopen(filename, "rb");
+  file = std::fopen(filename, "rb");
   MARISA_THROW_IF(file == nullptr, MARISA_IO_ERROR);
 #endif  // _MSC_VER
   file_ = file;
@@ -126,7 +124,7 @@ void Reader::read_data(void *buf, std::size_t size) {
       size -= static_cast<std::size_t>(size_read);
     }
   } else if (file_ != nullptr) {
-    MARISA_THROW_IF(::fread(buf, 1, size, file_) != size, MARISA_IO_ERROR);
+    MARISA_THROW_IF(std::fread(buf, 1, size, file_) != size, MARISA_IO_ERROR);
   } else if (stream_ != nullptr) {
     try {
       MARISA_THROW_IF(!stream_->read(static_cast<char *>(buf),

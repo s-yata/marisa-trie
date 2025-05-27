@@ -47,7 +47,7 @@ class Tail {
   }
 
   void clear();
-  void swap(Tail &rhs);
+  void swap(Tail &rhs) noexcept;
 
  private:
   Vector<char> buf_;

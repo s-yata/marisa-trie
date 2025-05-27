@@ -64,7 +64,7 @@ class Key {
   void clear() {
     Key().swap(*this);
   }
-  void swap(Key &rhs) {
+  void swap(Key &rhs) noexcept {
     std::swap(ptr_, rhs.ptr_);
     std::swap(length_, rhs.length_);
     std::swap(union_.id, rhs.union_.id);

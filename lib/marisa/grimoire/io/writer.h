@@ -38,7 +38,7 @@ class Writer {
   bool is_open() const;
 
   void clear();
-  void swap(Writer &rhs);
+  void swap(Writer &rhs) noexcept;
 
  private:
   std::FILE *file_ = nullptr;

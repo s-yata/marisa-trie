@@ -52,7 +52,7 @@ void Reader::clear() {
   Reader().swap(*this);
 }
 
-void Reader::swap(Reader &rhs) {
+void Reader::swap(Reader &rhs) noexcept{
   std::swap(file_, rhs.file_);
   std::swap(fd_, rhs.fd_);
   std::swap(stream_, rhs.stream_);

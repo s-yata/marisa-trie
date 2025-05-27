@@ -226,7 +226,7 @@ void LoudsTrie::clear() {
   LoudsTrie().swap(*this);
 }
 
-void LoudsTrie::swap(LoudsTrie &rhs) {
+void LoudsTrie::swap(LoudsTrie &rhs) noexcept {
   louds_.swap(rhs.louds_);
   terminal_flags_.swap(rhs.terminal_flags_);
   link_flags_.swap(rhs.link_flags_);

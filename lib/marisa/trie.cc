@@ -176,7 +176,7 @@ void Trie::clear() {
   Trie().swap(*this);
 }
 
-void Trie::swap(Trie &rhs) {
+void Trie::swap(Trie &rhs) noexcept {
   trie_.swap(rhs.trie_);
 }
 

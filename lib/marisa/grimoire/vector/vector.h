@@ -200,7 +200,7 @@ class Vector {
   void clear() {
     Vector().swap(*this);
   }
-  void swap(Vector &rhs) {
+  void swap(Vector &rhs) noexcept {
     buf_.swap(rhs.buf_);
     std::swap(objs_, rhs.objs_);
     std::swap(const_objs_, rhs.const_objs_);

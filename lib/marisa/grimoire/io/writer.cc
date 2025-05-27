@@ -52,7 +52,7 @@ void Writer::clear() {
   Writer().swap(*this);
 }
 
-void Writer::swap(Writer &rhs) {
+void Writer::swap(Writer &rhs) noexcept {
   std::swap(file_, rhs.file_);
   std::swap(fd_, rhs.fd_);
   std::swap(stream_, rhs.stream_);

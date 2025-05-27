@@ -68,7 +68,7 @@ class Agent {
   void init_state();
 
   void clear();
-  void swap(Agent &rhs);
+  void swap(Agent &rhs) noexcept;
 
  private:
   Query query_;

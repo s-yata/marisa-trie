@@ -101,7 +101,7 @@ class BitVector {
   void clear() {
     BitVector().swap(*this);
   }
-  void swap(BitVector &rhs) {
+  void swap(BitVector &rhs) noexcept {
     units_.swap(rhs.units_);
     std::swap(size_, rhs.size_);
     std::swap(num_1s_, rhs.num_1s_);

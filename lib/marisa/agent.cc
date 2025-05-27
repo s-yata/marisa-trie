@@ -92,7 +92,7 @@ void Agent::clear() {
   Agent().swap(*this);
 }
 
-void Agent::swap(Agent &rhs) {
+void Agent::swap(Agent &rhs) noexcept {
   query_.swap(rhs.query_);
   key_.swap(rhs.key_);
   state_.swap(rhs.state_);

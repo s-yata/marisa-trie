@@ -55,7 +55,7 @@ class Trie {
   std::size_t io_size() const;
 
   void clear();
-  void swap(Trie &rhs);
+  void swap(Trie &rhs) noexcept;
 
  private:
   std::unique_ptr<grimoire::trie::LoudsTrie> trie_;

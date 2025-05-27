@@ -78,7 +78,7 @@ void Keyset::clear() {
   Keyset().swap(*this);
 }
 
-void Keyset::swap(Keyset &rhs) {
+void Keyset::swap(Keyset &rhs) noexcept {
   base_blocks_.swap(rhs.base_blocks_);
   std::swap(base_blocks_size_, rhs.base_blocks_size_);
   std::swap(base_blocks_capacity_, rhs.base_blocks_capacity_);

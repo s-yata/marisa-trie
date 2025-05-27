@@ -56,7 +56,7 @@ class Keyset {
   void reset();
 
   void clear();
-  void swap(Keyset &rhs);
+  void swap(Keyset &rhs) noexcept;
 
  private:
   std::unique_ptr<std::unique_ptr<char[]>[]> base_blocks_;

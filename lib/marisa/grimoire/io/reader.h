@@ -39,7 +39,7 @@ class Reader {
   bool is_open() const;
 
   void clear();
-  void swap(Reader &rhs);
+  void swap(Reader &rhs) noexcept;
 
  private:
   std::FILE *file_ = nullptr;

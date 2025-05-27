@@ -38,7 +38,7 @@ class Config {
   void clear() {
     Config().swap(*this);
   }
-  void swap(Config &rhs) {
+  void swap(Config &rhs) noexcept {
     std::swap(num_tries_, rhs.num_tries_);
     std::swap(cache_level_, rhs.cache_level_);
     std::swap(tail_mode_, rhs.tail_mode_);

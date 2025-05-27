@@ -36,7 +36,7 @@ class Mapper {
   bool is_open() const;
 
   void clear();
-  void swap(Mapper &rhs);
+  void swap(Mapper &rhs) noexcept;
 
  private:
   const void *ptr_ = nullptr;

@@ -78,7 +78,7 @@ void Mapper::clear() {
   Mapper().swap(*this);
 }
 
-void Mapper::swap(Mapper &rhs) {
+void Mapper::swap(Mapper &rhs) noexcept {
   std::swap(ptr_, rhs.ptr_);
   std::swap(avail_, rhs.avail_);
   std::swap(origin_, rhs.origin_);

@@ -78,7 +78,7 @@ class FlatVector {
   void clear() {
     FlatVector().swap(*this);
   }
-  void swap(FlatVector &rhs) {
+  void swap(FlatVector &rhs) noexcept {
     units_.swap(rhs.units_);
     std::swap(value_size_, rhs.value_size_);
     std::swap(mask_, rhs.mask_);

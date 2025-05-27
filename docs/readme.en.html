@@ -569,7 +569,7 @@ typedef enum marisa_num_tries_ {
   void reset();
 
   void clear();
-  void swap(Keyset &amp;rhs);
+  void swap(Keyset &amp;rhs) noexcept;
 };</pre>
      </div><!-- float -->
      <div class="subsubsection">
@@ -664,7 +664,7 @@ typedef enum marisa_num_tries_ {
   std::size_t io_size() const;
 
   void clear();
-  void swap(Trie &amp;rhs);
+  void swap(Trie &amp;rhs) noexcept;
 };</pre>
      </div><!-- float -->
      <div class="subsubsection">

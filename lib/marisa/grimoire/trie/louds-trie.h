@@ -62,7 +62,7 @@ class LoudsTrie {
   std::size_t io_size() const;
 
   void clear();
-  void swap(LoudsTrie &rhs);
+  void swap(LoudsTrie &rhs) noexcept;
 
  private:
   BitVector louds_;

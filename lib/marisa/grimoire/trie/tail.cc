@@ -147,7 +147,7 @@ void Tail::clear() {
   Tail().swap(*this);
 }
 
-void Tail::swap(Tail &rhs) {
+void Tail::swap(Tail &rhs) noexcept {
   buf_.swap(rhs.buf_);
   end_flags_.swap(rhs.end_flags_);
 }

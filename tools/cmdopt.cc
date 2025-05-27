@@ -1,13 +1,11 @@
 #include "cmdopt.h"
 
-#include <stdio.h>
+#include <cstdio>
 
-#ifdef __cplusplus
-extern "C" {
-#endif  // __cplusplus
+namespace {
 
 // Moves `optind' to the end and shifts other arguments.
-static void cmdopt_shift(cmdopt_t *h) {
+void cmdopt_shift(cmdopt_t *h) {
   int i;
   char *tmp;
 
@@ -22,13 +20,13 @@ static void cmdopt_shift(cmdopt_t *h) {
 }
 
 // Moves to the next argument.
-static void cmdopt_next(cmdopt_t *h) {
+void cmdopt_next(cmdopt_t *h) {
   h->optind++;
   h->nextchar = nullptr;
 }
 
 // Checks if the current argument is an option or not.
-static int cmdopt_check(cmdopt_t *h) {
+int cmdopt_check(cmdopt_t *h) {
   int ret = 1;
   const char *arg = h->argv[h->optind];
 
@@ -45,7 +43,7 @@ static int cmdopt_check(cmdopt_t *h) {
 }
 
 // Gets an argument of the current option.
-static void cmdopt_getopt(cmdopt_t *h) {
+void cmdopt_getopt(cmdopt_t *h) {
   // Moves to the next argument if the current argument has no more characters.
   if (*h->nextchar == '\0') {
     cmdopt_next(h);
@@ -62,7 +60,7 @@ static void cmdopt_getopt(cmdopt_t *h) {
 }
 
 // Searches an option.
-static int cmdopt_search(cmdopt_t *h) {
+int cmdopt_search(cmdopt_t *h) {
   const char *ptr;
 
   // Updates an option character.
@@ -97,7 +95,7 @@ static int cmdopt_search(cmdopt_t *h) {
 
 // Compares a long option with an argument and returns the length of the
 // matched prefix.
-static int cmdopt_match_len(const char *opt, const char *arg) {
+int cmdopt_match_len(const char *opt, const char *arg) {
   int len = 0;
 
   // Returns 0 if there is a mismatch.
@@ -117,7 +115,7 @@ static int cmdopt_match_len(const char *opt, const char *arg) {
 }
 
 // Checks long options.
-static int cmdopt_match(cmdopt_t *h) {
+int cmdopt_match(cmdopt_t *h) {
   int i, len;
   int max = 0, max_optind = -1;
 
@@ -148,7 +146,7 @@ static int cmdopt_match(cmdopt_t *h) {
 }
 
 // Gets an argument of a long option.
-static void cmdopt_getopt_long(cmdopt_t *h) {
+void cmdopt_getopt_long(cmdopt_t *h) {
   if (*h->nextchar == '=') {
     h->optarg = h->nextchar + 1;
     cmdopt_next(h);
@@ -166,7 +164,7 @@ static void cmdopt_getopt_long(cmdopt_t *h) {
 }
 
 // Searches long options.
-static int cmdopt_search_long(cmdopt_t *h) {
+int cmdopt_search_long(cmdopt_t *h) {
   const cmdopt_option *option;
 
   // Keeps the long option.
@@ -204,7 +202,7 @@ static int cmdopt_search_long(cmdopt_t *h) {
 }
 
 // Analyze command line option.
-static int cmdopt_main(cmdopt_t *h) {
+int cmdopt_main(cmdopt_t *h) {
   int type;
 
   // Initializes the internal state.
@@ -237,6 +235,8 @@ static int cmdopt_main(cmdopt_t *h) {
 
   return -1;
 }
+
+}  // namespace
 
 // cmdopt_init() initializes a cmdopt_t for successive cmdopt_get()s.
 void cmdopt_init(cmdopt_t *h, int argc, char **argv, const char *optstring,
@@ -292,7 +292,3 @@ int cmdopt_get(cmdopt_t *h) {
   }
   return value;
 }
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif  // __cplusplus

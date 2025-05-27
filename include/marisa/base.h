@@ -1,29 +1,15 @@
 #ifndef MARISA_BASE_H_
 #define MARISA_BASE_H_
 
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
+#include <utility>
 
-#ifdef __cplusplus
- #include <cstddef>
-#else  // __cplusplus
- #include <stddef.h>
-#endif  // __cplusplus
-
-#ifdef __cplusplus
-extern "C" {
-#endif  // __cplusplus
-
-#ifdef _MSC_VER
-typedef unsigned __int8 marisa_uint8;
-typedef unsigned __int16 marisa_uint16;
-typedef unsigned __int32 marisa_uint32;
-typedef unsigned __int64 marisa_uint64;
-#else   // _MSC_VER
-typedef uint8_t marisa_uint8;
-typedef uint16_t marisa_uint16;
-typedef uint32_t marisa_uint32;
-typedef uint64_t marisa_uint64;
-#endif  // _MSC_VER
+// These aliases are left for backward compatibility.
+using marisa_uint8 = std::uint8_t;
+using marisa_uint16 = std::uint16_t;
+using marisa_uint32 = std::uint32_t;
+using marisa_uint64 = std::uint64_t;
 
 #if UINTPTR_MAX == UINT64_MAX
  #define MARISA_WORD_SIZE 64
@@ -33,21 +19,19 @@ typedef uint64_t marisa_uint64;
  #error Failed to detect MARISA_WORD_SIZE
 #endif
 
-// #define MARISA_WORD_SIZE  (sizeof(void *) * 8)
-
 #define MARISA_UINT8_MAX  UINT8_MAX
 #define MARISA_UINT16_MAX UINT16_MAX
 #define MARISA_UINT32_MAX UINT32_MAX
 #define MARISA_UINT64_MAX UINT64_MAX
 #define MARISA_SIZE_MAX   SIZE_MAX
 
-#define MARISA_INVALID_LINK_ID MARISA_UINT32_MAX
-#define MARISA_INVALID_KEY_ID  MARISA_UINT32_MAX
-#define MARISA_INVALID_EXTRA   (MARISA_UINT32_MAX >> 8)
+#define MARISA_INVALID_LINK_ID UINT32_MAX
+#define MARISA_INVALID_KEY_ID  UINT32_MAX
+#define MARISA_INVALID_EXTRA   (UINT32_MAX >> 8)
 
 // Error codes are defined as members of marisa_error_code. This library throws
 // an exception with one of the error codes when an error occurs.
-typedef enum marisa_error_code_ {
+enum marisa_error_code {
   // MARISA_OK means that a requested operation has succeeded. In practice, an
   // exception never has MARISA_OK because it is not an error.
   MARISA_OK = 0,
@@ -85,14 +69,14 @@ typedef enum marisa_error_code_ {
 
   // MARISA_FORMAT_ERROR means that input was in invalid format.
   MARISA_FORMAT_ERROR = 10,
-} marisa_error_code;
+};
 
 // Flags for memory mapping are defined as members of marisa_map_flags.
 // Trie::open() accepts a combination of these flags.
-typedef enum marisa_map_flags {
+enum marisa_map_flags {
   // MARISA_MAP_POPULATE specifies MAP_POPULATE.
   MARISA_MAP_POPULATE = 1 << 0,
-} marisa_map_flags;
+};
 
 // Min/max values, flags and masks for dictionary settings are defined below.
 // Please note that unspecified settings will be replaced with the default
@@ -101,26 +85,26 @@ typedef enum marisa_map_flags {
 
 // A dictionary consists of 3 tries in default. Usually more tries make a
 // dictionary space-efficient but time-inefficient.
-typedef enum marisa_num_tries_ {
+enum marisa_num_tries {
   MARISA_MIN_NUM_TRIES = 0x00001,
   MARISA_MAX_NUM_TRIES = 0x0007F,
   MARISA_DEFAULT_NUM_TRIES = 0x00003,
-} marisa_num_tries;
+};
 
 // This library uses a cache technique to accelerate search functions. The
 // following enumerated type marisa_cache_level gives a list of available cache
 // size options. A larger cache enables faster search but takes a more space.
-typedef enum marisa_cache_level_ {
+enum marisa_cache_level {
   MARISA_HUGE_CACHE = 0x00080,
   MARISA_LARGE_CACHE = 0x00100,
   MARISA_NORMAL_CACHE = 0x00200,
   MARISA_SMALL_CACHE = 0x00400,
   MARISA_TINY_CACHE = 0x00800,
   MARISA_DEFAULT_CACHE = MARISA_NORMAL_CACHE
-} marisa_cache_level;
+};
 
 // This library provides 2 kinds of TAIL implementations.
-typedef enum marisa_tail_mode_ {
+enum marisa_tail_mode {
   // MARISA_TEXT_TAIL merges last labels as zero-terminated strings. So, it is
   // available if and only if the last labels do not contain a NULL character.
   // If MARISA_TEXT_TAIL is specified and a NULL character exists in the last
@@ -134,11 +118,11 @@ typedef enum marisa_tail_mode_ {
   MARISA_BINARY_TAIL = 0x02000,
 
   MARISA_DEFAULT_TAIL = MARISA_TEXT_TAIL,
-} marisa_tail_mode;
+};
 
 // The arrangement of nodes affects the time cost of matching and the order of
 // predictive search.
-typedef enum marisa_node_order_ {
+enum marisa_node_order {
   // MARISA_LABEL_ORDER arranges nodes in ascending label order.
   // MARISA_LABEL_ORDER is useful if an application needs to predict keys in
   // label order.
@@ -150,44 +134,32 @@ typedef enum marisa_node_order_ {
   MARISA_WEIGHT_ORDER = 0x20000,
 
   MARISA_DEFAULT_ORDER = MARISA_WEIGHT_ORDER,
-} marisa_node_order;
+};
 
-typedef enum marisa_config_mask_ {
+enum marisa_config_mask {
   MARISA_NUM_TRIES_MASK = 0x0007F,
   MARISA_CACHE_LEVEL_MASK = 0x00F80,
   MARISA_TAIL_MODE_MASK = 0x0F000,
   MARISA_NODE_ORDER_MASK = 0xF0000,
   MARISA_CONFIG_MASK = 0xFFFFF
-} marisa_config_mask;
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif  // __cplusplus
-
-#ifdef __cplusplus
-
- #include <utility>
+};
 
 namespace marisa {
 
-typedef ::marisa_uint8 UInt8;
-typedef ::marisa_uint16 UInt16;
-typedef ::marisa_uint32 UInt32;
-typedef ::marisa_uint64 UInt64;
+using UInt8 = std::uint8_t;
+using UInt16 = std::uint16_t;
+using UInt32 = std::uint32_t;
+using UInt64 = std::uint64_t;
 
-typedef ::marisa_error_code ErrorCode;
-
-typedef ::marisa_cache_level CacheLevel;
-typedef ::marisa_tail_mode TailMode;
-typedef ::marisa_node_order NodeOrder;
+using ErrorCode = marisa_error_code;
+using CacheLevel = marisa_cache_level;
+using TailMode = marisa_tail_mode;
+using NodeOrder = marisa_node_order;
 
 using std::swap;
 
 }  // namespace marisa
-#endif  // __cplusplus
 
-#ifdef __cplusplus
- #include "marisa/exception.h"
-#endif  // __cplusplus
+#include "marisa/exception.h"
 
 #endif  // MARISA_BASE_H_

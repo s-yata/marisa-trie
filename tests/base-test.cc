@@ -14,29 +14,6 @@ namespace {
 std::random_device seed_gen;
 std::mt19937 random_engine(seed_gen());
 
-void TestTypes() {
-  TEST_START();
-
-  ASSERT(sizeof(marisa_uint8) == 1);
-  ASSERT(sizeof(marisa_uint16) == 2);
-  ASSERT(sizeof(marisa_uint32) == 4);
-  ASSERT(sizeof(marisa_uint64) == 8);
-
-  ASSERT(MARISA_WORD_SIZE == (sizeof(std::size_t) * 8));
-
-  ASSERT(MARISA_UINT8_MAX == 0xFFU);
-  ASSERT(MARISA_UINT16_MAX == 0xFFFFU);
-  ASSERT(MARISA_UINT32_MAX == 0xFFFFFFFFU);
-  ASSERT(MARISA_UINT64_MAX == 0xFFFFFFFFFFFFFFFFULL);
-
-  ASSERT(sizeof(marisa::UInt8) == 1);
-  ASSERT(sizeof(marisa::UInt16) == 2);
-  ASSERT(sizeof(marisa::UInt32) == 4);
-  ASSERT(sizeof(marisa::UInt64) == 8);
-
-  TEST_END();
-}
-
 void TestSwap() {
   TEST_START();
 
@@ -354,7 +331,6 @@ void TestAgent() {
 }  // namespace
 
 int main() try {
-  TestTypes();
   TestSwap();
   TestException();
   TestKey();

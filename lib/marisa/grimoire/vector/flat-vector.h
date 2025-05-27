@@ -80,9 +80,9 @@ class FlatVector {
   }
   void swap(FlatVector &rhs) {
     units_.swap(rhs.units_);
-    marisa::swap(value_size_, rhs.value_size_);
-    marisa::swap(mask_, rhs.mask_);
-    marisa::swap(size_, rhs.size_);
+    std::swap(value_size_, rhs.value_size_);
+    std::swap(mask_, rhs.mask_);
+    std::swap(size_, rhs.size_);
   }
 
  private:

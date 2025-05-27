@@ -57,9 +57,9 @@ class Query {
     Query().swap(*this);
   }
   void swap(Query &rhs) {
-    marisa::swap(ptr_, rhs.ptr_);
-    marisa::swap(length_, rhs.length_);
-    marisa::swap(id_, rhs.id_);
+    std::swap(ptr_, rhs.ptr_);
+    std::swap(length_, rhs.length_);
+    std::swap(id_, rhs.id_);
   }
 
  private:

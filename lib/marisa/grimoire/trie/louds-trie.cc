@@ -235,8 +235,8 @@ void LoudsTrie::swap(LoudsTrie &rhs) {
   tail_.swap(rhs.tail_);
   next_trie_.swap(rhs.next_trie_);
   cache_.swap(rhs.cache_);
-  marisa::swap(cache_mask_, rhs.cache_mask_);
-  marisa::swap(num_l1_nodes_, rhs.num_l1_nodes_);
+  std::swap(cache_mask_, rhs.cache_mask_);
+  std::swap(num_l1_nodes_, rhs.num_l1_nodes_);
   config_.swap(rhs.config_);
   mapper_.swap(rhs.mapper_);
 }

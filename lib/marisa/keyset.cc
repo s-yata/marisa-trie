@@ -80,18 +80,18 @@ void Keyset::clear() {
 
 void Keyset::swap(Keyset &rhs) {
   base_blocks_.swap(rhs.base_blocks_);
-  marisa::swap(base_blocks_size_, rhs.base_blocks_size_);
-  marisa::swap(base_blocks_capacity_, rhs.base_blocks_capacity_);
+  std::swap(base_blocks_size_, rhs.base_blocks_size_);
+  std::swap(base_blocks_capacity_, rhs.base_blocks_capacity_);
   extra_blocks_.swap(rhs.extra_blocks_);
-  marisa::swap(extra_blocks_size_, rhs.extra_blocks_size_);
-  marisa::swap(extra_blocks_capacity_, rhs.extra_blocks_capacity_);
+  std::swap(extra_blocks_size_, rhs.extra_blocks_size_);
+  std::swap(extra_blocks_capacity_, rhs.extra_blocks_capacity_);
   key_blocks_.swap(rhs.key_blocks_);
-  marisa::swap(key_blocks_size_, rhs.key_blocks_size_);
-  marisa::swap(key_blocks_capacity_, rhs.key_blocks_capacity_);
-  marisa::swap(ptr_, rhs.ptr_);
-  marisa::swap(avail_, rhs.avail_);
-  marisa::swap(size_, rhs.size_);
-  marisa::swap(total_length_, rhs.total_length_);
+  std::swap(key_blocks_size_, rhs.key_blocks_size_);
+  std::swap(key_blocks_capacity_, rhs.key_blocks_capacity_);
+  std::swap(ptr_, rhs.ptr_);
+  std::swap(avail_, rhs.avail_);
+  std::swap(size_, rhs.size_);
+  std::swap(total_length_, rhs.total_length_);
 }
 
 char *Keyset::reserve(std::size_t size) {

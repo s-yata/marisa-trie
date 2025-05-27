@@ -18,12 +18,12 @@ void TestSwap() {
   TEST_START();
 
   int x = 100, y = 200;
-  marisa::swap(x, y);
+  std::swap(x, y);
   ASSERT(x == 200);
   ASSERT(y == 100);
 
   double a = 1.23, b = 2.34;
-  marisa::swap(a, b);
+  std::swap(a, b);
   ASSERT(a == 2.34);
   ASSERT(b == 1.23);
 

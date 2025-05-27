@@ -157,6 +157,7 @@ using CacheLevel = marisa_cache_level;
 using TailMode = marisa_tail_mode;
 using NodeOrder = marisa_node_order;
 
+// This is left for backward compatibility.
 using std::swap;
 
 }  // namespace marisa

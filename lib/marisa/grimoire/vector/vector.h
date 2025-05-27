@@ -202,11 +202,11 @@ class Vector {
   }
   void swap(Vector &rhs) {
     buf_.swap(rhs.buf_);
-    marisa::swap(objs_, rhs.objs_);
-    marisa::swap(const_objs_, rhs.const_objs_);
-    marisa::swap(size_, rhs.size_);
-    marisa::swap(capacity_, rhs.capacity_);
-    marisa::swap(fixed_, rhs.fixed_);
+    std::swap(objs_, rhs.objs_);
+    std::swap(const_objs_, rhs.const_objs_);
+    std::swap(size_, rhs.size_);
+    std::swap(capacity_, rhs.capacity_);
+    std::swap(fixed_, rhs.fixed_);
   }
 
   static std::size_t max_size() {

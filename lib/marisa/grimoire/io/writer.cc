@@ -55,10 +55,10 @@ void Writer::clear() {
 }
 
 void Writer::swap(Writer &rhs) {
-  marisa::swap(file_, rhs.file_);
-  marisa::swap(fd_, rhs.fd_);
-  marisa::swap(stream_, rhs.stream_);
-  marisa::swap(needs_fclose_, rhs.needs_fclose_);
+  std::swap(file_, rhs.file_);
+  std::swap(fd_, rhs.fd_);
+  std::swap(stream_, rhs.stream_);
+  std::swap(needs_fclose_, rhs.needs_fclose_);
 }
 
 void Writer::seek(std::size_t size) {

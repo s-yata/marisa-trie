@@ -79,15 +79,15 @@ void Mapper::clear() {
 }
 
 void Mapper::swap(Mapper &rhs) {
-  marisa::swap(ptr_, rhs.ptr_);
-  marisa::swap(avail_, rhs.avail_);
-  marisa::swap(origin_, rhs.origin_);
-  marisa::swap(size_, rhs.size_);
+  std::swap(ptr_, rhs.ptr_);
+  std::swap(avail_, rhs.avail_);
+  std::swap(origin_, rhs.origin_);
+  std::swap(size_, rhs.size_);
 #if (defined _WIN32) || (defined _WIN64)
-  marisa::swap(file_, rhs.file_);
-  marisa::swap(map_, rhs.map_);
+  std::swap(file_, rhs.file_);
+  std::swap(map_, rhs.map_);
 #else   // (defined _WIN32) || (defined _WIN64)
-  marisa::swap(fd_, rhs.fd_);
+  std::swap(fd_, rhs.fd_);
 #endif  // (defined _WIN32) || (defined _WIN64)
 }
 

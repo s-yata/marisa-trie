@@ -65,9 +65,9 @@ class Key {
     Key().swap(*this);
   }
   void swap(Key &rhs) {
-    marisa::swap(ptr_, rhs.ptr_);
-    marisa::swap(length_, rhs.length_);
-    marisa::swap(union_.id, rhs.union_.id);
+    std::swap(ptr_, rhs.ptr_);
+    std::swap(length_, rhs.length_);
+    std::swap(union_.id, rhs.union_.id);
   }
 
  private:

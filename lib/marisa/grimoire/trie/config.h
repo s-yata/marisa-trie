@@ -39,10 +39,10 @@ class Config {
     Config().swap(*this);
   }
   void swap(Config &rhs) {
-    marisa::swap(num_tries_, rhs.num_tries_);
-    marisa::swap(cache_level_, rhs.cache_level_);
-    marisa::swap(tail_mode_, rhs.tail_mode_);
-    marisa::swap(node_order_, rhs.node_order_);
+    std::swap(num_tries_, rhs.num_tries_);
+    std::swap(cache_level_, rhs.cache_level_);
+    std::swap(tail_mode_, rhs.tail_mode_);
+    std::swap(node_order_, rhs.node_order_);
   }
 
  private:

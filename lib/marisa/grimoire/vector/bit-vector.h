@@ -103,8 +103,8 @@ class BitVector {
   }
   void swap(BitVector &rhs) {
     units_.swap(rhs.units_);
-    marisa::swap(size_, rhs.size_);
-    marisa::swap(num_1s_, rhs.num_1s_);
+    std::swap(size_, rhs.size_);
+    std::swap(num_1s_, rhs.num_1s_);
     ranks_.swap(rhs.ranks_);
     select0s_.swap(rhs.select0s_);
     select1s_.swap(rhs.select1s_);

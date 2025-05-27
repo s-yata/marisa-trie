@@ -65,7 +65,7 @@ std::size_t insertion_sort(Iterator l, Iterator r, std::size_t depth) {
       if (result <= 0) {
         break;
       }
-      marisa::swap(*(j - 1), *j);
+      std::swap(*(j - 1), *j);
     }
     if (result != 0) {
       ++count;
@@ -92,7 +92,7 @@ std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
         if (label > pivot) {
           break;
         } else if (label == pivot) {
-          marisa::swap(*pl, *pivot_l);
+          std::swap(*pl, *pivot_l);
           ++pivot_l;
         }
         ++pl;
@@ -102,20 +102,20 @@ std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
         if (label < pivot) {
           break;
         } else if (label == pivot) {
-          marisa::swap(*pr, *--pivot_r);
+          std::swap(*pr, *--pivot_r);
         }
       }
       if (pl >= pr) {
         break;
       }
-      marisa::swap(*pl, *pr);
+      std::swap(*pl, *pr);
       ++pl;
     }
     while (pivot_l > l) {
-      marisa::swap(*--pivot_l, *--pl);
+      std::swap(*--pivot_l, *--pl);
     }
     while (pivot_r < r) {
-      marisa::swap(*pivot_r, *pr);
+      std::swap(*pivot_r, *pr);
       ++pivot_r;
       ++pr;
     }

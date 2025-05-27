@@ -113,12 +113,11 @@ void Writer::write_data(const void *data, std::size_t size) {
   } else if (fd_ != -1) {
     while (size != 0) {
 #ifdef _WIN32
-      static const std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
+      constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
       const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const int size_written = ::_write(fd_, data, count);
 #else   // _WIN32
-      static const std::size_t CHUNK_SIZE =
-          std::numeric_limits< ::ssize_t>::max();
+      constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
       const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const ::ssize_t size_written = ::write(fd_, data, count);
 #endif  // _WIN32

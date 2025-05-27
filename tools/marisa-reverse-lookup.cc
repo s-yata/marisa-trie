@@ -18,15 +18,15 @@ void print_help(const char *cmd) {
          " (default)\n"
          "  -r, --read-dictionary  read an entire dictionary into memory\n"
          "  -h, --help             print this help\n"
-      << std::endl;
+         "\n";
 }
 
 int reverse_lookup(const char *const *args, std::size_t num_args) {
   if (num_args == 0) {
-    std::cerr << "error: dictionary is not specified" << std::endl;
+    std::cerr << "error: dictionary is not specified\n";
     return 10;
   } else if (num_args > 1) {
-    std::cerr << "error: more than one dictionaries are specified" << std::endl;
+    std::cerr << "error: more than one dictionaries are specified\n";
     return 11;
   }
 
@@ -36,8 +36,7 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
       trie.mmap(args[0]);
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to mmap a dictionary file: " << args[0]
-                << std::endl;
+                << ": failed to mmap a dictionary file: " << args[0] << "\n";
       return 20;
     }
   } else {
@@ -45,8 +44,7 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
       trie.load(args[0]);
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to load a dictionary file: " << args[0]
-                << std::endl;
+                << ": failed to load a dictionary file: " << args[0] << "\n";
       return 21;
     }
   }
@@ -62,14 +60,12 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
                       static_cast<std::streamsize>(agent.key().length()))
           << '\n';
     } catch (const marisa::Exception &ex) {
-      std::cerr << ex.what() << ": reverse_lookup() failed: " << key_id
-                << std::endl;
+      std::cerr << ex.what() << ": reverse_lookup() failed: " << key_id << "\n";
       return 30;
     }
 
     if (!std::cout) {
-      std::cerr << "error: failed to write results to standard output"
-                << std::endl;
+      std::cerr << "error: failed to write results to standard output\n";
       return 30;
     }
   }

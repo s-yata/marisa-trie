@@ -23,15 +23,15 @@ void print_help(const char *cmd) {
          " (default)\n"
          "  -r, --read-dictionary  read an entire dictionary into memory\n"
          "  -h, --help             print this help\n"
-      << std::endl;
+         "\n";
 }
 
 int common_prefix_search(const char *const *args, std::size_t num_args) {
   if (num_args == 0) {
-    std::cerr << "error: dictionary is not specified" << std::endl;
+    std::cerr << "error: dictionary is not specified\n";
     return 10;
   } else if (num_args > 1) {
-    std::cerr << "error: more than one dictionaries are specified" << std::endl;
+    std::cerr << "error: more than one dictionaries are specified\n";
     return 11;
   }
 
@@ -41,8 +41,7 @@ int common_prefix_search(const char *const *args, std::size_t num_args) {
       trie.mmap(args[0]);
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to mmap a dictionary file: " << args[0]
-                << std::endl;
+                << ": failed to mmap a dictionary file: " << args[0] << "\n";
       return 20;
     }
   } else {
@@ -50,8 +49,7 @@ int common_prefix_search(const char *const *args, std::size_t num_args) {
       trie.load(args[0]);
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to load a dictionary file: " << args[0]
-                << std::endl;
+                << ": failed to load a dictionary file: " << args[0] << "\n";
       return 21;
     }
   }
@@ -66,9 +64,9 @@ int common_prefix_search(const char *const *args, std::size_t num_args) {
         keyset.push_back(agent.key());
       }
       if (keyset.empty()) {
-        std::cout << "not found" << std::endl;
+        std::cout << "not found\n";
       } else {
-        std::cout << keyset.size() << " found" << std::endl;
+        std::cout << keyset.size() << " found\n";
         const std::size_t end = std::min(max_num_results, keyset.size());
         for (std::size_t i = 0; i < end; ++i) {
           std::cout << keyset[i].id() << '\t';
@@ -81,13 +79,12 @@ int common_prefix_search(const char *const *args, std::size_t num_args) {
       keyset.reset();
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what() << ": common_prefix_search() failed: " << str
-                << std::endl;
+                << "\n";
       return 30;
     }
 
     if (!std::cout) {
-      std::cerr << "error: failed to write results to standard output"
-                << std::endl;
+      std::cerr << "error: failed to write results to standard output\n";
       return 31;
     }
   }
@@ -115,7 +112,7 @@ int main(int argc, char *argv[]) {
         const long value = std::strtol(cmdopt.optarg, &end_of_value, 10);
         if ((*end_of_value != '\0') || (value < 0)) {
           std::cerr << "error: option `-n' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
         }
         if ((value == 0) ||
             (static_cast<unsigned long long>(value) > SIZE_MAX)) {

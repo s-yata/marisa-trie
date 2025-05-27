@@ -37,7 +37,7 @@ void print_help(const char *cmd) {
          " [1, 5] (default: 3)\n"
          "  -o, --output=[FILE]  write tries to FILE (default: stdout)\n"
          "  -h, --help           print this help\n"
-      << std::endl;
+         "\n";
 }
 
 void read_keys(std::istream &input, marisa::Keyset *keyset) {
@@ -62,19 +62,19 @@ int build(const char *const *args, std::size_t num_args) {
   if (num_args == 0) try {
       read_keys(std::cin, &keyset);
     } catch (const marisa::Exception &ex) {
-      std::cerr << ex.what() << ": failed to read keys" << std::endl;
+      std::cerr << ex.what() << ": failed to read keys\n";
       return 10;
     }
 
   for (std::size_t i = 0; i < num_args; ++i) try {
       std::ifstream input_file(args[i], std::ios::binary);
       if (!input_file) {
-        std::cerr << "error: failed to open: " << args[i] << std::endl;
+        std::cerr << "error: failed to open: " << args[i] << "\n";
         return 11;
       }
       read_keys(input_file, &keyset);
     } catch (const marisa::Exception &ex) {
-      std::cerr << ex.what() << ": failed to read keys" << std::endl;
+      std::cerr << ex.what() << ": failed to read keys\n";
       return 12;
     }
 
@@ -83,13 +83,13 @@ int build(const char *const *args, std::size_t num_args) {
     trie.build(keyset, param_num_tries | param_tail_mode | param_node_order |
                            param_cache_level);
   } catch (const marisa::Exception &ex) {
-    std::cerr << ex.what() << ": failed to build a dictionary" << std::endl;
+    std::cerr << ex.what() << ": failed to build a dictionary\n";
     return 20;
   }
 
-  std::cerr << "#keys: " << trie.num_keys() << std::endl;
-  std::cerr << "#nodes: " << trie.num_nodes() << std::endl;
-  std::cerr << "size: " << trie.io_size() << std::endl;
+  std::cerr << "#keys: " << trie.num_keys() << "\n";
+  std::cerr << "#nodes: " << trie.num_nodes() << "\n";
+  std::cerr << "size: " << trie.io_size() << "\n";
 
   if (output_filename != nullptr) {
     try {
@@ -97,7 +97,7 @@ int build(const char *const *args, std::size_t num_args) {
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
                 << ": failed to write a dictionary to file: " << output_filename
-                << std::endl;
+                << "\n";
       return 30;
     }
   } else {
@@ -105,12 +105,11 @@ int build(const char *const *args, std::size_t num_args) {
     const int stdout_fileno = ::_fileno(stdout);
     if (stdout_fileno < 0) {
       std::cerr << "error: failed to get the file descriptor of "
-                   "standard output"
-                << std::endl;
+                   "standard output\n";
       return 31;
     }
     if (::_setmode(stdout_fileno, _O_BINARY) == -1) {
-      std::cerr << "error: failed to set binary mode" << std::endl;
+      std::cerr << "error: failed to set binary mode\n";
       return 32;
     }
 #endif  // _WIN32
@@ -118,8 +117,7 @@ int build(const char *const *args, std::size_t num_args) {
       std::cout << trie;
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to write a dictionary to standard output"
-                << std::endl;
+                << ": failed to write a dictionary to standard output\n";
       return 33;
     }
   }
@@ -153,7 +151,7 @@ int main(int argc, char *argv[]) {
         if ((*end_of_value != '\0') || (value <= 0) ||
             (value > MARISA_MAX_NUM_TRIES)) {
           std::cerr << "error: option `-n' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
           return 1;
         }
         param_num_tries = static_cast<int>(value);
@@ -180,7 +178,7 @@ int main(int argc, char *argv[]) {
         const long value = std::strtol(cmdopt.optarg, &end_of_value, 10);
         if ((*end_of_value != '\0') || (value < 1) || (value > 5)) {
           std::cerr << "error: option `-c' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
           return 2;
         } else if (value == 1) {
           param_cache_level = MARISA_TINY_CACHE;

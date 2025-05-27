@@ -62,21 +62,21 @@ void print_help(const char *cmd) {
          "  -S, --print-speed   print speed [1000 keys/s] (default)\n"
          "  -s, --print-time    print time [ns/key]\n"
          "  -h, --help          print this help\n"
-      << std::endl;
+         "\n";
 }
 
 void print_config() {
   std::cout << "Number of tries: " << param_min_num_tries << " - "
-            << param_max_num_tries << std::endl;
+            << param_max_num_tries << "\n";
 
   std::cout << "TAIL mode: ";
   switch (param_tail_mode) {
     case MARISA_TEXT_TAIL: {
-      std::cout << "Text mode" << std::endl;
+      std::cout << "Text mode\n";
       break;
     }
     case MARISA_BINARY_TAIL: {
-      std::cout << "Binary mode" << std::endl;
+      std::cout << "Binary mode\n";
       break;
     }
   }
@@ -84,11 +84,11 @@ void print_config() {
   std::cout << "Node order: ";
   switch (param_node_order) {
     case MARISA_LABEL_ORDER: {
-      std::cout << "Ascending label order" << std::endl;
+      std::cout << "Ascending label order\n";
       break;
     }
     case MARISA_WEIGHT_ORDER: {
-      std::cout << "Descending weight order" << std::endl;
+      std::cout << "Descending weight order\n";
       break;
     }
   }
@@ -96,23 +96,23 @@ void print_config() {
   std::cout << "Cache level: ";
   switch (param_cache_level) {
     case MARISA_HUGE_CACHE: {
-      std::cout << "Huge cache" << std::endl;
+      std::cout << "Huge cache\n";
       break;
     }
     case MARISA_LARGE_CACHE: {
-      std::cout << "Large cache" << std::endl;
+      std::cout << "Large cache\n";
       break;
     }
     case MARISA_NORMAL_CACHE: {
-      std::cout << "Normal cache" << std::endl;
+      std::cout << "Normal cache\n";
       break;
     }
     case MARISA_SMALL_CACHE: {
-      std::cout << "Small cache" << std::endl;
+      std::cout << "Small cache\n";
       break;
     }
     case MARISA_TINY_CACHE: {
-      std::cout << "Tiny cache" << std::endl;
+      std::cout << "Tiny cache\n";
       break;
     }
   }
@@ -162,13 +162,13 @@ int read_keys(const char *const *args, std::size_t num_args,
   for (std::size_t i = 0; i < num_args; ++i) {
     std::ifstream input_file(args[i], std::ios::binary);
     if (!input_file) {
-      std::cerr << "error: failed to open: " << args[i] << std::endl;
+      std::cerr << "error: failed to open: " << args[i] << "\n";
       return 10;
     }
     read_keys(input_file, keyset, weights);
   }
-  std::cout << "Number of keys: " << keyset->size() << std::endl;
-  std::cout << "Total length: " << keyset->total_length() << std::endl;
+  std::cout << "Number of keys: " << keyset->size() << "\n";
+  std::cout << "Total length: " << keyset->total_length() << "\n";
   return 0;
 }
 
@@ -191,7 +191,7 @@ void benchmark_lookup(const marisa::Trie &trie, const marisa::Keyset &keyset) {
     for (std::size_t i = 0; i < keyset.size(); ++i) {
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       if (!trie.lookup(agent) || (agent.key().id() != keyset[i].id())) {
-        std::cerr << "error: lookup() failed" << std::endl;
+        std::cerr << "error: lookup() failed\n";
         return;
       }
     }
@@ -200,7 +200,7 @@ void benchmark_lookup(const marisa::Trie &trie, const marisa::Keyset &keyset) {
       marisa::Agent agent;
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       if (!trie.lookup(agent) || (agent.key().id() != keyset[i].id())) {
-        std::cerr << "error: lookup() failed" << std::endl;
+        std::cerr << "error: lookup() failed\n";
         return;
       }
     }
@@ -220,7 +220,7 @@ void benchmark_reverse_lookup(const marisa::Trie &trie,
           (agent.key().length() != keyset[i].length()) ||
           (std::memcmp(agent.key().ptr(), keyset[i].ptr(),
                        agent.key().length()) != 0)) {
-        std::cerr << "error: reverse_lookup() failed" << std::endl;
+        std::cerr << "error: reverse_lookup() failed\n";
         return;
       }
     }
@@ -233,7 +233,7 @@ void benchmark_reverse_lookup(const marisa::Trie &trie,
           (agent.key().length() != keyset[i].length()) ||
           (std::memcmp(agent.key().ptr(), keyset[i].ptr(),
                        agent.key().length()) != 0)) {
-        std::cerr << "error: reverse_lookup() failed" << std::endl;
+        std::cerr << "error: reverse_lookup() failed\n";
         return;
       }
     }
@@ -250,12 +250,12 @@ void benchmark_common_prefix_search(const marisa::Trie &trie,
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       while (trie.common_prefix_search(agent)) {
         if (agent.key().id() > keyset[i].id()) {
-          std::cerr << "error: common_prefix_search() failed" << std::endl;
+          std::cerr << "error: common_prefix_search() failed\n";
           return;
         }
       }
       if (agent.key().id() != keyset[i].id()) {
-        std::cerr << "error: common_prefix_search() failed" << std::endl;
+        std::cerr << "error: common_prefix_search() failed\n";
         return;
       }
     }
@@ -265,12 +265,12 @@ void benchmark_common_prefix_search(const marisa::Trie &trie,
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       while (trie.common_prefix_search(agent)) {
         if (agent.key().id() > keyset[i].id()) {
-          std::cerr << "error: common_prefix_search() failed" << std::endl;
+          std::cerr << "error: common_prefix_search() failed\n";
           return;
         }
       }
       if (agent.key().id() != keyset[i].id()) {
-        std::cerr << "error: common_prefix_search() failed" << std::endl;
+        std::cerr << "error: common_prefix_search() failed\n";
         return;
       }
     }
@@ -292,12 +292,12 @@ void benchmark_predictive_search(const marisa::Trie &trie,
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       if (!trie.predictive_search(agent) ||
           (agent.key().id() != keyset[i].id())) {
-        std::cerr << "error: predictive_search() failed" << std::endl;
+        std::cerr << "error: predictive_search() failed\n";
         return;
       }
       while (trie.predictive_search(agent)) {
         if (agent.key().id() <= keyset[i].id()) {
-          std::cerr << "error: predictive_search() failed" << std::endl;
+          std::cerr << "error: predictive_search() failed\n";
           return;
         }
       }
@@ -308,12 +308,12 @@ void benchmark_predictive_search(const marisa::Trie &trie,
       agent.set_query(keyset[i].ptr(), keyset[i].length());
       if (!trie.predictive_search(agent) ||
           (agent.key().id() != keyset[i].id())) {
-        std::cerr << "error: predictive_search() failed" << std::endl;
+        std::cerr << "error: predictive_search() failed\n";
         return;
       }
       while (trie.predictive_search(agent)) {
         if (agent.key().id() <= keyset[i].id()) {
-          std::cerr << "error: predictive_search() failed" << std::endl;
+          std::cerr << "error: predictive_search() failed\n";
           return;
         }
       }
@@ -365,7 +365,7 @@ int benchmark(const char *const *args, std::size_t num_args) try {
       "------+----------+--------+--------+--------+--------+--------\n");
   return 0;
 } catch (const marisa::Exception &ex) {
-  std::cerr << ex.what() << std::endl;
+  std::cerr << ex.what() << "\n";
   return -1;
 }
 
@@ -400,7 +400,7 @@ int main(int argc, char *argv[]) {
         if ((*end_of_value != '\0') || (value <= 0) ||
             (value > MARISA_MAX_NUM_TRIES)) {
           std::cerr << "error: option `-n' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
           return 1;
         }
         param_min_num_tries = static_cast<int>(value);
@@ -412,7 +412,7 @@ int main(int argc, char *argv[]) {
         if ((*end_of_value != '\0') || (value <= 0) ||
             (value > MARISA_MAX_NUM_TRIES)) {
           std::cerr << "error: option `-n' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
           return 2;
         }
         param_max_num_tries = static_cast<int>(value);
@@ -439,7 +439,7 @@ int main(int argc, char *argv[]) {
         const long value = std::strtol(cmdopt.optarg, &end_of_value, 10);
         if ((*end_of_value != '\0') || (value < 1) || (value > 5)) {
           std::cerr << "error: option `-c' with an invalid argument: "
-                    << cmdopt.optarg << std::endl;
+                    << cmdopt.optarg << "\n";
           return 3;
         } else if (value == 1) {
           param_cache_level = MARISA_TINY_CACHE;

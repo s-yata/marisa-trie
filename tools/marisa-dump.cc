@@ -27,7 +27,7 @@ void print_help(const char *cmd) {
          " (default)\n"
          "  -r, --read-dictionary  read an entire dictionary into memory\n"
          "  -h, --help             print this help\n"
-      << std::endl;
+         "\n";
 }
 
 int dump(const marisa::Trie &trie) {
@@ -40,31 +40,29 @@ int dump(const marisa::Trie &trie) {
                       static_cast<std::streamsize>(agent.key().length()))
           << delimiter;
       if (!std::cout) {
-        std::cerr << "error: failed to write results to standard output"
-                  << std::endl;
+        std::cerr << "error: failed to write results to standard output\n";
         return 20;
       }
       ++num_keys;
     }
   } catch (const marisa::Exception &ex) {
-    std::cerr << ex.what() << ": predictive_search() failed" << std::endl;
+    std::cerr << ex.what() << ": predictive_search() failed\n";
     return 21;
   }
-  std::cerr << "#keys: " << num_keys << std::endl;
+  std::cerr << "#keys: " << num_keys << "\n";
   return 0;
 }
 
 int dump(const char *filename) {
   marisa::Trie trie;
   if (filename != nullptr) {
-    std::cerr << "input: " << filename << std::endl;
+    std::cerr << "input: " << filename << "\n";
     if (mmap_flag) {
       try {
         trie.mmap(filename);
       } catch (const marisa::Exception &ex) {
         std::cerr << ex.what()
-                  << ": failed to mmap a dictionary file: " << filename
-                  << std::endl;
+                  << ": failed to mmap a dictionary file: " << filename << "\n";
         return 10;
       }
     } else {
@@ -72,23 +70,21 @@ int dump(const char *filename) {
         trie.load(filename);
       } catch (const marisa::Exception &ex) {
         std::cerr << ex.what()
-                  << ": failed to load a dictionary file: " << filename
-                  << std::endl;
+                  << ": failed to load a dictionary file: " << filename << "\n";
         return 11;
       }
     }
   } else {
-    std::cerr << "input: <stdin>" << std::endl;
+    std::cerr << "input: <stdin>\n";
 #ifdef _WIN32
     const int stdin_fileno = ::_fileno(stdin);
     if (stdin_fileno < 0) {
       std::cerr << "error: failed to get the file descriptor of "
-                   "standard input"
-                << std::endl;
+                   "standard input\n";
       return 20;
     }
     if (::_setmode(stdin_fileno, _O_BINARY) == -1) {
-      std::cerr << "error: failed to set binary mode" << std::endl;
+      std::cerr << "error: failed to set binary mode\n";
       return 21;
     }
 #endif  // _WIN32
@@ -96,8 +92,7 @@ int dump(const char *filename) {
       std::cin >> trie;
     } catch (const marisa::Exception &ex) {
       std::cerr << ex.what()
-                << ": failed to read a dictionary from standard input"
-                << std::endl;
+                << ": failed to read a dictionary from standard input\n";
       return 22;
     }
   }

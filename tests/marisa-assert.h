@@ -6,7 +6,7 @@
 
 #define ASSERT(cond)                                                       \
   (void)((!!(cond)) || ((std::cout << __LINE__ << ": Assertion `" << #cond \
-                                   << "' failed." << std::endl),           \
+                                   << "' failed.\n"),                      \
                         std::exit(-1), 0))
 
 #define EXCEPT(code, expected_error_code)                            \
@@ -22,6 +22,6 @@
 #define TEST_START() \
   (std::cout << __FILE__ << ":" << __LINE__ << ": " << __FUNCTION__ << "(): ")
 
-#define TEST_END() (std::cout << "ok" << std::endl)
+#define TEST_END() (std::cout << "ok\n")
 
 #endif  // MARISA_ASSERT_H_

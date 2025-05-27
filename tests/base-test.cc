@@ -340,6 +340,6 @@ int main() try {
 
   return 0;
 } catch (const marisa::Exception &ex) {
-  std::cerr << ex.what() << std::endl;
+  std::cerr << ex.what() << "\n";
   throw;
 }

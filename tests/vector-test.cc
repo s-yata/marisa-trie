@@ -85,7 +85,7 @@ void TestVector() {
 
   marisa::grimoire::Vector<int> vec;
 
-  ASSERT(vec.max_size() == (MARISA_SIZE_MAX / sizeof(int)));
+  ASSERT(vec.max_size() == (SIZE_MAX / sizeof(int)));
   ASSERT(vec.size() == 0);
   ASSERT(vec.capacity() == 0);
   ASSERT(!vec.fixed());

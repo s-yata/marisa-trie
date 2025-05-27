@@ -14,18 +14,18 @@ class Cache {
   Cache &operator=(const Cache &cache) = default;
 
   void set_parent(std::size_t parent) {
-    MARISA_DEBUG_IF(parent > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(parent > UINT32_MAX, MARISA_SIZE_ERROR);
     parent_ = static_cast<UInt32>(parent);
   }
   void set_child(std::size_t child) {
-    MARISA_DEBUG_IF(child > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(child > UINT32_MAX, MARISA_SIZE_ERROR);
     child_ = static_cast<UInt32>(child);
   }
   void set_base(UInt8 base) {
     union_.link = (union_.link & ~0xFFU) | base;
   }
   void set_extra(std::size_t extra) {
-    MARISA_DEBUG_IF(extra > (MARISA_UINT32_MAX >> 8), MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(extra > (UINT32_MAX >> 8), MARISA_SIZE_ERROR);
     union_.link = static_cast<UInt32>((union_.link & 0xFFU) | (extra << 8));
   }
   void set_weight(float weight) {

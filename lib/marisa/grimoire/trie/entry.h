@@ -18,12 +18,12 @@ class Entry {
 
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length - 1;
     length_ = static_cast<UInt32>(length);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
     id_ = static_cast<UInt32>(id);
   }
 

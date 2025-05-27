@@ -140,7 +140,7 @@ void Mapper::open_(const char *filename, int flags) {
 
   struct stat st;
   MARISA_THROW_IF(::fstat(fd_, &st) != 0, MARISA_IO_ERROR);
-  MARISA_THROW_IF(static_cast<UInt64>(st.st_size) > MARISA_SIZE_MAX,
+  MARISA_THROW_IF(static_cast<UInt64>(st.st_size) > SIZE_MAX,
                   MARISA_SIZE_ERROR);
   size_ = static_cast<std::size_t>(st.st_size);
 

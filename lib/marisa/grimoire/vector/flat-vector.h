@@ -121,7 +121,7 @@ class FlatVector {
 
     value_size_ = value_size;
     if (value_size != 0) {
-      mask_ = MARISA_UINT32_MAX >> (32 - value_size);
+      mask_ = UINT32_MAX >> (32 - value_size);
     }
     size_ = values.size();
 
@@ -146,7 +146,7 @@ class FlatVector {
     {
       UInt64 temp_size;
       mapper.map(&temp_size);
-      MARISA_THROW_IF(temp_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
       size_ = static_cast<std::size_t>(temp_size);
     }
   }
@@ -167,7 +167,7 @@ class FlatVector {
     {
       UInt64 temp_size;
       reader.read(&temp_size);
-      MARISA_THROW_IF(temp_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
       size_ = static_cast<std::size_t>(temp_size);
     }
   }

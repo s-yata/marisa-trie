@@ -26,15 +26,15 @@ class State {
   State &operator=(State &&) noexcept = default;
 
   void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
     node_id_ = static_cast<UInt32>(node_id);
   }
   void set_query_pos(std::size_t query_pos) {
-    MARISA_DEBUG_IF(query_pos > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(query_pos > UINT32_MAX, MARISA_SIZE_ERROR);
     query_pos_ = static_cast<UInt32>(query_pos);
   }
   void set_history_pos(std::size_t history_pos) {
-    MARISA_DEBUG_IF(history_pos > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(history_pos > UINT32_MAX, MARISA_SIZE_ERROR);
     history_pos_ = static_cast<UInt32>(history_pos);
   }
   void set_status_code(StatusCode status_code) {

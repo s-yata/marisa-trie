@@ -30,8 +30,7 @@ class Reader {
   template <typename T>
   void read(T *objs, std::size_t num_objs) {
     MARISA_THROW_IF((objs == nullptr) && (num_objs != 0), MARISA_NULL_ERROR);
-    MARISA_THROW_IF(num_objs > (MARISA_SIZE_MAX / sizeof(T)),
-                    MARISA_SIZE_ERROR);
+    MARISA_THROW_IF(num_objs > (SIZE_MAX / sizeof(T)), MARISA_SIZE_ERROR);
     read_data(objs, sizeof(T) * num_objs);
   }
 

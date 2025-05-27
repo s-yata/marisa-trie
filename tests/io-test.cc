@@ -28,7 +28,7 @@ void TestFilename() {
     double values[] = {3.45, 4.56};
     writer.write(values, 2);
 
-    EXCEPT(writer.write(values, MARISA_SIZE_MAX), MARISA_SIZE_ERROR);
+    EXCEPT(writer.write(values, SIZE_MAX), MARISA_SIZE_ERROR);
   }
 
   {

@@ -188,7 +188,7 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
         }
         end_flags_.push_back(true);
       }
-      MARISA_THROW_IF(buf_.size() > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(buf_.size() > UINT32_MAX, MARISA_SIZE_ERROR);
     }
     last = &current;
   }

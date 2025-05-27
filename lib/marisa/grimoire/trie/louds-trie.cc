@@ -526,8 +526,8 @@ void LoudsTrie::fill_cache() {
                               ? MARISA_INVALID_EXTRA
                               : extras_[link_flags_.rank1(node_id)]);
     } else {
-      cache_[i].set_parent(MARISA_UINT32_MAX);
-      cache_[i].set_child(MARISA_UINT32_MAX);
+      cache_[i].set_parent(UINT32_MAX);
+      cache_[i].set_child(UINT32_MAX);
     }
   }
 }

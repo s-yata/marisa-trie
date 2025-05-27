@@ -210,7 +210,7 @@ class Vector {
   }
 
   static std::size_t max_size() {
-    return MARISA_SIZE_MAX / sizeof(T);
+    return SIZE_MAX / sizeof(T);
   }
 
  private:
@@ -224,7 +224,7 @@ class Vector {
   void map_(Mapper &mapper) {
     UInt64 total_size;
     mapper.map(&total_size);
-    MARISA_THROW_IF(total_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
+    MARISA_THROW_IF(total_size > SIZE_MAX, MARISA_SIZE_ERROR);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, MARISA_FORMAT_ERROR);
     const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
     mapper.map(&const_objs_, size);
@@ -235,7 +235,7 @@ class Vector {
   void read_(Reader &reader) {
     UInt64 total_size;
     reader.read(&total_size);
-    MARISA_THROW_IF(total_size > MARISA_SIZE_MAX, MARISA_SIZE_ERROR);
+    MARISA_THROW_IF(total_size > SIZE_MAX, MARISA_SIZE_ERROR);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, MARISA_FORMAT_ERROR);
     const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
     resize(size);

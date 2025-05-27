@@ -26,7 +26,7 @@ class Key {
 
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr;
     length_ = static_cast<UInt32>(length);
   }
@@ -34,11 +34,11 @@ class Key {
     union_.weight = weight;
   }
   void set_terminal(std::size_t terminal) {
-    MARISA_DEBUG_IF(terminal > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(terminal > UINT32_MAX, MARISA_SIZE_ERROR);
     union_.terminal = static_cast<UInt32>(terminal);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
     id_ = static_cast<UInt32>(id);
   }
 
@@ -121,7 +121,7 @@ class ReverseKey {
 
   void set_str(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length;
     length_ = static_cast<UInt32>(length);
   }
@@ -129,11 +129,11 @@ class ReverseKey {
     union_.weight = weight;
   }
   void set_terminal(std::size_t terminal) {
-    MARISA_DEBUG_IF(terminal > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(terminal > UINT32_MAX, MARISA_SIZE_ERROR);
     union_.terminal = static_cast<UInt32>(terminal);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
     id_ = static_cast<UInt32>(id);
   }
 

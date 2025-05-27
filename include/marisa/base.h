@@ -19,6 +19,7 @@ using marisa_uint64 = std::uint64_t;
  #error Failed to detect MARISA_WORD_SIZE
 #endif
 
+// These macros are left for backward compatibility.
 #define MARISA_UINT8_MAX  UINT8_MAX
 #define MARISA_UINT16_MAX UINT16_MAX
 #define MARISA_UINT32_MAX UINT32_MAX

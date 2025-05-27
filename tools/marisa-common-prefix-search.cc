@@ -118,8 +118,8 @@ int main(int argc, char *argv[]) {
                     << cmdopt.optarg << std::endl;
         }
         if ((value == 0) ||
-            (static_cast<unsigned long long>(value) > MARISA_SIZE_MAX)) {
-          max_num_results = MARISA_SIZE_MAX;
+            (static_cast<unsigned long long>(value) > SIZE_MAX)) {
+          max_num_results = SIZE_MAX;
         } else {
           max_num_results = static_cast<std::size_t>(value);
         }

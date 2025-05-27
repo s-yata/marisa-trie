@@ -10,23 +10,23 @@ class History {
   History() = default;
 
   void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
     node_id_ = static_cast<UInt32>(node_id);
   }
   void set_louds_pos(std::size_t louds_pos) {
-    MARISA_DEBUG_IF(louds_pos > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(louds_pos > UINT32_MAX, MARISA_SIZE_ERROR);
     louds_pos_ = static_cast<UInt32>(louds_pos);
   }
   void set_key_pos(std::size_t key_pos) {
-    MARISA_DEBUG_IF(key_pos > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(key_pos > UINT32_MAX, MARISA_SIZE_ERROR);
     key_pos_ = static_cast<UInt32>(key_pos);
   }
   void set_link_id(std::size_t link_id) {
-    MARISA_DEBUG_IF(link_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(link_id > UINT32_MAX, MARISA_SIZE_ERROR);
     link_id_ = static_cast<UInt32>(link_id);
   }
   void set_key_id(std::size_t key_id) {
-    MARISA_DEBUG_IF(key_id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(key_id > UINT32_MAX, MARISA_SIZE_ERROR);
     key_id_ = static_cast<UInt32>(key_id);
   }
 

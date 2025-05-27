@@ -10,7 +10,7 @@ class RankIndex {
   RankIndex() = default;
 
   void set_abs(std::size_t value) {
-    MARISA_DEBUG_IF(value > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(value > UINT32_MAX, MARISA_SIZE_ERROR);
     abs_ = static_cast<UInt32>(value);
   }
   void set_rel1(std::size_t value) {

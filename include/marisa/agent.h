@@ -54,11 +54,11 @@ class Agent {
   }
   void set_key(const char *ptr, std::size_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     key_.set_str(ptr, length);
   }
   void set_key(std::size_t id) {
-    MARISA_DEBUG_IF(id > MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
     key_.set_id(id);
   }
 

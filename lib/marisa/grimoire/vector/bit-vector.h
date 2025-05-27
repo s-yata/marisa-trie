@@ -49,7 +49,7 @@ class BitVector {
   }
 
   void push_back(bool bit) {
-    MARISA_THROW_IF(size_ == MARISA_UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_THROW_IF(size_ == UINT32_MAX, MARISA_SIZE_ERROR);
     if (size_ == (MARISA_WORD_SIZE * units_.size())) {
       units_.resize(units_.size() + (64 / MARISA_WORD_SIZE), 0);
     }

@@ -48,7 +48,7 @@ void Reader::open(std::istream &stream) {
   swap(temp);
 }
 
-void Reader::clear() {
+void Reader::clear() noexcept {
   Reader().swap(*this);
 }
 

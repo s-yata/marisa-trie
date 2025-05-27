@@ -98,7 +98,7 @@ class BitVector {
            select0s_.io_size() + select1s_.io_size();
   }
 
-  void clear() {
+  void clear() noexcept {
     BitVector().swap(*this);
   }
   void swap(BitVector &rhs) noexcept {

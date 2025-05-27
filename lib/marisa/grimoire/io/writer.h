@@ -37,7 +37,7 @@ class Writer {
 
   bool is_open() const;
 
-  void clear();
+  void clear() noexcept;
   void swap(Writer &rhs) noexcept;
 
  private:

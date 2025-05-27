@@ -197,7 +197,7 @@ class Vector {
     return sizeof(UInt64) + ((total_size() + 7) & ~0x07U);
   }
 
-  void clear() {
+  void clear() noexcept {
     Vector().swap(*this);
   }
   void swap(Vector &rhs) noexcept {

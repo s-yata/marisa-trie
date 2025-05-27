@@ -54,7 +54,7 @@ class Trie {
   std::size_t total_size() const;
   std::size_t io_size() const;
 
-  void clear();
+  void clear() noexcept;
   void swap(Trie &rhs) noexcept;
 
  private:

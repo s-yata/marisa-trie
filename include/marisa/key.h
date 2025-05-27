@@ -61,7 +61,7 @@ class Key {
     return union_.weight;
   }
 
-  void clear() {
+  void clear() noexcept {
     Key().swap(*this);
   }
   void swap(Key &rhs) noexcept {

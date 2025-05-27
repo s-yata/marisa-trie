@@ -35,7 +35,7 @@ class Config {
     return node_order_;
   }
 
-  void clear() {
+  void clear() noexcept {
     Config().swap(*this);
   }
   void swap(Config &rhs) noexcept {

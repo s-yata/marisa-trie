@@ -75,7 +75,7 @@ class FlatVector {
     return units_.io_size() + (sizeof(UInt32) * 2) + sizeof(UInt64);
   }
 
-  void clear() {
+  void clear() noexcept {
     FlatVector().swap(*this);
   }
   void swap(FlatVector &rhs) noexcept {

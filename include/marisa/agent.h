@@ -67,7 +67,7 @@ class Agent {
   }
   void init_state();
 
-  void clear();
+  void clear() noexcept;
   void swap(Agent &rhs) noexcept;
 
  private:

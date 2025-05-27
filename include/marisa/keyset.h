@@ -55,7 +55,7 @@ class Keyset {
 
   void reset();
 
-  void clear();
+  void clear() noexcept;
   void swap(Keyset &rhs) noexcept;
 
  private:

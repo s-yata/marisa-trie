@@ -38,7 +38,7 @@ class Reader {
 
   bool is_open() const;
 
-  void clear();
+  void clear() noexcept;
   void swap(Reader &rhs) noexcept;
 
  private:

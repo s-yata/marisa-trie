@@ -74,7 +74,7 @@ bool Mapper::is_open() const {
   return ptr_ != nullptr;
 }
 
-void Mapper::clear() {
+void Mapper::clear() noexcept {
   Mapper().swap(*this);
 }
 

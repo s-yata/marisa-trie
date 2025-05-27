@@ -88,7 +88,7 @@ void Agent::init_state() {
   MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
 }
 
-void Agent::clear() {
+void Agent::clear() noexcept {
   Agent().swap(*this);
 }
 

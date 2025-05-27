@@ -143,7 +143,7 @@ bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
   return true;
 }
 
-void Tail::clear() {
+void Tail::clear() noexcept {
   Tail().swap(*this);
 }
 

@@ -74,7 +74,7 @@ void Keyset::reset() {
   total_length_ = 0;
 }
 
-void Keyset::clear() {
+void Keyset::clear() noexcept {
   Keyset().swap(*this);
 }
 

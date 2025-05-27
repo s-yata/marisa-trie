@@ -48,7 +48,7 @@ void Writer::open(std::ostream &stream) {
   swap(temp);
 }
 
-void Writer::clear() {
+void Writer::clear() noexcept {
   Writer().swap(*this);
 }
 

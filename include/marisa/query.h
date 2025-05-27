@@ -53,7 +53,7 @@ class Query {
     return id_;
   }
 
-  void clear() {
+  void clear() noexcept {
     Query().swap(*this);
   }
   void swap(Query &rhs) noexcept {

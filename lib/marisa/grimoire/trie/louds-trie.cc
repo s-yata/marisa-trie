@@ -223,7 +223,7 @@ std::size_t LoudsTrie::io_size() const {
          cache_.io_size() + (sizeof(UInt32) * 2);
 }
 
-void LoudsTrie::clear() {
+void LoudsTrie::clear() noexcept {
   LoudsTrie().swap(*this);
 }
 

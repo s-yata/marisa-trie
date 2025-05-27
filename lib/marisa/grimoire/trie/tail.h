@@ -46,7 +46,7 @@ class Tail {
     return buf_.io_size() + end_flags_.io_size();
   }
 
-  void clear();
+  void clear() noexcept;
   void swap(Tail &rhs) noexcept;
 
  private:

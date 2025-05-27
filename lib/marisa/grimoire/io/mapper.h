@@ -35,7 +35,7 @@ class Mapper {
 
   bool is_open() const;
 
-  void clear();
+  void clear() noexcept;
   void swap(Mapper &rhs) noexcept;
 
  private:

@@ -172,7 +172,7 @@ std::size_t Trie::io_size() const {
   return trie_->io_size();
 }
 
-void Trie::clear() {
+void Trie::clear() noexcept {
   Trie().swap(*this);
 }
 

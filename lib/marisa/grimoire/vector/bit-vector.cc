@@ -169,12 +169,6 @@ const UInt8 SELECT_TABLE[8][256] = {
 
  #if MARISA_WORD_SIZE == 64
 constexpr UInt64 MASK_01 = 0x0101010101010101ULL;
-  #if !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
-constexpr UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
-constexpr UInt64 MASK_33 = 0x3333333333333333ULL;
-constexpr UInt64 MASK_55 = 0x5555555555555555ULL;
-  #endif  // !defined(MARISA_X64) || !defined(MARISA_USE_SSSE3)
-constexpr UInt64 MASK_80 = 0x8080808080808080ULL;
 
 // Pre-computed lookup table trick from Gog, Simon and Matthias Petri.
 // "Optimized succinct data structures for massive data."  Software:
@@ -229,6 +223,9 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     // in a 64-bit `#ifdef`.
     counts = vget_lane_u64(vreinterpret_u64_u8(vcnt_u8(vcreate_u8(unit))), 0);
   #else   // defined(MARISA_AARCH64)
+    constexpr UInt64 MASK_0F = 0x0F0F0F0F0F0F0F0FULL;
+    constexpr UInt64 MASK_33 = 0x3333333333333333ULL;
+    constexpr UInt64 MASK_55 = 0x5555555555555555ULL;
     counts = unit - ((unit >> 1) & MASK_55);
     counts = (counts & MASK_33) + ((counts >> 2) & MASK_33);
     counts = (counts + (counts >> 4)) & MASK_0F;
@@ -245,6 +242,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     skip = (UInt8)popcount(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
   #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  constexpr UInt64 MASK_80 = 0x8080808080808080ULL;
   const UInt64 x = (counts + PREFIX_SUM_OVERFLOW[i]) & MASK_80;
       // We masked with `MASK_80`, so the first bit set is the high bit in the
       // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte

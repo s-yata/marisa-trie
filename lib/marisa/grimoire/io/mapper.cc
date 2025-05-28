@@ -145,17 +145,15 @@ void Mapper::open_(const char *filename, int flags) {
   size_ = static_cast<std::size_t>(st.st_size);
 
   int map_flags = MAP_SHARED;
+  if (flags & MARISA_MAP_POPULATE) {
  #if defined(MAP_POPULATE)
-  // `MAP_POPULATE` is Linux-specific.
-  if (flags & MARISA_MAP_POPULATE) {
+    // `MAP_POPULATE` is Linux-specific.
     map_flags |= MAP_POPULATE;
-  }
  #elif defined(MAP_PREFAULT_READ)
-  // `MAP_PREFAULT_READ` is FreeBSD-specific.
-  if (flags & MARISA_MAP_POPULATE) {
+    // `MAP_PREFAULT_READ` is FreeBSD-specific.
     map_flags |= MAP_PREFAULT_READ;
-  }
  #endif
+  }
 
   origin_ = ::mmap(nullptr, size_, PROT_READ, map_flags, fd_, 0);
   MARISA_THROW_IF(origin_ == MAP_FAILED, MARISA_IO_ERROR);

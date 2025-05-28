@@ -256,7 +256,7 @@ class Vector {
 
     std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * new_capacity]);
-    MARISA_DEBUG_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
+    MARISA_THROW_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     static_assert(std::is_trivially_copyable_v<T>);
@@ -273,13 +273,15 @@ class Vector {
   void copyInit(const T *src, std::size_t size, std::size_t capacity) {
     MARISA_DEBUG_IF(size_ > 0, MARISA_CODE_ERROR);
 
-    buf_.reset(new (std::nothrow) char[sizeof(T) * capacity]);
-    MARISA_DEBUG_IF(buf_ == nullptr, MARISA_MEMORY_ERROR);
-    T *new_objs = reinterpret_cast<T *>(buf_.get());
+    std::unique_ptr<char[]> new_buf(
+        new (std::nothrow) char[sizeof(T) * capacity]);
+    MARISA_THROW_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
+    T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     static_assert(std::is_trivially_copyable_v<T>);
     std::memcpy(new_objs, src, sizeof(T) * size);
 
+    buf_ = std::move(new_buf);
     objs_ = new_objs;
     const_objs_ = new_objs;
     size_ = size;

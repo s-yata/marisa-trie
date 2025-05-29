@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "marisa/agent.h"
-#include "marisa/keyset.h"
+#include "marisa/agent.h"   // IWYU pragma: export
+#include "marisa/keyset.h"  // IWYU pragma: export
 
 namespace marisa {
 namespace grimoire::trie {

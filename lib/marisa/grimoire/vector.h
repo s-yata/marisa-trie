@@ -7,9 +7,9 @@
 
 namespace marisa::grimoire {
 
-using vector::Vector;
-using vector::FlatVector;
 using vector::BitVector;
+using vector::FlatVector;
+using vector::Vector;
 
 }  // namespace marisa::grimoire
 

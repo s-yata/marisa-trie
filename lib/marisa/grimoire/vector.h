@@ -8,8 +8,8 @@
 namespace marisa::grimoire {
 
 using vector::Vector;
-typedef vector::FlatVector FlatVector;
-typedef vector::BitVector BitVector;
+using vector::FlatVector;
+using vector::BitVector;
 
 }  // namespace marisa::grimoire
 

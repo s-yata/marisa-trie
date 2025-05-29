@@ -8,13 +8,13 @@ namespace marisa::grimoire::trie {
 
 // A search agent has its internal state and the status codes are defined
 // below.
-typedef enum StatusCode {
+enum StatusCode {
   MARISA_READY_TO_ALL,
   MARISA_READY_TO_COMMON_PREFIX_SEARCH,
   MARISA_READY_TO_PREDICTIVE_SEARCH,
   MARISA_END_OF_COMMON_PREFIX_SEARCH,
   MARISA_END_OF_PREDICTIVE_SEARCH,
-} StatusCode;
+};
 
 class State {
  public:

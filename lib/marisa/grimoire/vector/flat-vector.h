@@ -8,9 +8,9 @@ namespace marisa::grimoire::vector {
 class FlatVector {
  public:
 #if MARISA_WORD_SIZE == 64
-  typedef UInt64 Unit;
+  using Unit = UInt64;
 #else   // MARISA_WORD_SIZE == 64
-  typedef UInt32 Unit;
+  using Unit = UInt32;
 #endif  // MARISA_WORD_SIZE == 64
 
   FlatVector() = default;

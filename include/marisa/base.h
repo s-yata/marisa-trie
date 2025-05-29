@@ -6,10 +6,10 @@
 #include <utility>
 
 // These aliases are left for backward compatibility.
-using marisa_uint8 = std::uint8_t;
-using marisa_uint16 = std::uint16_t;
-using marisa_uint32 = std::uint32_t;
-using marisa_uint64 = std::uint64_t;
+using marisa_uint8 [[deprecated]] = std::uint8_t;
+using marisa_uint16 [[deprecated]] = std::uint16_t;
+using marisa_uint32 [[deprecated]] = std::uint32_t;
+using marisa_uint64 [[deprecated]] = std::uint64_t;
 
 #if UINTPTR_MAX == UINT64_MAX
  #define MARISA_WORD_SIZE 64
@@ -19,12 +19,12 @@ using marisa_uint64 = std::uint64_t;
  #error Failed to detect MARISA_WORD_SIZE
 #endif
 
-// These macros are left for backward compatibility.
-#define MARISA_UINT8_MAX  UINT8_MAX
-#define MARISA_UINT16_MAX UINT16_MAX
-#define MARISA_UINT32_MAX UINT32_MAX
-#define MARISA_UINT64_MAX UINT64_MAX
-#define MARISA_SIZE_MAX   SIZE_MAX
+// These constant variables are left for backward compatibility.
+[[deprecated]] constexpr auto MARISA_UINT8_MAX = UINT8_MAX;
+[[deprecated]] constexpr auto MARISA_UINT16_MAX = UINT16_MAX;
+[[deprecated]] constexpr auto MARISA_UINT32_MAX = UINT32_MAX;
+[[deprecated]] constexpr auto MARISA_UINT64_MAX = UINT64_MAX;
+[[deprecated]] constexpr auto MARISA_SIZE_MAX = SIZE_MAX;
 
 #define MARISA_INVALID_LINK_ID UINT32_MAX
 #define MARISA_INVALID_KEY_ID  UINT32_MAX

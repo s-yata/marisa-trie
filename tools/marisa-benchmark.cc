@@ -168,7 +168,7 @@ int read_keys(const char *const *args, std::size_t num_args,
     read_keys(input_file, keyset, weights);
   }
   std::cout << "Number of keys: " << keyset->size() << "\n";
-  std::cout << "Total length: " << keyset->total_length() << "\n";
+  std::cout << "Total length: " << keyset->total_length() << "\n" << std::flush;
   return 0;
 }
 

@@ -37,7 +37,7 @@ class Agent {
   }
   void set_query(const char *str);
   void set_query(const char *ptr, std::size_t length);
-  void set_query(std::size_t key_id);
+  void set_query(uint32_t key_id);
 
   const grimoire::trie::State &state() const {
     return *state_;

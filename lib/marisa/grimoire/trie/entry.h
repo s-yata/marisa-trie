@@ -24,25 +24,24 @@ class Entry {
     ptr_ = ptr + length - 1;
     length_ = static_cast<uint32_t>(length);
   }
-  void set_id(std::size_t id) {
-    assert(id <= UINT32_MAX);
-    id_ = static_cast<uint32_t>(id);
+  void set_id(uint32_t id) {
+    id_ = id;
   }
 
   const char *ptr() const {
     return ptr_ - length_ + 1;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
   class StringComparer {
    public:
     bool operator()(const Entry &lhs, const Entry &rhs) const {
-      for (std::size_t i = 0; i < lhs.length(); ++i) {
+      for (uint32_t i = 0; i < lhs.length(); ++i) {
         if (i == rhs.length()) {
           return true;
         }

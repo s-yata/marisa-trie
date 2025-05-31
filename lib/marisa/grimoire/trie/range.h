@@ -11,26 +11,23 @@ class Range {
  public:
   Range() = default;
 
-  void set_begin(std::size_t begin) {
-    assert(begin <= UINT32_MAX);
-    begin_ = static_cast<uint32_t>(begin);
+  void set_begin(uint32_t begin) {
+    begin_ = begin;
   }
-  void set_end(std::size_t end) {
-    assert(end <= UINT32_MAX);
-    end_ = static_cast<uint32_t>(end);
+  void set_end(uint32_t end) {
+    end_ = end;
   }
-  void set_key_pos(std::size_t key_pos) {
-    assert(key_pos <= UINT32_MAX);
-    key_pos_ = static_cast<uint32_t>(key_pos);
+  void set_key_pos(uint32_t key_pos) {
+    key_pos_ = key_pos;
   }
 
-  std::size_t begin() const {
+  uint32_t begin() const {
     return begin_;
   }
-  std::size_t end() const {
+  uint32_t end() const {
     return end_;
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return key_pos_;
   }
 
@@ -40,8 +37,7 @@ class Range {
   uint32_t key_pos_ = 0;
 };
 
-inline Range make_range(std::size_t begin, std::size_t end,
-                        std::size_t key_pos) {
+inline Range make_range(uint32_t begin, uint32_t end, uint32_t key_pos) {
   Range range;
   range.set_begin(begin);
   range.set_end(end);
@@ -56,13 +52,13 @@ class WeightedRange {
   void set_range(const Range &range) {
     range_ = range;
   }
-  void set_begin(std::size_t begin) {
+  void set_begin(uint32_t begin) {
     range_.set_begin(begin);
   }
-  void set_end(std::size_t end) {
+  void set_end(uint32_t end) {
     range_.set_end(end);
   }
-  void set_key_pos(std::size_t key_pos) {
+  void set_key_pos(uint32_t key_pos) {
     range_.set_key_pos(key_pos);
   }
   void set_weight(float weight) {
@@ -72,13 +68,13 @@ class WeightedRange {
   const Range &range() const {
     return range_;
   }
-  std::size_t begin() const {
+  uint32_t begin() const {
     return range_.begin();
   }
-  std::size_t end() const {
+  uint32_t end() const {
     return range_.end();
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return range_.key_pos();
   }
   float weight() const {
@@ -98,8 +94,8 @@ inline bool operator>(const WeightedRange &lhs, const WeightedRange &rhs) {
   return lhs.weight() > rhs.weight();
 }
 
-inline WeightedRange make_weighted_range(std::size_t begin, std::size_t end,
-                                         std::size_t key_pos, float weight) {
+inline WeightedRange make_weighted_range(uint32_t begin, uint32_t end,
+                                         uint32_t key_pos, float weight) {
   WeightedRange range;
   range.set_begin(begin);
   range.set_end(end);

@@ -1,6 +1,7 @@
 #ifndef MARISA_KEY_H_
 #define MARISA_KEY_H_
 
+#include <cstdint>
 #include <string_view>
 
 #include "marisa/base.h"
@@ -13,7 +14,7 @@ class Key {
   Key(const Key &key) = default;
   Key &operator=(const Key &key) = default;
 
-  char operator[](std::size_t i) const {
+  char operator[](uint32_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
     return ptr_[i];
   }
@@ -23,23 +24,20 @@ class Key {
   }
   void set_str(const char *str) {
     MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
-    std::size_t length = 0;
+    uint32_t length = 0;
     while (str[length] != '\0') {
       ++length;
     }
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = str;
-    length_ = static_cast<UInt32>(length);
+    length_ = length;
   }
-  void set_str(const char *ptr, std::size_t length) {
+  void set_str(const char *ptr, uint32_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr;
-    length_ = static_cast<UInt32>(length);
+    length_ = length;
   }
-  void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
-    union_.id = static_cast<UInt32>(id);
+  void set_id(uint32_t id) {
+    union_.id = static_cast<uint32_t>(id);
   }
   void set_weight(float weight) {
     union_.weight = weight;
@@ -51,10 +49,10 @@ class Key {
   const char *ptr() const {
     return ptr_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return union_.id;
   }
   float weight() const {
@@ -72,9 +70,9 @@ class Key {
 
  private:
   const char *ptr_ = nullptr;
-  UInt32 length_ = 0;
+  uint32_t length_ = 0;
   union Union {
-    UInt32 id = 0;
+    uint32_t id = 0;
     float weight;
   } union_;
 };

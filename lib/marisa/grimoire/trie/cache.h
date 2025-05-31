@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_TRIE_CACHE_H_
 
 #include <cfloat>
+#include <cstdint>
 
 #include "marisa/base.h"
 
@@ -13,41 +14,39 @@ class Cache {
   Cache(const Cache &cache) = default;
   Cache &operator=(const Cache &cache) = default;
 
-  void set_parent(std::size_t parent) {
-    MARISA_DEBUG_IF(parent > UINT32_MAX, MARISA_SIZE_ERROR);
-    parent_ = static_cast<UInt32>(parent);
+  void set_parent(uint32_t parent) {
+    parent_ = parent;
   }
-  void set_child(std::size_t child) {
-    MARISA_DEBUG_IF(child > UINT32_MAX, MARISA_SIZE_ERROR);
-    child_ = static_cast<UInt32>(child);
+  void set_child(uint32_t child) {
+    child_ = child;
   }
-  void set_base(UInt8 base) {
+  void set_base(uint8_t base) {
     union_.link = (union_.link & ~0xFFU) | base;
   }
-  void set_extra(std::size_t extra) {
+  void set_extra(uint32_t extra) {
     MARISA_DEBUG_IF(extra > (UINT32_MAX >> 8), MARISA_SIZE_ERROR);
-    union_.link = static_cast<UInt32>((union_.link & 0xFFU) | (extra << 8));
+    union_.link = (union_.link & 0xFFU) | (extra << 8);
   }
   void set_weight(float weight) {
     union_.weight = weight;
   }
 
-  std::size_t parent() const {
+  uint32_t parent() const {
     return parent_;
   }
-  std::size_t child() const {
+  uint32_t child() const {
     return child_;
   }
-  UInt8 base() const {
-    return static_cast<UInt8>(union_.link & 0xFFU);
+  uint8_t base() const {
+    return static_cast<uint8_t>(union_.link & 0xFFU);
   }
-  std::size_t extra() const {
+  uint32_t extra() const {
     return union_.link >> 8;
   }
   char label() const {
     return static_cast<char>(base());
   }
-  std::size_t link() const {
+  uint32_t link() const {
     return union_.link;
   }
   float weight() const {
@@ -55,10 +54,10 @@ class Cache {
   }
 
  private:
-  UInt32 parent_ = 0;
-  UInt32 child_ = 0;
+  uint32_t parent_ = 0;
+  uint32_t child_ = 0;
   union Union {
-    UInt32 link;
+    uint32_t link;
     float weight = FLT_MIN;
   } union_;
 };

@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_STATE_HISTORY_H_
 #define MARISA_GRIMOIRE_TRIE_STATE_HISTORY_H_
 
+#include <cstdint>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -9,49 +11,44 @@ class History {
  public:
   History() = default;
 
-  void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
-    node_id_ = static_cast<UInt32>(node_id);
+  void set_node_id(uint32_t node_id) {
+    node_id_ = node_id;
   }
-  void set_louds_pos(std::size_t louds_pos) {
-    MARISA_DEBUG_IF(louds_pos > UINT32_MAX, MARISA_SIZE_ERROR);
-    louds_pos_ = static_cast<UInt32>(louds_pos);
+  void set_louds_pos(uint32_t louds_pos) {
+    louds_pos_ = louds_pos;
   }
-  void set_key_pos(std::size_t key_pos) {
-    MARISA_DEBUG_IF(key_pos > UINT32_MAX, MARISA_SIZE_ERROR);
-    key_pos_ = static_cast<UInt32>(key_pos);
+  void set_key_pos(uint32_t key_pos) {
+    key_pos_ = key_pos;
   }
-  void set_link_id(std::size_t link_id) {
-    MARISA_DEBUG_IF(link_id > UINT32_MAX, MARISA_SIZE_ERROR);
-    link_id_ = static_cast<UInt32>(link_id);
+  void set_link_id(uint32_t link_id) {
+    link_id_ = link_id;
   }
-  void set_key_id(std::size_t key_id) {
-    MARISA_DEBUG_IF(key_id > UINT32_MAX, MARISA_SIZE_ERROR);
-    key_id_ = static_cast<UInt32>(key_id);
+  void set_key_id(uint32_t key_id) {
+    key_id_ = key_id;
   }
 
-  std::size_t node_id() const {
+  uint32_t node_id() const {
     return node_id_;
   }
-  std::size_t louds_pos() const {
+  uint32_t louds_pos() const {
     return louds_pos_;
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return key_pos_;
   }
-  std::size_t link_id() const {
+  uint32_t link_id() const {
     return link_id_;
   }
-  std::size_t key_id() const {
+  uint32_t key_id() const {
     return key_id_;
   }
 
  private:
-  UInt32 node_id_ = 0;
-  UInt32 louds_pos_ = 0;
-  UInt32 key_pos_ = 0;
-  UInt32 link_id_ = MARISA_INVALID_LINK_ID;
-  UInt32 key_id_ = MARISA_INVALID_KEY_ID;
+  uint32_t node_id_ = 0;
+  uint32_t louds_pos_ = 0;
+  uint32_t key_pos_ = 0;
+  uint32_t link_id_ = MARISA_INVALID_LINK_ID;
+  uint32_t key_id_ = MARISA_INVALID_KEY_ID;
 };
 
 }  // namespace marisa::grimoire::trie

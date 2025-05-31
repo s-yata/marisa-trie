@@ -1,6 +1,9 @@
 #ifndef MARISA_GRIMOIRE_TRIE_TAIL_H_
 #define MARISA_GRIMOIRE_TRIE_TAIL_H_
 
+#include <cstddef>
+#include <cstdint>
+
 #include "marisa/agent.h"
 #include "marisa/grimoire/trie/entry.h"
 #include "marisa/grimoire/vector.h"
@@ -14,17 +17,17 @@ class Tail {
   Tail(const Tail &) = delete;
   Tail &operator=(const Tail &) = delete;
 
-  void build(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
+  void build(Vector<Entry> &entries, Vector<uint32_t> *offsets, TailMode mode);
 
   void map(Mapper &mapper);
   void read(Reader &reader);
   void write(Writer &writer) const;
 
-  void restore(Agent &agent, std::size_t offset) const;
-  bool match(Agent &agent, std::size_t offset) const;
-  bool prefix_match(Agent &agent, std::size_t offset) const;
+  void restore(Agent &agent, uint32_t offset) const;
+  bool match(Agent &agent, uint32_t offset) const;
+  bool prefix_match(Agent &agent, uint32_t offset) const;
 
-  const char &operator[](std::size_t offset) const {
+  const char &operator[](uint32_t offset) const {
     MARISA_DEBUG_IF(offset >= buf_.size(), MARISA_BOUND_ERROR);
     return buf_[offset];
   }
@@ -53,7 +56,7 @@ class Tail {
   Vector<char> buf_;
   BitVector end_flags_;
 
-  void build_(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
+  void build_(Vector<Entry> &entries, Vector<uint32_t> *offsets, TailMode mode);
 
   void map_(Mapper &mapper);
   void read_(Reader &reader);

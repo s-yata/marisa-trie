@@ -35,8 +35,8 @@ class Agent {
     set_query(str.data(), str.length());
   }
   void set_query(const char *str);
-  void set_query(const char *ptr, std::size_t length);
-  void set_query(std::size_t key_id);
+  void set_query(const char *ptr, uint32_t length);
+  void set_query(uint32_t key_id);
 
   const grimoire::trie::State &state() const {
     return *state_;
@@ -52,13 +52,11 @@ class Agent {
     MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
     key_.set_str(str);
   }
-  void set_key(const char *ptr, std::size_t length) {
+  void set_key(const char *ptr, uint32_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     key_.set_str(ptr, length);
   }
-  void set_key(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
+  void set_key(uint32_t id) {
     key_.set_id(id);
   }
 

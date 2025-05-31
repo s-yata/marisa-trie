@@ -1,6 +1,7 @@
 #ifndef MARISA_QUERY_H_
 #define MARISA_QUERY_H_
 
+#include <cstdint>
 #include <string_view>
 
 #include "marisa/base.h"
@@ -31,12 +32,12 @@ class Query {
     ptr_ = str;
     length_ = length;
   }
-  void set_str(const char *ptr, std::size_t length) {
+  void set_str(const char *ptr, uint32_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
     ptr_ = ptr;
     length_ = length;
   }
-  void set_id(std::size_t id) {
+  void set_id(uint32_t id) {
     id_ = id;
   }
 
@@ -46,10 +47,10 @@ class Query {
   const char *ptr() const {
     return ptr_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
@@ -64,8 +65,8 @@ class Query {
 
  private:
   const char *ptr_ = nullptr;
-  std::size_t length_ = 0;
-  std::size_t id_ = 0;
+  uint32_t length_ = 0;
+  uint32_t id_ = 0;
 };
 
 }  // namespace marisa

@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_ENTRY_H_
 #define MARISA_GRIMOIRE_TRIE_ENTRY_H_
 
+#include <cstdint>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -11,41 +13,39 @@ class Entry {
   Entry(const Entry &entry) = default;
   Entry &operator=(const Entry &entry) = default;
 
-  char operator[](std::size_t i) const {
+  char operator[](uint32_t i) const {
     MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
     return *(ptr_ - i);
   }
 
-  void set_str(const char *ptr, std::size_t length) {
+  void set_str(const char *ptr, uint32_t length) {
     MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
     ptr_ = ptr + length - 1;
-    length_ = static_cast<UInt32>(length);
+    length_ = length;
   }
-  void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
-    id_ = static_cast<UInt32>(id);
+  void set_id(uint32_t id) {
+    id_ = id;
   }
 
   const char *ptr() const {
     return ptr_ - length_ + 1;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
   class StringComparer {
    public:
     bool operator()(const Entry &lhs, const Entry &rhs) const {
-      for (std::size_t i = 0; i < lhs.length(); ++i) {
+      for (uint32_t i = 0; i < lhs.length(); ++i) {
         if (i == rhs.length()) {
           return true;
         }
         if (lhs[i] != rhs[i]) {
-          return static_cast<UInt8>(lhs[i]) > static_cast<UInt8>(rhs[i]);
+          return static_cast<uint8_t>(lhs[i]) > static_cast<uint8_t>(rhs[i]);
         }
       }
       return lhs.length() > rhs.length();
@@ -61,8 +61,8 @@ class Entry {
 
  private:
   const char *ptr_ = nullptr;
-  UInt32 length_ = 0;
-  UInt32 id_ = 0;
+  uint32_t length_ = 0;
+  uint32_t id_ = 0;
 };
 
 }  // namespace marisa::grimoire::trie

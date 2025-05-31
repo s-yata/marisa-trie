@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_STATE_H_
 #define MARISA_GRIMOIRE_TRIE_STATE_H_
 
+#include <cstdint>
+
 #include "marisa/grimoire/trie/history.h"
 #include "marisa/grimoire/vector/rethrowing-std-vector.h"
 
@@ -25,29 +27,26 @@ class State {
   State(State &&) noexcept = default;
   State &operator=(State &&) noexcept = default;
 
-  void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
-    node_id_ = static_cast<UInt32>(node_id);
+  void set_node_id(uint32_t node_id) {
+    node_id_ = node_id;
   }
-  void set_query_pos(std::size_t query_pos) {
-    MARISA_DEBUG_IF(query_pos > UINT32_MAX, MARISA_SIZE_ERROR);
-    query_pos_ = static_cast<UInt32>(query_pos);
+  void set_query_pos(uint32_t query_pos) {
+    query_pos_ = query_pos;
   }
-  void set_history_pos(std::size_t history_pos) {
-    MARISA_DEBUG_IF(history_pos > UINT32_MAX, MARISA_SIZE_ERROR);
-    history_pos_ = static_cast<UInt32>(history_pos);
+  void set_history_pos(uint32_t history_pos) {
+    history_pos_ = history_pos;
   }
   void set_status_code(StatusCode status_code) {
     status_code_ = status_code;
   }
 
-  std::size_t node_id() const {
+  uint32_t node_id() const {
     return node_id_;
   }
-  std::size_t query_pos() const {
+  uint32_t query_pos() const {
     return query_pos_;
   }
-  std::size_t history_pos() const {
+  uint32_t history_pos() const {
     return history_pos_;
   }
   StatusCode status_code() const {
@@ -102,9 +101,9 @@ class State {
  private:
   marisa::grimoire::vector::RethrowingStdVector<char> key_buf_;
   marisa::grimoire::vector::RethrowingStdVector<History> history_;
-  UInt32 node_id_ = 0;
-  UInt32 query_pos_ = 0;
-  UInt32 history_pos_ = 0;
+  uint32_t node_id_ = 0;
+  uint32_t query_pos_ = 0;
+  uint32_t history_pos_ = 0;
   StatusCode status_code_ = MARISA_READY_TO_ALL;
 };
 

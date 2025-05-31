@@ -1,5 +1,6 @@
 #include "marisa/agent.h"
 
+#include <cstdint>
 #include <new>
 #include <utility>
 
@@ -67,7 +68,7 @@ void Agent::set_query(const char *str) {
   query_.set_str(str);
 }
 
-void Agent::set_query(const char *ptr, std::size_t length) {
+void Agent::set_query(const char *ptr, uint32_t length) {
   MARISA_THROW_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
   if (state_ != nullptr) {
     state_->reset();
@@ -75,7 +76,7 @@ void Agent::set_query(const char *ptr, std::size_t length) {
   query_.set_str(ptr, length);
 }
 
-void Agent::set_query(std::size_t key_id) {
+void Agent::set_query(uint32_t key_id) {
   if (state_ != nullptr) {
     state_->reset();
   }

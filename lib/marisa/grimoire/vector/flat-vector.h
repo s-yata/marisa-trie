@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 
+#include <cstdint>
+
 #include "marisa/grimoire/vector/vector.h"
 
 namespace marisa::grimoire::vector {
@@ -8,9 +10,9 @@ namespace marisa::grimoire::vector {
 class FlatVector {
  public:
 #if MARISA_WORD_SIZE == 64
-  using Unit = UInt64;
+  using Unit = uint64_t;
 #else   // MARISA_WORD_SIZE == 64
-  using Unit = UInt32;
+  using Unit = uint32_t;
 #endif  // MARISA_WORD_SIZE == 64
 
   FlatVector() = default;
@@ -18,7 +20,7 @@ class FlatVector {
   FlatVector(const FlatVector &) = delete;
   FlatVector &operator=(const FlatVector &) = delete;
 
-  void build(const Vector<UInt32> &values) {
+  void build(const Vector<uint32_t> &values) {
     FlatVector temp;
     temp.build_(values);
     swap(temp);
@@ -38,7 +40,7 @@ class FlatVector {
     write_(writer);
   }
 
-  UInt32 operator[](std::size_t i) const {
+  uint32_t operator[](std::size_t i) const {
     MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
 
     const std::size_t pos = i * value_size_;
@@ -46,9 +48,9 @@ class FlatVector {
     const std::size_t unit_offset = pos % MARISA_WORD_SIZE;
 
     if ((unit_offset + value_size_) <= MARISA_WORD_SIZE) {
-      return static_cast<UInt32>(units_[unit_id] >> unit_offset) & mask_;
+      return static_cast<uint32_t>(units_[unit_id] >> unit_offset) & mask_;
     } else {
-      return static_cast<UInt32>(
+      return static_cast<uint32_t>(
                  (units_[unit_id] >> unit_offset) |
                  (units_[unit_id + 1] << (MARISA_WORD_SIZE - unit_offset))) &
              mask_;
@@ -58,7 +60,7 @@ class FlatVector {
   std::size_t value_size() const {
     return value_size_;
   }
-  UInt32 mask() const {
+  uint32_t mask() const {
     return mask_;
   }
 
@@ -72,7 +74,7 @@ class FlatVector {
     return units_.total_size();
   }
   std::size_t io_size() const {
-    return units_.io_size() + (sizeof(UInt32) * 2) + sizeof(UInt64);
+    return units_.io_size() + (sizeof(uint32_t) * 2) + sizeof(uint64_t);
   }
 
   void clear() noexcept {
@@ -88,11 +90,11 @@ class FlatVector {
  private:
   Vector<Unit> units_;
   std::size_t value_size_ = 0;
-  UInt32 mask_ = 0;
+  uint32_t mask_ = 0;
   std::size_t size_ = 0;
 
-  void build_(const Vector<UInt32> &values) {
-    UInt32 max_value = 0;
+  void build_(const Vector<uint32_t> &values) {
+    uint32_t max_value = 0;
     for (std::size_t i = 0; i < values.size(); ++i) {
       if (values[i] > max_value) {
         max_value = values[i];
@@ -108,7 +110,7 @@ class FlatVector {
     std::size_t num_units = values.empty() ? 0 : (64 / MARISA_WORD_SIZE);
     if (value_size != 0) {
       num_units = static_cast<std::size_t>(
-          ((static_cast<UInt64>(value_size) * values.size()) +
+          ((static_cast<uint64_t>(value_size) * values.size()) +
            (MARISA_WORD_SIZE - 1)) /
           MARISA_WORD_SIZE);
       num_units += num_units % (64 / MARISA_WORD_SIZE);
@@ -133,18 +135,18 @@ class FlatVector {
   void map_(Mapper &mapper) {
     units_.map(mapper);
     {
-      UInt32 temp_value_size;
+      uint32_t temp_value_size;
       mapper.map(&temp_value_size);
       MARISA_THROW_IF(temp_value_size > 32, MARISA_FORMAT_ERROR);
       value_size_ = temp_value_size;
     }
     {
-      UInt32 temp_mask;
+      uint32_t temp_mask;
       mapper.map(&temp_mask);
       mask_ = temp_mask;
     }
     {
-      UInt64 temp_size;
+      uint64_t temp_size;
       mapper.map(&temp_size);
       MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
       size_ = static_cast<std::size_t>(temp_size);
@@ -154,18 +156,18 @@ class FlatVector {
   void read_(Reader &reader) {
     units_.read(reader);
     {
-      UInt32 temp_value_size;
+      uint32_t temp_value_size;
       reader.read(&temp_value_size);
       MARISA_THROW_IF(temp_value_size > 32, MARISA_FORMAT_ERROR);
       value_size_ = temp_value_size;
     }
     {
-      UInt32 temp_mask;
+      uint32_t temp_mask;
       reader.read(&temp_mask);
       mask_ = temp_mask;
     }
     {
-      UInt64 temp_size;
+      uint64_t temp_size;
       reader.read(&temp_size);
       MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
       size_ = static_cast<std::size_t>(temp_size);
@@ -174,12 +176,12 @@ class FlatVector {
 
   void write_(Writer &writer) const {
     units_.write(writer);
-    writer.write(static_cast<UInt32>(value_size_));
-    writer.write(static_cast<UInt32>(mask_));
-    writer.write(static_cast<UInt64>(size_));
+    writer.write(static_cast<uint32_t>(value_size_));
+    writer.write(static_cast<uint32_t>(mask_));
+    writer.write(static_cast<uint64_t>(size_));
   }
 
-  void set(std::size_t i, UInt32 value) {
+  void set(std::size_t i, uint32_t value) {
     MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
     MARISA_DEBUG_IF(value > mask_, MARISA_RANGE_ERROR);
 

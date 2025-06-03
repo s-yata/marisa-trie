@@ -1,21 +1,38 @@
 #include "marisa/grimoire/vector/bit-vector.h"
 
 #include <algorithm>
+#if __cplusplus >= 202002L
+ #include <bit>
+#endif
 
 #include "marisa/grimoire/vector/pop-count.h"
 
 namespace marisa::grimoire::vector {
 namespace {
 
-#ifdef MARISA_USE_BMI2
-std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
+#if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
+
+inline std::size_t countr_zero(UInt64 x) {
+  return static_cast<std::size_t>(std::countr_zero(x));
+}
+
+#else  // c++17
+
+inline std::size_t countr_zero(UInt64 x) {
  #ifdef _MSC_VER
   unsigned long pos;
-  ::_BitScanForward64(&pos, _pdep_u64(1ULL << i, unit));
-  return bit_id + pos;
+  ::_BitScanForward64(&pos, x);
+  return pos;
  #else   // _MSC_VER
-  return bit_id + ::__builtin_ctzll(_pdep_u64(1ULL << i, unit));
+  return __builtin_ctzll(x);
  #endif  // _MSC_VER
+}
+
+#endif  // c++17
+
+#ifdef MARISA_USE_BMI2
+inline std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
+  return bit_id + countr_zero(_pdep_u64(1ULL << i, unit));
 }
 #else  // MARISA_USE_BMI2
 // clang-format off
@@ -241,21 +258,16 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
     x = _mm_cmpgt_epi8(x, y);
     skip = (UInt8)popcount(static_cast<UInt64>(_mm_cvtsi128_si64(x)));
   }
-  #else  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  #else   // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   constexpr UInt64 MASK_80 = 0x8080808080808080ULL;
   const UInt64 x = (counts + PREFIX_SUM_OVERFLOW[i]) & MASK_80;
-      // We masked with `MASK_80`, so the first bit set is the high bit in the
-      // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte
-      // number is the number of trailing zeros divided by 8.  We just shift off
-      // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
-      // number of bits of `counts` to shift.
-   #ifdef _MSC_VER
-  unsigned long skip;
-  ::_BitScanForward64(&skip, x >> 7);
-   #else   // _MSC_VER
-  const int skip = ::__builtin_ctzll(x >> 7);
-   #endif  // _MSC_VER
-  #endif   // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
+  // We masked with `MASK_80`, so the first bit set is the high bit in the
+  // byte, therefore `num_trailing_zeros == 8 * byte_nr + 7` and the byte
+  // number is the number of trailing zeros divided by 8.  We just shift off
+  // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
+  // number of bits of `counts` to shift.
+  const int skip = countr_zero(x >> 7);
+  #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 
   bit_id += static_cast<std::size_t>(skip);
   unit >>= skip;
@@ -263,7 +275,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt64 unit) {
 
   return bit_id + SELECT_TABLE[i][unit & 0xFF];
 }
- #else     // MARISA_WORD_SIZE == 64
+ #else    // MARISA_WORD_SIZE == 64
   #ifdef MARISA_USE_SSE2
 // Popcount of the byte times eight.
 const UInt8 POPCNT_X8_TABLE[256] = {

@@ -361,13 +361,8 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit_lo,
 
   UInt8 byte;
   {
-   #ifdef _MSC_VER
-    __declspec(align(16)) UInt8 unit_bytes[16];
-    __declspec(align(16)) UInt8 accumulated_counts_bytes[16];
-   #else   // _MSC_VER
-    UInt8 unit_bytes[16] __attribute__((aligned(16)));
-    UInt8 accumulated_counts_bytes[16] __attribute__((aligned(16)));
-   #endif  // _MSC_VER
+    alignas(16) UInt8 unit_bytes[16];
+    alignas(16) UInt8 accumulated_counts_bytes[16];
     accumulated_counts = _mm_slli_si128(accumulated_counts, 1);
     _mm_store_si128(reinterpret_cast<__m128i *>(unit_bytes), unit);
     _mm_store_si128(reinterpret_cast<__m128i *>(accumulated_counts_bytes),

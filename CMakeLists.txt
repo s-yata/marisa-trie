@@ -174,7 +174,6 @@ add_library(marisa
   lib/marisa/grimoire/vector/flat-vector.h
   lib/marisa/grimoire/vector/pop-count.h
   lib/marisa/grimoire/vector/rank-index.h
-  lib/marisa/grimoire/vector/rethrowing-std-vector.h
   lib/marisa/grimoire/vector/vector.h
   lib/marisa/keyset.cc
   lib/marisa/trie.cc

@@ -1,6 +1,7 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_RETHROWING_STD_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_RETHROWING_STD_VECTOR_H_
 
+#include <cassert>
 #include <new>
 #include <stdexcept>
 #include <vector>
@@ -55,29 +56,29 @@ class RethrowingStdVector {
     return vector_.size();
   }
   reference operator[](size_type pos) {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(pos >= size(), MARISA_BOUND_ERROR);
+    assert(!empty());
+    assert(pos < size());
     return vector_[pos];
   }
   const_reference operator[](size_type pos) const {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(pos >= size(), MARISA_BOUND_ERROR);
+    assert(!empty());
+    assert(pos < size());
     return vector_[pos];
   }
   reference front() {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
+    assert(!empty());
     return vector_.front();
   }
   const_reference front() const {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
+    assert(!empty());
     return vector_.front();
   }
   reference back() {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
+    assert(!empty());
     return vector_.back();
   }
   const_reference back() const {
-    MARISA_DEBUG_IF(empty(), MARISA_BOUND_ERROR);
+    assert(!empty());
     return vector_.back();
   }
   T *data() noexcept {

@@ -1,6 +1,7 @@
 #ifndef MARISA_AGENT_H_
 #define MARISA_AGENT_H_
 
+#include <cassert>
 #include <memory>
 #include <string_view>
 
@@ -49,16 +50,16 @@ class Agent {
     set_key(str.data(), str.length());
   }
   void set_key(const char *str) {
-    MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
+    assert(str != nullptr);
     key_.set_str(str);
   }
   void set_key(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert((ptr != nullptr) || (length == 0));
+    assert(length <= UINT32_MAX);
     key_.set_str(ptr, length);
   }
   void set_key(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(id <= UINT32_MAX);
     key_.set_id(id);
   }
 

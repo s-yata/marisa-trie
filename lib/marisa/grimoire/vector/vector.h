@@ -1,6 +1,7 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_VECTOR_H_
 
+#include <cassert>
 #include <cstring>
 #include <memory>
 #include <new>
@@ -68,23 +69,23 @@ class Vector {
   }
 
   void push_back(const T &x) {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(size_ == max_size(), MARISA_SIZE_ERROR);
+    assert(!fixed_);
+    assert(size_ < max_size());
     reserve(size_ + 1);
     new (&objs_[size_]) T(x);
     ++size_;
   }
 
   void pop_back() {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
+    assert(!fixed_);
+    assert(size_ != 0);
     --size_;
     static_assert(std::is_trivially_destructible_v<T>);
   }
 
   // resize() assumes that T's placement new does not throw an exception.
   void resize(std::size_t size) {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
+    assert(!fixed_);
     reserve(size);
     for (std::size_t i = size_; i < size; ++i) {
       new (&objs_[i]) T;
@@ -95,7 +96,7 @@ class Vector {
 
   // resize() assumes that T's placement new does not throw an exception.
   void resize(std::size_t size, const T &x) {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
+    assert(!fixed_);
     reserve(size);
     if (size > size_) {
       std::fill_n(&objs_[size_], size - size_, x);
@@ -106,11 +107,11 @@ class Vector {
   }
 
   void reserve(std::size_t capacity) {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
+    assert(!fixed_);
     if (capacity <= capacity_) {
       return;
     }
-    MARISA_DEBUG_IF(capacity > max_size(), MARISA_SIZE_ERROR);
+    assert(capacity <= max_size());
     std::size_t new_capacity = capacity;
     if (capacity_ > (capacity / 2)) {
       if (capacity_ > (max_size() / 2)) {
@@ -141,39 +142,39 @@ class Vector {
     return const_objs_ + size_;
   }
   const T &operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(i < size_);
     return const_objs_[i];
   }
   const T &front() const {
-    MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
+    assert(size_ != 0);
     return const_objs_[0];
   }
   const T &back() const {
-    MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
+    assert(size_ != 0);
     return const_objs_[size_ - 1];
   }
 
   T *begin() {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
+    assert(!fixed_);
     return objs_;
   }
   T *end() {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
+    assert(!fixed_);
     return objs_ + size_;
   }
   T &operator[](std::size_t i) {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(!fixed_);
+    assert(i < size_);
     return objs_[i];
   }
   T &front() {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
+    assert(!fixed_);
+    assert(size_ != 0);
     return objs_[0];
   }
   T &back() {
-    MARISA_DEBUG_IF(fixed_, MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(size_ == 0, MARISA_STATE_ERROR);
+    assert(!fixed_);
+    assert(size_ != 0);
     return objs_[size_ - 1];
   }
 
@@ -251,8 +252,8 @@ class Vector {
   // Copies current elements to new buffer of size `new_capacity`.
   // Requires `new_capacity >= size_`.
   void realloc(std::size_t new_capacity) {
-    MARISA_DEBUG_IF(new_capacity < size_, MARISA_CODE_ERROR);
-    MARISA_DEBUG_IF(new_capacity > max_size(), MARISA_SIZE_ERROR);
+    assert(new_capacity >= size_);
+    assert(new_capacity <= max_size());
 
     std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * new_capacity]);
@@ -271,7 +272,7 @@ class Vector {
   // copyInit() assumes that T's placement new does not throw an exception.
   // Requires the vector to be empty.
   void copyInit(const T *src, std::size_t size, std::size_t capacity) {
-    MARISA_DEBUG_IF(size_ > 0, MARISA_CODE_ERROR);
+    assert(size_ == 0);
 
     std::unique_ptr<char[]> new_buf(
         new (std::nothrow) char[sizeof(T) * capacity]);

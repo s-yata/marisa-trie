@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 
+#include <cassert>
+
 #include "marisa/grimoire/vector/vector.h"
 
 namespace marisa::grimoire::vector {
@@ -39,7 +41,7 @@ class FlatVector {
   }
 
   UInt32 operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(i < size_);
 
     const std::size_t pos = i * value_size_;
     const std::size_t unit_id = pos / MARISA_WORD_SIZE;
@@ -180,8 +182,8 @@ class FlatVector {
   }
 
   void set(std::size_t i, UInt32 value) {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(value > mask_, MARISA_RANGE_ERROR);
+    assert(i < size_);
+    assert(value <= mask_);
 
     const std::size_t pos = i * value_size_;
     const std::size_t unit_id = pos / MARISA_WORD_SIZE;

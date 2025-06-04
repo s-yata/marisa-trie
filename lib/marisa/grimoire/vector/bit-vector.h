@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_BIT_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_BIT_VECTOR_H_
 
+#include <cassert>
+
 #include "marisa/grimoire/vector/rank-index.h"
 #include "marisa/grimoire/vector/vector.h"
 
@@ -61,14 +63,14 @@ class BitVector {
   }
 
   bool operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(i < size_);
     return (units_[i / MARISA_WORD_SIZE] &
             (Unit{1} << (i % MARISA_WORD_SIZE))) != 0;
   }
 
   std::size_t rank0(std::size_t i) const {
-    MARISA_DEBUG_IF(ranks_.empty(), MARISA_STATE_ERROR);
-    MARISA_DEBUG_IF(i > size_, MARISA_BOUND_ERROR);
+    assert(!ranks_.empty());
+    assert(i <= size_);
     return i - rank1(i);
   }
   std::size_t rank1(std::size_t i) const;

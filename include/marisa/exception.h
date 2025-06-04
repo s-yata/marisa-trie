@@ -63,14 +63,6 @@ class Exception : public std::exception {
 #define MARISA_THROW_IF(condition, error_code) \
   (void)((!(condition)) || (MARISA_THROW(error_code, #condition), 0))
 
-// MARISA_DEBUG_IF is ignored if _DEBUG is undefined. So, it is useful for
-// debugging time-critical codes.
-#ifdef _DEBUG
- #define MARISA_DEBUG_IF(cond, error_code) MARISA_THROW_IF(cond, error_code)
-#else
- #define MARISA_DEBUG_IF(cond, error_code)
-#endif
-
 #ifndef MARISA_USE_EXCEPTIONS
  #if defined(__GNUC__) && !defined(__EXCEPTIONS)
   #define MARISA_USE_EXCEPTIONS 0

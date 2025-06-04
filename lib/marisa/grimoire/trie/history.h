@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_STATE_HISTORY_H_
 #define MARISA_GRIMOIRE_TRIE_STATE_HISTORY_H_
 
+#include <cassert>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -10,23 +12,23 @@ class History {
   History() = default;
 
   void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(node_id <= UINT32_MAX);
     node_id_ = static_cast<UInt32>(node_id);
   }
   void set_louds_pos(std::size_t louds_pos) {
-    MARISA_DEBUG_IF(louds_pos > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(louds_pos <= UINT32_MAX);
     louds_pos_ = static_cast<UInt32>(louds_pos);
   }
   void set_key_pos(std::size_t key_pos) {
-    MARISA_DEBUG_IF(key_pos > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(key_pos <= UINT32_MAX);
     key_pos_ = static_cast<UInt32>(key_pos);
   }
   void set_link_id(std::size_t link_id) {
-    MARISA_DEBUG_IF(link_id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(link_id <= UINT32_MAX);
     link_id_ = static_cast<UInt32>(link_id);
   }
   void set_key_id(std::size_t key_id) {
-    MARISA_DEBUG_IF(key_id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(key_id <= UINT32_MAX);
     key_id_ = static_cast<UInt32>(key_id);
   }
 

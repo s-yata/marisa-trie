@@ -1,6 +1,7 @@
 #include "marisa/grimoire/trie/louds-trie.h"
 
 #include <algorithm>
+#include <cassert>
 #include <functional>
 #include <queue>
 
@@ -48,7 +49,7 @@ void LoudsTrie::write(Writer &writer) const {
 }
 
 bool LoudsTrie::lookup(Agent &agent) const {
-  MARISA_DEBUG_IF(!agent.has_state(), MARISA_STATE_ERROR);
+  assert(agent.has_state());
 
   State &state = agent.state();
   state.lookup_init();
@@ -66,7 +67,7 @@ bool LoudsTrie::lookup(Agent &agent) const {
 }
 
 void LoudsTrie::reverse_lookup(Agent &agent) const {
-  MARISA_DEBUG_IF(!agent.has_state(), MARISA_STATE_ERROR);
+  assert(agent.has_state());
   MARISA_THROW_IF(agent.query().id() >= size(), MARISA_BOUND_ERROR);
 
   State &state = agent.state();
@@ -100,7 +101,7 @@ void LoudsTrie::reverse_lookup(Agent &agent) const {
 }
 
 bool LoudsTrie::common_prefix_search(Agent &agent) const {
-  MARISA_DEBUG_IF(!agent.has_state(), MARISA_STATE_ERROR);
+  assert(agent.has_state());
 
   State &state = agent.state();
   if (state.status_code() == MARISA_END_OF_COMMON_PREFIX_SEARCH) {
@@ -132,7 +133,7 @@ bool LoudsTrie::common_prefix_search(Agent &agent) const {
 }
 
 bool LoudsTrie::predictive_search(Agent &agent) const {
-  MARISA_DEBUG_IF(!agent.has_state(), MARISA_STATE_ERROR);
+  assert(agent.has_state());
 
   State &state = agent.state();
   if (state.status_code() == MARISA_END_OF_PREDICTIVE_SEARCH) {
@@ -485,7 +486,7 @@ void LoudsTrie::build_terminals(const Vector<T> &keys,
 template <>
 void LoudsTrie::cache<Key>(std::size_t parent, std::size_t child, float weight,
                            char label) {
-  MARISA_DEBUG_IF(parent >= child, MARISA_RANGE_ERROR);
+  assert(parent < child);
 
   const std::size_t cache_id = get_cache_id(parent, label);
   if (weight > cache_[cache_id].weight()) {
@@ -508,7 +509,7 @@ void LoudsTrie::reserve_cache(const Config &config, std::size_t trie_id,
 template <>
 void LoudsTrie::cache<ReverseKey>(std::size_t parent, std::size_t child,
                                   float weight, char) {
-  MARISA_DEBUG_IF(parent >= child, MARISA_RANGE_ERROR);
+  assert(parent < child);
 
   const std::size_t cache_id = get_cache_id(child);
   if (weight > cache_[cache_id].weight()) {
@@ -601,8 +602,7 @@ void LoudsTrie::write_(Writer &writer) const {
 }
 
 bool LoudsTrie::find_child(Agent &agent) const {
-  MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-                  MARISA_BOUND_ERROR);
+  assert(agent.state().query_pos() < agent.query().length());
 
   State &state = agent.state();
   const std::size_t cache_id =
@@ -647,8 +647,7 @@ bool LoudsTrie::find_child(Agent &agent) const {
 }
 
 bool LoudsTrie::predictive_find_child(Agent &agent) const {
-  MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-                  MARISA_BOUND_ERROR);
+  assert(agent.state().query_pos() < agent.query().length());
 
   State &state = agent.state();
   const std::size_t cache_id =
@@ -717,7 +716,7 @@ bool LoudsTrie::prefix_match(Agent &agent, std::size_t link) const {
 }
 
 void LoudsTrie::restore_(Agent &agent, std::size_t node_id) const {
-  MARISA_DEBUG_IF(node_id == 0, MARISA_RANGE_ERROR);
+  assert(node_id != 0);
 
   State &state = agent.state();
   for (;;) {
@@ -750,9 +749,8 @@ void LoudsTrie::restore_(Agent &agent, std::size_t node_id) const {
 }
 
 bool LoudsTrie::match_(Agent &agent, std::size_t node_id) const {
-  MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-                  MARISA_BOUND_ERROR);
-  MARISA_DEBUG_IF(node_id == 0, MARISA_RANGE_ERROR);
+  assert(agent.state().query_pos() < agent.query().length());
+  assert(node_id != 0);
 
   State &state = agent.state();
   for (;;) {
@@ -804,9 +802,8 @@ bool LoudsTrie::match_(Agent &agent, std::size_t node_id) const {
 }
 
 bool LoudsTrie::prefix_match_(Agent &agent, std::size_t node_id) const {
-  MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-                  MARISA_BOUND_ERROR);
-  MARISA_DEBUG_IF(node_id == 0, MARISA_RANGE_ERROR);
+  assert(agent.state().query_pos() < agent.query().length());
+  assert(node_id != 0);
 
   State &state = agent.state();
   for (;;) {

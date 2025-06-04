@@ -1,6 +1,7 @@
 #ifndef MARISA_KEYSET_H_
 #define MARISA_KEYSET_H_
 
+#include <cassert>
 #include <memory>
 #include <string_view>
 
@@ -31,11 +32,11 @@ class Keyset {
   void push_back(const char *ptr, std::size_t length, float weight = 1.0);
 
   const Key &operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(i < size_);
     return key_blocks_[i / KEY_BLOCK_SIZE][i % KEY_BLOCK_SIZE];
   }
   Key &operator[](std::size_t i) {
-    MARISA_DEBUG_IF(i >= size_, MARISA_BOUND_ERROR);
+    assert(i < size_);
     return key_blocks_[i / KEY_BLOCK_SIZE][i % KEY_BLOCK_SIZE];
   }
 

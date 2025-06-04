@@ -4,6 +4,7 @@
 #if __cplusplus >= 202002L
  #include <bit>
 #endif
+#include <cassert>
 
 #include "marisa/grimoire/vector/pop-count.h"
 
@@ -463,8 +464,8 @@ inline std::size_t select_bit(std::size_t i, std::size_t bit_id, UInt32 unit) {
 #if MARISA_WORD_SIZE == 64
 
 std::size_t BitVector::rank1(std::size_t i) const {
-  MARISA_DEBUG_IF(ranks_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i > size_, MARISA_BOUND_ERROR);
+  assert(!ranks_.empty());
+  assert(i <= size_);
 
   const RankIndex &rank = ranks_[i / 512];
   std::size_t offset = rank.abs();
@@ -503,11 +504,11 @@ std::size_t BitVector::rank1(std::size_t i) const {
 }
 
 std::size_t BitVector::select0(std::size_t i) const {
-  MARISA_DEBUG_IF(select0s_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i >= num_0s(), MARISA_BOUND_ERROR);
+  assert(!select0s_.empty());
+  assert(i < num_0s());
 
   const std::size_t select_id = i / 512;
-  MARISA_DEBUG_IF((select_id + 1) >= select0s_.size(), MARISA_BOUND_ERROR);
+  assert((select_id + 1) < select0s_.size());
   if ((i % 512) == 0) {
     return select0s_[select_id];
   }
@@ -565,11 +566,11 @@ std::size_t BitVector::select0(std::size_t i) const {
 }
 
 std::size_t BitVector::select1(std::size_t i) const {
-  MARISA_DEBUG_IF(select1s_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i >= num_1s(), MARISA_BOUND_ERROR);
+  assert(!select1s_.empty());
+  assert(i < num_1s());
 
   const std::size_t select_id = i / 512;
-  MARISA_DEBUG_IF((select_id + 1) >= select1s_.size(), MARISA_BOUND_ERROR);
+  assert((select_id + 1) < select1s_.size());
   if ((i % 512) == 0) {
     return select1s_[select_id];
   }
@@ -629,8 +630,8 @@ std::size_t BitVector::select1(std::size_t i) const {
 #else  // MARISA_WORD_SIZE == 64
 
 std::size_t BitVector::rank1(std::size_t i) const {
-  MARISA_DEBUG_IF(ranks_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i > size_, MARISA_BOUND_ERROR);
+  assert(!ranks_.empty());
+  assert(i <= size_);
 
   const RankIndex &rank = ranks_[i / 512];
   std::size_t offset = rank.abs();
@@ -672,11 +673,11 @@ std::size_t BitVector::rank1(std::size_t i) const {
 }
 
 std::size_t BitVector::select0(std::size_t i) const {
-  MARISA_DEBUG_IF(select0s_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i >= num_0s(), MARISA_BOUND_ERROR);
+  assert(!select0s_.empty());
+  assert(i < num_0s());
 
   const std::size_t select_id = i / 512;
-  MARISA_DEBUG_IF((select_id + 1) >= select0s_.size(), MARISA_BOUND_ERROR);
+  assert((select_id + 1) < select0s_.size());
   if ((i % 512) == 0) {
     return select0s_[select_id];
   }
@@ -734,11 +735,11 @@ std::size_t BitVector::select0(std::size_t i) const {
 }
 
 std::size_t BitVector::select1(std::size_t i) const {
-  MARISA_DEBUG_IF(select1s_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(i >= num_1s(), MARISA_BOUND_ERROR);
+  assert(!select1s_.empty());
+  assert(i < num_1s());
 
   const std::size_t select_id = i / 512;
-  MARISA_DEBUG_IF((select_id + 1) >= select1s_.size(), MARISA_BOUND_ERROR);
+  assert((select_id + 1) < select1s_.size());
   if ((i % 512) == 0) {
     return select1s_[select_id];
   }

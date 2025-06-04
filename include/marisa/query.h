@@ -1,6 +1,7 @@
 #ifndef MARISA_QUERY_H_
 #define MARISA_QUERY_H_
 
+#include <cassert>
 #include <string_view>
 
 #include "marisa/base.h"
@@ -15,7 +16,7 @@ class Query {
   Query &operator=(const Query &query) = default;
 
   char operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
+    assert(i < length_);
     return ptr_[i];
   }
 
@@ -23,7 +24,7 @@ class Query {
     set_str(str.data(), str.length());
   }
   void set_str(const char *str) {
-    MARISA_DEBUG_IF(str == nullptr, MARISA_NULL_ERROR);
+    assert(str != nullptr);
     std::size_t length = 0;
     while (str[length] != '\0') {
       ++length;
@@ -32,7 +33,7 @@ class Query {
     length_ = length;
   }
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
+    assert((ptr != nullptr) || (length == 0));
     ptr_ = ptr;
     length_ = length;
   }

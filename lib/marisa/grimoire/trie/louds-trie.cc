@@ -4,6 +4,7 @@
 #include <cassert>
 #include <functional>
 #include <queue>
+#include <stdexcept>
 
 #include "marisa/grimoire/algorithm/sort.h"
 #include "marisa/grimoire/trie/header.h"
@@ -68,7 +69,7 @@ bool LoudsTrie::lookup(Agent &agent) const {
 
 void LoudsTrie::reverse_lookup(Agent &agent) const {
   assert(agent.has_state());
-  MARISA_THROW_IF(agent.query().id() >= size(), MARISA_BOUND_ERROR);
+  MARISA_THROW_IF(agent.query().id() >= size(), std::out_of_range);
 
   State &state = agent.state();
   state.reverse_lookup_init();
@@ -321,8 +322,7 @@ void LoudsTrie::build_trie(Vector<T> &keys, Vector<UInt32> *terminals,
 
 template <typename T>
 void LoudsTrie::build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
-                                   const Config &config,
-                                   std::size_t trie_id) try {
+                                   const Config &config, std::size_t trie_id) {
   for (std::size_t i = 0; i < keys.size(); ++i) {
     keys[i].set_id(i);
   }
@@ -424,8 +424,6 @@ void LoudsTrie::build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
 
   build_terminals(keys, terminals);
   keys.swap(next_keys);
-} catch (const std::bad_alloc &) {
-  MARISA_THROW(MARISA_MEMORY_ERROR, "std::bad_alloc");
 }
 
 template <>

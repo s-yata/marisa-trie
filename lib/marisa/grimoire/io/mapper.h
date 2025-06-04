@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_IO_MAPPER_H_
 
 #include <cstdio>
+#include <stdexcept>
 
 #include "marisa/base.h"
 
@@ -20,14 +21,15 @@ class Mapper {
 
   template <typename T>
   void map(T *obj) {
-    MARISA_THROW_IF(obj == nullptr, MARISA_NULL_ERROR);
+    MARISA_THROW_IF(obj == nullptr, std::invalid_argument);
     *obj = *static_cast<const T *>(map_data(sizeof(T)));
   }
 
   template <typename T>
   void map(const T **objs, std::size_t num_objs) {
-    MARISA_THROW_IF((objs == nullptr) && (num_objs != 0), MARISA_NULL_ERROR);
-    MARISA_THROW_IF(num_objs > (SIZE_MAX / sizeof(T)), MARISA_SIZE_ERROR);
+    MARISA_THROW_IF((objs == nullptr) && (num_objs != 0),
+                    std::invalid_argument);
+    MARISA_THROW_IF(num_objs > (SIZE_MAX / sizeof(T)), std::invalid_argument);
     *objs = static_cast<const T *>(map_data(sizeof(T) * num_objs));
   }
 

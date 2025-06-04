@@ -6,6 +6,7 @@
 #include <exception>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -22,39 +23,39 @@ void TestEmptyTrie() {
 
   marisa::Trie trie;
 
-  EXCEPT(trie.save("marisa-test.dat"), MARISA_STATE_ERROR);
+  EXCEPT(trie.save("marisa-test.dat"), std::logic_error);
 #ifdef _MSC_VER
-  EXCEPT(trie.write(::_fileno(stdout)), MARISA_STATE_ERROR);
+  EXCEPT(trie.write(::_fileno(stdout)), std::logic_error);
 #else   // _MSC_VER
-  EXCEPT(trie.write(::fileno(stdout)), MARISA_STATE_ERROR);
+  EXCEPT(trie.write(::fileno(stdout)), std::logic_error);
 #endif  // _MSC_VER
-  EXCEPT(std::cout << trie, MARISA_STATE_ERROR);
-  EXCEPT(marisa::fwrite(stdout, trie), MARISA_STATE_ERROR);
+  EXCEPT(std::cout << trie, std::logic_error);
+  EXCEPT(marisa::fwrite(stdout, trie), std::logic_error);
 
   marisa::Agent agent;
 
-  EXCEPT(trie.lookup(agent), MARISA_STATE_ERROR);
-  EXCEPT(trie.reverse_lookup(agent), MARISA_STATE_ERROR);
-  EXCEPT(trie.common_prefix_search(agent), MARISA_STATE_ERROR);
-  EXCEPT(trie.predictive_search(agent), MARISA_STATE_ERROR);
+  EXCEPT(trie.lookup(agent), std::logic_error);
+  EXCEPT(trie.reverse_lookup(agent), std::logic_error);
+  EXCEPT(trie.common_prefix_search(agent), std::logic_error);
+  EXCEPT(trie.predictive_search(agent), std::logic_error);
 
-  EXCEPT(trie.num_tries(), MARISA_STATE_ERROR);
-  EXCEPT(trie.num_keys(), MARISA_STATE_ERROR);
-  EXCEPT(trie.num_nodes(), MARISA_STATE_ERROR);
+  EXCEPT(trie.num_tries(), std::logic_error);
+  EXCEPT(trie.num_keys(), std::logic_error);
+  EXCEPT(trie.num_nodes(), std::logic_error);
 
-  EXCEPT(trie.tail_mode(), MARISA_STATE_ERROR);
-  EXCEPT(trie.node_order(), MARISA_STATE_ERROR);
+  EXCEPT(trie.tail_mode(), std::logic_error);
+  EXCEPT(trie.node_order(), std::logic_error);
 
-  EXCEPT(trie.empty(), MARISA_STATE_ERROR);
-  EXCEPT(trie.size(), MARISA_STATE_ERROR);
-  EXCEPT(trie.total_size(), MARISA_STATE_ERROR);
-  EXCEPT(trie.io_size(), MARISA_STATE_ERROR);
+  EXCEPT(trie.empty(), std::logic_error);
+  EXCEPT(trie.size(), std::logic_error);
+  EXCEPT(trie.total_size(), std::logic_error);
+  EXCEPT(trie.io_size(), std::logic_error);
 
   marisa::Keyset keyset;
   trie.build(keyset);
 
   ASSERT(!trie.lookup(agent));
-  EXCEPT(trie.reverse_lookup(agent), MARISA_BOUND_ERROR);
+  EXCEPT(trie.reverse_lookup(agent), std::out_of_range);
   ASSERT(!trie.common_prefix_search(agent));
   ASSERT(!trie.predictive_search(agent));
 

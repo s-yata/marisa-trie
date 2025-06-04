@@ -9,13 +9,14 @@
                                    << "' failed.\n"),                      \
                         std::exit(-1), 0))
 
-#define EXCEPT(code, expected_error_code)                               \
+#define EXCEPT(code, expected_error_type)                               \
   try {                                                                 \
     code;                                                               \
     std::cout << __LINE__ << ": Exception `" << #code << "' failed.\n"; \
     std::exit(-1);                                                      \
-  } catch (const marisa::Exception &ex) {                               \
-    ASSERT(ex.error_code() == expected_error_code);                     \
+  } catch (const expected_error_type &) {                               \
+  } catch (...) {                                                       \
+    ASSERT(false);                                                      \
   }
 
 #define TEST_START() \

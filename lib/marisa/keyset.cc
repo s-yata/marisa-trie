@@ -4,6 +4,7 @@
 #include <cstring>
 #include <memory>
 #include <new>
+#include <stdexcept>
 
 namespace marisa {
 
@@ -42,7 +43,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
 
 void Keyset::push_back(const char *str) {
   assert(size_ < SIZE_MAX);
-  MARISA_THROW_IF(str == nullptr, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(str == nullptr, std::invalid_argument);
 
   std::size_t length = 0;
   while (str[length] != '\0') {
@@ -53,8 +54,8 @@ void Keyset::push_back(const char *str) {
 
 void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   assert(size_ < SIZE_MAX);
-  MARISA_THROW_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-  MARISA_THROW_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
+  MARISA_THROW_IF((ptr == nullptr) && (length != 0), std::invalid_argument);
+  MARISA_THROW_IF(length > UINT32_MAX, std::invalid_argument);
 
   char *const key_ptr = reserve(length);
   std::memcpy(key_ptr, ptr, length);

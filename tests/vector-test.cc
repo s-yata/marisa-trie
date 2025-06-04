@@ -7,6 +7,7 @@
 #include <exception>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -191,7 +192,7 @@ void TestVector() {
 
   vec.fix();
   ASSERT(vec.fixed());
-  EXCEPT(vec.fix(), MARISA_STATE_ERROR);
+  EXCEPT(vec.fix(), std::logic_error);
 
   TEST_END();
 }

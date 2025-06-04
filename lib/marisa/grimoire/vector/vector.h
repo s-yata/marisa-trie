@@ -5,6 +5,7 @@
 #include <cstring>
 #include <memory>
 #include <new>
+#include <stdexcept>
 #include <type_traits>
 #include <utility>
 
@@ -124,14 +125,14 @@ class Vector {
   }
 
   void shrink() {
-    MARISA_THROW_IF(fixed_, MARISA_STATE_ERROR);
+    MARISA_THROW_IF(fixed_, std::logic_error);
     if (size_ != capacity_) {
       realloc(size_);
     }
   }
 
   void fix() {
-    MARISA_THROW_IF(fixed_, MARISA_STATE_ERROR);
+    MARISA_THROW_IF(fixed_, std::logic_error);
     fixed_ = true;
   }
 
@@ -225,8 +226,8 @@ class Vector {
   void map_(Mapper &mapper) {
     UInt64 total_size;
     mapper.map(&total_size);
-    MARISA_THROW_IF(total_size > SIZE_MAX, MARISA_SIZE_ERROR);
-    MARISA_THROW_IF((total_size % sizeof(T)) != 0, MARISA_FORMAT_ERROR);
+    MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
+    MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
     const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
     mapper.map(&const_objs_, size);
     mapper.seek(static_cast<std::size_t>((8 - (total_size % 8)) % 8));
@@ -236,8 +237,8 @@ class Vector {
   void read_(Reader &reader) {
     UInt64 total_size;
     reader.read(&total_size);
-    MARISA_THROW_IF(total_size > SIZE_MAX, MARISA_SIZE_ERROR);
-    MARISA_THROW_IF((total_size % sizeof(T)) != 0, MARISA_FORMAT_ERROR);
+    MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
+    MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
     const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
     resize(size);
     reader.read(objs_, size);

@@ -11,6 +11,7 @@
 
 #include <exception>
 #include <sstream>
+#include <stdexcept>
 
 #include "marisa-assert.h"
 
@@ -29,7 +30,7 @@ void TestFilename() {
     double values[] = {3.45, 4.56};
     writer.write(values, 2);
 
-    EXCEPT(writer.write(values, SIZE_MAX), MARISA_SIZE_ERROR);
+    EXCEPT(writer.write(values, SIZE_MAX), std::invalid_argument);
   }
 
   {
@@ -48,7 +49,7 @@ void TestFilename() {
     ASSERT(values[1] == 4.56);
 
     char byte;
-    EXCEPT(reader.read(&byte), MARISA_IO_ERROR);
+    EXCEPT(reader.read(&byte), std::runtime_error);
   }
 
   {
@@ -67,7 +68,7 @@ void TestFilename() {
     ASSERT(values[1] == 4.56);
 
     char byte;
-    EXCEPT(mapper.map(&byte), MARISA_IO_ERROR);
+    EXCEPT(mapper.map(&byte), std::runtime_error);
   }
 
   {
@@ -86,7 +87,7 @@ void TestFilename() {
     ASSERT(values[1] == 4.56);
 
     char byte;
-    EXCEPT(mapper.map(&byte), MARISA_IO_ERROR);
+    EXCEPT(mapper.map(&byte), std::runtime_error);
   }
 
   {
@@ -99,7 +100,7 @@ void TestFilename() {
     reader.open("io-test.dat");
 
     char byte;
-    EXCEPT(reader.read(&byte), MARISA_IO_ERROR);
+    EXCEPT(reader.read(&byte), std::runtime_error);
   }
 
   TEST_END();
@@ -156,7 +157,7 @@ void TestFd() {
     ASSERT(values[1] == 67.8);
 
     char byte;
-    EXCEPT(reader.read(&byte), MARISA_IO_ERROR);
+    EXCEPT(reader.read(&byte), std::runtime_error);
 
 #ifdef _MSC_VER
     ASSERT(::_close(fd) == 0);
@@ -212,7 +213,7 @@ void TestFile() {
     ASSERT(values[1] == 0.2);
 
     char byte;
-    EXCEPT(reader.read(&byte), MARISA_IO_ERROR);
+    EXCEPT(reader.read(&byte), std::runtime_error);
 
     ASSERT(std::fclose(file) == 0);
   }
@@ -250,7 +251,7 @@ void TestStream() {
     ASSERT(values[1] == 5.6);
 
     char byte;
-    EXCEPT(reader.read(&byte), MARISA_IO_ERROR);
+    EXCEPT(reader.read(&byte), std::runtime_error);
   }
 
   TEST_END();

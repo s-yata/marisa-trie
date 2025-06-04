@@ -1,6 +1,7 @@
 #include "marisa/agent.h"
 
 #include <new>
+#include <stdexcept>
 #include <utility>
 
 #include "marisa/grimoire/trie.h"
@@ -57,7 +58,7 @@ Agent::Agent(Agent &&other) noexcept = default;
 Agent &Agent::operator=(Agent &&other) noexcept = default;
 
 void Agent::set_query(const char *str) {
-  MARISA_THROW_IF(str == nullptr, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(str == nullptr, std::invalid_argument);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -65,7 +66,7 @@ void Agent::set_query(const char *str) {
 }
 
 void Agent::set_query(const char *ptr, std::size_t length) {
-  MARISA_THROW_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
+  MARISA_THROW_IF((ptr == nullptr) && (length != 0), std::invalid_argument);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -80,7 +81,7 @@ void Agent::set_query(std::size_t key_id) {
 }
 
 void Agent::init_state() {
-  MARISA_THROW_IF(state_ != nullptr, MARISA_STATE_ERROR);
+  MARISA_THROW_IF(state_ != nullptr, std::logic_error);
   state_.reset(new grimoire::State);
 }
 

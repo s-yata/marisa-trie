@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_HEADER_H_
 #define MARISA_GRIMOIRE_TRIE_HEADER_H_
 
+#include <stdexcept>
+
 #include "marisa/grimoire/io.h"
 
 namespace marisa::grimoire::trie {
@@ -19,12 +21,12 @@ class Header {
   void map(Mapper &mapper) {
     const char *ptr;
     mapper.map(&ptr, HEADER_SIZE);
-    MARISA_THROW_IF(!test_header(ptr), MARISA_FORMAT_ERROR);
+    MARISA_THROW_IF(!test_header(ptr), std::runtime_error);
   }
   void read(Reader &reader) {
     char buf[HEADER_SIZE];
     reader.read(buf, HEADER_SIZE);
-    MARISA_THROW_IF(!test_header(buf), MARISA_FORMAT_ERROR);
+    MARISA_THROW_IF(!test_header(buf), std::runtime_error);
   }
   void write(Writer &writer) const {
     writer.write(get_header(), HEADER_SIZE);

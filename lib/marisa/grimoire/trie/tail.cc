@@ -1,6 +1,7 @@
 #include "marisa/grimoire/trie/tail.h"
 
 #include <cassert>
+#include <stdexcept>
 
 #include "marisa/grimoire/algorithm/sort.h"
 #include "marisa/grimoire/trie/state.h"
@@ -11,7 +12,7 @@ Tail::Tail() = default;
 
 void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
                  TailMode mode) {
-  MARISA_THROW_IF(offsets == nullptr, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(offsets == nullptr, std::invalid_argument);
 
   switch (mode) {
     case MARISA_TEXT_TAIL: {
@@ -34,7 +35,7 @@ void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
       break;
     }
     default: {
-      MARISA_THROW(MARISA_CODE_ERROR, "undefined tail mode");
+      MARISA_THROW(std::invalid_argument, "undefined tail mode");
     }
   }
 
@@ -167,7 +168,7 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
   const Entry *last = &dummy;
   for (std::size_t i = entries.size(); i > 0; --i) {
     const Entry &current = entries[i - 1];
-    MARISA_THROW_IF(current.length() == 0, MARISA_RANGE_ERROR);
+    MARISA_THROW_IF(current.length() == 0, std::out_of_range);
     std::size_t match = 0;
     while ((match < current.length()) && (match < last->length()) &&
            ((*last)[match] == current[match])) {
@@ -189,7 +190,7 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
         }
         end_flags_.push_back(true);
       }
-      MARISA_THROW_IF(buf_.size() > UINT32_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(buf_.size() > UINT32_MAX, std::length_error);
     }
     last = &current;
   }

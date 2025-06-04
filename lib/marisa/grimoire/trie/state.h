@@ -59,8 +59,7 @@ class State {
   const std::vector<char> &key_buf() const {
     return key_buf_;
   }
-  const std::vector<History> &history()
-      const {
+  const std::vector<History> &history() const {
     return history_;
   }
 

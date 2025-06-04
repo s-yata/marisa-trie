@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <random>
 #include <sstream>
 #include <string>
@@ -473,7 +474,7 @@ int main() try {
   TestTrie();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

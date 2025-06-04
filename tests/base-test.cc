@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <random>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -35,11 +37,10 @@ void TestException() {
 
   try {
     MARISA_THROW(MARISA_OK, "Message");
-  } catch (const marisa::Exception &ex) {
-    ASSERT(std::strcmp(ex.filename(), __FILE__) == 0);
-    ASSERT(ex.line() == (__LINE__ - 3));
-    ASSERT(ex.error_code() == MARISA_OK);
-    ASSERT(std::strstr(ex.error_message(), "Message") != nullptr);
+  } catch (const std::exception &ex) {
+    std::stringstream s;
+    s << __FILE__ << ":" << (__LINE__ - 3) << ": MARISA_OK: Message";
+    ASSERT(ex.what() == s.str());
   }
 
   EXCEPT(MARISA_THROW(MARISA_OK, "OK"), MARISA_OK);
@@ -339,7 +340,7 @@ int main() try {
   TestAgent();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

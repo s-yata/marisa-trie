@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <exception>
 #include <sstream>
 
 #include "marisa-assert.h"
@@ -499,7 +500,7 @@ int main() try {
   TestState();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

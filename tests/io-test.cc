@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <exception>
 #include <sstream>
 
 #include "marisa-assert.h"
@@ -264,7 +265,7 @@ int main() try {
   TestStream();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

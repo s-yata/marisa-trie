@@ -256,9 +256,7 @@ void LoudsTrie::build_(Keyset &keyset, const Config &config) {
 
   using TerminalIdPair = std::pair<UInt32, UInt32>;
   const std::size_t pairs_size = terminals.size();
-  std::unique_ptr<TerminalIdPair[]> pairs(new (std::nothrow)
-                                              TerminalIdPair[pairs_size]);
-  MARISA_THROW_IF(!pairs, MARISA_MEMORY_ERROR);
+  std::unique_ptr<TerminalIdPair[]> pairs(new TerminalIdPair[pairs_size]);
   for (std::size_t i = 0; i < pairs_size; ++i) {
     pairs[i].first = terminals[i];
     pairs[i].second = static_cast<UInt32>(i);
@@ -449,8 +447,7 @@ void LoudsTrie::build_next_trie(Vector<Key> &keys, Vector<UInt32> *terminals,
     reverse_keys[i].set_weight(keys[i].weight());
   }
   keys.clear();
-  next_trie_.reset(new (std::nothrow) LoudsTrie);
-  MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
+  next_trie_.reset(new LoudsTrie);
   next_trie_->build_trie(reverse_keys, terminals, config, trie_id + 1);
 }
 
@@ -467,8 +464,7 @@ void LoudsTrie::build_next_trie(Vector<ReverseKey> &keys,
     tail_.build(entries, terminals, config.tail_mode());
     return;
   }
-  next_trie_.reset(new (std::nothrow) LoudsTrie);
-  MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
+  next_trie_.reset(new LoudsTrie);
   next_trie_->build_trie(keys, terminals, config, trie_id + 1);
 }
 
@@ -542,8 +538,7 @@ void LoudsTrie::map_(Mapper &mapper) {
   extras_.map(mapper);
   tail_.map(mapper);
   if ((link_flags_.num_1s() != 0) && tail_.empty()) {
-    next_trie_.reset(new (std::nothrow) LoudsTrie);
-    MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
+    next_trie_.reset(new LoudsTrie);
     next_trie_->map_(mapper);
   }
   cache_.map(mapper);
@@ -568,8 +563,7 @@ void LoudsTrie::read_(Reader &reader) {
   extras_.read(reader);
   tail_.read(reader);
   if ((link_flags_.num_1s() != 0) && tail_.empty()) {
-    next_trie_.reset(new (std::nothrow) LoudsTrie);
-    MARISA_THROW_IF(next_trie_ == nullptr, MARISA_MEMORY_ERROR);
+    next_trie_.reset(new LoudsTrie);
     next_trie_->read_(reader);
   }
   cache_.read(reader);

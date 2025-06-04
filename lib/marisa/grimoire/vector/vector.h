@@ -255,9 +255,7 @@ class Vector {
     assert(new_capacity >= size_);
     assert(new_capacity <= max_size());
 
-    std::unique_ptr<char[]> new_buf(
-        new (std::nothrow) char[sizeof(T) * new_capacity]);
-    MARISA_THROW_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
+    std::unique_ptr<char[]> new_buf(new char[sizeof(T) * new_capacity]);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     static_assert(std::is_trivially_copyable_v<T>);
@@ -274,9 +272,7 @@ class Vector {
   void copyInit(const T *src, std::size_t size, std::size_t capacity) {
     assert(size_ == 0);
 
-    std::unique_ptr<char[]> new_buf(
-        new (std::nothrow) char[sizeof(T) * capacity]);
-    MARISA_THROW_IF(new_buf == nullptr, MARISA_MEMORY_ERROR);
+    std::unique_ptr<char[]> new_buf(new char[sizeof(T) * capacity]);
     T *new_objs = reinterpret_cast<T *>(new_buf.get());
 
     static_assert(std::is_trivially_copyable_v<T>);

@@ -17,9 +17,7 @@ Trie::Trie(Trie &&other) noexcept = default;
 Trie &Trie::operator=(Trie &&other) noexcept = default;
 
 void Trie::build(Keyset &keyset, int config_flags) {
-  std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                grimoire::LoudsTrie);
-  MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+  std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
   temp->build(keyset, config_flags);
   trie_.swap(temp);
@@ -28,9 +26,7 @@ void Trie::build(Keyset &keyset, int config_flags) {
 void Trie::mmap(const char *filename, int flags) {
   MARISA_THROW_IF(filename == nullptr, MARISA_NULL_ERROR);
 
-  std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                grimoire::LoudsTrie);
-  MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+  std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
   grimoire::Mapper mapper;
   mapper.open(filename, flags);
@@ -41,9 +37,7 @@ void Trie::mmap(const char *filename, int flags) {
 void Trie::map(const void *ptr, std::size_t size) {
   MARISA_THROW_IF((ptr == nullptr) && (size != 0), MARISA_NULL_ERROR);
 
-  std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                grimoire::LoudsTrie);
-  MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+  std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
   grimoire::Mapper mapper;
   mapper.open(ptr, size);
@@ -54,9 +48,7 @@ void Trie::map(const void *ptr, std::size_t size) {
 void Trie::load(const char *filename) {
   MARISA_THROW_IF(filename == nullptr, MARISA_NULL_ERROR);
 
-  std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                grimoire::LoudsTrie);
-  MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+  std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
   grimoire::Reader reader;
   reader.open(filename);
@@ -67,9 +59,7 @@ void Trie::load(const char *filename) {
 void Trie::read(int fd) {
   MARISA_THROW_IF(fd == -1, MARISA_CODE_ERROR);
 
-  std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                grimoire::LoudsTrie);
-  MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+  std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
   grimoire::Reader reader;
   reader.open(fd);
@@ -191,9 +181,7 @@ class TrieIO {
   static void fread(std::FILE *file, Trie *trie) {
     MARISA_THROW_IF(trie == nullptr, MARISA_NULL_ERROR);
 
-    std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                  grimoire::LoudsTrie);
-    MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+    std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
     grimoire::Reader reader;
     reader.open(file);
@@ -211,9 +199,7 @@ class TrieIO {
   static std::istream &read(std::istream &stream, Trie *trie) {
     MARISA_THROW_IF(trie == nullptr, MARISA_NULL_ERROR);
 
-    std::unique_ptr<grimoire::LoudsTrie> temp(new (std::nothrow)
-                                                  grimoire::LoudsTrie);
-    MARISA_THROW_IF(temp == nullptr, MARISA_MEMORY_ERROR);
+    std::unique_ptr<grimoire::LoudsTrie> temp(new grimoire::LoudsTrie);
 
     grimoire::Reader reader;
     reader.open(stream);

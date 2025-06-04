@@ -1,5 +1,6 @@
 #include <marisa.h>
 
+#include <exception>
 #include <iostream>
 #include <string>
 
@@ -35,7 +36,7 @@ int lookup(const char *const *args, std::size_t num_args) {
   if (mmap_flag) {
     try {
       trie.mmap(args[0]);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to mmap a dictionary file: " << args[0] << "\n";
       return 20;
@@ -43,7 +44,7 @@ int lookup(const char *const *args, std::size_t num_args) {
   } else {
     try {
       trie.load(args[0]);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to load a dictionary file: " << args[0] << "\n";
       return 21;
@@ -60,7 +61,7 @@ int lookup(const char *const *args, std::size_t num_args) {
       } else {
         std::cout << "-1\t" << str << '\n';
       }
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what() << ": lookup() failed: " << str << "\n";
       return 30;
     }

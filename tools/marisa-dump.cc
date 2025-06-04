@@ -7,6 +7,7 @@
 #include <marisa.h>
 
 #include <cstdlib>
+#include <exception>
 #include <iostream>
 #include <string>
 
@@ -45,7 +46,7 @@ int dump(const marisa::Trie &trie) {
       }
       ++num_keys;
     }
-  } catch (const marisa::Exception &ex) {
+  } catch (const std::exception &ex) {
     std::cerr << ex.what() << ": predictive_search() failed\n";
     return 21;
   }
@@ -60,7 +61,7 @@ int dump(const char *filename) {
     if (mmap_flag) {
       try {
         trie.mmap(filename);
-      } catch (const marisa::Exception &ex) {
+      } catch (const std::exception &ex) {
         std::cerr << ex.what()
                   << ": failed to mmap a dictionary file: " << filename << "\n";
         return 10;
@@ -68,7 +69,7 @@ int dump(const char *filename) {
     } else {
       try {
         trie.load(filename);
-      } catch (const marisa::Exception &ex) {
+      } catch (const std::exception &ex) {
         std::cerr << ex.what()
                   << ": failed to load a dictionary file: " << filename << "\n";
         return 11;
@@ -90,7 +91,7 @@ int dump(const char *filename) {
 #endif  // _WIN32
     try {
       std::cin >> trie;
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to read a dictionary from standard input\n";
       return 22;

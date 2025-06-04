@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_ENTRY_H_
 #define MARISA_GRIMOIRE_TRIE_ENTRY_H_
 
+#include <cassert>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -12,18 +14,18 @@ class Entry {
   Entry &operator=(const Entry &entry) = default;
 
   char operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
+    assert(i < length_);
     return *(ptr_ - i);
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert((ptr != nullptr) || (length == 0));
+    assert(length <= UINT32_MAX);
     ptr_ = ptr + length - 1;
     length_ = static_cast<UInt32>(length);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(id <= UINT32_MAX);
     id_ = static_cast<UInt32>(id);
   }
 

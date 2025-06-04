@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_TAIL_H_
 #define MARISA_GRIMOIRE_TRIE_TAIL_H_
 
+#include <cassert>
+
 #include "marisa/agent.h"
 #include "marisa/grimoire/trie/entry.h"
 #include "marisa/grimoire/vector.h"
@@ -25,7 +27,7 @@ class Tail {
   bool prefix_match(Agent &agent, std::size_t offset) const;
 
   const char &operator[](std::size_t offset) const {
-    MARISA_DEBUG_IF(offset >= buf_.size(), MARISA_BOUND_ERROR);
+    assert(offset < buf_.size());
     return buf_[offset];
   }
 

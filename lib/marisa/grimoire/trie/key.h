@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_KEY_H_
 #define MARISA_GRIMOIRE_TRIE_KEY_H_
 
+#include <cassert>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -12,21 +14,21 @@ class Key {
   Key &operator=(const Key &entry) = default;
 
   char operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
+    assert(i < length_);
     return ptr_[i];
   }
 
   void substr(std::size_t pos, std::size_t length) {
-    MARISA_DEBUG_IF(pos > length_, MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(length > length_, MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(pos > (length_ - length), MARISA_BOUND_ERROR);
+    assert(pos <= length_);
+    assert(length <= length_);
+    assert(pos <= (length_ - length));
     ptr_ += pos;
     length_ = static_cast<UInt32>(length);
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert((ptr != nullptr) || (length == 0));
+    assert(length <= UINT32_MAX);
     ptr_ = ptr;
     length_ = static_cast<UInt32>(length);
   }
@@ -34,11 +36,11 @@ class Key {
     union_.weight = weight;
   }
   void set_terminal(std::size_t terminal) {
-    MARISA_DEBUG_IF(terminal > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(terminal <= UINT32_MAX);
     union_.terminal = static_cast<UInt32>(terminal);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(id <= UINT32_MAX);
     id_ = static_cast<UInt32>(id);
   }
 
@@ -107,21 +109,21 @@ class ReverseKey {
   ReverseKey &operator=(const ReverseKey &entry) = default;
 
   char operator[](std::size_t i) const {
-    MARISA_DEBUG_IF(i >= length_, MARISA_BOUND_ERROR);
+    assert(i < length_);
     return *(ptr_ - i - 1);
   }
 
   void substr(std::size_t pos, std::size_t length) {
-    MARISA_DEBUG_IF(pos > length_, MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(length > length_, MARISA_BOUND_ERROR);
-    MARISA_DEBUG_IF(pos > (length_ - length), MARISA_BOUND_ERROR);
+    assert(pos <= length_);
+    assert(length <= length_);
+    assert(pos <= (length_ - length));
     ptr_ -= pos;
     length_ = static_cast<UInt32>(length);
   }
 
   void set_str(const char *ptr, std::size_t length) {
-    MARISA_DEBUG_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
-    MARISA_DEBUG_IF(length > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert((ptr != nullptr) || (length == 0));
+    assert(length <= UINT32_MAX);
     ptr_ = ptr + length;
     length_ = static_cast<UInt32>(length);
   }
@@ -129,11 +131,11 @@ class ReverseKey {
     union_.weight = weight;
   }
   void set_terminal(std::size_t terminal) {
-    MARISA_DEBUG_IF(terminal > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(terminal <= UINT32_MAX);
     union_.terminal = static_cast<UInt32>(terminal);
   }
   void set_id(std::size_t id) {
-    MARISA_DEBUG_IF(id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(id <= UINT32_MAX);
     id_ = static_cast<UInt32>(id);
   }
 

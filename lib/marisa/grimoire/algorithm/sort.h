@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_ALGORITHM_SORT_H_
 #define MARISA_GRIMOIRE_ALGORITHM_SORT_H_
 
+#include <cassert>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::algorithm {
@@ -12,7 +14,7 @@ enum {
 
 template <typename T>
 int get_label(const T &unit, std::size_t depth) {
-  MARISA_DEBUG_IF(depth > unit.length(), MARISA_BOUND_ERROR);
+  assert(depth <= unit.length());
 
   return (depth < unit.length()) ? int{static_cast<UInt8>(unit[depth])} : -1;
 }
@@ -55,7 +57,7 @@ int compare(const T &lhs, const T &rhs, std::size_t depth) {
 
 template <typename Iterator>
 std::size_t insertion_sort(Iterator l, Iterator r, std::size_t depth) {
-  MARISA_DEBUG_IF(l > r, MARISA_BOUND_ERROR);
+  assert(l <= r);
 
   std::size_t count = 1;
   for (Iterator i = l + 1; i < r; ++i) {
@@ -76,7 +78,7 @@ std::size_t insertion_sort(Iterator l, Iterator r, std::size_t depth) {
 
 template <typename Iterator>
 std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
-  MARISA_DEBUG_IF(l > r, MARISA_BOUND_ERROR);
+  assert(l <= r);
 
   std::size_t count = 0;
   while ((r - l) > MARISA_INSERTION_SORT_THRESHOLD) {
@@ -183,7 +185,7 @@ std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
 
 template <typename Iterator>
 std::size_t sort(Iterator begin, Iterator end) {
-  MARISA_DEBUG_IF(begin > end, MARISA_BOUND_ERROR);
+  assert(begin <= end);
   return details::sort(begin, end, 0);
 }
 

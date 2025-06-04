@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_STATE_H_
 #define MARISA_GRIMOIRE_TRIE_STATE_H_
 
+#include <cassert>
+
 #include "marisa/grimoire/trie/history.h"
 #include "marisa/grimoire/vector/rethrowing-std-vector.h"
 
@@ -26,15 +28,15 @@ class State {
   State &operator=(State &&) noexcept = default;
 
   void set_node_id(std::size_t node_id) {
-    MARISA_DEBUG_IF(node_id > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(node_id <= UINT32_MAX);
     node_id_ = static_cast<UInt32>(node_id);
   }
   void set_query_pos(std::size_t query_pos) {
-    MARISA_DEBUG_IF(query_pos > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(query_pos <= UINT32_MAX);
     query_pos_ = static_cast<UInt32>(query_pos);
   }
   void set_history_pos(std::size_t history_pos) {
-    MARISA_DEBUG_IF(history_pos > UINT32_MAX, MARISA_SIZE_ERROR);
+    assert(history_pos <= UINT32_MAX);
     history_pos_ = static_cast<UInt32>(history_pos);
   }
   void set_status_code(StatusCode status_code) {

@@ -1,5 +1,7 @@
 #include "marisa/grimoire/trie/tail.h"
 
+#include <cassert>
+
 #include "marisa/grimoire/algorithm/sort.h"
 #include "marisa/grimoire/trie/state.h"
 
@@ -58,7 +60,7 @@ void Tail::write(Writer &writer) const {
 }
 
 void Tail::restore(Agent &agent, std::size_t offset) const {
-  MARISA_DEBUG_IF(buf_.empty(), MARISA_STATE_ERROR);
+  assert(!buf_.empty());
 
   State &state = agent.state();
   if (end_flags_.empty()) {
@@ -73,9 +75,8 @@ void Tail::restore(Agent &agent, std::size_t offset) const {
 }
 
 bool Tail::match(Agent &agent, std::size_t offset) const {
-  MARISA_DEBUG_IF(buf_.empty(), MARISA_STATE_ERROR);
-  MARISA_DEBUG_IF(agent.state().query_pos() >= agent.query().length(),
-                  MARISA_BOUND_ERROR);
+  assert(!buf_.empty());
+  assert(agent.state().query_pos() < agent.query().length());
 
   State &state = agent.state();
   if (end_flags_.empty()) {
@@ -105,7 +106,7 @@ bool Tail::match(Agent &agent, std::size_t offset) const {
 }
 
 bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
-  MARISA_DEBUG_IF(buf_.empty(), MARISA_STATE_ERROR);
+  assert(!buf_.empty());
 
   State &state = agent.state();
   if (end_flags_.empty()) {

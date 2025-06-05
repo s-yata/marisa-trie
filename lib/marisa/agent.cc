@@ -1,6 +1,7 @@
 #include "marisa/agent.h"
 
 #include <new>
+#include <stdexcept>
 #include <utility>
 
 #include "marisa/grimoire/trie.h"
@@ -34,11 +35,9 @@ Agent::~Agent() = default;
 
 Agent::Agent(const Agent &other)
     : query_(other.query_), key_(other.key_),
-      state_(other.has_state() ? new(std::nothrow)
-                                     grimoire::trie::State(other.state())
+      state_(other.has_state() ? new grimoire::trie::State(other.state())
                                : nullptr) {
   if (other.has_state()) {
-    MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
     UpdateAgentAfterCopyingState(*state_, *this);
   }
 }
@@ -47,8 +46,7 @@ Agent &Agent::operator=(const Agent &other) {
   query_ = other.query_;
   key_ = other.key_;
   if (other.has_state()) {
-    state_.reset(new (std::nothrow) grimoire::trie::State(other.state()));
-    MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
+    state_.reset(new grimoire::trie::State(other.state()));
     UpdateAgentAfterCopyingState(*state_, *this);
   } else {
     state_ = nullptr;
@@ -60,7 +58,7 @@ Agent::Agent(Agent &&other) noexcept = default;
 Agent &Agent::operator=(Agent &&other) noexcept = default;
 
 void Agent::set_query(const char *str) {
-  MARISA_THROW_IF(str == nullptr, MARISA_NULL_ERROR);
+  MARISA_THROW_IF(str == nullptr, std::invalid_argument);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -68,7 +66,7 @@ void Agent::set_query(const char *str) {
 }
 
 void Agent::set_query(const char *ptr, std::size_t length) {
-  MARISA_THROW_IF((ptr == nullptr) && (length != 0), MARISA_NULL_ERROR);
+  MARISA_THROW_IF((ptr == nullptr) && (length != 0), std::invalid_argument);
   if (state_ != nullptr) {
     state_->reset();
   }
@@ -83,9 +81,8 @@ void Agent::set_query(std::size_t key_id) {
 }
 
 void Agent::init_state() {
-  MARISA_THROW_IF(state_ != nullptr, MARISA_STATE_ERROR);
-  state_.reset(new (std::nothrow) grimoire::State);
-  MARISA_THROW_IF(state_ == nullptr, MARISA_MEMORY_ERROR);
+  MARISA_THROW_IF(state_ != nullptr, std::logic_error);
+  state_.reset(new grimoire::State);
 }
 
 void Agent::clear() noexcept {

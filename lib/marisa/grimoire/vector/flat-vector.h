@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 
 #include <cassert>
+#include <stdexcept>
 
 #include "marisa/grimoire/vector/vector.h"
 
@@ -137,7 +138,7 @@ class FlatVector {
     {
       UInt32 temp_value_size;
       mapper.map(&temp_value_size);
-      MARISA_THROW_IF(temp_value_size > 32, MARISA_FORMAT_ERROR);
+      MARISA_THROW_IF(temp_value_size > 32, std::runtime_error);
       value_size_ = temp_value_size;
     }
     {
@@ -148,7 +149,7 @@ class FlatVector {
     {
       UInt64 temp_size;
       mapper.map(&temp_size);
-      MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(temp_size > SIZE_MAX, std::runtime_error);
       size_ = static_cast<std::size_t>(temp_size);
     }
   }
@@ -158,7 +159,7 @@ class FlatVector {
     {
       UInt32 temp_value_size;
       reader.read(&temp_value_size);
-      MARISA_THROW_IF(temp_value_size > 32, MARISA_FORMAT_ERROR);
+      MARISA_THROW_IF(temp_value_size > 32, std::runtime_error);
       value_size_ = temp_value_size;
     }
     {
@@ -169,7 +170,7 @@ class FlatVector {
     {
       UInt64 temp_size;
       reader.read(&temp_size);
-      MARISA_THROW_IF(temp_size > SIZE_MAX, MARISA_SIZE_ERROR);
+      MARISA_THROW_IF(temp_size > SIZE_MAX, std::runtime_error);
       size_ = static_cast<std::size_t>(temp_size);
     }
   }

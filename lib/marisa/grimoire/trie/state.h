@@ -2,9 +2,9 @@
 #define MARISA_GRIMOIRE_TRIE_STATE_H_
 
 #include <cassert>
+#include <vector>
 
 #include "marisa/grimoire/trie/history.h"
-#include "marisa/grimoire/vector/rethrowing-std-vector.h"
 
 namespace marisa::grimoire::trie {
 
@@ -56,18 +56,17 @@ class State {
     return status_code_;
   }
 
-  const marisa::grimoire::vector::RethrowingStdVector<char> &key_buf() const {
+  const std::vector<char> &key_buf() const {
     return key_buf_;
   }
-  const marisa::grimoire::vector::RethrowingStdVector<History> &history()
-      const {
+  const std::vector<History> &history() const {
     return history_;
   }
 
-  marisa::grimoire::vector::RethrowingStdVector<char> &key_buf() {
+  std::vector<char> &key_buf() {
     return key_buf_;
   }
-  marisa::grimoire::vector::RethrowingStdVector<History> &history() {
+  std::vector<History> &history() {
     return history_;
   }
 
@@ -102,8 +101,8 @@ class State {
   }
 
  private:
-  marisa::grimoire::vector::RethrowingStdVector<char> key_buf_;
-  marisa::grimoire::vector::RethrowingStdVector<History> history_;
+  std::vector<char> key_buf_;
+  std::vector<History> history_;
   UInt32 node_id_ = 0;
   UInt32 query_pos_ = 0;
   UInt32 history_pos_ = 0;

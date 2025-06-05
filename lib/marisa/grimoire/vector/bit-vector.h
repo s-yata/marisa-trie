@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_VECTOR_BIT_VECTOR_H_
 
 #include <cassert>
+#include <stdexcept>
 
 #include "marisa/grimoire/vector/rank-index.h"
 #include "marisa/grimoire/vector/vector.h"
@@ -51,7 +52,7 @@ class BitVector {
   }
 
   void push_back(bool bit) {
-    MARISA_THROW_IF(size_ == UINT32_MAX, MARISA_SIZE_ERROR);
+    MARISA_THROW_IF(size_ == UINT32_MAX, std::length_error);
     if (size_ == (MARISA_WORD_SIZE * units_.size())) {
       units_.resize(units_.size() + (64 / MARISA_WORD_SIZE), 0);
     }
@@ -133,7 +134,7 @@ class BitVector {
     {
       UInt32 temp_num_1s;
       mapper.map(&temp_num_1s);
-      MARISA_THROW_IF(temp_num_1s > size_, MARISA_FORMAT_ERROR);
+      MARISA_THROW_IF(temp_num_1s > size_, std::runtime_error);
       num_1s_ = temp_num_1s;
     }
     ranks_.map(mapper);
@@ -151,7 +152,7 @@ class BitVector {
     {
       UInt32 temp_num_1s;
       reader.read(&temp_num_1s);
-      MARISA_THROW_IF(temp_num_1s > size_, MARISA_FORMAT_ERROR);
+      MARISA_THROW_IF(temp_num_1s > size_, std::runtime_error);
       num_1s_ = temp_num_1s;
     }
     ranks_.read(reader);

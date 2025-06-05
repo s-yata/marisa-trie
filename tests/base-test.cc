@@ -3,7 +3,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <random>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -34,16 +37,15 @@ void TestException() {
   TEST_START();
 
   try {
-    MARISA_THROW(MARISA_OK, "Message");
-  } catch (const marisa::Exception &ex) {
-    ASSERT(std::strcmp(ex.filename(), __FILE__) == 0);
-    ASSERT(ex.line() == (__LINE__ - 3));
-    ASSERT(ex.error_code() == MARISA_OK);
-    ASSERT(std::strstr(ex.error_message(), "Message") != nullptr);
+    MARISA_THROW(std::runtime_error, "Message");
+  } catch (const std::exception &ex) {
+    std::stringstream s;
+    s << __FILE__ << ":" << (__LINE__ - 3) << ": std::runtime_error: Message";
+    ASSERT(ex.what() == s.str());
   }
 
-  EXCEPT(MARISA_THROW(MARISA_OK, "OK"), MARISA_OK);
-  EXCEPT(MARISA_THROW(MARISA_NULL_ERROR, "NULL"), MARISA_NULL_ERROR);
+  EXCEPT(MARISA_THROW(std::runtime_error, "OK"), std::runtime_error);
+  EXCEPT(MARISA_THROW(std::invalid_argument, "NULL"), std::invalid_argument);
 
   TEST_END();
 }
@@ -312,7 +314,7 @@ void TestAgent() {
 
   ASSERT(agent.has_state());
 
-  EXCEPT(agent.init_state(), MARISA_STATE_ERROR);
+  EXCEPT(agent.init_state(), std::logic_error);
 
   agent.clear();
 
@@ -339,7 +341,7 @@ int main() try {
   TestAgent();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

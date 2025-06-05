@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -364,7 +365,7 @@ int benchmark(const char *const *args, std::size_t num_args) try {
   std::printf(
       "------+----------+--------+--------+--------+--------+--------\n");
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   return -1;
 }

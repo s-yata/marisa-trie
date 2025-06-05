@@ -1,6 +1,7 @@
 #include <marisa.h>
 
 #include <cstdlib>
+#include <exception>
 #include <iostream>
 #include <string>
 
@@ -40,7 +41,7 @@ int predictive_search(const char *const *args, std::size_t num_args) {
   if (mmap_flag) {
     try {
       trie.mmap(args[0]);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to mmap a dictionary file: " << args[0] << "\n";
       return 20;
@@ -48,7 +49,7 @@ int predictive_search(const char *const *args, std::size_t num_args) {
   } else {
     try {
       trie.load(args[0]);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to load a dictionary file: " << args[0] << "\n";
       return 21;
@@ -78,7 +79,7 @@ int predictive_search(const char *const *args, std::size_t num_args) {
         }
       }
       keyset.reset();
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what() << ": predictive_search() failed: " << str << "\n";
       return 30;
     }

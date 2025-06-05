@@ -4,8 +4,10 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <exception>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -190,7 +192,7 @@ void TestVector() {
 
   vec.fix();
   ASSERT(vec.fixed());
-  EXCEPT(vec.fix(), MARISA_STATE_ERROR);
+  EXCEPT(vec.fix(), std::logic_error);
 
   TEST_END();
 }
@@ -406,7 +408,7 @@ int main() try {
   TestBitVector();
 
   return 0;
-} catch (const marisa::Exception &ex) {
+} catch (const std::exception &ex) {
   std::cerr << ex.what() << "\n";
   throw;
 }

@@ -134,7 +134,6 @@ set(MARISA_HEADERS
   include/marisa.h
   include/marisa/agent.h
   include/marisa/base.h
-  include/marisa/exception.h
   include/marisa/iostream.h
   include/marisa/key.h
   include/marisa/keyset.h
@@ -145,7 +144,6 @@ set(MARISA_HEADERS
 add_library(marisa
   ${MARISA_HEADERS}
   lib/marisa/agent.cc
-  lib/marisa/exception.cc
   lib/marisa/grimoire/algorithm/sort.h
   lib/marisa/grimoire/intrin.h
   lib/marisa/grimoire/io.h
@@ -174,7 +172,6 @@ add_library(marisa
   lib/marisa/grimoire/vector/flat-vector.h
   lib/marisa/grimoire/vector/pop-count.h
   lib/marisa/grimoire/vector/rank-index.h
-  lib/marisa/grimoire/vector/rethrowing-std-vector.h
   lib/marisa/grimoire/vector/vector.h
   lib/marisa/keyset.cc
   lib/marisa/trie.cc

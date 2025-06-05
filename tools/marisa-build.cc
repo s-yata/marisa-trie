@@ -7,6 +7,7 @@
 #include <marisa.h>
 
 #include <cstdlib>
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -61,7 +62,7 @@ int build(const char *const *args, std::size_t num_args) {
   marisa::Keyset keyset;
   if (num_args == 0) try {
       read_keys(std::cin, &keyset);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what() << ": failed to read keys\n";
       return 10;
     }
@@ -73,7 +74,7 @@ int build(const char *const *args, std::size_t num_args) {
         return 11;
       }
       read_keys(input_file, &keyset);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what() << ": failed to read keys\n";
       return 12;
     }
@@ -82,7 +83,7 @@ int build(const char *const *args, std::size_t num_args) {
   try {
     trie.build(keyset, param_num_tries | param_tail_mode | param_node_order |
                            param_cache_level);
-  } catch (const marisa::Exception &ex) {
+  } catch (const std::exception &ex) {
     std::cerr << ex.what() << ": failed to build a dictionary\n";
     return 20;
   }
@@ -94,7 +95,7 @@ int build(const char *const *args, std::size_t num_args) {
   if (output_filename != nullptr) {
     try {
       trie.save(output_filename);
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to write a dictionary to file: " << output_filename
                 << "\n";
@@ -115,7 +116,7 @@ int build(const char *const *args, std::size_t num_args) {
 #endif  // _WIN32
     try {
       std::cout << trie;
-    } catch (const marisa::Exception &ex) {
+    } catch (const std::exception &ex) {
       std::cerr << ex.what()
                 << ": failed to write a dictionary to standard output\n";
       return 33;

@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_TRIE_CONFIG_H_
 #define MARISA_GRIMOIRE_TRIE_CONFIG_H_
 
+#include <stdexcept>
+
 #include "marisa/base.h"
 
 namespace marisa::grimoire::trie {
@@ -53,7 +55,7 @@ class Config {
 
   void parse_(int config_flags) {
     MARISA_THROW_IF((config_flags & ~MARISA_CONFIG_MASK) != 0,
-                    MARISA_CODE_ERROR);
+                    std::invalid_argument);
 
     parse_num_tries(config_flags);
     parse_cache_level(config_flags);
@@ -95,7 +97,7 @@ class Config {
         break;
       }
       default: {
-        MARISA_THROW(MARISA_CODE_ERROR, "undefined cache level");
+        MARISA_THROW(std::invalid_argument, "undefined cache level");
       }
     }
   }
@@ -115,7 +117,7 @@ class Config {
         break;
       }
       default: {
-        MARISA_THROW(MARISA_CODE_ERROR, "undefined tail mode");
+        MARISA_THROW(std::invalid_argument, "undefined tail mode");
       }
     }
   }
@@ -135,7 +137,7 @@ class Config {
         break;
       }
       default: {
-        MARISA_THROW(MARISA_CODE_ERROR, "undefined node order");
+        MARISA_THROW(std::invalid_argument, "undefined node order");
       }
     }
   }

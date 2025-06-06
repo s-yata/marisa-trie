@@ -10,6 +10,7 @@
  #include <unistd.h>
 #endif  // (defined _WIN32) || (defined _WIN64)
 
+#include <cerrno>
 #include <stdexcept>
 
 #include "marisa/grimoire/io/mapper.h"
@@ -112,24 +113,28 @@ const void *Mapper::map_data(std::size_t size) {
 void Mapper::open_(const char *filename, int flags) {
   file_ = ::CreateFileA(filename, GENERIC_READ, FILE_SHARE_READ, nullptr,
                         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-  MARISA_THROW_IF(file_ == INVALID_HANDLE_VALUE, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(file_ == INVALID_HANDLE_VALUE, ::GetLastError(),
+                               "CreateFileA");
 
   DWORD size_high, size_low;
   size_low = ::GetFileSize(file_, &size_high);
-  MARISA_THROW_IF(size_low == INVALID_FILE_SIZE, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(size_low == INVALID_FILE_SIZE, ::GetLastError(),
+                               "GetFileSize");
   size_ = (std::size_t{size_high} << 32) | size_low;
 
   map_ = ::CreateFileMapping(file_, nullptr, PAGE_READONLY, 0, 0, nullptr);
-  MARISA_THROW_IF(map_ == nullptr, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(map_ == nullptr, ::GetLastError(),
+                               "CreateFileMapping");
 
   origin_ = ::MapViewOfFile(map_, FILE_MAP_READ, 0, 0, 0);
-  MARISA_THROW_IF(origin_ == nullptr, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(origin_ == nullptr, ::GetLastError(),
+                               "MapViewOfFile");
 
   if (flags & MARISA_MAP_POPULATE) {
     WIN32_MEMORY_RANGE_ENTRY range_entry;
     range_entry.VirtualAddress = origin_;
     range_entry.NumberOfBytes = size_;
-    PrefetchVirtualMemory(GetCurrentProcess(), 1, &range_entry, 0);
+    ::PrefetchVirtualMemory(GetCurrentProcess(), 1, &range_entry, 0);
   }
 
   ptr_ = static_cast<const char *>(origin_);
@@ -138,10 +143,10 @@ void Mapper::open_(const char *filename, int flags) {
 #else  // (defined _WIN32) || (defined _WIN64)
 void Mapper::open_(const char *filename, int flags) {
   fd_ = ::open(filename, O_RDONLY);
-  MARISA_THROW_IF(fd_ == -1, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(fd_ == -1, errno, "open");
 
   struct stat st;
-  MARISA_THROW_IF(::fstat(fd_, &st) != 0, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(::fstat(fd_, &st) != 0, errno, "fstat");
   MARISA_THROW_IF(static_cast<UInt64>(st.st_size) > SIZE_MAX,
                   std::runtime_error);
   size_ = static_cast<std::size_t>(st.st_size);
@@ -158,7 +163,7 @@ void Mapper::open_(const char *filename, int flags) {
   }
 
   origin_ = ::mmap(nullptr, size_, PROT_READ, map_flags, fd_, 0);
-  MARISA_THROW_IF(origin_ == MAP_FAILED, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(origin_ == MAP_FAILED, errno, "mmap");
 
   ptr_ = static_cast<const char *>(origin_);
   avail_ = size_;

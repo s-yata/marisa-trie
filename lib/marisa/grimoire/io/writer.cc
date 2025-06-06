@@ -4,6 +4,7 @@
  #include <unistd.h>
 #endif  // _WIN32
 
+#include <cerrno>
 #include <limits>
 #include <stdexcept>
 
@@ -85,10 +86,11 @@ bool Writer::is_open() const {
 void Writer::open_(const char *filename) {
   std::FILE *file = nullptr;
 #ifdef _MSC_VER
-  MARISA_THROW_IF(::fopen_s(&file, filename, "wb") != 0, std::runtime_error);
+  const errno_t error_value = ::fopen_s(&file, filename, "wb");
+  MARISA_THROW_SYSTEM_ERROR_IF(error_value != 0, error_value, "fopen_s");
 #else   // _MSC_VER
   file = std::fopen(filename, "wb");
-  MARISA_THROW_IF(file == nullptr, std::runtime_error);
+  MARISA_THROW_SYSTEM_ERROR_IF(file == nullptr, errno, "std::fopen");
 #endif  // _MSC_VER
   file_ = file;
   needs_fclose_ = true;
@@ -117,23 +119,25 @@ void Writer::write_data(const void *data, std::size_t size) {
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
       const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const int size_written = ::_write(fd_, data, count);
+      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno, "_write");
 #else   // _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
       const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const ::ssize_t size_written = ::write(fd_, data, count);
+      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno, "write");
 #endif  // _WIN32
-      MARISA_THROW_IF(size_written <= 0, std::runtime_error);
       data = static_cast<const char *>(data) + size_written;
       size -= static_cast<std::size_t>(size_written);
     }
   } else if (file_ != nullptr) {
-    MARISA_THROW_IF(std::fwrite(data, 1, size, file_) != size,
-                    std::runtime_error);
-    MARISA_THROW_IF(std::fflush(file_) != 0, std::runtime_error);
+    MARISA_THROW_SYSTEM_ERROR_IF(std::fwrite(data, 1, size, file_) != size,
+                                 errno, "std::fwrite");
+    MARISA_THROW_SYSTEM_ERROR_IF(std::fflush(file_) != 0, errno, "std::fflush");
   } else if (stream_ != nullptr) {
     MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),
                                     static_cast<std::streamsize>(size)),
                     std::runtime_error);
+    MARISA_THROW_IF(!stream_->flush(), std::runtime_error);
   }
 }
 

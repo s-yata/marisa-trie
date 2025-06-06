@@ -87,10 +87,12 @@ void Writer::open_(const char *filename) {
   std::FILE *file = nullptr;
 #ifdef _MSC_VER
   const errno_t error_value = ::fopen_s(&file, filename, "wb");
-  MARISA_THROW_SYSTEM_ERROR_IF(error_value != 0, error_value, "fopen_s");
+  MARISA_THROW_SYSTEM_ERROR_IF(error_value != 0, error_value,
+                               std::generic_category(), "fopen_s");
 #else   // _MSC_VER
   file = std::fopen(filename, "wb");
-  MARISA_THROW_SYSTEM_ERROR_IF(file == nullptr, errno, "std::fopen");
+  MARISA_THROW_SYSTEM_ERROR_IF(file == nullptr, errno, std::generic_category(),
+                               "std::fopen");
 #endif  // _MSC_VER
   file_ = file;
   needs_fclose_ = true;
@@ -119,20 +121,23 @@ void Writer::write_data(const void *data, std::size_t size) {
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
       const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const int size_written = ::_write(fd_, data, count);
-      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno, "_write");
+      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno,
+                                   std::generic_category(), "_write");
 #else   // _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
       const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const ::ssize_t size_written = ::write(fd_, data, count);
-      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno, "write");
+      MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno,
+                                   std::generic_category(), "write");
 #endif  // _WIN32
       data = static_cast<const char *>(data) + size_written;
       size -= static_cast<std::size_t>(size_written);
     }
   } else if (file_ != nullptr) {
     MARISA_THROW_SYSTEM_ERROR_IF(std::fwrite(data, 1, size, file_) != size,
-                                 errno, "std::fwrite");
-    MARISA_THROW_SYSTEM_ERROR_IF(std::fflush(file_) != 0, errno, "std::fflush");
+                                 errno, std::generic_category(), "std::fwrite");
+    MARISA_THROW_SYSTEM_ERROR_IF(std::fflush(file_) != 0, errno,
+                                 std::generic_category(), "std::fflush");
   } else if (stream_ != nullptr) {
     MARISA_THROW_IF(!stream_->write(static_cast<const char *>(data),
                                     static_cast<std::streamsize>(size)),

@@ -185,10 +185,11 @@ using Exception = std::exception;
 
 // MARISA_THROW_SYSTEM_ERROR_IF throws an exception if `condition` is true.
 // ::GetLastError() or errno should be passed as `error_value`.
-#define MARISA_THROW_SYSTEM_ERROR_IF(condition, error_value, function_name)    \
+#define MARISA_THROW_SYSTEM_ERROR_IF(condition, error_value, error_category,   \
+                                     function_name)                            \
   (void)((!(condition)) ||                                                     \
          (throw std::system_error(                                             \
-              std::error_code(error_value, std::system_category()),            \
+              std::error_code(error_value, error_category),                    \
               __FILE__ ":" MARISA_LINE_STR                                     \
                        ": std::system_error: " function_name ": " #condition), \
           false))

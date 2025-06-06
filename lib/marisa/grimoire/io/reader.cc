@@ -87,10 +87,12 @@ void Reader::open_(const char *filename) {
   std::FILE *file = nullptr;
 #ifdef _MSC_VER
   const errno_t error_value = ::fopen_s(&file, filename, "rb");
-  MARISA_THROW_SYSTEM_ERROR_IF(error_value != 0, error_value, "fopen_s");
+  MARISA_THROW_SYSTEM_ERROR_IF(error_value != 0, error_value,
+                               std::generic_category(), "fopen_s");
 #else   // _MSC_VER
   file = std::fopen(filename, "rb");
-  MARISA_THROW_SYSTEM_ERROR_IF(file == nullptr, errno, "std::fopen");
+  MARISA_THROW_SYSTEM_ERROR_IF(file == nullptr, errno, std::generic_category(),
+                               "std::fopen");
 #endif  // _MSC_VER
   file_ = file;
   needs_fclose_ = true;
@@ -119,19 +121,21 @@ void Reader::read_data(void *buf, std::size_t size) {
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
       const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const int size_read = ::_read(fd_, buf, count);
-      MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno, "_read");
+      MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno,
+                                   std::generic_category(), "_read");
 #else   // _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
       const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
       const ::ssize_t size_read = ::read(fd_, buf, count);
-      MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno, "read");
+      MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno,
+                                   std::generic_category(), "read");
 #endif  // _WIN32
       buf = static_cast<char *>(buf) + size_read;
       size -= static_cast<std::size_t>(size_read);
     }
   } else if (file_ != nullptr) {
     MARISA_THROW_SYSTEM_ERROR_IF(std::fread(buf, 1, size, file_) != size, errno,
-                                 "std::fread");
+                                 std::generic_category(), "std::fread");
   } else if (stream_ != nullptr) {
     MARISA_THROW_IF(!stream_->read(static_cast<char *>(buf),
                                    static_cast<std::streamsize>(size)),

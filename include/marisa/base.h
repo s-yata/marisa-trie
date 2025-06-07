@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <exception>
+#include <system_error>
 #include <utility>
 
 // These aliases are left for backward compatibility.
@@ -181,6 +182,17 @@ using Exception = std::exception;
 // MARISA_THROW_IF throws an exception if `condition' is true.
 #define MARISA_THROW_IF(condition, error_type) \
   (void)((!(condition)) || (MARISA_THROW(error_type, #condition), 0))
+
+// MARISA_THROW_SYSTEM_ERROR_IF throws an exception if `condition` is true.
+// ::GetLastError() or errno should be passed as `error_value`.
+#define MARISA_THROW_SYSTEM_ERROR_IF(condition, error_value, error_category,   \
+                                     function_name)                            \
+  (void)((!(condition)) ||                                                     \
+         (throw std::system_error(                                             \
+              std::error_code(error_value, error_category),                    \
+              __FILE__ ":" MARISA_LINE_STR                                     \
+                       ": std::system_error: " function_name ": " #condition), \
+          false))
 
 // #ifndef MARISA_USE_EXCEPTIONS
 //  #if defined(__GNUC__) && !defined(__EXCEPTIONS)

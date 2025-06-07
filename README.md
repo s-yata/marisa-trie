@@ -51,7 +51,7 @@ $ git clone https://github.com/s-yata/marisa-trie.git
 $ cd marisa-trie
 $ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release -DENABLE_NATIVE_CODE=ON -DBUILD_TESTING=OFF
 $ cmake --build build-rel
-$ sudo cmake --install bulld-rel
+$ sudo cmake --install build-rel
 ```
 
 To install just the library without the binaries:

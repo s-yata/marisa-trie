@@ -2,6 +2,7 @@
 #include <marisa/grimoire/vector/pop-count.h>
 #include <marisa/grimoire/vector/rank-index.h>
 
+#include <cstdint>
 #include <cstdlib>
 #include <ctime>
 #include <exception>
@@ -93,7 +94,7 @@ void TestVector() {
   ASSERT(!vec.fixed());
   ASSERT(vec.empty());
   ASSERT(vec.total_size() == 0);
-  ASSERT(vec.io_size() == sizeof(marisa::UInt64));
+  ASSERT(vec.io_size() == sizeof(std::uint64_t));
 
   for (std::size_t i = 0; i < values.size(); ++i) {
     vec.push_back(values[i]);
@@ -107,7 +108,7 @@ void TestVector() {
   ASSERT(!vec.empty());
   ASSERT(vec.total_size() == (sizeof(int) * values.size()));
   ASSERT(vec.io_size() ==
-         sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
+         sizeof(std::uint64_t) + ((sizeof(int) * values.size())));
 
   ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec).front() ==
          values.front());
@@ -147,7 +148,7 @@ void TestVector() {
     ASSERT(!vec.empty());
     ASSERT(vec.total_size() == (sizeof(int) * values.size()));
     ASSERT(vec.io_size() ==
-           sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
+           sizeof(std::uint64_t) + ((sizeof(int) * values.size())));
 
     for (std::size_t i = 0; i < values.size(); ++i) {
       ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
@@ -169,7 +170,7 @@ void TestVector() {
   ASSERT(!vec.empty());
   ASSERT(vec.total_size() == (sizeof(int) * values.size()));
   ASSERT(vec.io_size() ==
-         sizeof(marisa::UInt64) + ((sizeof(int) * values.size())));
+         sizeof(std::uint64_t) + ((sizeof(int) * values.size())));
 
   for (std::size_t i = 0; i < values.size(); ++i) {
     ASSERT(vec[i] == values[i]);
@@ -207,9 +208,9 @@ void TestFlatVector() {
   ASSERT(vec.size() == 0);
   ASSERT(vec.empty());
   ASSERT(vec.total_size() == 0);
-  ASSERT(vec.io_size() == (sizeof(marisa::UInt64) * 3));
+  ASSERT(vec.io_size() == (sizeof(std::uint64_t) * 3));
 
-  marisa::grimoire::Vector<marisa::UInt32> values;
+  marisa::grimoire::Vector<std::uint32_t> values;
   vec.build(values);
 
   ASSERT(vec.value_size() == 0);
@@ -217,7 +218,7 @@ void TestFlatVector() {
   ASSERT(vec.size() == 0);
   ASSERT(vec.empty());
   ASSERT(vec.total_size() == 0);
-  ASSERT(vec.io_size() == (sizeof(marisa::UInt64) * 3));
+  ASSERT(vec.io_size() == (sizeof(std::uint64_t) * 3));
 
   values.push_back(0);
   vec.build(values);
@@ -227,7 +228,7 @@ void TestFlatVector() {
   ASSERT(vec.size() == 1);
   ASSERT(!vec.empty());
   ASSERT(vec.total_size() == 8);
-  ASSERT(vec.io_size() == (sizeof(marisa::UInt64) * 4));
+  ASSERT(vec.io_size() == (sizeof(std::uint64_t) * 4));
   ASSERT(vec[0] == 0);
 
   values.push_back(255);
@@ -291,7 +292,7 @@ void TestFlatVector() {
 
   values.clear();
   for (std::size_t i = 0; i < 10000; ++i) {
-    values.push_back(static_cast<marisa::UInt32>(random_engine()));
+    values.push_back(static_cast<std::uint32_t>(random_engine()));
   }
   vec.build(values);
 
@@ -309,7 +310,7 @@ void TestBitVector(std::size_t size) {
   ASSERT(bv.size() == 0);
   ASSERT(bv.empty());
   ASSERT(bv.total_size() == 0);
-  ASSERT(bv.io_size() == sizeof(marisa::UInt64) * 5);
+  ASSERT(bv.io_size() == sizeof(std::uint64_t) * 5);
 
   std::vector<bool> bits(size);
   std::vector<std::size_t> zeros, ones;
@@ -354,7 +355,7 @@ void TestBitVector(std::size_t size) {
   ASSERT(bv.size() == 0);
   ASSERT(bv.empty());
   ASSERT(bv.total_size() == 0);
-  ASSERT(bv.io_size() == sizeof(marisa::UInt64) * 5);
+  ASSERT(bv.io_size() == sizeof(std::uint64_t) * 5);
 
   {
     marisa::grimoire::Reader reader;

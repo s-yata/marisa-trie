@@ -12,9 +12,9 @@ namespace marisa::grimoire::vector {
 class BitVector {
  public:
 #if MARISA_WORD_SIZE == 64
-  using Unit = UInt64;
+  using Unit = uint64_t;
 #else   // MARISA_WORD_SIZE == 64
-  using Unit = UInt32;
+  using Unit = uint32_t;
 #endif  // MARISA_WORD_SIZE == 64
 
   BitVector() = default;
@@ -97,7 +97,7 @@ class BitVector {
            select1s_.total_size();
   }
   std::size_t io_size() const {
-    return units_.io_size() + (sizeof(UInt32) * 2) + ranks_.io_size() +
+    return units_.io_size() + (sizeof(uint32_t) * 2) + ranks_.io_size() +
            select0s_.io_size() + select1s_.io_size();
   }
 
@@ -118,8 +118,8 @@ class BitVector {
   std::size_t size_ = 0;
   std::size_t num_1s_ = 0;
   Vector<RankIndex> ranks_;
-  Vector<UInt32> select0s_;
-  Vector<UInt32> select1s_;
+  Vector<uint32_t> select0s_;
+  Vector<uint32_t> select1s_;
 
   void build_index(const BitVector &bv, bool enables_select0,
                    bool enables_select1);
@@ -127,12 +127,12 @@ class BitVector {
   void map_(Mapper &mapper) {
     units_.map(mapper);
     {
-      UInt32 temp_size;
+      uint32_t temp_size;
       mapper.map(&temp_size);
       size_ = temp_size;
     }
     {
-      UInt32 temp_num_1s;
+      uint32_t temp_num_1s;
       mapper.map(&temp_num_1s);
       MARISA_THROW_IF(temp_num_1s > size_, std::runtime_error);
       num_1s_ = temp_num_1s;
@@ -145,12 +145,12 @@ class BitVector {
   void read_(Reader &reader) {
     units_.read(reader);
     {
-      UInt32 temp_size;
+      uint32_t temp_size;
       reader.read(&temp_size);
       size_ = temp_size;
     }
     {
-      UInt32 temp_num_1s;
+      uint32_t temp_num_1s;
       reader.read(&temp_num_1s);
       MARISA_THROW_IF(temp_num_1s > size_, std::runtime_error);
       num_1s_ = temp_num_1s;
@@ -162,8 +162,8 @@ class BitVector {
 
   void write_(Writer &writer) const {
     units_.write(writer);
-    writer.write(static_cast<UInt32>(size_));
-    writer.write(static_cast<UInt32>(num_1s_));
+    writer.write(static_cast<uint32_t>(size_));
+    writer.write(static_cast<uint32_t>(num_1s_));
     ranks_.write(writer);
     select0s_.write(writer);
     select1s_.write(writer);

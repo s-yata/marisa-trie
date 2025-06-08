@@ -30,17 +30,17 @@ class Key {
     }
     assert(length <= UINT32_MAX);
     ptr_ = str;
-    length_ = static_cast<UInt32>(length);
+    length_ = static_cast<uint32_t>(length);
   }
   void set_str(const char *ptr, std::size_t length) {
     assert((ptr != nullptr) || (length == 0));
     assert(length <= UINT32_MAX);
     ptr_ = ptr;
-    length_ = static_cast<UInt32>(length);
+    length_ = static_cast<uint32_t>(length);
   }
   void set_id(std::size_t id) {
     assert(id <= UINT32_MAX);
-    union_.id = static_cast<UInt32>(id);
+    union_.id = static_cast<uint32_t>(id);
   }
   void set_weight(float weight) {
     union_.weight = weight;
@@ -73,9 +73,9 @@ class Key {
 
  private:
   const char *ptr_ = nullptr;
-  UInt32 length_ = 0;
+  uint32_t length_ = 0;
   union Union {
-    UInt32 id = 0;
+    uint32_t id = 0;
     float weight;
   } union_;
 };

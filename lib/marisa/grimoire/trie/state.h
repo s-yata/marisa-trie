@@ -29,15 +29,15 @@ class State {
 
   void set_node_id(std::size_t node_id) {
     assert(node_id <= UINT32_MAX);
-    node_id_ = static_cast<UInt32>(node_id);
+    node_id_ = static_cast<uint32_t>(node_id);
   }
   void set_query_pos(std::size_t query_pos) {
     assert(query_pos <= UINT32_MAX);
-    query_pos_ = static_cast<UInt32>(query_pos);
+    query_pos_ = static_cast<uint32_t>(query_pos);
   }
   void set_history_pos(std::size_t history_pos) {
     assert(history_pos <= UINT32_MAX);
-    history_pos_ = static_cast<UInt32>(history_pos);
+    history_pos_ = static_cast<uint32_t>(history_pos);
   }
   void set_status_code(StatusCode status_code) {
     status_code_ = status_code;
@@ -103,9 +103,9 @@ class State {
  private:
   std::vector<char> key_buf_;
   std::vector<History> history_;
-  UInt32 node_id_ = 0;
-  UInt32 query_pos_ = 0;
-  UInt32 history_pos_ = 0;
+  uint32_t node_id_ = 0;
+  uint32_t query_pos_ = 0;
+  uint32_t history_pos_ = 0;
   StatusCode status_code_ = MARISA_READY_TO_ALL;
 };
 

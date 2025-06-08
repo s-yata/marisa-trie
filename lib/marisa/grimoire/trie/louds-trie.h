@@ -68,7 +68,7 @@ class LoudsTrie {
   BitVector louds_;
   BitVector terminal_flags_;
   BitVector link_flags_;
-  Vector<UInt8> bases_;
+  Vector<uint8_t> bases_;
   FlatVector extras_;
   Tail tail_;
   std::unique_ptr<LoudsTrie> next_trie_;
@@ -81,16 +81,17 @@ class LoudsTrie {
   void build_(Keyset &keyset, const Config &config);
 
   template <typename T>
-  void build_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+  void build_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
                   const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_current_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+  void build_current_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
                           const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_next_trie(Vector<T> &keys, Vector<UInt32> *terminals,
+  void build_next_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
                        const Config &config, std::size_t trie_id);
   template <typename T>
-  void build_terminals(const Vector<T> &keys, Vector<UInt32> *terminals) const;
+  void build_terminals(const Vector<T> &keys,
+                       Vector<uint32_t> *terminals) const;
 
   void reserve_cache(const Config &config, std::size_t trie_id,
                      std::size_t num_keys);

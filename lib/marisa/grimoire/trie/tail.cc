@@ -10,7 +10,7 @@ namespace marisa::grimoire::trie {
 
 Tail::Tail() = default;
 
-void Tail::build(Vector<Entry> &entries, Vector<UInt32> *offsets,
+void Tail::build(Vector<Entry> &entries, Vector<uint32_t> *offsets,
                  TailMode mode) {
   MARISA_THROW_IF(offsets == nullptr, std::invalid_argument);
 
@@ -154,14 +154,14 @@ void Tail::swap(Tail &rhs) noexcept {
   end_flags_.swap(rhs.end_flags_);
 }
 
-void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
+void Tail::build_(Vector<Entry> &entries, Vector<uint32_t> *offsets,
                   TailMode mode) {
   for (std::size_t i = 0; i < entries.size(); ++i) {
     entries[i].set_id(i);
   }
   algorithm::sort(entries.begin(), entries.end());
 
-  Vector<UInt32> temp_offsets;
+  Vector<uint32_t> temp_offsets;
   temp_offsets.resize(entries.size(), 0);
 
   const Entry dummy;
@@ -175,10 +175,10 @@ void Tail::build_(Vector<Entry> &entries, Vector<UInt32> *offsets,
       ++match;
     }
     if ((match == current.length()) && (last->length() != 0)) {
-      temp_offsets[current.id()] = static_cast<UInt32>(
+      temp_offsets[current.id()] = static_cast<uint32_t>(
           temp_offsets[last->id()] + (last->length() - match));
     } else {
-      temp_offsets[current.id()] = static_cast<UInt32>(buf_.size());
+      temp_offsets[current.id()] = static_cast<uint32_t>(buf_.size());
       for (std::size_t j = 1; j <= current.length(); ++j) {
         buf_.push_back(current[current.length() - j]);
       }

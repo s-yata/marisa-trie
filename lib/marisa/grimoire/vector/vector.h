@@ -196,7 +196,7 @@ class Vector {
     return sizeof(T) * size_;
   }
   std::size_t io_size() const {
-    return sizeof(UInt64) + ((total_size() + 7) & ~0x07U);
+    return sizeof(uint64_t) + ((total_size() + 7) & ~0x07U);
   }
 
   void clear() noexcept {
@@ -224,7 +224,7 @@ class Vector {
   bool fixed_ = false;
 
   void map_(Mapper &mapper) {
-    UInt64 total_size;
+    uint64_t total_size;
     mapper.map(&total_size);
     MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
@@ -235,7 +235,7 @@ class Vector {
     fix();
   }
   void read_(Reader &reader) {
-    UInt64 total_size;
+    uint64_t total_size;
     reader.read(&total_size);
     MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
@@ -245,7 +245,7 @@ class Vector {
     reader.seek(static_cast<std::size_t>((8 - (total_size % 8)) % 8));
   }
   void write_(Writer &writer) const {
-    writer.write(static_cast<UInt64>(total_size()));
+    writer.write(static_cast<uint64_t>(total_size()));
     writer.write(const_objs_, size_);
     writer.seek((8 - (total_size() % 8)) % 8);
   }

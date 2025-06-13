@@ -11,7 +11,7 @@ namespace marisa::grimoire::vector {
 
 #if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
 
-inline std::size_t popcount(UInt64 x) {
+inline std::size_t popcount(uint64_t x) {
   return static_cast<std::size_t>(std::popcount(x));
 }
 
@@ -25,7 +25,7 @@ inline std::size_t popcount(UInt64 x) {
 
  #if MARISA_WORD_SIZE == 64
 
-inline std::size_t popcount(UInt64 x) {
+inline std::size_t popcount(uint64_t x) {
   #if MARISA_HAS_BUILTIN(__builtin_popcountll)
   static_assert(sizeof(x) == sizeof(unsigned long long),
                 "__builtin_popcountll does not take 64-bit arg");
@@ -50,7 +50,7 @@ inline std::size_t popcount(UInt64 x) {
 
  #else  // MARISA_WORD_SIZE == 64
 
-inline std::size_t popcount(UInt32 x) {
+inline std::size_t popcount(uint32_t x) {
   #if MARISA_HAS_BUILTIN(__builtin_popcount)
   static_assert(sizeof(x) == sizeof(unsigned int),
                 "__builtin_popcount does not take 32-bit arg");

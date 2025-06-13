@@ -22,11 +22,11 @@ class Entry {
     assert((ptr != nullptr) || (length == 0));
     assert(length <= UINT32_MAX);
     ptr_ = ptr + length - 1;
-    length_ = static_cast<UInt32>(length);
+    length_ = static_cast<uint32_t>(length);
   }
   void set_id(std::size_t id) {
     assert(id <= UINT32_MAX);
-    id_ = static_cast<UInt32>(id);
+    id_ = static_cast<uint32_t>(id);
   }
 
   const char *ptr() const {
@@ -47,7 +47,7 @@ class Entry {
           return true;
         }
         if (lhs[i] != rhs[i]) {
-          return static_cast<UInt8>(lhs[i]) > static_cast<UInt8>(rhs[i]);
+          return static_cast<uint8_t>(lhs[i]) > static_cast<uint8_t>(rhs[i]);
         }
       }
       return lhs.length() > rhs.length();
@@ -63,8 +63,8 @@ class Entry {
 
  private:
   const char *ptr_ = nullptr;
-  UInt32 length_ = 0;
-  UInt32 id_ = 0;
+  uint32_t length_ = 0;
+  uint32_t id_ = 0;
 };
 
 }  // namespace marisa::grimoire::trie

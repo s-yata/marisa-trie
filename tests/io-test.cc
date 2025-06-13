@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <cstdint>
 #include <exception>
 #include <sstream>
 #include <stdexcept>
@@ -24,8 +25,8 @@ void TestFilename() {
     marisa::grimoire::Writer writer;
     writer.open("io-test.dat");
 
-    writer.write(marisa::UInt32{123});
-    writer.write(marisa::UInt32{234});
+    writer.write(std::uint32_t{123});
+    writer.write(std::uint32_t{234});
 
     double values[] = {3.45, 4.56};
     writer.write(values, 2);
@@ -37,7 +38,7 @@ void TestFilename() {
     marisa::grimoire::Reader reader;
     reader.open("io-test.dat");
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     reader.read(&value);
     ASSERT(value == 123);
     reader.read(&value);
@@ -56,7 +57,7 @@ void TestFilename() {
     marisa::grimoire::Mapper mapper;
     mapper.open("io-test.dat");
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     mapper.map(&value);
     ASSERT(value == 123);
     mapper.map(&value);
@@ -75,7 +76,7 @@ void TestFilename() {
     marisa::grimoire::Mapper mapper;
     mapper.open("io-test.dat", MARISA_MAP_POPULATE);
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     mapper.map(&value);
     ASSERT(value == 123);
     mapper.map(&value);
@@ -122,7 +123,7 @@ void TestFd() {
     marisa::grimoire::Writer writer;
     writer.open(fd);
 
-    marisa::UInt32 value = 234;
+    std::uint32_t value = 234;
     writer.write(value);
 
     double values[] = {34.5, 67.8};
@@ -147,7 +148,7 @@ void TestFd() {
     marisa::grimoire::Reader reader;
     reader.open(fd);
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     reader.read(&value);
     ASSERT(value == 234);
 
@@ -183,7 +184,7 @@ void TestFile() {
     marisa::grimoire::Writer writer;
     writer.open(file);
 
-    marisa::UInt32 value = 10;
+    std::uint32_t value = 10;
     writer.write(value);
 
     double values[2] = {0.1, 0.2};
@@ -203,7 +204,7 @@ void TestFile() {
     marisa::grimoire::Reader reader;
     reader.open(file);
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     reader.read(&value);
     ASSERT(value == 10);
 
@@ -230,7 +231,7 @@ void TestStream() {
     marisa::grimoire::Writer writer;
     writer.open(stream);
 
-    marisa::UInt32 value = 12;
+    std::uint32_t value = 12;
     writer.write(value);
 
     double values[2] = {3.4, 5.6};
@@ -241,7 +242,7 @@ void TestStream() {
     marisa::grimoire::Reader reader;
     reader.open(stream);
 
-    marisa::UInt32 value;
+    std::uint32_t value;
     reader.read(&value);
     ASSERT(value == 12);
 

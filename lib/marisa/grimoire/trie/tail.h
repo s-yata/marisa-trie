@@ -16,7 +16,7 @@ class Tail {
   Tail(const Tail &) = delete;
   Tail &operator=(const Tail &) = delete;
 
-  void build(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
+  void build(Vector<Entry> &entries, Vector<uint32_t> *offsets, TailMode mode);
 
   void map(Mapper &mapper);
   void read(Reader &reader);
@@ -55,7 +55,7 @@ class Tail {
   Vector<char> buf_;
   BitVector end_flags_;
 
-  void build_(Vector<Entry> &entries, Vector<UInt32> *offsets, TailMode mode);
+  void build_(Vector<Entry> &entries, Vector<uint32_t> *offsets, TailMode mode);
 
   void map_(Mapper &mapper);
   void read_(Reader &reader);

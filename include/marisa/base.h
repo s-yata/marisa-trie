@@ -149,10 +149,16 @@ enum marisa_config_mask {
 
 namespace marisa {
 
-using UInt8 = std::uint8_t;
-using UInt16 = std::uint16_t;
-using UInt32 = std::uint32_t;
-using UInt64 = std::uint64_t;
+// These aliases are left for backward compatibility.
+using UInt8 [[deprecated]] = std::uint8_t;
+using UInt16 [[deprecated]] = std::uint16_t;
+using UInt32 [[deprecated]] = std::uint32_t;
+using UInt64 [[deprecated]] = std::uint64_t;
+
+using std::uint16_t;
+using std::uint32_t;
+using std::uint64_t;
+using std::uint8_t;
 
 using ErrorCode = marisa_error_code;
 using CacheLevel = marisa_cache_level;

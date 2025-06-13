@@ -13,15 +13,15 @@ class Range {
 
   void set_begin(std::size_t begin) {
     assert(begin <= UINT32_MAX);
-    begin_ = static_cast<UInt32>(begin);
+    begin_ = static_cast<uint32_t>(begin);
   }
   void set_end(std::size_t end) {
     assert(end <= UINT32_MAX);
-    end_ = static_cast<UInt32>(end);
+    end_ = static_cast<uint32_t>(end);
   }
   void set_key_pos(std::size_t key_pos) {
     assert(key_pos <= UINT32_MAX);
-    key_pos_ = static_cast<UInt32>(key_pos);
+    key_pos_ = static_cast<uint32_t>(key_pos);
   }
 
   std::size_t begin() const {
@@ -35,9 +35,9 @@ class Range {
   }
 
  private:
-  UInt32 begin_ = 0;
-  UInt32 end_ = 0;
-  UInt32 key_pos_ = 0;
+  uint32_t begin_ = 0;
+  uint32_t end_ = 0;
+  uint32_t key_pos_ = 0;
 };
 
 inline Range make_range(std::size_t begin, std::size_t end,

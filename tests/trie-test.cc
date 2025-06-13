@@ -6,6 +6,7 @@
 #include <marisa/grimoire/trie/tail.h>
 
 #include <algorithm>
+#include <cstdint>
 #include <cstring>
 #include <exception>
 #include <sstream>
@@ -232,14 +233,14 @@ void TestTextTail() {
 
   marisa::grimoire::trie::Tail tail;
   marisa::grimoire::Vector<marisa::grimoire::trie::Entry> entries;
-  marisa::grimoire::Vector<marisa::UInt32> offsets;
+  marisa::grimoire::Vector<std::uint32_t> offsets;
   tail.build(entries, &offsets, MARISA_TEXT_TAIL);
 
   ASSERT(tail.mode() == MARISA_TEXT_TAIL);
   ASSERT(tail.size() == 0);
   ASSERT(tail.empty());
   ASSERT(tail.total_size() == tail.size());
-  ASSERT(tail.io_size() == (sizeof(marisa::UInt64) * 6));
+  ASSERT(tail.io_size() == (sizeof(std::uint64_t) * 6));
 
   ASSERT(offsets.empty());
 
@@ -253,7 +254,7 @@ void TestTextTail() {
   ASSERT(tail.size() == 2);
   ASSERT(!tail.empty());
   ASSERT(tail.total_size() == tail.size());
-  ASSERT(tail.io_size() == (sizeof(marisa::UInt64) * 7));
+  ASSERT(tail.io_size() == (sizeof(std::uint64_t) * 7));
 
   ASSERT(offsets.size() == entries.size());
   ASSERT(offsets[0] == 0);
@@ -353,14 +354,14 @@ void TestBinaryTail() {
 
   marisa::grimoire::trie::Tail tail;
   marisa::grimoire::Vector<marisa::grimoire::trie::Entry> entries;
-  marisa::grimoire::Vector<marisa::UInt32> offsets;
+  marisa::grimoire::Vector<std::uint32_t> offsets;
   tail.build(entries, &offsets, MARISA_BINARY_TAIL);
 
   ASSERT(tail.mode() == MARISA_TEXT_TAIL);
   ASSERT(tail.size() == 0);
   ASSERT(tail.empty());
   ASSERT(tail.total_size() == tail.size());
-  ASSERT(tail.io_size() == (sizeof(marisa::UInt64) * 6));
+  ASSERT(tail.io_size() == (sizeof(std::uint64_t) * 6));
 
   ASSERT(offsets.empty());
 
@@ -373,8 +374,8 @@ void TestBinaryTail() {
   ASSERT(tail.mode() == MARISA_BINARY_TAIL);
   ASSERT(tail.size() == 1);
   ASSERT(!tail.empty());
-  ASSERT(tail.total_size() == (tail.size() + sizeof(marisa::UInt64)));
-  ASSERT(tail.io_size() == (sizeof(marisa::UInt64) * 8));
+  ASSERT(tail.total_size() == (tail.size() + sizeof(std::uint64_t)));
+  ASSERT(tail.io_size() == (sizeof(std::uint64_t) * 8));
 
   ASSERT(offsets.size() == entries.size());
   ASSERT(offsets[0] == 0);

@@ -79,7 +79,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang-tidy
 
 # Target Windows 8 for PrefetchVirtualMemory
 if (MINGW)
-    add_compile_definitions(_WIN32_WINNT=0x602)
+    add_compile_definitions(_WIN32_WINNT=_WIN32_WINNT_WIN8)
 endif()
 
 # MSVC Configuration

@@ -77,6 +77,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang-tidy
 
+# Target Windows 8 for PrefetchVirtualMemory
+if (MINGW)
+    add_compile_definitions(_WIN32_WINNT=_WIN32_WINNT_WIN8)
+endif()
+
 # MSVC Configuration
 # https://learn.microsoft.com/en-us/cpp/build/reference/utf-8-set-source-and-executable-character-sets-to-utf-8?view=msvc-170
 # https://learn.microsoft.com/en-us/cpp/build/reference/zc-cplusplus?view=msvc-170

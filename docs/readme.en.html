@@ -8,7 +8,7 @@
  <body>
   <div id="header">
    <div class="left">MARISA: Matching Algorithm with Recursively Implemented StorAge</div>
-   <div class="right">Last modified: 25 May 2025</div>
+   <div class="right">Last modified: 20 Jul 2025</div>
    <div class="end"></div>
   </div><!-- header -->
   <div id="body" style="text-align: justify">
@@ -82,7 +82,7 @@
       </li>
       <li>Source
        <ul>
-        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.0.tar.gz">marisa-trie-0.3.0.tar.gz</a></li>
+        <li><a href="https://github.com/s-yata/marisa-trie/archive/refs/tags/v0.3.1.tar.gz">marisa-trie-0.3.1.tar.gz</a></li>
        </ul>
       </li>
      </ul>
@@ -94,8 +94,8 @@
     <div class="subsection">
      <h3><a name="gcc">GCC &amp; Clang</a></h3>
      <div class="float">
-      <pre class="console">$ tar zxf marisa-trie-0.3.0.tar.gz
-$ cd marisa-trie-0.3.0
+      <pre class="console">$ tar zxf marisa-trie-0.3.1.tar.gz
+$ cd marisa-trie-0.3.1
 $ cmake -S. -Bbuild-rel -DCMAKE_BUILD_TYPE=Release
 $ cmake --build build-rel
 $ cmake --install build-rel</pre>
@@ -568,8 +568,8 @@ typedef enum marisa_num_tries_ {
 
   void reset();
 
-  void clear();
-  void swap(Keyset &amp;rhs);
+  void clear() noexcept;
+  void swap(Keyset &amp;rhs) noexcept;
 };</pre>
      </div><!-- float -->
      <div class="subsubsection">
@@ -663,8 +663,8 @@ typedef enum marisa_num_tries_ {
   std::size_t size() const;
   std::size_t io_size() const;
 
-  void clear();
-  void swap(Trie &amp;rhs);
+  void clear() noexcept;
+  void swap(Trie &amp;rhs) noexcept;
 };</pre>
      </div><!-- float -->
      <div class="subsubsection">

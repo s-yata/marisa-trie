@@ -69,8 +69,31 @@ jobs:
             -DENABLE_UBSAN=ON \
             -DCMAKE_CXX_CLANG_TIDY=clang-tidy \
             -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_POSITION_INDEPENDENT_CODE=On \
             $([ "${{ matrix.coverage }}" = "true" ] && echo "-DENABLE_COVERAGE=ON")
           cmake --build build-debug -j $(getconf _NPROCESSORS_ONLN)
+
+      - name: Build SWIG Bindings
+        run: |
+          make -C bindings
+
+      - name: Build Python3 Binding
+        run: |
+          cd bindings/python3
+          CFLAGS="-std=c++17" python3 setup.py build_ext --include-dirs=../../include --library-dirs=../../build-debug
+          python3 setup.py build
+
+      - name: Build Perl Binding
+        run: |
+          cd bindings/perl
+          perl Makefile.PL CC=$CC CCFLAGS="-std=c++17" INC=-I"../../include" LIBS=-L"../../build-debug" INSTALLDIRS=vendor
+          make
+
+      - name: Build Ruby Binding
+        run: |
+          cd bindings/ruby
+          ruby extconf.rb --with-opt-include="../../include" --with-opt-lib="../../build-debug" --vendor
+          make CC=$CC CXX=$CXX CXXFLAGS="-std=c++17"
 
       - name: Run Tests (Debug)
         run: ctest --test-dir build-debug --output-on-failure -j $(getconf _NPROCESSORS_ONLN)

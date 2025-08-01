@@ -27,8 +27,7 @@ size_t Query::id() const {
   return query_.id();
 }
 
-Keyset::Keyset() : keyset_(new (std::nothrow) marisa::Keyset) {
-  MARISA_THROW_IF(keyset_ == NULL, ::MARISA_MEMORY_ERROR);
+Keyset::Keyset() : keyset_(new marisa::Keyset) {
 }
 
 Keyset::~Keyset() {
@@ -82,8 +81,7 @@ void Keyset::clear() {
 }
 
 Agent::Agent()
-    : agent_(new (std::nothrow) marisa::Agent), buf_(NULL), buf_size_(0) {
-  MARISA_THROW_IF(agent_ == NULL, ::MARISA_MEMORY_ERROR);
+    : agent_(new marisa::Agent), buf_(NULL), buf_size_(0) {
 }
 
 Agent::~Agent() {
@@ -101,8 +99,7 @@ void Agent::set_query(const char *ptr, size_t length) {
         new_buf_size *= 2;
       }
     }
-    char *new_buf = new (std::nothrow) char[new_buf_size];
-    MARISA_THROW_IF(new_buf == NULL, MARISA_MEMORY_ERROR);
+    char *new_buf = new char[new_buf_size];
     delete [] buf_;
     buf_ = new_buf;
     buf_size_ = new_buf_size;
@@ -141,8 +138,7 @@ size_t Agent::query_id() const {
   return agent_->query().id();
 }
 
-Trie::Trie() : trie_(new (std::nothrow) marisa::Trie) {
-  MARISA_THROW_IF(trie_ == NULL, ::MARISA_MEMORY_ERROR);
+Trie::Trie() : trie_(new marisa::Trie) {
 }
 
 Trie::~Trie() {
@@ -153,7 +149,7 @@ void Trie::build(Keyset &keyset, int config_flags) {
   trie_->build(*keyset.keyset_, config_flags);
 }
 
-void Trie::mmap(const char *filename, , int flags) {
+void Trie::mmap(const char *filename, int flags) {
   trie_->mmap(filename, flags);
 }
 
@@ -195,8 +191,7 @@ void Trie::reverse_lookup(size_t id,
   marisa::Agent agent;
   agent.set_query(id);
   trie_->reverse_lookup(agent);
-  char * const buf = new (std::nothrow) char[agent.key().length()];
-  MARISA_THROW_IF(buf == NULL, MARISA_MEMORY_ERROR);
+  char * const buf = new char[agent.key().length()];
   std::memcpy(buf, agent.key().ptr(), agent.key().length());
   *ptr_out_to_be_deleted = buf;
   *length_out = agent.key().length();

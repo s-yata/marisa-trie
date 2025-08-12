@@ -13,6 +13,13 @@ option(ENABLE_GPERFTOOLS_PROFILER "Find and link gperftools profiler" OFF)
 option(ENABLE_COVERAGE "Enable code coverage instrumentation (only enabled with BUILD_TESTING)" OFF)
 option(ENABLE_STATIC_STDLIB "Link C++ stdlib statically" OFF)
 
+include(GNUInstallDirs)
+set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}" CACHE PATH "")
+
+if(CMAKE_INSTALL_LIBDIR MATCHES "lib64$")
+  set(LIB_SUFFIX 64)
+endif()
+
 function(check_macro_defined MACRO OUTPUT_VAR)
   set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
   try_compile(result

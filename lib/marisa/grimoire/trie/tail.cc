@@ -60,7 +60,7 @@ void Tail::write(Writer &writer) const {
   write_(writer);
 }
 
-void Tail::restore(Agent &agent, std::size_t offset) const {
+void Tail::restore(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
 
   State &state = agent.state();
@@ -75,7 +75,7 @@ void Tail::restore(Agent &agent, std::size_t offset) const {
   }
 }
 
-bool Tail::match(Agent &agent, std::size_t offset) const {
+bool Tail::match(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
   assert(agent.state().query_pos() < agent.query().length());
 
@@ -106,7 +106,7 @@ bool Tail::match(Agent &agent, std::size_t offset) const {
   return false;
 }
 
-bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
+bool Tail::prefix_match(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
 
   State &state = agent.state();

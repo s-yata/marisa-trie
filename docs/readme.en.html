@@ -514,8 +514,8 @@ typedef enum marisa_num_tries_ {
   char operator[](std::size_t i) const;
   std::string_view str() const;
   const char *ptr() const;
-  std::size_t length() const;
-  std::size_t id() const;
+  uint32_t length() const;
+  uint32_t id() const;
 };</pre>
      </div><!-- float -->
      <p>
@@ -531,8 +531,8 @@ typedef enum marisa_num_tries_ {
   char operator[](std::size_t i) const;
   std::string_view str() const;
   const char *ptr() const;
-  std::size_t length() const;
-  std::size_t id() const;
+  uint32_t length() const;
+  uint32_t id() const;
 };</pre>
      </div><!-- float -->
      <p>
@@ -560,11 +560,11 @@ typedef enum marisa_num_tries_ {
   const Key &amp;operator[](std::size_t i) const;
   Key &amp;operator[](std::size_t i);
 
-  std::size_t num_keys();
+  uint32_t num_keys();
 
   bool empty() const;
-  std::size_t size() const;
-  std::size_t total_length() const;
+  uint32_t size() const;
+  uint32_t total_length() const;
 
   void reset();
 
@@ -615,7 +615,7 @@ typedef enum marisa_num_tries_ {
   void set_query(const char *str);
   void set_query(const char *ptr,
                  std::size_t length);
-  void set_query(std::size_t key_id);
+  void set_query(uint32_t key_id);
 };</pre>
      </div><!-- float -->
      <p>
@@ -652,9 +652,9 @@ typedef enum marisa_num_tries_ {
   bool common_prefix_search(Agent &amp;agent) const;
   bool predictive_search(Agent &amp;agent) const;
 
-  std::size_t num_tries() const;
-  std::size_t num_keys() const;
-  std::size_t num_nodes() const;
+  uint32_t num_tries() const;
+  uint32_t num_keys() const;
+  uint32_t num_nodes() const;
 
   TailMode tail_mode() const;
   NodeOrder node_order() const;

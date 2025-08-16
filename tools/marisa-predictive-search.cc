@@ -1,5 +1,7 @@
 #include <marisa.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <exception>
 #include <iostream>
@@ -69,8 +71,8 @@ int predictive_search(const char *const *args, std::size_t num_args) {
         std::cout << "not found\n";
       } else {
         std::cout << keyset.size() << " found\n";
-        const std::size_t end = std::min(max_num_results, keyset.size());
-        for (std::size_t i = 0; i < end; ++i) {
+        const uint32_t end = std::min<uint32_t>(max_num_results, keyset.size());
+        for (uint32_t i = 0; i < end; ++i) {
           std::cout << keyset[i].id() << '\t';
           std::cout.write(keyset[i].ptr(),
                           static_cast<std::streamsize>(keyset[i].length()))

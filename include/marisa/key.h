@@ -52,10 +52,10 @@ class Key {
   const char *ptr() const {
     return ptr_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return union_.id;
   }
   float weight() const {

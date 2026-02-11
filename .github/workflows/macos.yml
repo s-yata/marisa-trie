@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         runs-on:
-          - macos-13
+          - macos-14
           - macos-latest
         include:
           - compiler: gcc

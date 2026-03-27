@@ -4922,17 +4922,6 @@ SWIGEXPORT void Init_marisa(void) {
   }
   
   SWIG_RubyInitializeTrackings();
-  rb_define_const(mMarisa, "OK", SWIG_From_int(static_cast< int >(marisa_swig::OK)));
-  rb_define_const(mMarisa, "STATE_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::STATE_ERROR)));
-  rb_define_const(mMarisa, "NULL_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::NULL_ERROR)));
-  rb_define_const(mMarisa, "BOUND_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::BOUND_ERROR)));
-  rb_define_const(mMarisa, "RANGE_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::RANGE_ERROR)));
-  rb_define_const(mMarisa, "CODE_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::CODE_ERROR)));
-  rb_define_const(mMarisa, "RESET_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::RESET_ERROR)));
-  rb_define_const(mMarisa, "SIZE_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::SIZE_ERROR)));
-  rb_define_const(mMarisa, "MEMORY_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::MEMORY_ERROR)));
-  rb_define_const(mMarisa, "IO_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::IO_ERROR)));
-  rb_define_const(mMarisa, "FORMAT_ERROR", SWIG_From_int(static_cast< int >(marisa_swig::FORMAT_ERROR)));
   rb_define_const(mMarisa, "MAP_POPULATE", SWIG_From_int(static_cast< int >(marisa_swig::MAP_POPULATE)));
   rb_define_const(mMarisa, "MIN_NUM_TRIES", SWIG_From_int(static_cast< int >(marisa_swig::MIN_NUM_TRIES)));
   rb_define_const(mMarisa, "MAX_NUM_TRIES", SWIG_From_int(static_cast< int >(marisa_swig::MAX_NUM_TRIES)));

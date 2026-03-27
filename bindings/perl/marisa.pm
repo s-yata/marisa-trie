@@ -267,17 +267,6 @@ sub ACQUIRE {
 
 package marisa;
 
-*OK = *marisac::OK;
-*STATE_ERROR = *marisac::STATE_ERROR;
-*NULL_ERROR = *marisac::NULL_ERROR;
-*BOUND_ERROR = *marisac::BOUND_ERROR;
-*RANGE_ERROR = *marisac::RANGE_ERROR;
-*CODE_ERROR = *marisac::CODE_ERROR;
-*RESET_ERROR = *marisac::RESET_ERROR;
-*SIZE_ERROR = *marisac::SIZE_ERROR;
-*MEMORY_ERROR = *marisac::MEMORY_ERROR;
-*IO_ERROR = *marisac::IO_ERROR;
-*FORMAT_ERROR = *marisac::FORMAT_ERROR;
 *MAP_POPULATE = *marisac::MAP_POPULATE;
 *MIN_NUM_TRIES = *marisac::MIN_NUM_TRIES;
 *MAX_NUM_TRIES = *marisac::MAX_NUM_TRIES;

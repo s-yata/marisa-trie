@@ -32,48 +32,6 @@ using marisa_uint64 [[deprecated]] = std::uint64_t;
 #define MARISA_INVALID_KEY_ID  UINT32_MAX
 #define MARISA_INVALID_EXTRA   (UINT32_MAX >> 8)
 
-// Error codes are defined as members of marisa_error_code. This library throws
-// an exception with one of the error codes when an error occurs.
-enum marisa_error_code {
-  // MARISA_OK means that a requested operation has succeeded. In practice, an
-  // exception never has MARISA_OK because it is not an error.
-  MARISA_OK = 0,
-
-  // MARISA_STATE_ERROR means that an object was not ready for a requested
-  // operation. For example, an operation to modify a fixed vector throws an
-  // exception with MARISA_STATE_ERROR.
-  MARISA_STATE_ERROR = 1,
-
-  // MARISA_NULL_ERROR means that an invalid nullptr has been given.
-  MARISA_NULL_ERROR = 2,
-
-  // MARISA_BOUND_ERROR means that an operation has tried to access an out of
-  // range address.
-  MARISA_BOUND_ERROR = 3,
-
-  // MARISA_RANGE_ERROR means that an out of range value has appeared in
-  // operation.
-  MARISA_RANGE_ERROR = 4,
-
-  // MARISA_CODE_ERROR means that an undefined code has appeared in operation.
-  MARISA_CODE_ERROR = 5,
-
-  // MARISA_RESET_ERROR means that a smart pointer has tried to reset itself.
-  MARISA_RESET_ERROR = 6,
-
-  // MARISA_SIZE_ERROR means that a size has exceeded a library limitation.
-  MARISA_SIZE_ERROR = 7,
-
-  // MARISA_MEMORY_ERROR means that a memory allocation has failed.
-  MARISA_MEMORY_ERROR = 8,
-
-  // MARISA_IO_ERROR means that an I/O operation has failed.
-  MARISA_IO_ERROR = 9,
-
-  // MARISA_FORMAT_ERROR means that input was in invalid format.
-  MARISA_FORMAT_ERROR = 10,
-};
-
 // Flags for memory mapping are defined as members of marisa_map_flags.
 // Trie::open() accepts a combination of these flags.
 enum marisa_map_flags {
@@ -160,7 +118,6 @@ using std::uint32_t;
 using std::uint64_t;
 using std::uint8_t;
 
-using ErrorCode = marisa_error_code;
 using CacheLevel = marisa_cache_level;
 using TailMode = marisa_tail_mode;
 using NodeOrder = marisa_node_order;

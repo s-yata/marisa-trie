@@ -11,66 +11,60 @@ class RankIndex {
  public:
   RankIndex() = default;
 
-  void set_abs(std::size_t value) {
-    assert(value <= UINT32_MAX);
-    abs_ = static_cast<uint32_t>(value);
+  void set_abs(uint32_t value) {
+    abs_ = value;
   }
-  void set_rel1(std::size_t value) {
+  void set_rel1(uint32_t value) {
     assert(value <= 64);
-    rel_lo_ = static_cast<uint32_t>((rel_lo_ & ~0x7FU) | (value & 0x7FU));
+    rel_lo_ = (rel_lo_ & ~0x7FU) | (value & 0x7FU);
   }
-  void set_rel2(std::size_t value) {
+  void set_rel2(uint32_t value) {
     assert(value <= 128);
-    rel_lo_ = static_cast<uint32_t>((rel_lo_ & ~(0xFFU << 7)) |
-                                    ((value & 0xFFU) << 7));
+    rel_lo_ = (rel_lo_ & ~(0xFFU << 7)) | ((value & 0xFFU) << 7);
   }
-  void set_rel3(std::size_t value) {
+  void set_rel3(uint32_t value) {
     assert(value <= 192);
-    rel_lo_ = static_cast<uint32_t>((rel_lo_ & ~(0xFFU << 15)) |
-                                    ((value & 0xFFU) << 15));
+    rel_lo_ = (rel_lo_ & ~(0xFFU << 15)) | ((value & 0xFFU) << 15);
   }
-  void set_rel4(std::size_t value) {
+  void set_rel4(uint32_t value) {
     assert(value <= 256);
-    rel_lo_ = static_cast<uint32_t>((rel_lo_ & ~(0x1FFU << 23)) |
-                                    ((value & 0x1FFU) << 23));
+    rel_lo_ = (rel_lo_ & ~(0x1FFU << 23)) | ((value & 0x1FFU) << 23);
   }
-  void set_rel5(std::size_t value) {
+  void set_rel5(uint32_t value) {
     assert(value <= 320);
-    rel_hi_ = static_cast<uint32_t>((rel_hi_ & ~0x1FFU) | (value & 0x1FFU));
+    rel_hi_ = (rel_hi_ & ~0x1FFU) | (value & 0x1FFU);
   }
-  void set_rel6(std::size_t value) {
+  void set_rel6(uint32_t value) {
     assert(value <= 384);
-    rel_hi_ = static_cast<uint32_t>((rel_hi_ & ~(0x1FFU << 9)) |
-                                    ((value & 0x1FFU) << 9));
+    rel_hi_ = (rel_hi_ & ~(0x1FFU << 9)) | ((value & 0x1FFU) << 9);
   }
-  void set_rel7(std::size_t value) {
+  void set_rel7(uint32_t value) {
     assert(value <= 448);
-    rel_hi_ = static_cast<uint32_t>((rel_hi_ & ~(0x1FFU << 18)) |
-                                    ((value & 0x1FFU) << 18));
+    rel_hi_ = (rel_hi_ & ~(0x1FFU << 18)) | ((value & 0x1FFU) << 18);
   }
 
-  std::size_t abs() const {
+  uint32_t abs() const {
     return abs_;
   }
-  std::size_t rel1() const {
+  uint32_t rel1() const {
     return rel_lo_ & 0x7FU;
   }
-  std::size_t rel2() const {
+  uint32_t rel2() const {
     return (rel_lo_ >> 7) & 0xFFU;
   }
-  std::size_t rel3() const {
+  uint32_t rel3() const {
     return (rel_lo_ >> 15) & 0xFFU;
   }
-  std::size_t rel4() const {
+  uint32_t rel4() const {
     return (rel_lo_ >> 23) & 0x1FFU;
   }
-  std::size_t rel5() const {
+  uint32_t rel5() const {
     return rel_hi_ & 0x1FFU;
   }
-  std::size_t rel6() const {
+  uint32_t rel6() const {
     return (rel_hi_ >> 9) & 0x1FFU;
   }
-  std::size_t rel7() const {
+  uint32_t rel7() const {
     return (rel_hi_ >> 18) & 0x1FFU;
   }
 

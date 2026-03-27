@@ -52,7 +52,7 @@ int reverse_lookup(const char *const *args, std::size_t num_args) {
   }
 
   marisa::Agent agent;
-  std::size_t key_id;
+  marisa_key_t key_id;
   while (std::cin >> key_id) {
     try {
       agent.set_query(key_id);

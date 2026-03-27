@@ -12,6 +12,7 @@ Keyset::Keyset() = default;
 
 void Keyset::push_back(const Key &key) {
   assert(size_ < SIZE_MAX);
+  MARISA_THROW_IF(size_ >= UINT32_MAX, std::length_error);
 
   char *const key_ptr = reserve(key.length());
   std::memcpy(key_ptr, key.ptr(), key.length());
@@ -25,6 +26,7 @@ void Keyset::push_back(const Key &key) {
 
 void Keyset::push_back(const Key &key, char end_marker) {
   assert(size_ < SIZE_MAX);
+  MARISA_THROW_IF(size_ >= UINT32_MAX, std::length_error);
 
   if ((size_ / KEY_BLOCK_SIZE) == key_blocks_size_) {
     append_key_block();
@@ -43,6 +45,7 @@ void Keyset::push_back(const Key &key, char end_marker) {
 
 void Keyset::push_back(const char *str) {
   assert(size_ < SIZE_MAX);
+  MARISA_THROW_IF(size_ >= UINT32_MAX, std::length_error);
   MARISA_THROW_IF(str == nullptr, std::invalid_argument);
 
   std::size_t length = 0;
@@ -54,8 +57,9 @@ void Keyset::push_back(const char *str) {
 
 void Keyset::push_back(const char *ptr, std::size_t length, float weight) {
   assert(size_ < SIZE_MAX);
+  MARISA_THROW_IF(size_ >= UINT32_MAX, std::length_error);
   MARISA_THROW_IF((ptr == nullptr) && (length != 0), std::invalid_argument);
-  MARISA_THROW_IF(length > UINT32_MAX, std::invalid_argument);
+  MARISA_THROW_IF(length > UINT32_MAX, std::length_error);
 
   char *const key_ptr = reserve(length);
   std::memcpy(key_ptr, ptr, length);

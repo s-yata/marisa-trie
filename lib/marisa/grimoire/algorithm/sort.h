@@ -13,14 +13,14 @@ enum {
 };
 
 template <typename T>
-int get_label(const T &unit, std::size_t depth) {
+int get_label(const T &unit, uint32_t depth) {
   assert(depth <= unit.length());
 
   return (depth < unit.length()) ? int{static_cast<uint8_t>(unit[depth])} : -1;
 }
 
 template <typename T>
-int median(const T &a, const T &b, const T &c, std::size_t depth) {
+int median(const T &a, const T &b, const T &c, uint32_t depth) {
   const int x = get_label(a, depth);
   const int y = get_label(b, depth);
   const int z = get_label(c, depth);
@@ -40,8 +40,8 @@ int median(const T &a, const T &b, const T &c, std::size_t depth) {
 }
 
 template <typename T>
-int compare(const T &lhs, const T &rhs, std::size_t depth) {
-  for (std::size_t i = depth; i < lhs.length(); ++i) {
+int compare(const T &lhs, const T &rhs, uint32_t depth) {
+  for (uint32_t i = depth; i < lhs.length(); ++i) {
     if (i == rhs.length()) {
       return 1;
     }
@@ -56,10 +56,11 @@ int compare(const T &lhs, const T &rhs, std::size_t depth) {
 }
 
 template <typename Iterator>
-std::size_t insertion_sort(Iterator l, Iterator r, std::size_t depth) {
+uint32_t insertion_sort(Iterator l, Iterator r, uint32_t depth) {
   assert(l <= r);
+  assert(r-l <= UINT32_MAX);
 
-  std::size_t count = 1;
+  uint32_t count = 1;
   for (Iterator i = l + 1; i < r; ++i) {
     int result = 0;
     for (Iterator j = i; j > l; --j) {
@@ -77,10 +78,11 @@ std::size_t insertion_sort(Iterator l, Iterator r, std::size_t depth) {
 }
 
 template <typename Iterator>
-std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
+uint32_t sort(Iterator l, Iterator r, uint32_t depth) {
   assert(l <= r);
+  assert(r-l <= UINT32_MAX);
 
-  std::size_t count = 0;
+  uint32_t count = 0;
   while ((r - l) > MARISA_INSERTION_SORT_THRESHOLD) {
     Iterator pl = l;
     Iterator pr = r;
@@ -184,7 +186,7 @@ std::size_t sort(Iterator l, Iterator r, std::size_t depth) {
 }  // namespace details
 
 template <typename Iterator>
-std::size_t sort(Iterator begin, Iterator end) {
+uint32_t sort(Iterator begin, Iterator end) {
   assert(begin <= end);
   return details::sort(begin, end, 0);
 }

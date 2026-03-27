@@ -82,13 +82,13 @@ void TestVector() {
   TEST_START();
 
   std::vector<int> values;
-  for (std::size_t i = 0; i < 10000; ++i) {
+  for (uint32_t i = 0; i < 10000; ++i) {
     values.push_back(static_cast<int>(random_engine()));
   }
 
   marisa::grimoire::Vector<int> vec;
 
-  ASSERT(vec.max_size() == (SIZE_MAX / sizeof(int)));
+  ASSERT(vec.max_size() == (UINT32_MAX / sizeof(int)));
   ASSERT(vec.size() == 0);
   ASSERT(vec.capacity() == 0);
   ASSERT(!vec.fixed());
@@ -96,7 +96,7 @@ void TestVector() {
   ASSERT(vec.total_size() == 0);
   ASSERT(vec.io_size() == sizeof(std::uint64_t));
 
-  for (std::size_t i = 0; i < values.size(); ++i) {
+  for (uint32_t i = 0; i < values.size(); ++i) {
     vec.push_back(values[i]);
     ASSERT(vec[i] == values[i]);
     ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
@@ -121,7 +121,7 @@ void TestVector() {
 
   ASSERT(vec.size() == values.size());
   ASSERT(vec.capacity() == vec.size());
-  for (std::size_t i = 0; i < values.size(); ++i) {
+  for (uint32_t i = 0; i < values.size(); ++i) {
     ASSERT(vec[i] == values[i]);
     ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
            values[i]);
@@ -150,7 +150,7 @@ void TestVector() {
     ASSERT(vec.io_size() ==
            sizeof(std::uint64_t) + ((sizeof(int) * values.size())));
 
-    for (std::size_t i = 0; i < values.size(); ++i) {
+    for (uint32_t i = 0; i < values.size(); ++i) {
       ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
              values[i]);
     }
@@ -172,7 +172,7 @@ void TestVector() {
   ASSERT(vec.io_size() ==
          sizeof(std::uint64_t) + ((sizeof(int) * values.size())));
 
-  for (std::size_t i = 0; i < values.size(); ++i) {
+  for (uint32_t i = 0; i < values.size(); ++i) {
     ASSERT(vec[i] == values[i]);
     ASSERT(static_cast<const marisa::grimoire::Vector<int> &>(vec)[i] ==
            values[i]);
@@ -291,20 +291,20 @@ void TestFlatVector() {
   ASSERT(vec[2] == 65536);
 
   values.clear();
-  for (std::size_t i = 0; i < 10000; ++i) {
+  for (uint32_t i = 0; i < 10000; ++i) {
     values.push_back(static_cast<std::uint32_t>(random_engine()));
   }
   vec.build(values);
 
   ASSERT(vec.size() == values.size());
-  for (std::size_t i = 0; i < vec.size(); ++i) {
+  for (uint32_t i = 0; i < vec.size(); ++i) {
     ASSERT(vec[i] == values[i]);
   }
 
   TEST_END();
 }
 
-void TestBitVector(std::size_t size) {
+void TestBitVector(uint32_t size) {
   marisa::grimoire::BitVector bv;
 
   ASSERT(bv.size() == 0);
@@ -313,8 +313,8 @@ void TestBitVector(std::size_t size) {
   ASSERT(bv.io_size() == sizeof(std::uint64_t) * 5);
 
   std::vector<bool> bits(size);
-  std::vector<std::size_t> zeros, ones;
-  for (std::size_t i = 0; i < size; ++i) {
+  std::vector<uint32_t> zeros, ones;
+  for (uint32_t i = 0; i < size; ++i) {
     const bool bit = (random_engine() % 2) == 0;
     bits[i] = bit;
     bv.push_back(bit);
@@ -327,17 +327,17 @@ void TestBitVector(std::size_t size) {
 
   bv.build(true, true);
 
-  std::size_t num_zeros = 0, num_ones = 0;
-  for (std::size_t i = 0; i < bits.size(); ++i) {
+  uint32_t num_zeros = 0, num_ones = 0;
+  for (uint32_t i = 0; i < bits.size(); ++i) {
     ASSERT(bv[i] == bits[i]);
     ASSERT(bv.rank0(i) == num_zeros);
     ASSERT(bv.rank1(i) == num_ones);
     ++(bv[i] ? num_ones : num_zeros);
   }
-  for (std::size_t i = 0; i < zeros.size(); ++i) {
+  for (uint32_t i = 0; i < zeros.size(); ++i) {
     ASSERT(bv.select0(i) == zeros[i]);
   }
-  for (std::size_t i = 0; i < ones.size(); ++i) {
+  for (uint32_t i = 0; i < ones.size(); ++i) {
     ASSERT(bv.select1(i) == ones[i]);
   }
   ASSERT(bv.num_0s() == num_zeros);
@@ -366,16 +366,16 @@ void TestBitVector(std::size_t size) {
   ASSERT(bv.size() == bits.size());
 
   num_zeros = 0, num_ones = 0;
-  for (std::size_t i = 0; i < bits.size(); ++i) {
+  for (uint32_t i = 0; i < bits.size(); ++i) {
     ASSERT(bv[i] == bits[i]);
     ASSERT(bv.rank0(i) == num_zeros);
     ASSERT(bv.rank1(i) == num_ones);
     ++(bv[i] ? num_ones : num_zeros);
   }
-  for (std::size_t i = 0; i < zeros.size(); ++i) {
+  for (uint32_t i = 0; i < zeros.size(); ++i) {
     ASSERT(bv.select0(i) == zeros[i]);
   }
-  for (std::size_t i = 0; i < ones.size(); ++i) {
+  for (uint32_t i = 0; i < ones.size(); ++i) {
     ASSERT(bv.select1(i) == ones[i]);
   }
   ASSERT(bv.num_0s() == num_zeros);
@@ -392,7 +392,7 @@ void TestBitVector() {
   TestBitVector(513);
 
   for (int i = 0; i < 100; ++i) {
-    TestBitVector(static_cast<std::size_t>(random_engine()) % 4096);
+    TestBitVector(static_cast<uint32_t>(random_engine()) % 4096);
   }
 
   TEST_END();

@@ -3153,15 +3153,16 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 
 #define SWIGTYPE_p_char swig_types[0]
 #define SWIGTYPE_p_marisa__Key swig_types[1]
-#define SWIGTYPE_p_marisa_swig__Agent swig_types[2]
-#define SWIGTYPE_p_marisa_swig__Key swig_types[3]
-#define SWIGTYPE_p_marisa_swig__Keyset swig_types[4]
-#define SWIGTYPE_p_marisa_swig__Query swig_types[5]
-#define SWIGTYPE_p_marisa_swig__Trie swig_types[6]
-#define SWIGTYPE_p_p_char swig_types[7]
-#define SWIGTYPE_p_std__size_t swig_types[8]
-static swig_type_info *swig_types[10];
-static swig_module_info swig_module = {swig_types, 9, 0, 0, 0, 0};
+#define SWIGTYPE_p_marisa_key_t swig_types[2]
+#define SWIGTYPE_p_marisa_swig__Agent swig_types[3]
+#define SWIGTYPE_p_marisa_swig__Key swig_types[4]
+#define SWIGTYPE_p_marisa_swig__Keyset swig_types[5]
+#define SWIGTYPE_p_marisa_swig__Query swig_types[6]
+#define SWIGTYPE_p_marisa_swig__Trie swig_types[7]
+#define SWIGTYPE_p_p_char swig_types[8]
+#define SWIGTYPE_p_std__size_t swig_types[9]
+static swig_type_info *swig_types[11];
+static swig_module_info swig_module = {swig_types, 10, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3354,58 +3355,6 @@ SWIG_FromCharPtrAndSize(const char* carray, size_t size)
   } else {
     return SWIG_Py_Void();
   }
-}
-
-
-  #define SWIG_From_long   PyInt_FromLong 
-
-
-SWIGINTERNINLINE PyObject* 
-SWIG_From_unsigned_SS_long  (unsigned long value)
-{
-  return (value > LONG_MAX) ?
-    PyLong_FromUnsignedLong(value) : PyInt_FromLong(static_cast< long >(value));
-}
-
-
-#include <limits.h>
-#if !defined(SWIG_NO_LLONG_MAX)
-# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
-#   define LLONG_MAX __LONG_LONG_MAX__
-#   define LLONG_MIN (-LLONG_MAX - 1LL)
-#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
-# endif
-#endif
-
-
-#if defined(LLONG_MAX) && !defined(SWIG_LONG_LONG_AVAILABLE)
-#  define SWIG_LONG_LONG_AVAILABLE
-#endif
-
-
-#ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERNINLINE PyObject* 
-SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
-{
-  return (value > LONG_MAX) ?
-    PyLong_FromUnsignedLongLong(value) : PyInt_FromLong(static_cast< long >(value));
-}
-#endif
-
-
-SWIGINTERNINLINE PyObject *
-SWIG_From_size_t  (size_t value)
-{    
-#ifdef SWIG_LONG_LONG_AVAILABLE
-  if (sizeof(size_t) <= sizeof(unsigned long)) {
-#endif
-    return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
-#ifdef SWIG_LONG_LONG_AVAILABLE
-  } else {
-    /* assume sizeof(size_t) <= sizeof(unsigned long long) */
-    return SWIG_From_unsigned_SS_long_SS_long  (static_cast< unsigned long long >(value));
-  }
-#endif
 }
 
 
@@ -3701,6 +3650,21 @@ SWIG_AsVal_unsigned_SS_long (PyObject *obj, unsigned long *val)
 }
 
 
+#include <limits.h>
+#if !defined(SWIG_NO_LLONG_MAX)
+# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
+#   define LLONG_MAX __LONG_LONG_MAX__
+#   define LLONG_MIN (-LLONG_MAX - 1LL)
+#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
+# endif
+#endif
+
+
+#if defined(LLONG_MAX) && !defined(SWIG_LONG_LONG_AVAILABLE)
+#  define SWIG_LONG_LONG_AVAILABLE
+#endif
+
+
 #ifdef SWIG_LONG_LONG_AVAILABLE
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_long_SS_long (PyObject *obj, unsigned long long *val)
@@ -3760,6 +3724,43 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
   }
 #endif
   return res;
+}
+
+
+  #define SWIG_From_long   PyInt_FromLong 
+
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyInt_FromLong(static_cast< long >(value));
+}
+
+
+#ifdef SWIG_LONG_LONG_AVAILABLE
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long_SS_long  (unsigned long long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLongLong(value) : PyInt_FromLong(static_cast< long >(value));
+}
+#endif
+
+
+SWIGINTERNINLINE PyObject *
+SWIG_From_size_t  (size_t value)
+{    
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  if (sizeof(size_t) <= sizeof(unsigned long)) {
+#endif
+    return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  } else {
+    /* assume sizeof(size_t) <= sizeof(unsigned long long) */
+    return SWIG_From_unsigned_SS_long_SS_long  (static_cast< unsigned long long >(value));
+  }
+#endif
 }
 
 
@@ -3882,7 +3883,7 @@ SWIGINTERN PyObject *_wrap_Key_key_id(PyObject *self, PyObject *args) {
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if (!args) SWIG_fail;
@@ -3901,7 +3902,7 @@ SWIGINTERN PyObject *_wrap_Key_key_id(PyObject *self, PyObject *args) {
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -4024,7 +4025,7 @@ SWIGINTERN PyObject *_wrap_Query_query_id(PyObject *self, PyObject *args) {
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if (!args) SWIG_fail;
@@ -4043,7 +4044,7 @@ SWIGINTERN PyObject *_wrap_Query_query_id(PyObject *self, PyObject *args) {
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -4443,7 +4444,7 @@ SWIGINTERN PyObject *_wrap_Keyset_key_id(PyObject *self, PyObject *args) {
   size_t val2 ;
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "Keyset_key_id", 2, 2, swig_obj)) SWIG_fail;
@@ -4466,7 +4467,7 @@ SWIGINTERN PyObject *_wrap_Keyset_key_id(PyObject *self, PyObject *args) {
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -4773,11 +4774,11 @@ fail:
 SWIGINTERN PyObject *_wrap_Agent_set_query__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   marisa_swig::Agent *arg1 = (marisa_swig::Agent *) 0 ;
-  std::size_t arg2 ;
+  marisa_key_t arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  size_t val2 ;
-  int ecode2 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
   
   (void)self;
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
@@ -4786,11 +4787,19 @@ SWIGINTERN PyObject *_wrap_Agent_set_query__SWIG_1(PyObject *self, Py_ssize_t no
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Agent_set_query" "', argument " "1"" of type '" "marisa_swig::Agent *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Agent * >(argp1);
-  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Agent_set_query" "', argument " "2"" of type '" "std::size_t""'");
-  } 
-  arg2 = static_cast< std::size_t >(val2);
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_marisa_key_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Agent_set_query" "', argument " "2"" of type '" "marisa_key_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Agent_set_query" "', argument " "2"" of type '" "marisa_key_t""'");
+    } else {
+      marisa_key_t * temp = reinterpret_cast< marisa_key_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
   {
     try {
       (arg1)->set_query(arg2);
@@ -4821,10 +4830,8 @@ SWIGINTERN PyObject *_wrap_Agent_set_query(PyObject *self, PyObject *args) {
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_marisa_swig__Agent, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      {
-        int res = SWIG_AsVal_size_t(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_marisa_key_t, SWIG_POINTER_NO_NULL | 0);
+      _v = SWIG_CheckState(res);
       if (_v) {
         return _wrap_Agent_set_query__SWIG_1(self, argc, argv);
       }
@@ -4857,7 +4864,7 @@ fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Agent_set_query'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    marisa_swig::Agent::set_query(char const *,std::size_t)\n"
-    "    marisa_swig::Agent::set_query(std::size_t)\n");
+    "    marisa_swig::Agent::set_query(marisa_key_t)\n");
   return 0;
 }
 
@@ -4972,7 +4979,7 @@ SWIGINTERN PyObject *_wrap_Agent_key_id(PyObject *self, PyObject *args) {
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if (!args) SWIG_fail;
@@ -4991,7 +4998,7 @@ SWIGINTERN PyObject *_wrap_Agent_key_id(PyObject *self, PyObject *args) {
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -5044,7 +5051,7 @@ SWIGINTERN PyObject *_wrap_Agent_query_id(PyObject *self, PyObject *args) {
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if (!args) SWIG_fail;
@@ -5063,7 +5070,7 @@ SWIGINTERN PyObject *_wrap_Agent_query_id(PyObject *self, PyObject *args) {
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -5670,7 +5677,7 @@ SWIGINTERN PyObject *_wrap_Trie_lookup__SWIG_1(PyObject *self, Py_ssize_t nobjs,
   char *buf2 = 0 ;
   size_t size2 = 0 ;
   int alloc2 = 0 ;
-  std::size_t result;
+  marisa_key_t result;
   
   (void)self;
   if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
@@ -5694,7 +5701,7 @@ SWIGINTERN PyObject *_wrap_Trie_lookup__SWIG_1(PyObject *self, Py_ssize_t nobjs,
       SWIG_exception(SWIG_UnknownError,"Unknown exception");
     }
   }
-  resultobj = SWIG_From_size_t(static_cast< size_t >(result));
+  resultobj = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN |  0 );
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
 fail:
@@ -5760,13 +5767,13 @@ fail:
 SWIGINTERN PyObject *_wrap_Trie_reverse_lookup__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   marisa_swig::Trie *arg1 = (marisa_swig::Trie *) 0 ;
-  std::size_t arg2 ;
+  marisa_key_t arg2 ;
   char **arg3 = (char **) 0 ;
   std::size_t *arg4 = (std::size_t *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  size_t val2 ;
-  int ecode2 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
   char *temp3 = 0 ;
   std::size_t tempn3 ;
   
@@ -5778,11 +5785,19 @@ SWIGINTERN PyObject *_wrap_Trie_reverse_lookup__SWIG_1(PyObject *self, Py_ssize_
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Trie_reverse_lookup" "', argument " "1"" of type '" "marisa_swig::Trie const *""'"); 
   }
   arg1 = reinterpret_cast< marisa_swig::Trie * >(argp1);
-  ecode2 = SWIG_AsVal_size_t(swig_obj[1], &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "std::size_t""'");
-  } 
-  arg2 = static_cast< std::size_t >(val2);
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_marisa_key_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "marisa_key_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "marisa_key_t""'");
+    } else {
+      marisa_key_t * temp = reinterpret_cast< marisa_key_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
   {
     try {
       ((marisa_swig::Trie const *)arg1)->reverse_lookup(arg2,(char const **)arg3,arg4);
@@ -5831,10 +5846,8 @@ SWIGINTERN PyObject *_wrap_Trie_reverse_lookup(PyObject *self, PyObject *args) {
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_marisa_swig__Trie, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      {
-        int res = SWIG_AsVal_size_t(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_marisa_key_t, SWIG_POINTER_NO_NULL | 0);
+      _v = SWIG_CheckState(res);
       if (_v) {
         return _wrap_Trie_reverse_lookup__SWIG_1(self, argc, argv);
       }
@@ -5845,7 +5858,7 @@ fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Trie_reverse_lookup'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    marisa_swig::Trie::reverse_lookup(marisa_swig::Agent &) const\n"
-    "    marisa_swig::Trie::reverse_lookup(std::size_t,char const **,std::size_t *) const\n");
+    "    marisa_swig::Trie::reverse_lookup(marisa_key_t,char const **,std::size_t *) const\n");
   return 0;
 }
 
@@ -6245,6 +6258,7 @@ static PyMethodDef SwigMethods[] = {
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa__Key = {"_p_marisa__Key", "marisa::Key *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_marisa_key_t = {"_p_marisa_key_t", "marisa_key_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa_swig__Agent = {"_p_marisa_swig__Agent", "marisa_swig::Agent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa_swig__Key = {"_p_marisa_swig__Key", "marisa_swig::Key *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa_swig__Keyset = {"_p_marisa_swig__Keyset", "marisa_swig::Keyset *", 0, 0, (void*)0, 0};
@@ -6256,6 +6270,7 @@ static swig_type_info _swigt__p_std__size_t = {"_p_std__size_t", "std::size_t *"
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
   &_swigt__p_marisa__Key,
+  &_swigt__p_marisa_key_t,
   &_swigt__p_marisa_swig__Agent,
   &_swigt__p_marisa_swig__Key,
   &_swigt__p_marisa_swig__Keyset,
@@ -6267,6 +6282,7 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa__Key[] = {  {&_swigt__p_marisa__Key, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_marisa_key_t[] = {  {&_swigt__p_marisa_key_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Agent[] = {  {&_swigt__p_marisa_swig__Agent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Key[] = {  {&_swigt__p_marisa_swig__Key, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Keyset[] = {  {&_swigt__p_marisa_swig__Keyset, 0, 0, 0},{0, 0, 0, 0}};
@@ -6278,6 +6294,7 @@ static swig_cast_info _swigc__p_std__size_t[] = {  {&_swigt__p_std__size_t, 0, 0
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
   _swigc__p_marisa__Key,
+  _swigc__p_marisa_key_t,
   _swigc__p_marisa_swig__Agent,
   _swigc__p_marisa_swig__Key,
   _swigc__p_marisa_swig__Keyset,

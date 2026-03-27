@@ -57,7 +57,7 @@ enum NodeOrder {
 class Key {
  public:
   void str(const char **ptr_out, std::size_t *length_out) const;
-  std::size_t id() const;
+  marisa_key_t id() const;
   float weight() const;
 
  private:
@@ -71,7 +71,7 @@ class Key {
 class Query {
  public:
   void str(const char **ptr_out, std::size_t *length_out) const;
-  std::size_t id() const;
+  marisa_key_t id() const;
 
  private:
   const marisa::Query query_;
@@ -95,7 +95,7 @@ class Keyset {
 
   void key_str(std::size_t i,
       const char **ptr_out, std::size_t *length_out) const;
-  std::size_t key_id(std::size_t i) const;
+  marisa_key_t key_id(size_t i) const;
 
   std::size_t num_keys() const;
 
@@ -121,16 +121,16 @@ class Agent {
   ~Agent();
 
   void set_query(const char *ptr, std::size_t length);
-  void set_query(std::size_t id);
+  void set_query(marisa_key_t id);
 
   const Key &key() const;
   const Query &query() const;
 
   void key_str(const char **ptr_out, std::size_t *length_out) const;
-  std::size_t key_id() const;
+  marisa_key_t key_id() const;
 
   void query_str(const char **ptr_out, std::size_t *length_out) const;
-  std::size_t query_id() const;
+  marisa_key_t query_id() const;
 
  private:
   marisa::Agent *agent_;
@@ -157,8 +157,8 @@ class Trie {
   bool common_prefix_search(Agent &agent) const;
   bool predictive_search(Agent &agent) const;
 
-  std::size_t lookup(const char *ptr, std::size_t length) const;
-  void reverse_lookup(std::size_t id,
+  marisa_key_t lookup(const char *ptr, std::size_t length) const;
+  void reverse_lookup(marisa_key_t id,
       const char **ptr_out_to_be_deleted, std::size_t *length_out) const;
 
   std::size_t num_tries() const;

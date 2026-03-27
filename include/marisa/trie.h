@@ -42,15 +42,15 @@ class Trie {
   bool common_prefix_search(Agent &agent) const;
   bool predictive_search(Agent &agent) const;
 
-  std::size_t num_tries() const;
-  std::size_t num_keys() const;
-  std::size_t num_nodes() const;
+  uint32_t num_tries() const;
+  uint32_t num_keys() const;
+  uint32_t num_nodes() const;
 
   TailMode tail_mode() const;
   NodeOrder node_order() const;
 
   bool empty() const;
-  std::size_t size() const;
+  uint32_t size() const;
   std::size_t total_size() const;
   std::size_t io_size() const;
 

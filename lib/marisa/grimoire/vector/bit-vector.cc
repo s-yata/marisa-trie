@@ -13,27 +13,26 @@ namespace {
 
 #if defined(__cpp_lib_bitops) && __cpp_lib_bitops >= 201907L
 
-inline std::size_t countr_zero(uint64_t x) {
-  return static_cast<std::size_t>(std::countr_zero(x));
+inline uint32_t countr_zero(uint64_t x) {
+  return static_cast<uint32_t>(std::countr_zero(x));
 }
 
 #else  // c++17
 
-inline std::size_t countr_zero(uint64_t x) {
+inline uint32_t countr_zero(uint64_t x) {
  #ifdef _MSC_VER
   unsigned long pos;
   ::_BitScanForward64(&pos, x);
-  return pos;
+  return static_cast<uint32_t>(pos);
  #else   // _MSC_VER
-  return __builtin_ctzll(x);
+  return static_cast<uint32_t>(__builtin_ctzll(x));
  #endif  // _MSC_VER
 }
 
 #endif  // c++17
 
 #ifdef MARISA_USE_BMI2
-inline std::size_t select_bit(std::size_t i, std::size_t bit_id,
-                              uint64_t unit) {
+inline uint32_t select_bit(uint32_t i, uint32_t bit_id, uint64_t unit) {
   return bit_id + countr_zero(_pdep_u64(1ULL << i, unit));
 }
 #else  // MARISA_USE_BMI2
@@ -217,7 +216,7 @@ const uint64_t PREFIX_SUM_OVERFLOW[64] = {
     // clang-format on
 };
 
-std::size_t select_bit(std::size_t i, std::size_t bit_id, uint64_t unit) {
+uint32_t select_bit(uint32_t i, uint32_t bit_id, uint64_t unit) {
   uint64_t counts;
   {
   #if defined(MARISA_X64) && defined(MARISA_USE_SSSE3)
@@ -253,12 +252,12 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, uint64_t unit) {
   }
 
   #if defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
-  uint8_t skip;
+  uint32_t skip;
   {
     __m128i x = _mm_cvtsi64_si128(static_cast<long long>((i + 1) * MASK_01));
     __m128i y = _mm_cvtsi64_si128(static_cast<long long>(counts));
     x = _mm_cmpgt_epi8(x, y);
-    skip = (uint8_t)popcount(static_cast<uint64_t>(_mm_cvtsi128_si64(x)));
+    skip = popcount(static_cast<uint64_t>(_mm_cvtsi128_si64(x)));
   }
   #else   // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
   constexpr uint64_t MASK_80 = 0x8080808080808080ULL;
@@ -268,10 +267,10 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, uint64_t unit) {
   // number is the number of trailing zeros divided by 8.  We just shift off
   // the low 7 bits, so `CTZ` gives us the `skip` value we want for the
   // number of bits of `counts` to shift.
-  const int skip = countr_zero(x >> 7);
+  const uint32_t skip = countr_zero(x >> 7);
   #endif  // defined(MARISA_X64) && defined(MARISA_USE_POPCNT)
 
-  bit_id += static_cast<std::size_t>(skip);
+  bit_id += skip;
   unit >>= skip;
   i -= ((counts << 8) >> skip) & 0xFF;
 
@@ -301,8 +300,8 @@ const uint8_t POPCNT_X8_TABLE[256] = {
     // clang-format on
 };
 
-std::size_t select_bit(std::size_t i, std::size_t bit_id, uint32_t unit_lo,
-                       uint32_t unit_hi) {
+uint32_t select_bit(uint32_t i, uint32_t bit_id, uint32_t unit_lo,
+                    uint32_t unit_hi) {
   __m128i unit;
   {
     __m128i lower_dword = _mm_cvtsi32_si128(unit_lo);
@@ -411,8 +410,8 @@ const uint8_t POPCNT_TABLE[256] = {
     // clang-format on
 };
 
-std::size_t select_bit(std::size_t i, std::size_t bit_id, uint32_t unit_lo,
-                       uint32_t unit_hi) {
+uint32_t select_bit(uint32_t i, uint32_t bit_id, uint32_t unit_lo,
+                    uint32_t unit_hi) {
   uint32_t next_byte = unit_lo & 0xFF;
   uint32_t byte_popcount = POPCNT_TABLE[next_byte];
   // Assuming the desired bit is in a random byte, branches are not
@@ -453,8 +452,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, uint32_t unit_lo,
 
 // This is only used by build_index, so don't worry about the small performance
 // penalty from not having version taking only a uint32_t.
-inline std::size_t select_bit(std::size_t i, std::size_t bit_id,
-                              uint32_t unit) {
+inline uint32_t select_bit(uint32_t i, uint32_t bit_id, uint32_t unit) {
   return select_bit(i, bit_id, /*unit_lo=*/unit, /*unit_hi=*/0);
 }
 
@@ -465,12 +463,12 @@ inline std::size_t select_bit(std::size_t i, std::size_t bit_id,
 
 #if MARISA_WORD_SIZE == 64
 
-std::size_t BitVector::rank1(std::size_t i) const {
+uint32_t BitVector::rank1(uint32_t i) const {
   assert(!ranks_.empty());
   assert(i <= size_);
 
   const RankIndex &rank = ranks_[i / 512];
-  std::size_t offset = rank.abs();
+  uint32_t offset = rank.abs();
   switch ((i / 64) % 8) {
     case 1: {
       offset += rank.rel1();
@@ -505,24 +503,24 @@ std::size_t BitVector::rank1(std::size_t i) const {
   return offset;
 }
 
-std::size_t BitVector::select0(std::size_t i) const {
+uint32_t BitVector::select0(uint32_t i) const {
   assert(!select0s_.empty());
   assert(i < num_0s());
 
-  const std::size_t select_id = i / 512;
+  const uint32_t select_id = i / 512;
   assert((select_id + 1) < select0s_.size());
   if ((i % 512) == 0) {
     return select0s_[select_id];
   }
-  std::size_t begin = select0s_[select_id] / 512;
-  std::size_t end = (select0s_[select_id + 1] + 511) / 512;
+  uint32_t begin = select0s_[select_id] / 512;
+  uint32_t end = (select0s_[select_id + 1] + 511) / 512;
   if (begin + 10 >= end) {
     while (i >= ((begin + 1) * 512) - ranks_[begin + 1].abs()) {
       ++begin;
     }
   } else {
     while (begin + 1 < end) {
-      const std::size_t middle = (begin + end) / 2;
+      const uint32_t middle = (begin + end) / 2;
       if (i < (middle * 512) - ranks_[middle].abs()) {
         end = middle;
       } else {
@@ -530,11 +528,11 @@ std::size_t BitVector::select0(std::size_t i) const {
       }
     }
   }
-  const std::size_t rank_id = begin;
+  const uint32_t rank_id = begin;
   i -= (rank_id * 512) - ranks_[rank_id].abs();
 
   const RankIndex &rank = ranks_[rank_id];
-  std::size_t unit_id = rank_id * 8;
+  uint32_t unit_id = rank_id * 8;
   if (i < (256U - rank.rel4())) {
     if (i < (128U - rank.rel2())) {
       if (i >= (64U - rank.rel1())) {
@@ -567,24 +565,24 @@ std::size_t BitVector::select0(std::size_t i) const {
   return select_bit(i, unit_id * 64, ~units_[unit_id]);
 }
 
-std::size_t BitVector::select1(std::size_t i) const {
+uint32_t BitVector::select1(uint32_t i) const {
   assert(!select1s_.empty());
   assert(i < num_1s());
 
-  const std::size_t select_id = i / 512;
+  const uint32_t select_id = i / 512;
   assert((select_id + 1) < select1s_.size());
   if ((i % 512) == 0) {
     return select1s_[select_id];
   }
-  std::size_t begin = select1s_[select_id] / 512;
-  std::size_t end = (select1s_[select_id + 1] + 511) / 512;
+  uint32_t begin = select1s_[select_id] / 512;
+  uint32_t end = (select1s_[select_id + 1] + 511) / 512;
   if (begin + 10 >= end) {
     while (i >= ranks_[begin + 1].abs()) {
       ++begin;
     }
   } else {
     while (begin + 1 < end) {
-      const std::size_t middle = (begin + end) / 2;
+      const uint32_t middle = (begin + end) / 2;
       if (i < ranks_[middle].abs()) {
         end = middle;
       } else {
@@ -592,11 +590,11 @@ std::size_t BitVector::select1(std::size_t i) const {
       }
     }
   }
-  const std::size_t rank_id = begin;
+  const uint32_t rank_id = begin;
   i -= ranks_[rank_id].abs();
 
   const RankIndex &rank = ranks_[rank_id];
-  std::size_t unit_id = rank_id * 8;
+  uint32_t unit_id = rank_id * 8;
   if (i < rank.rel4()) {
     if (i < rank.rel2()) {
       if (i >= rank.rel1()) {
@@ -631,12 +629,12 @@ std::size_t BitVector::select1(std::size_t i) const {
 
 #else  // MARISA_WORD_SIZE == 64
 
-std::size_t BitVector::rank1(std::size_t i) const {
+uint32_t BitVector::rank1(uint32_t i) const {
   assert(!ranks_.empty());
   assert(i <= size_);
 
   const RankIndex &rank = ranks_[i / 512];
-  std::size_t offset = rank.abs();
+  uint32_t offset = rank.abs();
   switch ((i / 64) % 8) {
     case 1: {
       offset += rank.rel1();
@@ -674,24 +672,24 @@ std::size_t BitVector::rank1(std::size_t i) const {
   return offset;
 }
 
-std::size_t BitVector::select0(std::size_t i) const {
+uint32_t BitVector::select0(uint32_t i) const {
   assert(!select0s_.empty());
   assert(i < num_0s());
 
-  const std::size_t select_id = i / 512;
+  const uint32_t select_id = i / 512;
   assert((select_id + 1) < select0s_.size());
   if ((i % 512) == 0) {
     return select0s_[select_id];
   }
-  std::size_t begin = select0s_[select_id] / 512;
-  std::size_t end = (select0s_[select_id + 1] + 511) / 512;
+  uint32_t begin = select0s_[select_id] / 512;
+  uint32_t end = (select0s_[select_id + 1] + 511) / 512;
   if (begin + 10 >= end) {
     while (i >= ((begin + 1) * 512) - ranks_[begin + 1].abs()) {
       ++begin;
     }
   } else {
     while (begin + 1 < end) {
-      const std::size_t middle = (begin + end) / 2;
+      const uint32_t middle = (begin + end) / 2;
       if (i < (middle * 512) - ranks_[middle].abs()) {
         end = middle;
       } else {
@@ -699,11 +697,11 @@ std::size_t BitVector::select0(std::size_t i) const {
       }
     }
   }
-  const std::size_t rank_id = begin;
+  const uint32_t rank_id = begin;
   i -= (rank_id * 512) - ranks_[rank_id].abs();
 
   const RankIndex &rank = ranks_[rank_id];
-  std::size_t unit_id = rank_id * 16;
+  uint32_t unit_id = rank_id * 16;
   if (i < (256U - rank.rel4())) {
     if (i < (128U - rank.rel2())) {
       if (i >= (64U - rank.rel1())) {
@@ -736,24 +734,24 @@ std::size_t BitVector::select0(std::size_t i) const {
   return select_bit(i, unit_id * 32, ~units_[unit_id], ~units_[unit_id + 1]);
 }
 
-std::size_t BitVector::select1(std::size_t i) const {
+uint32_t BitVector::select1(uint32_t i) const {
   assert(!select1s_.empty());
   assert(i < num_1s());
 
-  const std::size_t select_id = i / 512;
+  const uint32_t select_id = i / 512;
   assert((select_id + 1) < select1s_.size());
   if ((i % 512) == 0) {
     return select1s_[select_id];
   }
-  std::size_t begin = select1s_[select_id] / 512;
-  std::size_t end = (select1s_[select_id + 1] + 511) / 512;
+  uint32_t begin = select1s_[select_id] / 512;
+  uint32_t end = (select1s_[select_id + 1] + 511) / 512;
   if (begin + 10 >= end) {
     while (i >= ranks_[begin + 1].abs()) {
       ++begin;
     }
   } else {
     while (begin + 1 < end) {
-      const std::size_t middle = (begin + end) / 2;
+      const uint32_t middle = (begin + end) / 2;
       if (i < ranks_[middle].abs()) {
         end = middle;
       } else {
@@ -761,11 +759,11 @@ std::size_t BitVector::select1(std::size_t i) const {
       }
     }
   }
-  const std::size_t rank_id = begin;
+  const uint32_t rank_id = begin;
   i -= ranks_[rank_id].abs();
 
   const RankIndex &rank = ranks_[rank_id];
-  std::size_t unit_id = rank_id * 16;
+  uint32_t unit_id = rank_id * 16;
   if (i < rank.rel4()) {
     if (i < rank.rel2()) {
       if (i >= rank.rel1()) {
@@ -802,18 +800,18 @@ std::size_t BitVector::select1(std::size_t i) const {
 
 void BitVector::build_index(const BitVector &bv, bool enables_select0,
                             bool enables_select1) {
-  const std::size_t num_bits = bv.size();
+  const uint32_t num_bits = bv.size();
   ranks_.resize((num_bits / 512) + (((num_bits % 512) != 0) ? 1 : 0) + 1);
 
-  std::size_t num_0s = 0;  // Only updated if enables_select0 is true.
-  std::size_t num_1s = 0;
+  uint32_t num_0s = 0;  // Only updated if enables_select0 is true.
+  uint32_t num_1s = 0;
 
-  const std::size_t num_units = bv.units_.size();
-  for (std::size_t unit_id = 0; unit_id < num_units; ++unit_id) {
-    const std::size_t bit_id = unit_id * MARISA_WORD_SIZE;
+  const uint32_t num_units = bv.units_.size();
+  for (uint32_t unit_id = 0; unit_id < num_units; ++unit_id) {
+    const uint32_t bit_id = unit_id * MARISA_WORD_SIZE;
 
     if ((bit_id % 64) == 0) {
-      const std::size_t rank_id = bit_id / 512;
+      const uint32_t rank_id = bit_id / 512;
       switch ((bit_id / 64) % 8) {
         case 0: {
           ranks_[rank_id].set_abs(num_1s);
@@ -853,24 +851,21 @@ void BitVector::build_index(const BitVector &bv, bool enables_select0,
     const Unit unit = bv.units_[unit_id];
     // push_back resizes with 0, so the high bits of the last unit are 0 and
     // do not affect the 1s count.
-    const std::size_t unit_num_1s = popcount(unit);
+    const uint32_t unit_num_1s = popcount(unit);
 
     if (enables_select0) {
       // num_0s is somewhat move involved to compute, so only do it if we
       // need it.  The last word has zeros in the high bits, so that needs
       // to be accounted for when computing the unit_num_0s from unit_num_1s.
-      const std::size_t bits_remaining = num_bits - bit_id;
-      const std::size_t unit_num_0s =
-          std::min<std::size_t>(bits_remaining, MARISA_WORD_SIZE) - unit_num_1s;
+      const uint32_t bits_remaining = num_bits - bit_id;
+      const uint32_t unit_num_0s =
+          std::min<uint32_t>(bits_remaining, MARISA_WORD_SIZE) - unit_num_1s;
 
       // Note: MSVC rejects unary minus operator applied to unsigned type.
-      const std::size_t zero_bit_id = (0 - num_0s) % 512;
+      const uint32_t zero_bit_id = (0 - num_0s) % 512;
       if (unit_num_0s > zero_bit_id) {
-        // select0s_ is uint32_t, but select_bit returns size_t, so cast to
-        // suppress narrowing conversion warning.  push_back checks the
-        // size, so there is no truncation here.
         select0s_.push_back(
-            static_cast<uint32_t>(select_bit(zero_bit_id, bit_id, ~unit)));
+            select_bit(zero_bit_id, bit_id, ~unit));
       }
 
       num_0s += unit_num_0s;
@@ -878,10 +873,10 @@ void BitVector::build_index(const BitVector &bv, bool enables_select0,
 
     if (enables_select1) {
       // Note: MSVC rejects unary minus operator applied to unsigned type.
-      const std::size_t one_bit_id = (0 - num_1s) % 512;
+      const uint32_t one_bit_id = (0 - num_1s) % 512;
       if (unit_num_1s > one_bit_id) {
         select1s_.push_back(
-            static_cast<uint32_t>(select_bit(one_bit_id, bit_id, unit)));
+            select_bit(one_bit_id, bit_id, unit));
       }
     }
 
@@ -889,7 +884,7 @@ void BitVector::build_index(const BitVector &bv, bool enables_select0,
   }
 
   if ((num_bits % 512) != 0) {
-    const std::size_t rank_id = (num_bits - 1) / 512;
+    const uint32_t rank_id = (num_bits - 1) / 512;
     switch (((num_bits - 1) / 64) % 8) {
       case 0: {
         ranks_[rank_id].set_rel1(num_1s - ranks_[rank_id].abs());

@@ -19,7 +19,7 @@ cc_library(
         "io/writer.h",
     ],
     strip_include_prefix = "/lib",
-    deps = ["//:headers"],
+    deps = ["//include:headers"],
 )
 
 cc_library(
@@ -67,6 +67,6 @@ cc_library(
     deps = [
         ":algorithm",
         ":vector",
-        "//:headers",
+        "//include:headers",
     ],
 )

@@ -1,39 +1,5 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
-# Core public headers (header-only). Separated from the implementation to
-# break the circular dependency with //lib/marisa/grimoire:trie, which
-# includes marisa/agent.h and marisa/keyset.h.
-cc_library(
-    name = "headers",
-    hdrs = [
-        "include/marisa/agent.h",
-        "include/marisa/base.h",
-        "include/marisa/key.h",
-        "include/marisa/keyset.h",
-        "include/marisa/query.h",
-        "include/marisa/trie.h",
-    ],
-    strip_include_prefix = "include",
-    visibility = [
-        "//lib/marisa/grimoire:__pkg__",
-        "//tests:__pkg__",
-    ],
-)
-
-cc_library(
-    name = "stdio",
-    hdrs = ["include/marisa/stdio.h"],
-    strip_include_prefix = "include",
-    visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "iostream",
-    hdrs = ["include/marisa/iostream.h"],
-    strip_include_prefix = "include",
-    visibility = ["//visibility:public"],
-)
-
 # Core library implementation.
 cc_library(
     name = "trie",
@@ -44,18 +10,16 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        ":headers",
-        ":iostream",
-        ":stdio",
+        "//include:headers",
+        "//include:iostream",
+        "//include:stdio",
         "//lib/marisa/grimoire:trie",
     ],
 )
 
-# Umbrella target — includes everything via marisa.h.
-cc_library(
+# Alias so external consumers can use @marisa-trie//:marisa-trie.
+alias(
     name = "marisa-trie",
-    hdrs = ["include/marisa.h"],
-    strip_include_prefix = "include",
+    actual = "//include:marisa-trie",
     visibility = ["//visibility:public"],
-    deps = [":trie"],
 )

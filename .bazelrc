@@ -3,3 +3,4 @@ build --enable_platform_specific_config
 build:linux --cxxopt=-std=c++17
 build:macos --cxxopt=-std=c++17
 build:windows --cxxopt=/std:c++17
+build:windows --copt=-D_WIN32_WINNT=_WIN32_WINNT_WIN8

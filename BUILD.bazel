@@ -1,111 +1,61 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
-load("@rules_cc//cc:cc_test.bzl", "cc_test")
 
+# Core public headers (header-only). Separated from the implementation to
+# break the circular dependency with //lib/marisa/grimoire:trie, which
+# includes marisa/agent.h and marisa/keyset.h.
 cc_library(
-    name = "public_headers",
+    name = "headers",
     hdrs = [
-        "include/marisa.h",
         "include/marisa/agent.h",
         "include/marisa/base.h",
-        "include/marisa/iostream.h",
         "include/marisa/key.h",
         "include/marisa/keyset.h",
         "include/marisa/query.h",
-        "include/marisa/stdio.h",
         "include/marisa/trie.h",
     ],
     strip_include_prefix = "include",
-)
-
-cc_library(
-    name = "internal_headers",
-    hdrs = [
-        "lib/marisa/grimoire/algorithm/sort.h",
-        "lib/marisa/grimoire/intrin.h",
-        "lib/marisa/grimoire/io.h",
-        "lib/marisa/grimoire/io/mapper.h",
-        "lib/marisa/grimoire/io/reader.h",
-        "lib/marisa/grimoire/io/writer.h",
-        "lib/marisa/grimoire/trie.h",
-        "lib/marisa/grimoire/trie/cache.h",
-        "lib/marisa/grimoire/trie/config.h",
-        "lib/marisa/grimoire/trie/entry.h",
-        "lib/marisa/grimoire/trie/header.h",
-        "lib/marisa/grimoire/trie/history.h",
-        "lib/marisa/grimoire/trie/key.h",
-        "lib/marisa/grimoire/trie/louds-trie.h",
-        "lib/marisa/grimoire/trie/range.h",
-        "lib/marisa/grimoire/trie/state.h",
-        "lib/marisa/grimoire/trie/tail.h",
-        "lib/marisa/grimoire/vector.h",
-        "lib/marisa/grimoire/vector/bit-vector.h",
-        "lib/marisa/grimoire/vector/flat-vector.h",
-        "lib/marisa/grimoire/vector/pop-count.h",
-        "lib/marisa/grimoire/vector/rank-index.h",
-        "lib/marisa/grimoire/vector/vector.h",
+    visibility = [
+        "//lib/marisa/grimoire:__pkg__",
+        "//tests:__pkg__",
     ],
-    strip_include_prefix = "lib",
 )
 
 cc_library(
-    name = "marisa-trie",
+    name = "stdio",
+    hdrs = ["include/marisa/stdio.h"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "iostream",
+    hdrs = ["include/marisa/iostream.h"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+# Core library implementation.
+cc_library(
+    name = "trie",
     srcs = [
         "lib/marisa/agent.cc",
-        "lib/marisa/grimoire/io/mapper.cc",
-        "lib/marisa/grimoire/io/reader.cc",
-        "lib/marisa/grimoire/io/writer.cc",
-        "lib/marisa/grimoire/trie/louds-trie.cc",
-        "lib/marisa/grimoire/trie/tail.cc",
-        "lib/marisa/grimoire/vector/bit-vector.cc",
         "lib/marisa/keyset.cc",
         "lib/marisa/trie.cc",
     ],
     visibility = ["//visibility:public"],
     deps = [
-        ":internal_headers",
-        ":public_headers",
+        ":headers",
+        ":iostream",
+        ":stdio",
+        "//lib/marisa/grimoire:trie",
     ],
 )
 
+# Umbrella target — includes everything via marisa.h.
 cc_library(
-    name = "marisa-assert",
-    testonly = True,
-    hdrs = ["tests/marisa-assert.h"],
-    strip_include_prefix = "tests",
-)
-
-cc_test(
-    name = "base-test",
-    srcs = ["tests/base-test.cc"],
-    deps = [
-        ":marisa-assert",
-        ":marisa-trie",
-    ],
-)
-
-cc_test(
-    name = "io-test",
-    srcs = ["tests/io-test.cc"],
-    deps = [
-        ":marisa-assert",
-        ":marisa-trie",
-    ],
-)
-
-cc_test(
-    name = "marisa-test",
-    srcs = ["tests/marisa-test.cc"],
-    deps = [
-        ":marisa-assert",
-        ":marisa-trie",
-    ],
-)
-
-cc_test(
-    name = "trie-test",
-    srcs = ["tests/trie-test.cc"],
-    deps = [
-        ":marisa-assert",
-        ":marisa-trie",
-    ],
+    name = "marisa-trie",
+    hdrs = ["include/marisa.h"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+    deps = [":trie"],
 )

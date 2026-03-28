@@ -1,0 +1,72 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+package(default_visibility = [
+    "//:__pkg__",
+    "//tests:__pkg__",
+])
+
+cc_library(
+    name = "io",
+    srcs = [
+        "io/mapper.cc",
+        "io/reader.cc",
+        "io/writer.cc",
+    ],
+    hdrs = [
+        "io.h",
+        "io/mapper.h",
+        "io/reader.h",
+        "io/writer.h",
+    ],
+    strip_include_prefix = "/lib",
+    deps = ["//:headers"],
+)
+
+cc_library(
+    name = "vector",
+    srcs = ["vector/bit-vector.cc"],
+    hdrs = [
+        "intrin.h",
+        "vector.h",
+        "vector/bit-vector.h",
+        "vector/flat-vector.h",
+        "vector/pop-count.h",
+        "vector/rank-index.h",
+        "vector/vector.h",
+    ],
+    strip_include_prefix = "/lib",
+    deps = [":io"],
+)
+
+cc_library(
+    name = "algorithm",
+    hdrs = ["algorithm/sort.h"],
+    strip_include_prefix = "/lib",
+)
+
+cc_library(
+    name = "trie",
+    srcs = [
+        "trie/louds-trie.cc",
+        "trie/tail.cc",
+    ],
+    hdrs = [
+        "trie.h",
+        "trie/cache.h",
+        "trie/config.h",
+        "trie/entry.h",
+        "trie/header.h",
+        "trie/history.h",
+        "trie/key.h",
+        "trie/louds-trie.h",
+        "trie/range.h",
+        "trie/state.h",
+        "trie/tail.h",
+    ],
+    strip_include_prefix = "/lib",
+    deps = [
+        ":algorithm",
+        ":vector",
+        "//:headers",
+    ],
+)

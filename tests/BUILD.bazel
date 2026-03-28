@@ -1,0 +1,54 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+cc_library(
+    name = "marisa-assert",
+    testonly = True,
+    hdrs = ["marisa-assert.h"],
+    strip_include_prefix = "/tests",
+)
+
+cc_test(
+    name = "base-test",
+    srcs = ["base-test.cc"],
+    deps = [
+        ":marisa-assert",
+        "//:marisa-trie",
+    ],
+)
+
+cc_test(
+    name = "io-test",
+    srcs = ["io-test.cc"],
+    deps = [
+        ":marisa-assert",
+        "//lib/marisa/grimoire:io",
+    ],
+)
+
+cc_test(
+    name = "vector-test",
+    srcs = ["vector-test.cc"],
+    deps = [
+        ":marisa-assert",
+        "//lib/marisa/grimoire:vector",
+    ],
+)
+
+cc_test(
+    name = "trie-test",
+    srcs = ["trie-test.cc"],
+    deps = [
+        ":marisa-assert",
+        "//lib/marisa/grimoire:trie",
+    ],
+)
+
+cc_test(
+    name = "marisa-test",
+    srcs = ["marisa-test.cc"],
+    deps = [
+        ":marisa-assert",
+        "//:marisa-trie",
+    ],
+)

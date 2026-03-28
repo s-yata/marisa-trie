@@ -130,15 +130,15 @@ void Mapper::open_(const char *filename, int flags) {
   MARISA_THROW_SYSTEM_ERROR_IF(origin_ == nullptr, ::GetLastError(),
                                std::system_category(), "MapViewOfFile");
 
-  if (flags & MARISA_MAP_POPULATE) {
+  // PrefetchVirtualMemory requires Windows 8+ (_WIN32_WINNT >= 0x0602).
 #if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x0602
-    // PrefetchVirtualMemory requires Windows 8+.
+  if (flags & MARISA_MAP_POPULATE) {
     WIN32_MEMORY_RANGE_ENTRY range_entry;
     range_entry.VirtualAddress = origin_;
     range_entry.NumberOfBytes = size_;
     ::PrefetchVirtualMemory(GetCurrentProcess(), 1, &range_entry, 0);
-#endif
   }
+#endif
 
   ptr_ = static_cast<const char *>(origin_);
   avail_ = size_;

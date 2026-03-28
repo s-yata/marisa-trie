@@ -1,0 +1,18 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+# Core library implementation.
+cc_library(
+    name = "trie",
+    srcs = [
+        "agent.cc",
+        "keyset.cc",
+        "trie.cc",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//include:iostream",
+        "//include:stdio",
+        "//include:trie",
+        "//lib/marisa/grimoire:trie",
+    ],
+)

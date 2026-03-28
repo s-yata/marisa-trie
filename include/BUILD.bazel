@@ -1,7 +1,7 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
 _INTERNAL_VISIBILITY = [
-    "//:__pkg__",
+    "//lib/marisa:__pkg__",
     "//lib/marisa/grimoire:__pkg__",
     "//tests:__pkg__",
 ]
@@ -79,5 +79,5 @@ cc_library(
     hdrs = ["marisa.h"],
     strip_include_prefix = "/include",
     visibility = ["//visibility:public"],
-    deps = ["//:trie"],
+    deps = ["//lib/marisa:trie"],
 )

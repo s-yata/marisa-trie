@@ -1,22 +1,3 @@
-load("@rules_cc//cc:cc_library.bzl", "cc_library")
-
-# Core library implementation.
-cc_library(
-    name = "trie",
-    srcs = [
-        "lib/marisa/agent.cc",
-        "lib/marisa/keyset.cc",
-        "lib/marisa/trie.cc",
-    ],
-    visibility = ["//visibility:public"],
-    deps = [
-        "//include:iostream",
-        "//include:stdio",
-        "//include:trie",
-        "//lib/marisa/grimoire:trie",
-    ],
-)
-
 # Alias so external consumers can use @marisa-trie//:marisa-trie.
 alias(
     name = "marisa-trie",

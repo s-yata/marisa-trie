@@ -73,11 +73,9 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-# Umbrella target — includes everything via marisa.h.
 cc_library(
-    name = "marisa-trie",
+    name = "marisa",
     hdrs = ["marisa.h"],
     strip_include_prefix = "/include",
-    visibility = ["//visibility:public"],
-    deps = ["//lib/marisa:trie"],
+    visibility = ["//:__pkg__"],
 )

@@ -1,6 +1,11 @@
-# Alias so external consumers can use @marisa-trie//:marisa-trie.
-alias(
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+# Umbrella target — includes everything via marisa.h.
+cc_library(
     name = "marisa-trie",
-    actual = "//include:marisa-trie",
     visibility = ["//visibility:public"],
+    deps = [
+        "//include:marisa",
+        "//lib/marisa:trie",
+    ],
 )

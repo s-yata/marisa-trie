@@ -1,5 +1,7 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
+package(default_visibility = ["//visibility:public"])
+
 # Core library implementation.
 cc_library(
     name = "trie",
@@ -8,7 +10,6 @@ cc_library(
         "keyset.cc",
         "trie.cc",
     ],
-    visibility = ["//visibility:public"],
     deps = [
         "//include:iostream",
         "//include:stdio",

@@ -1,10 +1,4 @@
 #if (defined _WIN32) || (defined _WIN64)
- // Require Windows 8+ for PrefetchVirtualMemory / WIN32_MEMORY_RANGE_ENTRY
- #ifndef _WIN32_WINNT
-  #define _WIN32_WINNT 0x0602
- #elif _WIN32_WINNT < 0x0602
-  #error marisa-trie requires _WIN32_WINNT >= 0x0602 (Windows 8)
- #endif
  #include <sys/stat.h>
  #include <sys/types.h>
  #include <windows.h>
@@ -137,10 +131,13 @@ void Mapper::open_(const char *filename, int flags) {
                                std::system_category(), "MapViewOfFile");
 
   if (flags & MARISA_MAP_POPULATE) {
+#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x0602
+    // PrefetchVirtualMemory requires Windows 8+.
     WIN32_MEMORY_RANGE_ENTRY range_entry;
     range_entry.VirtualAddress = origin_;
     range_entry.NumberOfBytes = size_;
     ::PrefetchVirtualMemory(GetCurrentProcess(), 1, &range_entry, 0);
+#endif
   }
 
   ptr_ = static_cast<const char *>(origin_);

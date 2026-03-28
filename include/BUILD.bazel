@@ -1,23 +1,61 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
-# Core public headers (header-only). Separated from the implementation to
-# break the circular dependency with //lib/marisa/grimoire:trie, which
-# includes marisa/agent.h and marisa/keyset.h.
+_INTERNAL_VISIBILITY = [
+    "//:__pkg__",
+    "//lib/marisa/grimoire:__pkg__",
+    "//tests:__pkg__",
+]
+
 cc_library(
-    name = "headers",
-    hdrs = [
-        "marisa/agent.h",
-        "marisa/base.h",
-        "marisa/key.h",
-        "marisa/keyset.h",
-        "marisa/query.h",
-        "marisa/trie.h",
-    ],
+    name = "base",
+    hdrs = ["marisa/base.h"],
     strip_include_prefix = "/include",
-    visibility = [
-        "//:__pkg__",
-        "//lib/marisa/grimoire:__pkg__",
-        "//tests:__pkg__",
+    visibility = _INTERNAL_VISIBILITY,
+)
+
+cc_library(
+    name = "key",
+    hdrs = ["marisa/key.h"],
+    strip_include_prefix = "/include",
+    visibility = _INTERNAL_VISIBILITY,
+    deps = [":base"],
+)
+
+cc_library(
+    name = "query",
+    hdrs = ["marisa/query.h"],
+    strip_include_prefix = "/include",
+    visibility = _INTERNAL_VISIBILITY,
+    deps = [":base"],
+)
+
+cc_library(
+    name = "keyset",
+    hdrs = ["marisa/keyset.h"],
+    strip_include_prefix = "/include",
+    visibility = _INTERNAL_VISIBILITY,
+    deps = [":key"],
+)
+
+cc_library(
+    name = "agent",
+    hdrs = ["marisa/agent.h"],
+    strip_include_prefix = "/include",
+    visibility = _INTERNAL_VISIBILITY,
+    deps = [
+        ":key",
+        ":query",
+    ],
+)
+
+cc_library(
+    name = "trie",
+    hdrs = ["marisa/trie.h"],
+    strip_include_prefix = "/include",
+    visibility = _INTERNAL_VISIBILITY,
+    deps = [
+        ":agent",
+        ":keyset",
     ],
 )
 

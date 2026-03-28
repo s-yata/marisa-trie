@@ -10,9 +10,9 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//include:headers",
         "//include:iostream",
         "//include:stdio",
+        "//include:trie",
         "//lib/marisa/grimoire:trie",
     ],
 )

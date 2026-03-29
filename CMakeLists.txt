@@ -203,6 +203,11 @@ configure_target_from_options(marisa)
 add_native_code(marisa)
 add_library(Marisa::marisa ALIAS marisa)
 
+# Explicitly warn on integer conversions.
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+  target_compile_options(marisa PUBLIC -Wconversion)
+endif()
+
 # Tools
 set(MARISA_TOOLS
   marisa-build

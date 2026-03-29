@@ -32,13 +32,13 @@ class LoudsTrie {
   bool common_prefix_search(Agent &agent) const;
   bool predictive_search(Agent &agent) const;
 
-  std::size_t num_tries() const {
+  uint32_t num_tries() const {
     return config_.num_tries();
   }
-  std::size_t num_keys() const {
+  uint32_t num_keys() const {
     return size();
   }
-  std::size_t num_nodes() const {
+  uint32_t num_nodes() const {
     return (louds_.size() / 2) - 1;
   }
 
@@ -55,7 +55,7 @@ class LoudsTrie {
   bool empty() const {
     return size() == 0;
   }
-  std::size_t size() const {
+  uint32_t size() const {
     return terminal_flags_.num_1s();
   }
   std::size_t total_size() const;
@@ -73,8 +73,8 @@ class LoudsTrie {
   Tail tail_;
   std::unique_ptr<LoudsTrie> next_trie_;
   Vector<Cache> cache_;
-  std::size_t cache_mask_ = 0;
-  std::size_t num_l1_nodes_ = 0;
+  uint32_t cache_mask_ = 0;
+  uint32_t num_l1_nodes_ = 0;
   Config config_;
   Mapper mapper_;
 
@@ -82,21 +82,20 @@ class LoudsTrie {
 
   template <typename T>
   void build_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
-                  const Config &config, std::size_t trie_id);
+                  const Config &config, uint32_t trie_id);
   template <typename T>
   void build_current_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
-                          const Config &config, std::size_t trie_id);
+                          const Config &config, uint32_t trie_id);
   template <typename T>
   void build_next_trie(Vector<T> &keys, Vector<uint32_t> *terminals,
-                       const Config &config, std::size_t trie_id);
+                       const Config &config, uint32_t trie_id);
   template <typename T>
   void build_terminals(const Vector<T> &keys,
                        Vector<uint32_t> *terminals) const;
 
-  void reserve_cache(const Config &config, std::size_t trie_id,
-                     std::size_t num_keys);
+  void reserve_cache(const Config &config, uint32_t trie_id, uint32_t num_keys);
   template <typename T>
-  void cache(std::size_t parent, std::size_t child, float weight, char label);
+  void cache(uint32_t parent, uint32_t child, float weight, char label);
   void fill_cache();
 
   void map_(Mapper &mapper);
@@ -106,22 +105,21 @@ class LoudsTrie {
   inline bool find_child(Agent &agent) const;
   inline bool predictive_find_child(Agent &agent) const;
 
-  inline void restore(Agent &agent, std::size_t node_id) const;
-  inline bool match(Agent &agent, std::size_t node_id) const;
-  inline bool prefix_match(Agent &agent, std::size_t node_id) const;
+  inline void restore(Agent &agent, uint32_t node_id) const;
+  inline bool match(Agent &agent, uint32_t node_id) const;
+  inline bool prefix_match(Agent &agent, uint32_t node_id) const;
 
-  void restore_(Agent &agent, std::size_t node_id) const;
-  bool match_(Agent &agent, std::size_t node_id) const;
-  bool prefix_match_(Agent &agent, std::size_t node_id) const;
+  void restore_(Agent &agent, uint32_t node_id) const;
+  bool match_(Agent &agent, uint32_t node_id) const;
+  bool prefix_match_(Agent &agent, uint32_t node_id) const;
 
-  inline std::size_t get_cache_id(std::size_t node_id, char label) const;
-  inline std::size_t get_cache_id(std::size_t node_id) const;
+  inline uint32_t get_cache_id(uint32_t node_id, char label) const;
+  inline uint32_t get_cache_id(uint32_t node_id) const;
 
-  inline std::size_t get_link(std::size_t node_id) const;
-  inline std::size_t get_link(std::size_t node_id, std::size_t link_id) const;
+  inline uint32_t get_link(uint32_t node_id) const;
+  inline uint32_t get_link(uint32_t node_id, uint32_t link_id) const;
 
-  inline std::size_t update_link_id(std::size_t link_id,
-                                    std::size_t node_id) const;
+  inline uint32_t update_link_id(uint32_t link_id, uint32_t node_id) const;
 };
 
 }  // namespace marisa::grimoire::trie

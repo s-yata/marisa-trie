@@ -14,18 +14,16 @@ class Cache {
   Cache(const Cache &cache) = default;
   Cache &operator=(const Cache &cache) = default;
 
-  void set_parent(std::size_t parent) {
-    assert(parent <= UINT32_MAX);
-    parent_ = static_cast<uint32_t>(parent);
+  void set_parent(uint32_t parent) {
+    parent_ = parent;
   }
-  void set_child(std::size_t child) {
-    assert(child <= UINT32_MAX);
-    child_ = static_cast<uint32_t>(child);
+  void set_child(uint32_t child) {
+    child_ = child;
   }
   void set_base(uint8_t base) {
     union_.link = (union_.link & ~0xFFU) | base;
   }
-  void set_extra(std::size_t extra) {
+  void set_extra(uint32_t extra) {
     assert(extra <= (UINT32_MAX >> 8));
     union_.link = static_cast<uint32_t>((union_.link & 0xFFU) | (extra << 8));
   }
@@ -33,22 +31,22 @@ class Cache {
     union_.weight = weight;
   }
 
-  std::size_t parent() const {
+  uint32_t parent() const {
     return parent_;
   }
-  std::size_t child() const {
+  uint32_t child() const {
     return child_;
   }
   uint8_t base() const {
     return static_cast<uint8_t>(union_.link & 0xFFU);
   }
-  std::size_t extra() const {
+  uint32_t extra() const {
     return union_.link >> 8;
   }
   char label() const {
     return static_cast<char>(base());
   }
-  std::size_t link() const {
+  uint32_t link() const {
     return union_.link;
   }
   float weight() const {

@@ -1,6 +1,8 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_
 #define MARISA_GRIMOIRE_VECTOR_POP_COUNT_H_
 
+#include <cstdint>
+
 #if __cplusplus >= 202002L
  #include <bit>
 #endif

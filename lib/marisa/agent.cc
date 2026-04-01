@@ -73,7 +73,7 @@ void Agent::set_query(const char *ptr, std::size_t length) {
   query_.set_str(ptr, length);
 }
 
-void Agent::set_query(std::size_t key_id) {
+void Agent::set_query(marisa_key_t key_id) {
   if (state_ != nullptr) {
     state_->reset();
   }

@@ -84,10 +84,6 @@ cc_binary(
 )
 ```
 
-For finer-grained dependencies, you can depend on individual header targets
-in `@marisa-trie//include` (e.g. `@marisa-trie//include:trie`,
-`@marisa-trie//include:stdio`, `@marisa-trie//include:iostream`).
-
 #### Source code license
 
 Licensed under BSD-2-Clause OR LGPL-2.1-or-later.

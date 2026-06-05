@@ -4,6 +4,7 @@
  #include <unistd.h>
 #endif  // _WIN32
 
+#include <algorithm>
 #include <cerrno>
 #include <limits>
 #include <stdexcept>
@@ -72,7 +73,7 @@ void Writer::seek(std::size_t size) {
   } else {
     const char buf[1024] = {};
     do {
-      const std::size_t count = (size < sizeof(buf)) ? size : sizeof(buf);
+      const std::size_t count = std::min(size, sizeof(buf));
       write_data(buf, count);
       size -= count;
     } while (size != 0);
@@ -119,13 +120,14 @@ void Writer::write_data(const void *data, std::size_t size) {
     while (size != 0) {
 #ifdef _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
-      const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
+      const unsigned int count =
+          static_cast<unsigned int>(std::min(size, CHUNK_SIZE));
       const int size_written = ::_write(fd_, data, count);
       MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno,
                                    std::generic_category(), "_write");
 #else   // _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
-      const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
+      const ::size_t count = std::min(size, CHUNK_SIZE);
       const ::ssize_t size_written = ::write(fd_, data, count);
       MARISA_THROW_SYSTEM_ERROR_IF(size_written <= 0, errno,
                                    std::generic_category(), "write");

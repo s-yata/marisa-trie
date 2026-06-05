@@ -4,6 +4,7 @@
  #include <unistd.h>
 #endif  // _WIN32
 
+#include <algorithm>
 #include <cerrno>
 #include <limits>
 #include <stdexcept>
@@ -72,7 +73,7 @@ void Reader::seek(std::size_t size) {
   } else {
     char buf[1024];
     while (size != 0) {
-      const std::size_t count = (size < sizeof(buf)) ? size : sizeof(buf);
+      const std::size_t count = std::min(size, sizeof(buf));
       read_data(buf, count);
       size -= count;
     }
@@ -119,13 +120,14 @@ void Reader::read_data(void *buf, std::size_t size) {
     while (size != 0) {
 #ifdef _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits<int>::max();
-      const unsigned int count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
+      const unsigned int count =
+          static_cast<unsigned int>(std::min(size, CHUNK_SIZE));
       const int size_read = ::_read(fd_, buf, count);
       MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno,
                                    std::generic_category(), "_read");
 #else   // _WIN32
       constexpr std::size_t CHUNK_SIZE = std::numeric_limits< ::ssize_t>::max();
-      const ::size_t count = (size < CHUNK_SIZE) ? size : CHUNK_SIZE;
+      const ::size_t count = std::min(size, CHUNK_SIZE);
       const ::ssize_t size_read = ::read(fd_, buf, count);
       MARISA_THROW_SYSTEM_ERROR_IF(size_read <= 0, errno,
                                    std::generic_category(), "read");

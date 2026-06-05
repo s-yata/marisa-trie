@@ -2,6 +2,7 @@
 #define MARISA_GRIMOIRE_TRIE_KEY_H_
 
 #include <cassert>
+#include <string_view>
 
 #include "marisa/base.h"
 
@@ -71,15 +72,8 @@ class Key {
 };
 
 inline bool operator==(const Key &lhs, const Key &rhs) {
-  if (lhs.length() != rhs.length()) {
-    return false;
-  }
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
-    if (lhs[i] != rhs[i]) {
-      return false;
-    }
-  }
-  return true;
+  return std::string_view(lhs.ptr(), lhs.length()) ==
+         std::string_view(rhs.ptr(), rhs.length());
 }
 
 inline bool operator!=(const Key &lhs, const Key &rhs) {
@@ -166,15 +160,8 @@ class ReverseKey {
 };
 
 inline bool operator==(const ReverseKey &lhs, const ReverseKey &rhs) {
-  if (lhs.length() != rhs.length()) {
-    return false;
-  }
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
-    if (lhs[i] != rhs[i]) {
-      return false;
-    }
-  }
-  return true;
+  return std::string_view(lhs.ptr(), lhs.length()) ==
+         std::string_view(rhs.ptr(), rhs.length());
 }
 
 inline bool operator!=(const ReverseKey &lhs, const ReverseKey &rhs) {

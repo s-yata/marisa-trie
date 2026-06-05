@@ -1,6 +1,7 @@
 #ifndef MARISA_GRIMOIRE_TRIE_HEADER_H_
 #define MARISA_GRIMOIRE_TRIE_HEADER_H_
 
+#include <cstring>
 #include <stdexcept>
 
 #include "marisa/grimoire/io.h"
@@ -43,12 +44,7 @@ class Header {
   }
 
   static bool test_header(const char *ptr) {
-    for (std::size_t i = 0; i < HEADER_SIZE; ++i) {
-      if (ptr[i] != get_header()[i]) {
-        return false;
-      }
-    }
-    return true;
+    return std::memcmp(ptr, get_header(), HEADER_SIZE) == 0;
   }
 };
 

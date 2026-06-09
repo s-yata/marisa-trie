@@ -32,10 +32,10 @@ class Entry {
   const char *ptr() const {
     return ptr_ - length_ + 1;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 

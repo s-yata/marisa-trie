@@ -24,13 +24,13 @@ class Range {
     key_pos_ = static_cast<uint32_t>(key_pos);
   }
 
-  std::size_t begin() const {
+  uint32_t begin() const {
     return begin_;
   }
-  std::size_t end() const {
+  uint32_t end() const {
     return end_;
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return key_pos_;
   }
 
@@ -72,13 +72,13 @@ class WeightedRange {
   const Range &range() const {
     return range_;
   }
-  std::size_t begin() const {
+  uint32_t begin() const {
     return range_.begin();
   }
-  std::size_t end() const {
+  uint32_t end() const {
     return range_.end();
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return range_.key_pos();
   }
   float weight() const {

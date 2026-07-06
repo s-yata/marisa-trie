@@ -135,7 +135,7 @@
  #endif  // MARISA_WORD_SIZE == 64
 #endif   // _MSC_VER
 
-#if defined(__aarch64__)
+#if defined(__aarch64__) || defined(_M_ARM64)
  #define MARISA_AARCH64
  #include <arm_neon.h>
 #endif

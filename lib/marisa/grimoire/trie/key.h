@@ -47,16 +47,16 @@ class Key {
   const char *ptr() const {
     return ptr_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
   float weight() const {
     return union_.weight;
   }
-  std::size_t terminal() const {
+  uint32_t terminal() const {
     return union_.terminal;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
@@ -142,16 +142,16 @@ class ReverseKey {
   const char *ptr() const {
     return ptr_ - length_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
   float weight() const {
     return union_.weight;
   }
-  std::size_t terminal() const {
+  uint32_t terminal() const {
     return union_.terminal;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 

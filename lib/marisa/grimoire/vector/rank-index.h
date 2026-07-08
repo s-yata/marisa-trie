@@ -49,28 +49,28 @@ class RankIndex {
                                     ((value & 0x1FFU) << 18));
   }
 
-  std::size_t abs() const {
+  uint32_t abs() const {
     return abs_;
   }
-  std::size_t rel1() const {
+  uint32_t rel1() const {
     return rel_lo_ & 0x7FU;
   }
-  std::size_t rel2() const {
+  uint32_t rel2() const {
     return (rel_lo_ >> 7) & 0xFFU;
   }
-  std::size_t rel3() const {
+  uint32_t rel3() const {
     return (rel_lo_ >> 15) & 0xFFU;
   }
-  std::size_t rel4() const {
+  uint32_t rel4() const {
     return (rel_lo_ >> 23) & 0x1FFU;
   }
-  std::size_t rel5() const {
+  uint32_t rel5() const {
     return rel_hi_ & 0x1FFU;
   }
-  std::size_t rel6() const {
+  uint32_t rel6() const {
     return (rel_hi_ >> 9) & 0x1FFU;
   }
-  std::size_t rel7() const {
+  uint32_t rel7() const {
     return (rel_hi_ >> 18) & 0x1FFU;
   }
 

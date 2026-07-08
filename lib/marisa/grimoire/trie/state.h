@@ -43,13 +43,13 @@ class State {
     status_code_ = status_code;
   }
 
-  std::size_t node_id() const {
+  uint32_t node_id() const {
     return node_id_;
   }
-  std::size_t query_pos() const {
+  uint32_t query_pos() const {
     return query_pos_;
   }
-  std::size_t history_pos() const {
+  uint32_t history_pos() const {
     return history_pos_;
   }
   StatusCode status_code() const {

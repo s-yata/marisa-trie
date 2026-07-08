@@ -32,19 +32,19 @@ class History {
     key_id_ = static_cast<uint32_t>(key_id);
   }
 
-  std::size_t node_id() const {
+  uint32_t node_id() const {
     return node_id_;
   }
-  std::size_t louds_pos() const {
+  uint32_t louds_pos() const {
     return louds_pos_;
   }
-  std::size_t key_pos() const {
+  uint32_t key_pos() const {
     return key_pos_;
   }
-  std::size_t link_id() const {
+  uint32_t link_id() const {
     return link_id_;
   }
-  std::size_t key_id() const {
+  uint32_t key_id() const {
     return key_id_;
   }
 

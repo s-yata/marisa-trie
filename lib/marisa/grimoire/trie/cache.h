@@ -33,22 +33,22 @@ class Cache {
     union_.weight = weight;
   }
 
-  std::size_t parent() const {
+  uint32_t parent() const {
     return parent_;
   }
-  std::size_t child() const {
+  uint32_t child() const {
     return child_;
   }
   uint8_t base() const {
     return static_cast<uint8_t>(union_.link & 0xFFU);
   }
-  std::size_t extra() const {
+  uint32_t extra() const {
     return union_.link >> 8;
   }
   char label() const {
     return static_cast<char>(base());
   }
-  std::size_t link() const {
+  uint32_t link() const {
     return union_.link;
   }
   float weight() const {

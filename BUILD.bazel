@@ -1,0 +1,12 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+# Umbrella target — includes everything via marisa.h.
+cc_library(
+    name = "marisa-trie",
+    deps = [
+        "//include:marisa",
+        "//lib/marisa:trie",
+    ],
+)

@@ -1,0 +1,73 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+package(default_visibility = [
+    "//:__pkg__",
+    "//lib/marisa:__pkg__",
+    "//lib/marisa/grimoire:__pkg__",
+    "//tests:__pkg__",
+])
+
+cc_library(
+    name = "base",
+    hdrs = ["marisa/base.h"],
+    strip_include_prefix = "/include",
+)
+
+cc_library(
+    name = "key",
+    hdrs = ["marisa/key.h"],
+    strip_include_prefix = "/include",
+    deps = [":base"],
+)
+
+cc_library(
+    name = "query",
+    hdrs = ["marisa/query.h"],
+    strip_include_prefix = "/include",
+    deps = [":base"],
+)
+
+cc_library(
+    name = "keyset",
+    hdrs = ["marisa/keyset.h"],
+    strip_include_prefix = "/include",
+    deps = [":key"],
+)
+
+cc_library(
+    name = "agent",
+    hdrs = ["marisa/agent.h"],
+    strip_include_prefix = "/include",
+    deps = [
+        ":key",
+        ":query",
+    ],
+)
+
+cc_library(
+    name = "trie",
+    hdrs = ["marisa/trie.h"],
+    strip_include_prefix = "/include",
+    deps = [
+        ":agent",
+        ":keyset",
+    ],
+)
+
+cc_library(
+    name = "stdio",
+    hdrs = ["marisa/stdio.h"],
+    strip_include_prefix = "/include",
+)
+
+cc_library(
+    name = "iostream",
+    hdrs = ["marisa/iostream.h"],
+    strip_include_prefix = "/include",
+)
+
+cc_library(
+    name = "marisa",
+    hdrs = ["marisa.h"],
+    strip_include_prefix = "/include",
+)

@@ -20,11 +20,17 @@ concurrency:
 jobs:
   cmake:
     name: CMake - MSVC ${{ matrix.platform }}
-    runs-on: windows-latest
+    runs-on: ${{ matrix.runner }}
 
     strategy:
       matrix:
-        platform: [x64, Win32]
+        include:
+          - platform: x64
+            runner: windows-latest
+          - platform: win32
+            runner: windows-latest
+          - platform: ARM64
+            runner: windows-11-arm
 
     steps:
       - name: Checkout

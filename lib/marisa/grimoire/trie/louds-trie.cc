@@ -472,7 +472,7 @@ void LoudsTrie::build_terminals(const Vector<T> &keys,
   Vector<uint32_t> temp;
   temp.resize(keys.size());
   for (std::size_t i = 0; i < keys.size(); ++i) {
-    temp[keys[i].id()] = static_cast<uint32_t>(keys[i].terminal());
+    temp[keys[i].id()] = keys[i].terminal();
   }
   terminals->swap(temp);
 }

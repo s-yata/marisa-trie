@@ -85,7 +85,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clang-tidy
 
 # Target Windows 8 for PrefetchVirtualMemory
-if (MINGW)
+if (WIN32)
     add_compile_definitions(_WIN32_WINNT=_WIN32_WINNT_WIN8)
 endif()
 

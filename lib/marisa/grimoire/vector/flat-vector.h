@@ -1,6 +1,10 @@
 #ifndef MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 #define MARISA_GRIMOIRE_VECTOR_FLAT_VECTOR_H_
 
+#include <algorithm>
+#if __cplusplus >= 202002L
+ #include <bit>
+#endif
 #include <cassert>
 #include <stdexcept>
 
@@ -95,18 +99,18 @@ class FlatVector {
   std::size_t size_ = 0;
 
   void build_(const Vector<uint32_t> &values) {
-    uint32_t max_value = 0;
-    for (std::size_t i = 0; i < values.size(); ++i) {
-      if (values[i] > max_value) {
-        max_value = values[i];
-      }
-    }
+    uint32_t max_value =
+        values.empty() ? 0 : *std::max_element(values.begin(), values.end());
 
+#if defined(__cpp_lib_int_pow2) && __cpp_lib_int_pow2 >= 202002L
+    const std::size_t value_size = std::bit_width(max_value);
+#else
     std::size_t value_size = 0;
     while (max_value != 0) {
       ++value_size;
       max_value >>= 1;
     }
+#endif
 
     std::size_t num_units = values.empty() ? 0 : (64 / MARISA_WORD_SIZE);
     if (value_size != 0) {

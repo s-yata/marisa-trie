@@ -1,6 +1,9 @@
 #include "marisa/grimoire/trie/louds-trie.h"
 
 #include <algorithm>
+#if __cplusplus >= 202002L
+ #include <bit>
+#endif
 #include <cassert>
 #include <functional>
 #include <queue>
@@ -492,10 +495,17 @@ void LoudsTrie::cache<Key>(std::size_t parent, std::size_t child, float weight,
 
 void LoudsTrie::reserve_cache(const Config &config, std::size_t trie_id,
                               std::size_t num_keys) {
-  std::size_t cache_size = (trie_id == 1) ? 256 : 1;
-  while (cache_size < (num_keys / config.cache_level())) {
+  const std::size_t min_cache_size = (trie_id == 1) ? 256 : 1;
+  const std::size_t target = num_keys / config.cache_level();
+#if defined(__cpp_lib_int_pow2) && __cpp_lib_int_pow2 >= 202002L
+  const std::size_t cache_size =
+      std::max(min_cache_size, std::bit_ceil(target));
+#else
+  std::size_t cache_size = min_cache_size;
+  while (cache_size < target) {
     cache_size *= 2;
   }
+#endif
   cache_.resize(cache_size);
   cache_mask_ = cache_size - 1;
 }

@@ -24,7 +24,7 @@ class Config {
     return static_cast<int>(num_tries_) | tail_mode_ | node_order_;
   }
 
-  std::size_t num_tries() const {
+  uint32_t num_tries() const {
     return num_tries_;
   }
   CacheLevel cache_level() const {
@@ -48,7 +48,7 @@ class Config {
   }
 
  private:
-  std::size_t num_tries_ = MARISA_DEFAULT_NUM_TRIES;
+  uint32_t num_tries_ = MARISA_DEFAULT_NUM_TRIES;
   CacheLevel cache_level_ = MARISA_DEFAULT_CACHE;
   TailMode tail_mode_ = MARISA_DEFAULT_TAIL;
   NodeOrder node_order_ = MARISA_DEFAULT_ORDER;
@@ -66,7 +66,7 @@ class Config {
   void parse_num_tries(int config_flags) {
     const int num_tries = config_flags & MARISA_NUM_TRIES_MASK;
     if (num_tries != 0) {
-      num_tries_ = static_cast<std::size_t>(num_tries);
+      num_tries_ = static_cast<uint32_t>(num_tries);
     }
   }
 

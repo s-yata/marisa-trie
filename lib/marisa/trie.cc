@@ -118,17 +118,17 @@ bool Trie::predictive_search(Agent &agent) const {
   return trie_->predictive_search(agent);
 }
 
-std::size_t Trie::num_tries() const {
+uint32_t Trie::num_tries() const {
   MARISA_THROW_IF(trie_ == nullptr, std::logic_error);
   return trie_->num_tries();
 }
 
-std::size_t Trie::num_keys() const {
+uint32_t Trie::num_keys() const {
   MARISA_THROW_IF(trie_ == nullptr, std::logic_error);
   return trie_->num_keys();
 }
 
-std::size_t Trie::num_nodes() const {
+uint32_t Trie::num_nodes() const {
   MARISA_THROW_IF(trie_ == nullptr, std::logic_error);
   return trie_->num_nodes();
 }
@@ -148,7 +148,7 @@ bool Trie::empty() const {
   return trie_->empty();
 }
 
-std::size_t Trie::size() const {
+uint32_t Trie::size() const {
   MARISA_THROW_IF(trie_ == nullptr, std::logic_error);
   return trie_->size();
 }

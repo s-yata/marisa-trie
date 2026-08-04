@@ -85,10 +85,10 @@ class Vector {
   }
 
   // resize() assumes that T's placement new does not throw an exception.
-  void resize(std::size_t size) {
+  void resize(uint32_t size) {
     assert(!fixed_);
     reserve(size);
-    for (std::size_t i = size_; i < size; ++i) {
+    for (uint32_t i = size_; i < size; ++i) {
       new (&objs_[i]) T;
     }
     static_assert(std::is_trivially_destructible_v<T>);
@@ -96,7 +96,7 @@ class Vector {
   }
 
   // resize() assumes that T's placement new does not throw an exception.
-  void resize(std::size_t size, const T &x) {
+  void resize(uint32_t size, const T &x) {
     assert(!fixed_);
     reserve(size);
     if (size > size_) {
@@ -107,13 +107,13 @@ class Vector {
     size_ = size;
   }
 
-  void reserve(std::size_t capacity) {
+  void reserve(uint32_t capacity) {
     assert(!fixed_);
     if (capacity <= capacity_) {
       return;
     }
     assert(capacity <= max_size());
-    std::size_t new_capacity = capacity;
+    uint32_t new_capacity = capacity;
     if (capacity_ > (capacity / 2)) {
       if (capacity_ > (max_size() / 2)) {
         new_capacity = max_size();
@@ -142,7 +142,7 @@ class Vector {
   const T *end() const {
     return const_objs_ + size_;
   }
-  const T &operator[](std::size_t i) const {
+  const T &operator[](uint32_t i) const {
     assert(i < size_);
     return const_objs_[i];
   }
@@ -163,7 +163,7 @@ class Vector {
     assert(!fixed_);
     return objs_ + size_;
   }
-  T &operator[](std::size_t i) {
+  T &operator[](uint32_t i) {
     assert(!fixed_);
     assert(i < size_);
     return objs_[i];
@@ -179,10 +179,10 @@ class Vector {
     return objs_[size_ - 1];
   }
 
-  std::size_t size() const {
+  uint32_t size() const {
     return size_;
   }
-  std::size_t capacity() const {
+  uint32_t capacity() const {
     return capacity_;
   }
   bool fixed() const {
@@ -211,16 +211,16 @@ class Vector {
     std::swap(fixed_, rhs.fixed_);
   }
 
-  static std::size_t max_size() {
-    return SIZE_MAX / sizeof(T);
+  static uint32_t max_size() {
+    return UINT32_MAX / sizeof(T);
   }
 
  private:
   std::unique_ptr<char[]> buf_;
   T *objs_ = nullptr;
   const T *const_objs_ = nullptr;
-  std::size_t size_ = 0;
-  std::size_t capacity_ = 0;
+  uint32_t size_ = 0;
+  uint32_t capacity_ = 0;
   bool fixed_ = false;
 
   void map_(Mapper &mapper) {
@@ -228,9 +228,11 @@ class Vector {
     mapper.map(&total_size);
     MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
-    const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
+    MARISA_THROW_IF((total_size / sizeof(T)) > UINT32_MAX, std::length_error);
+    const uint32_t size = static_cast<uint32_t>(total_size / sizeof(T));
     mapper.map(&const_objs_, size);
     mapper.seek(static_cast<std::size_t>((8 - (total_size % 8)) % 8));
+    MARISA_THROW_IF(size_ > UINT32_MAX, std::runtime_error);
     size_ = size;
     fix();
   }
@@ -239,10 +241,11 @@ class Vector {
     reader.read(&total_size);
     MARISA_THROW_IF(total_size > SIZE_MAX, std::runtime_error);
     MARISA_THROW_IF((total_size % sizeof(T)) != 0, std::runtime_error);
-    const std::size_t size = static_cast<std::size_t>(total_size / sizeof(T));
+    MARISA_THROW_IF((total_size / sizeof(T)) > UINT32_MAX, std::length_error);
+    const uint32_t size = static_cast<uint32_t>(total_size / sizeof(T));
     resize(size);
     reader.read(objs_, size);
-    reader.seek(static_cast<std::size_t>((8 - (total_size % 8)) % 8));
+    reader.seek(static_cast<uint32_t>((8 - (total_size % 8)) % 8));
   }
   void write_(Writer &writer) const {
     writer.write(static_cast<uint64_t>(total_size()));
@@ -252,7 +255,7 @@ class Vector {
 
   // Copies current elements to new buffer of size `new_capacity`.
   // Requires `new_capacity >= size_`.
-  void realloc(std::size_t new_capacity) {
+  void realloc(uint32_t new_capacity) {
     assert(new_capacity >= size_);
     assert(new_capacity <= max_size());
 
@@ -270,7 +273,7 @@ class Vector {
 
   // copyInit() assumes that T's placement new does not throw an exception.
   // Requires the vector to be empty.
-  void copyInit(const T *src, std::size_t size, std::size_t capacity) {
+  void copyInit(const T *src, uint32_t size, uint32_t capacity) {
     assert(size_ == 0);
 
     std::unique_ptr<char[]> new_buf(new char[sizeof(T) * capacity]);

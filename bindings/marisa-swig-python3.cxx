@@ -10,7 +10,7 @@ void Key::key_str(const char **ptr_out, size_t *length_out) const {
   *length_out = key_.length();
 }
 
-size_t Key::key_id() const {
+marisa_key_t Key::key_id() const {
   return key_.id();
 }
 
@@ -23,7 +23,7 @@ void Query::query_str(const char **ptr_out, size_t *length_out) const {
   *length_out = query_.length();
 }
 
-size_t Query::query_id() const {
+marisa_key_t Query::query_id() const {
   return query_.id();
 }
 
@@ -52,7 +52,7 @@ void Keyset::key_str(size_t i,
   *length_out = (*keyset_)[i].length();
 }
 
-size_t Keyset::key_id(size_t i) const {
+marisa_key_t Keyset::key_id(size_t i) const {
   return (*keyset_)[i].id();
 }
 
@@ -108,7 +108,7 @@ void Agent::set_query(const char *ptr, size_t length) {
   agent_->set_query(buf_, length);
 }
 
-void Agent::set_query(size_t id) {
+void Agent::set_query(marisa_key_t id) {
   agent_->set_query(id);
 }
 
@@ -125,7 +125,7 @@ void Agent::key_str(const char **ptr_out, size_t *length_out) const {
   *length_out = agent_->key().length();
 }
 
-size_t Agent::key_id() const {
+marisa_key_t Agent::key_id() const {
   return agent_->key().id();
 }
 
@@ -134,7 +134,7 @@ void Agent::query_str(const char **ptr_out, size_t *length_out) const {
   *length_out = agent_->query().length();
 }
 
-size_t Agent::query_id() const {
+marisa_key_t Agent::query_id() const {
   return agent_->query().id();
 }
 
@@ -177,7 +177,7 @@ bool Trie::predictive_search(Agent &agent) const {
   return trie_->predictive_search(*agent.agent_);
 }
 
-size_t Trie::lookup(const char *ptr, size_t length) const {
+marisa_key_t Trie::lookup(const char *ptr, size_t length) const {
   marisa::Agent agent;
   agent.set_query(ptr, length);
   if (!trie_->lookup(agent)) {
@@ -186,7 +186,7 @@ size_t Trie::lookup(const char *ptr, size_t length) const {
   return agent.key().id();
 }
 
-void Trie::reverse_lookup(size_t id,
+void Trie::reverse_lookup(marisa_key_t id,
     const char **ptr_out_to_be_deleted, size_t *length_out) const {
   marisa::Agent agent;
   agent.set_query(id);

@@ -63,33 +63,33 @@ class BitVector {
     ++size_;
   }
 
-  bool operator[](std::size_t i) const {
+  bool operator[](uint32_t i) const {
     assert(i < size_);
     return (units_[i / MARISA_WORD_SIZE] &
             (Unit{1} << (i % MARISA_WORD_SIZE))) != 0;
   }
 
-  std::size_t rank0(std::size_t i) const {
+  uint32_t rank0(uint32_t i) const {
     assert(!ranks_.empty());
     assert(i <= size_);
     return i - rank1(i);
   }
-  std::size_t rank1(std::size_t i) const;
+  uint32_t rank1(uint32_t i) const;
 
-  std::size_t select0(std::size_t i) const;
-  std::size_t select1(std::size_t i) const;
+  uint32_t select0(uint32_t i) const;
+  uint32_t select1(uint32_t i) const;
 
-  std::size_t num_0s() const {
+  uint32_t num_0s() const {
     return size_ - num_1s_;
   }
-  std::size_t num_1s() const {
+  uint32_t num_1s() const {
     return num_1s_;
   }
 
   bool empty() const {
     return size_ == 0;
   }
-  std::size_t size() const {
+  uint32_t size() const {
     return size_;
   }
   std::size_t total_size() const {
@@ -115,8 +115,8 @@ class BitVector {
 
  private:
   Vector<Unit> units_;
-  std::size_t size_ = 0;
-  std::size_t num_1s_ = 0;
+  uint32_t size_ = 0;
+  uint32_t num_1s_ = 0;
   Vector<RankIndex> ranks_;
   Vector<uint32_t> select0s_;
   Vector<uint32_t> select1s_;
@@ -162,8 +162,8 @@ class BitVector {
 
   void write_(Writer &writer) const {
     units_.write(writer);
-    writer.write(static_cast<uint32_t>(size_));
-    writer.write(static_cast<uint32_t>(num_1s_));
+    writer.write(size_);
+    writer.write(num_1s_);
     ranks_.write(writer);
     select0s_.write(writer);
     select1s_.write(writer);

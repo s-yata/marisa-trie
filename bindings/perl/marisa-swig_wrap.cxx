@@ -1512,15 +1512,16 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 
 #define SWIGTYPE_p_char swig_types[0]
 #define SWIGTYPE_p_marisa__Key swig_types[1]
-#define SWIGTYPE_p_marisa_swig__Agent swig_types[2]
-#define SWIGTYPE_p_marisa_swig__Key swig_types[3]
-#define SWIGTYPE_p_marisa_swig__Keyset swig_types[4]
-#define SWIGTYPE_p_marisa_swig__Query swig_types[5]
-#define SWIGTYPE_p_marisa_swig__Trie swig_types[6]
-#define SWIGTYPE_p_p_char swig_types[7]
-#define SWIGTYPE_p_std__size_t swig_types[8]
-static swig_type_info *swig_types[10];
-static swig_module_info swig_module = {swig_types, 9, 0, 0, 0, 0};
+#define SWIGTYPE_p_marisa_key_t swig_types[2]
+#define SWIGTYPE_p_marisa_swig__Agent swig_types[3]
+#define SWIGTYPE_p_marisa_swig__Key swig_types[4]
+#define SWIGTYPE_p_marisa_swig__Keyset swig_types[5]
+#define SWIGTYPE_p_marisa_swig__Query swig_types[6]
+#define SWIGTYPE_p_marisa_swig__Trie swig_types[7]
+#define SWIGTYPE_p_p_char swig_types[8]
+#define SWIGTYPE_p_std__size_t swig_types[9]
+static swig_type_info *swig_types[11];
+static swig_module_info swig_module = {swig_types, 10, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1628,75 +1629,6 @@ SWIG_FromCharPtrAndSize(const char* carray, size_t size)
     sv_setsv(obj, &PL_sv_undef);
   }
   return obj;
-}
-
-
-SWIGINTERNINLINE SV *
-SWIG_From_unsigned_SS_long  SWIG_PERL_DECL_ARGS_1(unsigned long value)
-{
-  SV *sv;
-  if (UVSIZE >= sizeof(value) || value <= UV_MAX)
-    sv = newSVuv(value);
-  else
-    sv = newSVpvf("%lu", value);
-  return sv_2mortal(sv);
-}
-
-
-#include <limits.h>
-#if !defined(SWIG_NO_LLONG_MAX)
-# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
-#   define LLONG_MAX __LONG_LONG_MAX__
-#   define LLONG_MIN (-LLONG_MAX - 1LL)
-#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
-# endif
-#endif
-
-
-#if defined(LLONG_MAX) && !defined(SWIG_LONG_LONG_AVAILABLE)
-#  define SWIG_LONG_LONG_AVAILABLE
-#endif
-
-
-#include <stdio.h>
-#if (defined(_MSC_VER) && (_MSC_VER < 1900)) || defined(__BORLANDC__) || defined(_WATCOM)
-# ifndef snprintf
-#  define snprintf _snprintf
-# endif
-#endif
-
-
-#ifdef SWIG_LONG_LONG_AVAILABLE
-SWIGINTERNINLINE SV *
-SWIG_From_unsigned_SS_long_SS_long  SWIG_PERL_DECL_ARGS_1(unsigned long long value)
-{
-  SV *sv;
-  if (UVSIZE >= sizeof(value) || value <= UV_MAX)
-    sv = newSVuv((UV)(value));
-  else {
-    //sv = newSVpvf("%llu", value); doesn't work in non 64bit Perl
-    char temp[256];
-    SWIG_snprintf(temp, sizeof(temp), "%llu", value);
-    sv = newSVpv(temp, 0);
-  }
-  return sv_2mortal(sv);
-}
-#endif
-
-
-SWIGINTERNINLINE SV *
-SWIG_From_size_t  SWIG_PERL_DECL_ARGS_1(size_t value)
-{    
-#ifdef SWIG_LONG_LONG_AVAILABLE
-  if (sizeof(size_t) <= sizeof(unsigned long)) {
-#endif
-    return SWIG_From_unsigned_SS_long  SWIG_PERL_CALL_ARGS_1(static_cast< unsigned long >(value));
-#ifdef SWIG_LONG_LONG_AVAILABLE
-  } else {
-    /* assume sizeof(size_t) <= sizeof(unsigned long long) */
-    return SWIG_From_unsigned_SS_long_SS_long  SWIG_PERL_CALL_ARGS_1(static_cast< unsigned long long >(value));
-  }
-#endif
 }
 
 
@@ -1863,6 +1795,16 @@ SWIG_AsVal_float SWIG_PERL_DECL_ARGS_2(SV * obj, float *val)
 
 
 
+#include <limits.h>
+#if !defined(SWIG_NO_LLONG_MAX)
+# if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
+#   define LLONG_MAX __LONG_LONG_MAX__
+#   define LLONG_MIN (-LLONG_MAX - 1LL)
+#   define ULLONG_MAX (LLONG_MAX * 2ULL + 1ULL)
+# endif
+#endif
+
+
 #include <stdlib.h>
 #ifdef _MSC_VER
 # ifndef strtoull
@@ -1954,6 +1896,11 @@ SWIG_AsVal_unsigned_SS_long SWIG_PERL_DECL_ARGS_2(SV *obj, unsigned long *val)
 }
 
 
+#if defined(LLONG_MAX) && !defined(SWIG_LONG_LONG_AVAILABLE)
+#  define SWIG_LONG_LONG_AVAILABLE
+#endif
+
+
 #ifdef SWIG_LONG_LONG_AVAILABLE
 SWIGINTERN int
 SWIG_AsVal_unsigned_SS_long_SS_long SWIG_PERL_DECL_ARGS_2(SV *obj, unsigned long long *val)
@@ -2022,6 +1969,60 @@ SWIG_AsVal_size_t SWIG_PERL_DECL_ARGS_2(SV * obj, size_t *val)
   }
 #endif
   return res;
+}
+
+
+SWIGINTERNINLINE SV *
+SWIG_From_unsigned_SS_long  SWIG_PERL_DECL_ARGS_1(unsigned long value)
+{
+  SV *sv;
+  if (UVSIZE >= sizeof(value) || value <= UV_MAX)
+    sv = newSVuv(value);
+  else
+    sv = newSVpvf("%lu", value);
+  return sv_2mortal(sv);
+}
+
+
+#include <stdio.h>
+#if (defined(_MSC_VER) && (_MSC_VER < 1900)) || defined(__BORLANDC__) || defined(_WATCOM)
+# ifndef snprintf
+#  define snprintf _snprintf
+# endif
+#endif
+
+
+#ifdef SWIG_LONG_LONG_AVAILABLE
+SWIGINTERNINLINE SV *
+SWIG_From_unsigned_SS_long_SS_long  SWIG_PERL_DECL_ARGS_1(unsigned long long value)
+{
+  SV *sv;
+  if (UVSIZE >= sizeof(value) || value <= UV_MAX)
+    sv = newSVuv((UV)(value));
+  else {
+    //sv = newSVpvf("%llu", value); doesn't work in non 64bit Perl
+    char temp[256];
+    SWIG_snprintf(temp, sizeof(temp), "%llu", value);
+    sv = newSVpv(temp, 0);
+  }
+  return sv_2mortal(sv);
+}
+#endif
+
+
+SWIGINTERNINLINE SV *
+SWIG_From_size_t  SWIG_PERL_DECL_ARGS_1(size_t value)
+{    
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  if (sizeof(size_t) <= sizeof(unsigned long)) {
+#endif
+    return SWIG_From_unsigned_SS_long  SWIG_PERL_CALL_ARGS_1(static_cast< unsigned long >(value));
+#ifdef SWIG_LONG_LONG_AVAILABLE
+  } else {
+    /* assume sizeof(size_t) <= sizeof(unsigned long long) */
+    return SWIG_From_unsigned_SS_long_SS_long  SWIG_PERL_CALL_ARGS_1(static_cast< unsigned long long >(value));
+  }
+#endif
 }
 
 
@@ -2167,7 +2168,7 @@ XS(_wrap_Key_id) {
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -2187,7 +2188,7 @@ XS(_wrap_Key_id) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2322,7 +2323,7 @@ XS(_wrap_Query_id) {
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -2342,7 +2343,7 @@ XS(_wrap_Query_id) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -2843,13 +2844,13 @@ XS(_wrap_Keyset_key_str) {
 XS(_wrap_Keyset_key_id) {
   {
     marisa_swig::Keyset *arg1 = (marisa_swig::Keyset *) 0 ;
-    std::size_t arg2 ;
+    size_t arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
     size_t val2 ;
     int ecode2 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
@@ -2862,9 +2863,9 @@ XS(_wrap_Keyset_key_id) {
     arg1 = reinterpret_cast< marisa_swig::Keyset * >(argp1);
     ecode2 = SWIG_AsVal_size_t SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
     if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Keyset_key_id" "', argument " "2"" of type '" "std::size_t""'");
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Keyset_key_id" "', argument " "2"" of type '" "size_t""'");
     } 
-    arg2 = static_cast< std::size_t >(val2);
+    arg2 = static_cast< size_t >(val2);
     {
       try {
         result = ((marisa_swig::Keyset const *)arg1)->key_id(arg2);
@@ -2874,7 +2875,7 @@ XS(_wrap_Keyset_key_id) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     
     XSRETURN(argvi);
@@ -3213,11 +3214,11 @@ XS(_wrap_Agent_set_query__SWIG_0) {
 XS(_wrap_Agent_set_query__SWIG_1) {
   {
     marisa_swig::Agent *arg1 = (marisa_swig::Agent *) 0 ;
-    std::size_t arg2 ;
+    marisa_key_t arg2 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
-    size_t val2 ;
-    int ecode2 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
     int argvi = 0;
     dXSARGS;
     
@@ -3229,11 +3230,17 @@ XS(_wrap_Agent_set_query__SWIG_1) {
       SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Agent_set_query" "', argument " "1"" of type '" "marisa_swig::Agent *""'"); 
     }
     arg1 = reinterpret_cast< marisa_swig::Agent * >(argp1);
-    ecode2 = SWIG_AsVal_size_t SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Agent_set_query" "', argument " "2"" of type '" "std::size_t""'");
-    } 
-    arg2 = static_cast< std::size_t >(val2);
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_marisa_key_t,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Agent_set_query" "', argument " "2"" of type '" "marisa_key_t""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Agent_set_query" "', argument " "2"" of type '" "marisa_key_t""'");
+      } else {
+        arg2 = *(reinterpret_cast< marisa_key_t * >(argp2));
+      }
+    }
     {
       try {
         (arg1)->set_query(arg2);
@@ -3245,10 +3252,8 @@ XS(_wrap_Agent_set_query__SWIG_1) {
     }
     ST(argvi) = &PL_sv_undef;
     
-    
     XSRETURN(argvi);
   fail:
-    
     
     SWIG_croak_null();
   }
@@ -3276,10 +3281,9 @@ XS(_wrap_Agent_set_query) {
       _rankm += _pi;
       _pi *= SWIG_MAXCASTRANK;
       {
-        {
-          int res = SWIG_AsVal_size_t SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(1), &vptr, SWIGTYPE_p_marisa_key_t, SWIG_POINTER_NO_NULL);
+        _v = SWIG_CheckState(res);
       }
       if (!_v) goto check_1;
       _ranki += _v*_pi;
@@ -3473,7 +3477,7 @@ XS(_wrap_Agent_key_id) {
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -3493,7 +3497,7 @@ XS(_wrap_Agent_key_id) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -3557,7 +3561,7 @@ XS(_wrap_Agent_query_id) {
     void *argp1 = 0 ;
     int res1 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
@@ -3577,7 +3581,7 @@ XS(_wrap_Agent_query_id) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -4333,7 +4337,7 @@ XS(_wrap_Trie_lookup__SWIG_1) {
     size_t size2 = 0 ;
     int alloc2 = 0 ;
     int argvi = 0;
-    std::size_t result;
+    marisa_key_t result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
@@ -4359,7 +4363,7 @@ XS(_wrap_Trie_lookup__SWIG_1) {
         SWIG_exception(SWIG_UnknownError,"Unknown exception");
       }
     }
-    ST(argvi) = SWIG_From_size_t  SWIG_PERL_CALL_ARGS_1(static_cast< size_t >(result)); argvi++ ;
+    ST(argvi) = SWIG_NewPointerObj((new marisa_key_t(result)), SWIGTYPE_p_marisa_key_t, SWIG_POINTER_OWN | 0); argvi++ ;
     
     if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
     XSRETURN(argvi);
@@ -4465,13 +4469,13 @@ XS(_wrap_Trie_lookup) {
 XS(_wrap_Trie_reverse_lookup__SWIG_1) {
   {
     marisa_swig::Trie *arg1 = (marisa_swig::Trie *) 0 ;
-    std::size_t arg2 ;
+    marisa_key_t arg2 ;
     char **arg3 = (char **) 0 ;
     std::size_t *arg4 = (std::size_t *) 0 ;
     void *argp1 = 0 ;
     int res1 = 0 ;
-    size_t val2 ;
-    int ecode2 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
     char *temp3 = 0 ;
     std::size_t tempn3 ;
     int argvi = 0;
@@ -4486,11 +4490,17 @@ XS(_wrap_Trie_reverse_lookup__SWIG_1) {
       SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Trie_reverse_lookup" "', argument " "1"" of type '" "marisa_swig::Trie const *""'"); 
     }
     arg1 = reinterpret_cast< marisa_swig::Trie * >(argp1);
-    ecode2 = SWIG_AsVal_size_t SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "std::size_t""'");
-    } 
-    arg2 = static_cast< std::size_t >(val2);
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_marisa_key_t,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "marisa_key_t""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Trie_reverse_lookup" "', argument " "2"" of type '" "marisa_key_t""'");
+      } else {
+        arg2 = *(reinterpret_cast< marisa_key_t * >(argp2));
+      }
+    }
     {
       try {
         ((marisa_swig::Trie const *)arg1)->reverse_lookup(arg2,(char const **)arg3,arg4);
@@ -4509,10 +4519,8 @@ XS(_wrap_Trie_reverse_lookup__SWIG_1) {
     }
     
     
-    
     XSRETURN(argvi);
   fail:
-    
     
     
     SWIG_croak_null();
@@ -4571,10 +4579,9 @@ XS(_wrap_Trie_reverse_lookup) {
       _rankm += _pi;
       _pi *= SWIG_MAXCASTRANK;
       {
-        {
-          int res = SWIG_AsVal_size_t SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
-          _v = SWIG_CheckState(res);
-        }
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(1), &vptr, SWIGTYPE_p_marisa_key_t, SWIG_POINTER_NO_NULL);
+        _v = SWIG_CheckState(res);
       }
       if (!_v) goto check_2;
       _ranki += _v*_pi;
@@ -4965,6 +4972,7 @@ XS(_wrap_Trie_clear) {
 
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa__Key = {"_p_marisa__Key", "marisa::Key *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_marisa_key_t = {"_p_marisa_key_t", "marisa_key_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_marisa_swig__Agent = {"_p_marisa_swig__Agent", "marisa_swig::Agent *", 0, 0, (void*)"marisa::Agent", 0};
 static swig_type_info _swigt__p_marisa_swig__Key = {"_p_marisa_swig__Key", "marisa_swig::Key *", 0, 0, (void*)"marisa::Key", 0};
 static swig_type_info _swigt__p_marisa_swig__Keyset = {"_p_marisa_swig__Keyset", "marisa_swig::Keyset *", 0, 0, (void*)"marisa::Keyset", 0};
@@ -4976,6 +4984,7 @@ static swig_type_info _swigt__p_std__size_t = {"_p_std__size_t", "std::size_t *"
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
   &_swigt__p_marisa__Key,
+  &_swigt__p_marisa_key_t,
   &_swigt__p_marisa_swig__Agent,
   &_swigt__p_marisa_swig__Key,
   &_swigt__p_marisa_swig__Keyset,
@@ -4987,6 +4996,7 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa__Key[] = {  {&_swigt__p_marisa__Key, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_marisa_key_t[] = {  {&_swigt__p_marisa_key_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Agent[] = {  {&_swigt__p_marisa_swig__Agent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Key[] = {  {&_swigt__p_marisa_swig__Key, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_marisa_swig__Keyset[] = {  {&_swigt__p_marisa_swig__Keyset, 0, 0, 0},{0, 0, 0, 0}};
@@ -4998,6 +5008,7 @@ static swig_cast_info _swigc__p_std__size_t[] = {  {&_swigt__p_std__size_t, 0, 0
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_char,
   _swigc__p_marisa__Key,
+  _swigc__p_marisa_key_t,
   _swigc__p_marisa_swig__Agent,
   _swigc__p_marisa_swig__Key,
   _swigc__p_marisa_swig__Keyset,

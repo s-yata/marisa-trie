@@ -118,9 +118,6 @@ class FlatVector {
     }
 
     units_.resize(num_units);
-    if (num_units > 0) {
-      units_.back() = 0;
-    }
 
     value_size_ = value_size;
     if (value_size != 0) {
@@ -128,8 +125,31 @@ class FlatVector {
     }
     size_ = values.size();
 
+    // Pack values into units_ by accumulating bits and storing each
+    // completed unit, without reading from units_.
+    Unit unit = 0;
+    std::size_t unit_id = 0;
+    std::size_t unit_offset = 0;
     for (std::size_t i = 0; i < values.size(); ++i) {
-      set(i, values[i]);
+      const Unit value{values[i]};
+      assert(value <= mask_);
+      unit |= value << unit_offset;
+      unit_offset += value_size;
+      if (unit_offset >= MARISA_WORD_SIZE) {
+        units_[unit_id++] = unit;
+        unit_offset -= MARISA_WORD_SIZE;
+        unit = unit_offset != 0 ? value >> (value_size - unit_offset) : 0;
+      }
+    }
+    // At most one partial unit remains: the loop stores a unit every time
+    // unit_offset crosses MARISA_WORD_SIZE, so only the last incomplete
+    // unit is left.
+    if (unit_id < num_units) {
+      units_[unit_id++] = unit;
+    }
+    // Zero any trailing units produced by alignment rounding.
+    while (unit_id < num_units) {
+      units_[unit_id++] = 0;
     }
   }
 
@@ -180,24 +200,6 @@ class FlatVector {
     writer.write(static_cast<uint32_t>(value_size_));
     writer.write(static_cast<uint32_t>(mask_));
     writer.write(static_cast<uint64_t>(size_));
-  }
-
-  void set(std::size_t i, uint32_t value) {
-    assert(i < size_);
-    assert(value <= mask_);
-
-    const std::size_t pos = i * value_size_;
-    const std::size_t unit_id = pos / MARISA_WORD_SIZE;
-    const std::size_t unit_offset = pos % MARISA_WORD_SIZE;
-
-    units_[unit_id] &= ~(static_cast<Unit>(mask_) << unit_offset);
-    units_[unit_id] |= static_cast<Unit>(value & mask_) << unit_offset;
-    if ((unit_offset + value_size_) > MARISA_WORD_SIZE) {
-      units_[unit_id + 1] &=
-          ~(static_cast<Unit>(mask_) >> (MARISA_WORD_SIZE - unit_offset));
-      units_[unit_id + 1] |=
-          static_cast<Unit>(value & mask_) >> (MARISA_WORD_SIZE - unit_offset);
-    }
   }
 };
 

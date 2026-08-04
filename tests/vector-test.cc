@@ -304,6 +304,77 @@ void TestFlatVector() {
   TEST_END();
 }
 
+void TestFlatVectorUninitializedBuild() {
+  // Regression test for UB in the old set()-based build_() loop.
+  //
+  // The old code called units_.resize(num_units) (default-init, leaving
+  // units indeterminate), then only zeroed units_.back(). set() performed
+  // a read-modify-write (units_[id] &= ~(mask << offset)) on uninitialized
+  // units, which was UB.
+  //
+  // This configuration (value_size_=3, 30 values, 90 bits) allocates
+  // multiple units, exercising the bit-packing loop across unit boundaries.
+  TEST_START();
+
+  marisa::grimoire::Vector<std::uint32_t> values;
+  values.reserve(30);
+  values.push_back(7);
+  for (std::size_t i = 1; i < 30; ++i) {
+    values.push_back(static_cast<std::uint32_t>(random_engine() % 8));
+  }
+  marisa::grimoire::FlatVector vec;
+  vec.build(values);
+  for (std::size_t i = 0; i < vec.size(); ++i) {
+    ASSERT(vec[i] == values[i]);
+  }
+
+  TEST_END();
+}
+
+void TestFlatVectorUninitializedBuildSerialize() {
+  // Regression test: serializes a FlatVector and checks that the unit data
+  // bytes are all zero.
+  //
+  // The old build_() code only zeroed units_.back(). With value_size_==0,
+  // num_units is 64/MARISA_WORD_SIZE (1 on 64-bit, 2 on 32-bit). On 32-bit,
+  // units_[0] was never initialized and contained garbage that would appear
+  // in the serialized output.
+  //
+  // See:
+  // https://github.com/BYVoid/OpenCC/commit/c3e07074e282b80083ed7734be51caecf9e7804f
+  TEST_START();
+
+  marisa::grimoire::Vector<std::uint32_t> values;
+  values.push_back(0);
+  marisa::grimoire::FlatVector vec;
+  vec.build(values);
+
+  ASSERT(vec.value_size() == 0);
+  ASSERT(vec.size() == 1);
+  ASSERT(vec[0] == 0);
+
+  std::stringstream stream;
+  {
+    marisa::grimoire::Writer writer;
+    writer.open(stream);
+    vec.write(writer);
+  }
+  const std::string data = stream.str();
+  // FlatVector serialization format (32 bytes total):
+  //   [0,  8)  Vector::write_ uint64_t size header (= 8, the unit data size)
+  //   [8,  16) unit data (8 bytes on both 32-bit and 64-bit)
+  //   [16, 20) value_size_ as uint32_t
+  //   [20, 24) mask_ as uint32_t
+  //   [24, 32) size_ as uint64_t
+  ASSERT(data.size() == 32);
+  // Check that bytes [8, 16) — the unit data — are all zero.
+  for (std::size_t i = 8; i < 16; ++i) {
+    ASSERT(data[i] == '\0');
+  }
+
+  TEST_END();
+}
+
 void TestBitVector(std::size_t size) {
   marisa::grimoire::BitVector bv;
 
@@ -406,6 +477,8 @@ int main() try {
 
   TestVector();
   TestFlatVector();
+  TestFlatVectorUninitializedBuild();
+  TestFlatVectorUninitializedBuildSerialize();
   TestBitVector();
 
   return 0;

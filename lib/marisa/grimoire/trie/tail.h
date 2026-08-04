@@ -22,11 +22,11 @@ class Tail {
   void read(Reader &reader);
   void write(Writer &writer) const;
 
-  void restore(Agent &agent, std::size_t offset) const;
-  bool match(Agent &agent, std::size_t offset) const;
-  bool prefix_match(Agent &agent, std::size_t offset) const;
+  void restore(Agent &agent, uint32_t offset) const;
+  bool match(Agent &agent, uint32_t offset) const;
+  bool prefix_match(Agent &agent, uint32_t offset) const;
 
-  const char &operator[](std::size_t offset) const {
+  const char &operator[](uint32_t offset) const {
     assert(offset < buf_.size());
     return buf_[offset];
   }

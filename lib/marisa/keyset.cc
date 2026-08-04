@@ -45,7 +45,7 @@ void Keyset::push_back(const char *str) {
   assert(size_ < SIZE_MAX);
   MARISA_THROW_IF(str == nullptr, std::invalid_argument);
 
-  std::size_t length = 0;
+  uint32_t length = 0;
   while (str[length] != '\0') {
     ++length;
   }
@@ -96,7 +96,7 @@ void Keyset::swap(Keyset &rhs) noexcept {
   std::swap(total_length_, rhs.total_length_);
 }
 
-char *Keyset::reserve(std::size_t size) {
+char *Keyset::reserve(uint32_t size) {
   if ((size_ / KEY_BLOCK_SIZE) == key_blocks_size_) {
     append_key_block();
   }
@@ -115,11 +115,11 @@ char *Keyset::reserve(std::size_t size) {
 
 void Keyset::append_base_block() {
   if (base_blocks_size_ == base_blocks_capacity_) {
-    const std::size_t new_capacity =
+    const uint32_t new_capacity =
         (base_blocks_size_ != 0) ? (base_blocks_size_ * 2) : 1;
     std::unique_ptr<std::unique_ptr<char[]>[]> new_blocks(
         new std::unique_ptr<char[]>[new_capacity]);
-    for (std::size_t i = 0; i < base_blocks_size_; ++i) {
+    for (uint32_t i = 0; i < base_blocks_size_; ++i) {
       base_blocks_[i].swap(new_blocks[i]);
     }
     base_blocks_.swap(new_blocks);
@@ -133,9 +133,9 @@ void Keyset::append_base_block() {
   avail_ = BASE_BLOCK_SIZE;
 }
 
-void Keyset::append_extra_block(std::size_t size) {
+void Keyset::append_extra_block(uint32_t size) {
   if (extra_blocks_size_ == extra_blocks_capacity_) {
-    const std::size_t new_capacity =
+    const uint32_t new_capacity =
         (extra_blocks_size_ != 0) ? (extra_blocks_size_ * 2) : 1;
     std::unique_ptr<std::unique_ptr<char[]>[]> new_blocks(
         new std::unique_ptr<char[]>[new_capacity]);
@@ -151,7 +151,7 @@ void Keyset::append_extra_block(std::size_t size) {
 
 void Keyset::append_key_block() {
   if (key_blocks_size_ == key_blocks_capacity_) {
-    const std::size_t new_capacity =
+    const uint32_t new_capacity =
         (key_blocks_size_ != 0) ? (key_blocks_size_ * 2) : 1;
     std::unique_ptr<std::unique_ptr<Key[]>[]> new_blocks(
         new std::unique_ptr<Key[]>[new_capacity]);

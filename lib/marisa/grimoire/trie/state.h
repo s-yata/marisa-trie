@@ -27,29 +27,26 @@ class State {
   State(State &&) noexcept = default;
   State &operator=(State &&) noexcept = default;
 
-  void set_node_id(std::size_t node_id) {
-    assert(node_id <= UINT32_MAX);
-    node_id_ = static_cast<uint32_t>(node_id);
+  void set_node_id(uint32_t node_id) {
+    node_id_ = node_id;
   }
-  void set_query_pos(std::size_t query_pos) {
-    assert(query_pos <= UINT32_MAX);
-    query_pos_ = static_cast<uint32_t>(query_pos);
+  void set_query_pos(uint32_t query_pos) {
+    query_pos_ = query_pos;
   }
-  void set_history_pos(std::size_t history_pos) {
-    assert(history_pos <= UINT32_MAX);
-    history_pos_ = static_cast<uint32_t>(history_pos);
+  void set_history_pos(uint32_t history_pos) {
+    history_pos_ = history_pos;
   }
   void set_status_code(StatusCode status_code) {
     status_code_ = status_code;
   }
 
-  std::size_t node_id() const {
+  uint32_t node_id() const {
     return node_id_;
   }
-  std::size_t query_pos() const {
+  uint32_t query_pos() const {
     return query_pos_;
   }
-  std::size_t history_pos() const {
+  uint32_t history_pos() const {
     return history_pos_;
   }
   StatusCode status_code() const {

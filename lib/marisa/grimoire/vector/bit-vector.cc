@@ -316,7 +316,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, uint32_t unit_lo,
    #ifdef MARISA_USE_SSSE3
     __m128i lower_nibbles = _mm_set1_epi8(0x0F);
     lower_nibbles = _mm_and_si128(lower_nibbles, unit);
-    __m128i upper_nibbles = _mm_set1_epi8((uint8_t)0xF0);
+    __m128i upper_nibbles = _mm_set1_epi8(uint8_t{0xF0});
     upper_nibbles = _mm_and_si128(upper_nibbles, unit);
     upper_nibbles = _mm_srli_epi32(upper_nibbles, 4);
 
@@ -365,7 +365,7 @@ std::size_t select_bit(std::size_t i, std::size_t bit_id, uint32_t unit_lo,
 
   uint8_t skip;
   {
-    __m128i x = _mm_set1_epi8((uint8_t)(i + 1));
+    __m128i x = _mm_set1_epi8(static_cast<uint8_t>(i + 1));
     x = _mm_cmpgt_epi8(x, accumulated_counts);
     // Since we use `_mm_movemask_epi8`, to move the top bit of every byte,
     // popcount times eight gives the original popcount of `x` before the

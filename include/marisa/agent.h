@@ -37,7 +37,7 @@ class Agent {
   }
   void set_query(const char *str);
   void set_query(const char *ptr, std::size_t length);
-  void set_query(std::size_t key_id);
+  void set_query(marisa_key_t key_id);
 
   const grimoire::trie::State &state() const {
     return *state_;
@@ -58,7 +58,7 @@ class Agent {
     assert(length <= UINT32_MAX);
     key_.set_str(ptr, length);
   }
-  void set_key(std::size_t id) {
+  void set_key(marisa_key_t id) {
     assert(id <= UINT32_MAX);
     key_.set_id(id);
   }

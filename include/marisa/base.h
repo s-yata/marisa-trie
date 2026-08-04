@@ -28,6 +28,9 @@ using marisa_uint64 [[deprecated]] = std::uint64_t;
 [[deprecated]] constexpr auto MARISA_UINT64_MAX = UINT64_MAX;
 [[deprecated]] constexpr auto MARISA_SIZE_MAX = SIZE_MAX;
 
+// Key IDs are always 32-bit unsigned integers.
+using marisa_key_t = size_t;
+
 #define MARISA_INVALID_LINK_ID UINT32_MAX
 #define MARISA_INVALID_KEY_ID  UINT32_MAX
 #define MARISA_INVALID_EXTRA   (UINT32_MAX >> 8)

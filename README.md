@@ -66,6 +66,24 @@ To install just the binaries:
 $ sudo cmake --install build-rel --component Binaries
 ```
 
+#### Bazel
+
+Add the dependency to your `MODULE.bazel`:
+
+```starlark
+bazel_dep(name = "marisa-trie", version = "0.3.1")
+```
+
+Then depend on it in your `BUILD.bazel`:
+
+```starlark
+cc_binary(
+    name = "my_app",
+    srcs = ["main.cc"],
+    deps = ["@marisa-trie"],  # full library via marisa.h
+)
+```
+
 #### Source code license
 
 Licensed under BSD-2-Clause OR LGPL-2.1-or-later.

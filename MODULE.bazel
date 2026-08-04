@@ -1,0 +1,9 @@
+"""MARISA: Matching Algorithm with Recursively Implemented StorAge."""
+
+module(
+    name = "marisa-trie",
+    version = "0.3.1",
+    compatibility_level = 0,
+)
+
+bazel_dep(name = "rules_cc", version = "0.2.17")

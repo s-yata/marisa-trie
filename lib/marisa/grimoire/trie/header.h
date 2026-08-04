@@ -32,7 +32,7 @@ class Header {
     writer.write(get_header(), HEADER_SIZE);
   }
 
-  std::size_t io_size() const {
+  uint32_t io_size() const {
     return HEADER_SIZE;
   }
 
@@ -43,7 +43,7 @@ class Header {
   }
 
   static bool test_header(const char *ptr) {
-    for (std::size_t i = 0; i < HEADER_SIZE; ++i) {
+    for (uint32_t i = 0; i < HEADER_SIZE; ++i) {
       if (ptr[i] != get_header()[i]) {
         return false;
       }

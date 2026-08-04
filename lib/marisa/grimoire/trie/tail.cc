@@ -16,10 +16,10 @@ void Tail::build(Vector<Entry> &entries, Vector<uint32_t> *offsets,
 
   switch (mode) {
     case MARISA_TEXT_TAIL: {
-      for (std::size_t i = 0; i < entries.size(); ++i) {
+      for (uint32_t i = 0; i < entries.size(); ++i) {
         const char *const ptr = entries[i].ptr();
-        const std::size_t length = entries[i].length();
-        for (std::size_t j = 0; j < length; ++j) {
+        const uint32_t length = entries[i].length();
+        for (uint32_t j = 0; j < length; ++j) {
           if (ptr[j] == '\0') {
             mode = MARISA_BINARY_TAIL;
             break;
@@ -60,7 +60,7 @@ void Tail::write(Writer &writer) const {
   write_(writer);
 }
 
-void Tail::restore(Agent &agent, std::size_t offset) const {
+void Tail::restore(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
 
   State &state = agent.state();
@@ -75,7 +75,7 @@ void Tail::restore(Agent &agent, std::size_t offset) const {
   }
 }
 
-bool Tail::match(Agent &agent, std::size_t offset) const {
+bool Tail::match(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
   assert(agent.state().query_pos() < agent.query().length());
 
@@ -106,7 +106,7 @@ bool Tail::match(Agent &agent, std::size_t offset) const {
   return false;
 }
 
-bool Tail::prefix_match(Agent &agent, std::size_t offset) const {
+bool Tail::prefix_match(Agent &agent, uint32_t offset) const {
   assert(!buf_.empty());
 
   State &state = agent.state();
@@ -156,7 +156,9 @@ void Tail::swap(Tail &rhs) noexcept {
 
 void Tail::build_(Vector<Entry> &entries, Vector<uint32_t> *offsets,
                   TailMode mode) {
-  for (std::size_t i = 0; i < entries.size(); ++i) {
+  MARISA_THROW_IF(entries.size() > UINT32_MAX, std::length_error);
+  const uint32_t num_entries = static_cast<uint32_t>(entries.size());
+  for (uint32_t i = 0; i < num_entries; ++i) {
     entries[i].set_id(i);
   }
   algorithm::sort(entries.begin(), entries.end());
@@ -166,10 +168,10 @@ void Tail::build_(Vector<Entry> &entries, Vector<uint32_t> *offsets,
 
   const Entry dummy;
   const Entry *last = &dummy;
-  for (std::size_t i = entries.size(); i > 0; --i) {
+  for (uint32_t i = num_entries; i > 0; --i) {
     const Entry &current = entries[i - 1];
     MARISA_THROW_IF(current.length() == 0, std::out_of_range);
-    std::size_t match = 0;
+    uint32_t match = 0;
     while ((match < current.length()) && (match < last->length()) &&
            ((*last)[match] == current[match])) {
       ++match;
@@ -179,13 +181,13 @@ void Tail::build_(Vector<Entry> &entries, Vector<uint32_t> *offsets,
           temp_offsets[last->id()] + (last->length() - match));
     } else {
       temp_offsets[current.id()] = static_cast<uint32_t>(buf_.size());
-      for (std::size_t j = 1; j <= current.length(); ++j) {
+      for (uint32_t j = 1; j <= current.length(); ++j) {
         buf_.push_back(current[current.length() - j]);
       }
       if (mode == MARISA_TEXT_TAIL) {
         buf_.push_back('\0');
       } else {
-        for (std::size_t j = 1; j < current.length(); ++j) {
+        for (uint32_t j = 1; j < current.length(); ++j) {
           end_flags_.push_back(false);
         }
         end_flags_.push_back(true);

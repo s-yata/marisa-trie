@@ -2,7 +2,6 @@
 
 #include <new>
 #include <stdexcept>
-#include <utility>
 
 #include "marisa/grimoire/trie.h"
 #include "marisa/grimoire/trie/state.h"

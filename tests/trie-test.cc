@@ -281,7 +281,7 @@ void TestTextTail() {
 
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
-  for (std::size_t i = 0; i < entries.size(); ++i) {
+  for (uint32_t i = 0; i < entries.size(); ++i) {
     const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
@@ -305,7 +305,7 @@ void TestTextTail() {
 
     ASSERT(tail.mode() == MARISA_TEXT_TAIL);
     ASSERT(tail.size() == 11);
-    for (std::size_t i = 0; i < entries.size(); ++i) {
+    for (uint32_t i = 0; i < entries.size(); ++i) {
       const char *const ptr = &tail[offsets[i]];
       ASSERT(std::strlen(ptr) == entries[i].length());
       ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
@@ -321,7 +321,7 @@ void TestTextTail() {
 
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
-  for (std::size_t i = 0; i < entries.size(); ++i) {
+  for (uint32_t i = 0; i < entries.size(); ++i) {
     const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
@@ -340,7 +340,7 @@ void TestTextTail() {
 
   ASSERT(tail.size() == 11);
   ASSERT(offsets.size() == entries.size());
-  for (std::size_t i = 0; i < entries.size(); ++i) {
+  for (uint32_t i = 0; i < entries.size(); ++i) {
     const char *const ptr = &tail[offsets[i]];
     ASSERT(std::strlen(ptr) == entries[i].length());
     ASSERT(std::strcmp(ptr, entries[i].ptr()) == 0);
@@ -412,7 +412,7 @@ void TestBinaryTail() {
   ASSERT(tail.mode() == MARISA_BINARY_TAIL);
   ASSERT(tail.size() == 8);
   ASSERT(offsets.size() == entries.size());
-  for (std::size_t i = 0; i < entries.size(); ++i) {
+  for (uint32_t i = 0; i < entries.size(); ++i) {
     const char *const ptr = &tail[offsets[i]];
     ASSERT(std::memcmp(ptr, entries[i].ptr(), entries[i].length()) == 0);
   }

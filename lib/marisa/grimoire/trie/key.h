@@ -13,50 +13,47 @@ class Key {
   Key(const Key &entry) = default;
   Key &operator=(const Key &entry) = default;
 
-  char operator[](std::size_t i) const {
+  char operator[](uint32_t i) const {
     assert(i < length_);
     return ptr_[i];
   }
 
-  void substr(std::size_t pos, std::size_t length) {
+  void substr(uint32_t pos, uint32_t length) {
     assert(pos <= length_);
     assert(length <= length_);
     assert(pos <= (length_ - length));
     ptr_ += pos;
-    length_ = static_cast<uint32_t>(length);
+    length_ = length;
   }
 
-  void set_str(const char *ptr, std::size_t length) {
+  void set_str(const char *ptr, uint32_t length) {
     assert((ptr != nullptr) || (length == 0));
-    assert(length <= UINT32_MAX);
     ptr_ = ptr;
-    length_ = static_cast<uint32_t>(length);
+    length_ = length;
   }
   void set_weight(float weight) {
     union_.weight = weight;
   }
-  void set_terminal(std::size_t terminal) {
-    assert(terminal <= UINT32_MAX);
-    union_.terminal = static_cast<uint32_t>(terminal);
+  void set_terminal(uint32_t terminal) {
+    union_.terminal = terminal;
   }
-  void set_id(std::size_t id) {
-    assert(id <= UINT32_MAX);
-    id_ = static_cast<uint32_t>(id);
+  void set_id(uint32_t id) {
+    id_ = id;
   }
 
   const char *ptr() const {
     return ptr_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
   float weight() const {
     return union_.weight;
   }
-  std::size_t terminal() const {
+  uint32_t terminal() const {
     return union_.terminal;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
@@ -74,7 +71,7 @@ inline bool operator==(const Key &lhs, const Key &rhs) {
   if (lhs.length() != rhs.length()) {
     return false;
   }
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
+  for (uint32_t i = 0; i < lhs.length(); ++i) {
     if (lhs[i] != rhs[i]) {
       return false;
     }
@@ -87,7 +84,7 @@ inline bool operator!=(const Key &lhs, const Key &rhs) {
 }
 
 inline bool operator<(const Key &lhs, const Key &rhs) {
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
+  for (uint32_t i = 0; i < lhs.length(); ++i) {
     if (i == rhs.length()) {
       return false;
     }
@@ -108,50 +105,47 @@ class ReverseKey {
   ReverseKey(const ReverseKey &entry) = default;
   ReverseKey &operator=(const ReverseKey &entry) = default;
 
-  char operator[](std::size_t i) const {
+  char operator[](uint32_t i) const {
     assert(i < length_);
     return *(ptr_ - i - 1);
   }
 
-  void substr(std::size_t pos, std::size_t length) {
+  void substr(uint32_t pos, uint32_t length) {
     assert(pos <= length_);
     assert(length <= length_);
     assert(pos <= (length_ - length));
     ptr_ -= pos;
-    length_ = static_cast<uint32_t>(length);
+    length_ = length;
   }
 
-  void set_str(const char *ptr, std::size_t length) {
+  void set_str(const char *ptr, uint32_t length) {
     assert((ptr != nullptr) || (length == 0));
-    assert(length <= UINT32_MAX);
     ptr_ = ptr + length;
-    length_ = static_cast<uint32_t>(length);
+    length_ = length;
   }
   void set_weight(float weight) {
     union_.weight = weight;
   }
-  void set_terminal(std::size_t terminal) {
-    assert(terminal <= UINT32_MAX);
-    union_.terminal = static_cast<uint32_t>(terminal);
+  void set_terminal(uint32_t terminal) {
+    union_.terminal = terminal;
   }
-  void set_id(std::size_t id) {
-    assert(id <= UINT32_MAX);
-    id_ = static_cast<uint32_t>(id);
+  void set_id(uint32_t id) {
+    id_ = id;
   }
 
   const char *ptr() const {
     return ptr_ - length_;
   }
-  std::size_t length() const {
+  uint32_t length() const {
     return length_;
   }
   float weight() const {
     return union_.weight;
   }
-  std::size_t terminal() const {
+  uint32_t terminal() const {
     return union_.terminal;
   }
-  std::size_t id() const {
+  uint32_t id() const {
     return id_;
   }
 
@@ -169,7 +163,7 @@ inline bool operator==(const ReverseKey &lhs, const ReverseKey &rhs) {
   if (lhs.length() != rhs.length()) {
     return false;
   }
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
+  for (uint32_t i = 0; i < lhs.length(); ++i) {
     if (lhs[i] != rhs[i]) {
       return false;
     }
@@ -182,7 +176,7 @@ inline bool operator!=(const ReverseKey &lhs, const ReverseKey &rhs) {
 }
 
 inline bool operator<(const ReverseKey &lhs, const ReverseKey &rhs) {
-  for (std::size_t i = 0; i < lhs.length(); ++i) {
+  for (uint32_t i = 0; i < lhs.length(); ++i) {
     if (i == rhs.length()) {
       return false;
     }

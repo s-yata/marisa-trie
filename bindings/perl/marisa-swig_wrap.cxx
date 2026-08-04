@@ -5366,61 +5366,6 @@ XS(SWIG_init) {
   }
   
   /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "OK", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::OK)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "STATE_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::STATE_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "NULL_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::NULL_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "BOUND_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::BOUND_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "RANGE_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::RANGE_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "CODE_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::CODE_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "RESET_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::RESET_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "SIZE_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::SIZE_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "MEMORY_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::MEMORY_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "IO_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::IO_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
-    SV *sv = get_sv((char*) SWIG_prefix "FORMAT_ERROR", TRUE | 0x2 | GV_ADDMULTI);
-    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::FORMAT_ERROR)));
-    SvREADONLY_on(sv);
-  } while(0) /*@SWIG@*/;
-  /*@SWIG:/usr/share/swig4.0/perl5/perltypemaps.swg,67,%set_constant@*/ do {
     SV *sv = get_sv((char*) SWIG_prefix "MAP_POPULATE", TRUE | 0x2 | GV_ADDMULTI);
     sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(marisa_swig::MAP_POPULATE)));
     SvREADONLY_on(sv);

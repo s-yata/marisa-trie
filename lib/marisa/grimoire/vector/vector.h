@@ -262,6 +262,11 @@ class Vector {
     static_assert(std::is_trivially_copyable_v<T>);
     std::memcpy(new_objs, objs_, sizeof(T) * size_);
 
+    size_t remaining = new_capacity - size_;
+    if (remaining > 0) {
+      std::memset(&new_objs[size_], 0, sizeof(T) * remaining);
+    }
+
     buf_ = std::move(new_buf);
     objs_ = new_objs;
     const_objs_ = new_objs;
@@ -278,6 +283,11 @@ class Vector {
 
     static_assert(std::is_trivially_copyable_v<T>);
     std::memcpy(new_objs, src, sizeof(T) * size);
+
+    size_t remaining = capacity - size;
+    if (remaining > 0) {
+      std::memset(&new_objs[size], 0, sizeof(T) * remaining);
+    }
 
     buf_ = std::move(new_buf);
     objs_ = new_objs;

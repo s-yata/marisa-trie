@@ -66,6 +66,14 @@ To install just the binaries:
 $ sudo cmake --install build-rel --component Binaries
 ```
 
+To build the library as a shared library instead of a static one, configure with `-DBUILD_SHARED_LIBS=ON`. Targets that link `Marisa::marisa` (via `find_package(Marisa)`) and pkg-config consumers receive the `MARISA_SHARED` definition automatically. When building against the DLL without CMake or pkg-config, define `MARISA_SHARED` yourself so that the public headers use `__declspec(dllimport)`:
+
+```
+$ c++ -DMARISA_SHARED -I/path/to/include app.cc -L/path/to/lib -lmarisa
+```
+
+On Windows, a shared build sets `BUILD_TESTING=OFF`: the tests are white-box and link against internal symbols that a DLL does not export.
+
 #### Source code license
 
 Licensed under BSD-2-Clause OR LGPL-2.1-or-later.

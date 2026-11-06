@@ -5,6 +5,7 @@
 #include <memory>
 #include <string_view>
 
+#include "marisa/export.h"
 #include "marisa/key.h"
 #include "marisa/query.h"
 
@@ -15,7 +16,7 @@ class State;
 
 }  // namespace grimoire::trie
 
-class Agent {
+class MARISA_API Agent {
  public:
   Agent();
   ~Agent();

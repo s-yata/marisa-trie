@@ -8,7 +8,7 @@
 
 namespace marisa {
 
-class Key {
+class MARISA_API Key {
  public:
   Key() = default;
   Key(const Key &key) = default;

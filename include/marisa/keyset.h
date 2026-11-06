@@ -5,11 +5,12 @@
 #include <memory>
 #include <string_view>
 
+#include "marisa/export.h"
 #include "marisa/key.h"
 
 namespace marisa {
 
-class Keyset {
+class MARISA_API Keyset {
  public:
   enum {
     BASE_BLOCK_SIZE = 4096,

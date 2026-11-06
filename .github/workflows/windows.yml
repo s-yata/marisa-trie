@@ -48,3 +48,16 @@ jobs:
 
       - name: Run Tests (Debug)
         run: ctest --test-dir Debug --build-config Debug --output-on-failure
+
+      - name: Build Shared Library
+        run: |
+          cmake -S . -B Shared `
+            -A ${{ matrix.platform }} `
+            -DBUILD_SHARED_LIBS=ON
+          cmake --build Shared --config Release
+
+      - name: Smoke Test Shared Library
+        run: |
+          [System.IO.File]::WriteAllText("$PWD/keys.txt", "apple`nbanana`ncherry`n")
+          .\Shared\Release\marisa-build.exe -o trie.dat keys.txt
+          "banana" | .\Shared\Release\marisa-lookup.exe trie.dat

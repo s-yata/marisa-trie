@@ -3,12 +3,14 @@
 
 #include <cstdio>
 
+#include "marisa/export.h"
+
 namespace marisa {
 
 class Trie;
 
-void fread(std::FILE *file, Trie *trie);
-void fwrite(std::FILE *file, const Trie &trie);
+MARISA_API void fread(std::FILE *file, Trie *trie);
+MARISA_API void fwrite(std::FILE *file, const Trie &trie);
 
 }  // namespace marisa
 

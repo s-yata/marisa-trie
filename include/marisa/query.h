@@ -8,7 +8,7 @@
 
 namespace marisa {
 
-class Query {
+class MARISA_API Query {
  public:
   Query() = default;
   Query(const Query &query) = default;

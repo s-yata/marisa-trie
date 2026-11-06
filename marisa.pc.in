@@ -4,5 +4,5 @@ includedir=@CMAKE_INSTALL_PREFIX@/include
 Name: Marisa
 Description: Matching Algorithm with Recursively Implemented StorAge
 Version: @PROJECT_VERSION@
-Cflags: -I${includedir}
+Cflags: -I${includedir}@MARISA_PC_CFLAGS@
 Libs: -L${libdir} -lmarisa

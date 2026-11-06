@@ -3,15 +3,17 @@
 
 #include <iosfwd>
 
+#include "marisa/export.h"
+
 namespace marisa {
 
 class Trie;
 
-std::istream &read(std::istream &stream, Trie *trie);
-std::ostream &write(std::ostream &stream, const Trie &trie);
+MARISA_API std::istream &read(std::istream &stream, Trie *trie);
+MARISA_API std::ostream &write(std::ostream &stream, const Trie &trie);
 
-std::istream &operator>>(std::istream &stream, Trie &trie);
-std::ostream &operator<<(std::ostream &stream, const Trie &trie);
+MARISA_API std::istream &operator>>(std::istream &stream, Trie &trie);
+MARISA_API std::ostream &operator<<(std::ostream &stream, const Trie &trie);
 
 }  // namespace marisa
 

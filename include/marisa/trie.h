@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "marisa/agent.h"   // IWYU pragma: export
+#include "marisa/export.h"  // IWYU pragma: export
 #include "marisa/keyset.h"  // IWYU pragma: export
 
 namespace marisa {
@@ -13,7 +14,7 @@ class LoudsTrie;
 
 }  // namespace grimoire::trie
 
-class Trie {
+class MARISA_API Trie {
   friend class TrieIO;
 
  public:

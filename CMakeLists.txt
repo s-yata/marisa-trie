@@ -78,6 +78,15 @@ endfunction()
 
 include(CTest)
 
+# The tests are white-box and link against internal symbols (for example
+# marisa::grimoire::io::Writer), which a DLL does not export. Turn them off
+# instead of failing the build halfway through.
+if(WIN32 AND BUILD_SHARED_LIBS AND BUILD_TESTING)
+  message(STATUS
+    "Disabling BUILD_TESTING: the tests link internal symbols that a DLL does not export")
+  set(BUILD_TESTING OFF)
+endif()
+
 # We allow C++20 features if the compiler supports them
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)
@@ -146,6 +155,7 @@ set(MARISA_HEADERS
   include/marisa.h
   include/marisa/agent.h
   include/marisa/base.h
+  include/marisa/export.h
   include/marisa/iostream.h
   include/marisa/key.h
   include/marisa/keyset.h
@@ -202,6 +212,24 @@ set_target_properties(marisa PROPERTIES
 configure_target_from_options(marisa)
 add_native_code(marisa)
 add_library(Marisa::marisa ALIAS marisa)
+
+if(BUILD_SHARED_LIBS)
+  # Consumers of the shared library must see dllimport, while the library
+  # itself is compiled with dllexport. The definition is carried by the
+  # exported target and by marisa.pc.
+  target_compile_definitions(marisa
+    PUBLIC MARISA_SHARED
+    PRIVATE MARISA_BUILDING_LIBRARY
+  )
+  if(MSVC)
+    # Exported classes hold standard library members (e.g. std::unique_ptr)
+    # which never cross the DLL boundary, but MSVC warns about them anyway.
+    target_compile_options(marisa PRIVATE /wd4251)
+  endif()
+  # Outside Windows the default visibility is kept, because the white-box
+  # test suite links against internal symbols such as
+  # marisa::grimoire::io::Writer which a hidden default would remove.
+endif()
 
 # Tools
 set(MARISA_TOOLS
@@ -266,7 +294,9 @@ install(
   TARGETS marisa
   EXPORT MarisaTargets
   CONFIGURATIONS Release
-  DESTINATION ${LIB_INSTALL_DIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+  ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
   COMPONENT Library
 )
 install(
@@ -318,5 +348,10 @@ install(
   COMPONENT Library
 )
 
+set(MARISA_PC_CFLAGS "")
+if(WIN32 AND BUILD_SHARED_LIBS)
+  # pkg-config consumers of the DLL need the dllimport declarations.
+  set(MARISA_PC_CFLAGS " -DMARISA_SHARED")
+endif()
 configure_file(marisa.pc.in ${CMAKE_CURRENT_BINARY_DIR}/marisa.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/marisa.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)

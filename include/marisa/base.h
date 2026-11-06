@@ -7,6 +7,8 @@
 #include <system_error>
 #include <utility>
 
+#include "marisa/export.h"
+
 // These aliases are left for backward compatibility.
 using marisa_uint8 [[deprecated]] = std::uint8_t;
 using marisa_uint16 [[deprecated]] = std::uint16_t;
